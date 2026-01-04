@@ -1,0 +1,165 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-coastal-200;
+  }
+  
+  body {
+    @apply bg-coastal-50 text-coastal-900 antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display font-semibold tracking-tight;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 
+           bg-gradient-to-r from-ocean-500 to-primary-600 
+           text-white font-medium rounded-xl
+           shadow-lg shadow-ocean-500/25
+           hover:shadow-xl hover:shadow-ocean-500/30
+           hover:from-ocean-600 hover:to-primary-700
+           transition-all duration-300 ease-out
+           focus:outline-none focus:ring-2 focus:ring-ocean-500 focus:ring-offset-2;
+  }
+  
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3
+           bg-white text-coastal-700 font-medium rounded-xl
+           border border-coastal-200
+           shadow-soft
+           hover:bg-coastal-50 hover:border-coastal-300
+           hover:shadow-card-hover
+           transition-all duration-300 ease-out
+           focus:outline-none focus:ring-2 focus:ring-ocean-500 focus:ring-offset-2;
+  }
+  
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2
+           text-coastal-600 font-medium rounded-lg
+           hover:bg-coastal-100 hover:text-coastal-900
+           transition-all duration-200
+           focus:outline-none focus:ring-2 focus:ring-ocean-500 focus:ring-offset-2;
+  }
+  
+  .card {
+    @apply bg-white rounded-2xl border border-coastal-100 
+           shadow-card hover:shadow-card-hover
+           transition-all duration-300;
+  }
+  
+  .card-interactive {
+    @apply card cursor-pointer
+           hover:border-ocean-200 hover:-translate-y-1;
+  }
+  
+  .section-title {
+    @apply text-3xl md:text-4xl font-display font-bold text-coastal-900;
+  }
+  
+  .section-subtitle {
+    @apply text-lg text-coastal-500 max-w-2xl;
+  }
+  
+  .gradient-text {
+    @apply bg-gradient-to-r from-ocean-600 to-primary-600 bg-clip-text text-transparent;
+  }
+  
+  .input-field {
+    @apply w-full px-4 py-3 rounded-xl border border-coastal-200
+           bg-white text-coastal-900 placeholder-coastal-400
+           focus:outline-none focus:ring-2 focus:ring-ocean-500 focus:border-transparent
+           transition-all duration-200;
+  }
+  
+  .stat-card {
+    @apply card p-6 flex flex-col;
+  }
+  
+  .stat-value {
+    @apply text-3xl font-display font-bold text-coastal-900;
+  }
+  
+  .stat-label {
+    @apply text-sm text-coastal-500 mt-1;
+  }
+  
+  .tab-button {
+    @apply px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200;
+  }
+  
+  .tab-button-active {
+    @apply bg-ocean-500 text-white shadow-lg shadow-ocean-500/25;
+  }
+  
+  .tab-button-inactive {
+    @apply text-coastal-600 hover:bg-coastal-100;
+  }
+  
+  .badge {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium;
+  }
+  
+  .badge-success {
+    @apply badge bg-emerald-100 text-emerald-700;
+  }
+  
+  .badge-warning {
+    @apply badge bg-amber-100 text-amber-700;
+  }
+  
+  .badge-info {
+    @apply badge bg-ocean-100 text-ocean-700;
+  }
+  
+  .badge-error {
+    @apply badge bg-red-100 text-red-700;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .animation-delay-150 {
+    animation-delay: 150ms;
+  }
+  
+  .animation-delay-300 {
+    animation-delay: 300ms;
+  }
+  
+  .animation-delay-500 {
+    animation-delay: 500ms;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-coastal-100 rounded-full;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-coastal-300 rounded-full hover:bg-coastal-400;
+}
+
+/* Chart tooltip styles */
+.recharts-tooltip-wrapper {
+  @apply !outline-none;
+}
+
+.custom-tooltip {
+  @apply bg-white/95 backdrop-blur-sm rounded-xl p-4 shadow-xl border border-coastal-100;
+}
