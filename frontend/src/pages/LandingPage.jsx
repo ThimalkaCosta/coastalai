@@ -100,10 +100,19 @@ export default function LandingPage() {
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center overflow-hidden -mt-28 pt-28">
         {/* Background Image */}
-        <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: 'url(/background_coastal.png)' }}
-        />
+        <div className="absolute inset-0">
+          <div 
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+            style={{ 
+              backgroundImage: 'url(/background_coastal.png)',
+              imageRendering: '-webkit-optimize-contrast',
+              filter: 'contrast(1.05) saturate(1.1) brightness(1.02)',
+              transform: 'scale(1.01)',
+            }}
+          />
+          {/* Subtle overlay for enhanced visual quality */}
+          <div className="absolute inset-0 bg-gradient-to-br from-ocean-900/5 via-transparent to-coastal-900/5" />
+        </div>
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">

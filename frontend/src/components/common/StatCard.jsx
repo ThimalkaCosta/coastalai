@@ -32,25 +32,25 @@ export default function StatCard({
       transition={{ duration: 0.4, delay }}
       className={`stat-card ${className}`}
     >
-      <div className="flex items-start justify-between mb-4">
-        <div className="flex items-center gap-3">
+      <div className="flex items-start justify-between mb-2 sm:mb-4">
+        <div className="flex items-center gap-2 sm:gap-3">
           {Icon && (
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-ocean-500/10 to-primary-500/10 flex items-center justify-center">
-              <Icon className="w-5 h-5 text-ocean-600" />
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-gradient-to-br from-ocean-500/10 to-primary-500/10 flex items-center justify-center">
+              <Icon className="w-4 h-4 sm:w-5 sm:h-5 text-ocean-600" />
             </div>
           )}
-          <span className="text-sm font-medium text-coastal-500">{title}</span>
+          <span className="text-xs sm:text-sm font-medium text-coastal-500">{title}</span>
         </div>
         {trend && (
-          <div className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${getTrendColor()}`}>
+          <div className={`flex items-center gap-1 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-medium ${getTrendColor()}`}>
             {getTrendIcon()}
             {trendValue}
           </div>
         )}
       </div>
       
-      <div className="stat-value">{value}</div>
-      {subtitle && <div className="stat-label">{subtitle}</div>}
+      <div className="text-xl sm:text-2xl lg:text-3xl font-display font-bold text-coastal-900">{value}</div>
+      {subtitle && <div className="text-xs sm:text-sm text-coastal-500 mt-1">{subtitle}</div>}
     </motion.div>
   )
 }

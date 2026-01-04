@@ -12,6 +12,12 @@
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
   
+  /* Enhanced image rendering for better quality */
+  img {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+  
   h1, h2, h3, h4, h5, h6 {
     @apply font-display font-semibold tracking-tight;
   }
@@ -49,7 +55,7 @@
   }
   
   .card {
-    @apply bg-white rounded-2xl border border-coastal-100 
+    @apply bg-white rounded-xl sm:rounded-2xl border border-coastal-100 
            shadow-card hover:shadow-card-hover
            transition-all duration-300;
   }
@@ -60,11 +66,11 @@
   }
   
   .section-title {
-    @apply text-3xl md:text-4xl font-display font-bold text-coastal-900;
+    @apply text-2xl sm:text-3xl md:text-4xl font-display font-bold text-coastal-900;
   }
   
   .section-subtitle {
-    @apply text-lg text-coastal-500 max-w-2xl;
+    @apply text-base sm:text-lg text-coastal-500 max-w-2xl;
   }
   
   .gradient-text {
@@ -79,19 +85,19 @@
   }
   
   .stat-card {
-    @apply card p-6 flex flex-col;
+    @apply card p-4 sm:p-6 flex flex-col;
   }
   
   .stat-value {
-    @apply text-3xl font-display font-bold text-coastal-900;
+    @apply text-xl sm:text-2xl lg:text-3xl font-display font-bold text-coastal-900;
   }
   
   .stat-label {
-    @apply text-sm text-coastal-500 mt-1;
+    @apply text-xs sm:text-sm text-coastal-500 mt-1;
   }
   
   .tab-button {
-    @apply px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200;
+    @apply px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-medium rounded-lg transition-all duration-200;
   }
   
   .tab-button-active {

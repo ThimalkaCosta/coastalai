@@ -207,8 +207,8 @@ export default function AnalysisPage() {
     <PageTransition>
       <div className="min-h-screen bg-gradient-to-b from-coastal-50 to-white">
         {/* Header */}
-        <section className="pt-12 pb-8">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section className="pt-8 sm:pt-12 pb-6 sm:pb-8">
+          <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 xl:px-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -230,9 +230,9 @@ export default function AnalysisPage() {
         </section>
 
         {/* Stats Grid */}
-        <section className="pb-8">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <section className="pb-6 sm:pb-8">
+          <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 xl:px-8">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
               <StatCard
                 title="Total Transects"
                 value={stats.totalTransects || 82}
@@ -266,8 +266,8 @@ export default function AnalysisPage() {
         </section>
 
         {/* Model Cards */}
-        <section className="pb-8">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section className="pb-6 sm:pb-8">
+          <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 xl:px-8">
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
