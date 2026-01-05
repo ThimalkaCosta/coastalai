@@ -156,17 +156,19 @@ export default function MorphologicalThresholdPage() {
   const handleTabClick = (tabId) => {
     setActiveTab(tabId)
     // Scroll to the section
-    const element = document.getElementById(tabId)
-    if (element) {
-      const headerOffset = 100
-      const elementPosition = element.getBoundingClientRect().top
-      const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+    setTimeout(() => {
+      const element = document.getElementById(tabId)
+      if (element) {
+        const headerOffset = 120
+        const elementPosition = element.getBoundingClientRect().top
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset
 
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      })
-    }
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        })
+      }
+    }, 100)
   }
 
   return (
@@ -285,7 +287,7 @@ export default function MorphologicalThresholdPage() {
             {tabs.map((tab) => (
               <button
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
+                onClick={() => handleTabClick(tab.id)}
                 className={`inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-5 py-2 sm:py-3 rounded-lg sm:rounded-xl text-sm font-medium transition-all duration-300 ${
                   activeTab === tab.id
                     ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/25'

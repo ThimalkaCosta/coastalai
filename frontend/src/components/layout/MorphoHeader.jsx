@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
@@ -14,62 +14,28 @@ import {
 
 const navItems = [
   { name: 'Home', href: '/', icon: Home, isExternal: true },
-  { name: 'Threshold Table', href: '#threshold', icon: Table, section: 'threshold' },
-  { name: 'HMM Analysis', href: '#hmm', icon: Activity, section: 'hmm' },
-  { name: 'Regime Profiles', href: '#regime', icon: BarChart3, section: 'regime' },
-  { name: 'Seasonal Analysis', href: '#seasonal', icon: Calendar, section: 'seasonal' },
+  { name: 'Threshold Table', href: '/morphological-threshold', icon: Table },
+  { name: 'HMM Analysis', href: '/hmm-analysis', icon: Activity },
+  { name: 'Regime Profiles', href: '/regime-profiles', icon: BarChart3 },
+  { name: 'Seasonal Analysis', href: '/seasonal-analysis', icon: Calendar },
 ]
 
 export default function MorphoHeader() {
   const location = useLocation()
   const navigate = useNavigate()
-  const [activeSection, setActiveSection] = useState('threshold')
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
-  // Smooth scroll to section
-  const scrollToSection = (sectionId) => {
-    setMobileMenuOpen(false)
-    // If not on the morphological threshold page, navigate there first
-    if (!location.pathname.includes('/morphological-threshold')) {
-      navigate(`/morphological-threshold#${sectionId}`)
-      return
-    }
-
-    // Smooth scroll to the section
-    const element = document.getElementById(sectionId)
-    if (element) {
-      const headerOffset = 100 // Account for fixed header
-      const elementPosition = element.getBoundingClientRect().top
-      const offsetPosition = elementPosition + window.pageYOffset - headerOffset
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      })
-    }
+  // Determine active page based on current path
+  const getActivePage = () => {
+    const path = location.pathname
+    if (path === '/morphological-threshold') return 'Threshold Table'
+    if (path === '/hmm-analysis') return 'HMM Analysis'
+    if (path === '/regime-profiles') return 'Regime Profiles'
+    if (path === '/seasonal-analysis') return 'Seasonal Analysis'
+    return ''
   }
 
-  // Track active section on scroll
-  useEffect(() => {
-    const handleScroll = () => {
-      const sections = ['threshold', 'hmm', 'regime', 'seasonal']
-      const scrollPosition = window.pageYOffset + 150
-
-      for (const section of sections) {
-        const element = document.getElementById(section)
-        if (element) {
-          const { offsetTop, offsetHeight } = element
-          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
-            setActiveSection(section)
-            break
-          }
-        }
-      }
-    }
-
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+  const activePage = getActivePage()
 
   return (
     <header className="fixed top-2 sm:top-3 left-2 sm:left-3 right-2 sm:right-3 z-50">
@@ -88,21 +54,12 @@ export default function MorphoHeader() {
             {/* Desktop Navigation Items */}
             <div className="hidden lg:flex items-center gap-1 xl:gap-2">
               {navItems.map((item) => {
-                const isActive = item.section ? activeSection === item.section : false
+                const isActive = item.name === activePage
                 
-                return item.isExternal ? (
+                return (
                   <Link
                     key={item.name}
                     to={item.href}
-                    className="inline-flex items-center gap-2 px-3 xl:px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 text-coastal-600 hover:bg-coastal-100 hover:text-coastal-900 whitespace-nowrap"
-                  >
-                    <item.icon className="w-4 h-4 flex-shrink-0" />
-                    {item.name}
-                  </Link>
-                ) : (
-                  <button
-                    key={item.name}
-                    onClick={() => scrollToSection(item.section)}
                     className={`inline-flex items-center gap-2 px-3 xl:px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 whitespace-nowrap ${
                       isActive
                         ? 'bg-emerald-500 text-white shadow-md'
@@ -112,7 +69,7 @@ export default function MorphoHeader() {
                     <item.icon className="w-4 h-4 flex-shrink-0" />
                     <span className="hidden xl:inline">{item.name}</span>
                     <span className="xl:hidden">{item.name.split(' ')[0]}</span>
-                  </button>
+                  </Link>
                 )
               })}
             </div>
@@ -153,23 +110,14 @@ export default function MorphoHeader() {
             >
               <div className="px-4 py-4 space-y-2">
                 {navItems.map((item) => {
-                  const isActive = item.section ? activeSection === item.section : false
+                  const isActive = item.name === activePage
                   
-                  return item.isExternal ? (
+                  return (
                     <Link
                       key={item.name}
                       to={item.href}
                       onClick={() => setMobileMenuOpen(false)}
-                      className="flex items-center gap-3 px-4 py-3 rounded-xl text-coastal-700 hover:bg-coastal-50 transition-colors"
-                    >
-                      <item.icon className="w-5 h-5 text-emerald-500" />
-                      <span className="font-medium">{item.name}</span>
-                    </Link>
-                  ) : (
-                    <button
-                      key={item.name}
-                      onClick={() => scrollToSection(item.section)}
-                      className={`flex items-center gap-3 px-4 py-3 rounded-xl w-full text-left transition-colors ${
+                      className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${
                         isActive
                           ? 'bg-emerald-500 text-white'
                           : 'text-coastal-700 hover:bg-coastal-50'
@@ -177,7 +125,7 @@ export default function MorphoHeader() {
                     >
                       <item.icon className={`w-5 h-5 ${isActive ? 'text-white' : 'text-emerald-500'}`} />
                       <span className="font-medium">{item.name}</span>
-                    </button>
+                    </Link>
                   )
                 })}
                 {/* Mobile Branding */}

@@ -23,8 +23,8 @@ import MainHeader from '../components/layout/MainHeader'
 const dashboardOptions = [
   { name: 'Metrological Threshold', href: '/dashboard', icon: Cloud },
   { name: 'Morphological Threshold', href: '/morphological-threshold', icon: Mountain },
-  { name: 'Long Term Forecasting', href: '#', icon: TrendingUp },
-  { name: 'Short Term Forecasting', href: '#', icon: Zap },
+  { name: 'Long Term Forecasting', href: '/long-term-forecasting', icon: TrendingUp },
+  { name: 'Short Term Forecasting', href: '/short-term-forecasting', icon: Zap },
 ]
 
 export default function HomePage() {
@@ -36,7 +36,7 @@ export default function HomePage() {
       <MainHeader />
 
       {/* Hero Section - Full Screen */}
-      <section className="relative min-h-screen flex items-center overflow-hidden pt-20 sm:pt-28">
+      <section className="relative min-h-screen flex items-center overflow-visible pt-20 sm:pt-28">
         {/* Background Image */}
         <div className="absolute inset-0">
           <div 
@@ -74,29 +74,36 @@ export default function HomePage() {
               {/* Popup Menu */}
               <AnimatePresence>
                 {showDashboardMenu && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                    transition={{ duration: 0.2 }}
-                    className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-72 bg-white rounded-2xl shadow-2xl border border-coastal-100 overflow-hidden z-50"
-                  >
-                    <div className="p-2">
-                      {dashboardOptions.map((option, index) => (
-                        <Link
-                          key={option.name}
-                          to={option.href}
-                          onClick={() => setShowDashboardMenu(false)}
-                          className="flex items-center gap-3 px-4 py-3 rounded-xl text-coastal-700 hover:bg-ocean-50 hover:text-ocean-700 transition-all duration-200"
-                        >
-                          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-ocean-500 to-primary-600 flex items-center justify-center shadow-md">
-                            <option.icon className="w-5 h-5 text-white" />
-                          </div>
-                          <span className="font-medium">{option.name}</span>
-                        </Link>
-                      ))}
-                    </div>
-                  </motion.div>
+                  <>
+                    {/* Backdrop to close menu */}
+                    <div 
+                      className="fixed inset-0 z-40"
+                      onClick={() => setShowDashboardMenu(false)}
+                    />
+                    <motion.div
+                      initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                      transition={{ duration: 0.2 }}
+                      className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-80 bg-white rounded-2xl shadow-2xl border border-coastal-100 z-50"
+                    >
+                      <div className="p-3 space-y-1">
+                        {dashboardOptions.map((option, index) => (
+                          <Link
+                            key={option.name}
+                            to={option.href}
+                            onClick={() => setShowDashboardMenu(false)}
+                            className="flex items-center gap-3 px-4 py-3.5 rounded-xl text-coastal-700 hover:bg-ocean-50 hover:text-ocean-700 transition-all duration-200"
+                          >
+                            <div className="w-11 h-11 rounded-lg bg-gradient-to-br from-ocean-500 to-primary-600 flex items-center justify-center shadow-md flex-shrink-0">
+                              <option.icon className="w-5 h-5 text-white" />
+                            </div>
+                            <span className="font-medium text-sm">{option.name}</span>
+                          </Link>
+                        ))}
+                      </div>
+                    </motion.div>
+                  </>
                 )}
               </AnimatePresence>
             </div>

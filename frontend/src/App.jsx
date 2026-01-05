@@ -10,16 +10,32 @@ import GMMPage from './pages/GMMPage'
 import XGBoostPage from './pages/XGBoostPage'
 import ThresholdPage from './pages/ThresholdPage'
 import MorphologicalThresholdPage from './pages/MorphologicalThresholdPage'
+import HMMAnalysisPage from './pages/HMMAnalysisPage'
+import RegimeProfilesPage from './pages/RegimeProfilesPage'
+import SeasonalAnalysisPage from './pages/SeasonalAnalysisPage'
+import LongTermForecastingPage from './pages/LongTermForecastingPage'
+import ShortTermForecastingPage from './pages/ShortTermForecastingPage'
 
 function App() {
   const location = useLocation()
-  const isStandalonePage = location.pathname === '/' || location.pathname === '/morphological-threshold'
+  const isStandalonePage = location.pathname === '/' || 
+    location.pathname === '/morphological-threshold' ||
+    location.pathname === '/hmm-analysis' ||
+    location.pathname === '/regime-profiles' ||
+    location.pathname === '/seasonal-analysis' ||
+    location.pathname === '/long-term-forecasting' ||
+    location.pathname === '/short-term-forecasting'
 
   return isStandalonePage ? (
     <AnimatePresence mode="wait">
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/morphological-threshold" element={<MorphologicalThresholdPage />} />
+        <Route path="/hmm-analysis" element={<HMMAnalysisPage />} />
+        <Route path="/regime-profiles" element={<RegimeProfilesPage />} />
+        <Route path="/seasonal-analysis" element={<SeasonalAnalysisPage />} />
+        <Route path="/long-term-forecasting" element={<LongTermForecastingPage />} />
+        <Route path="/short-term-forecasting" element={<ShortTermForecastingPage />} />
       </Routes>
     </AnimatePresence>
   ) : (

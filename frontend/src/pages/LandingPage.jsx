@@ -276,7 +276,7 @@ export default function LandingPage() {
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-3 gap-6">
             {features.map((feature, index) => (
               <motion.div
                 key={feature.title}
@@ -284,15 +284,15 @@ export default function LandingPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="card-interactive p-8"
+                className="card-interactive p-6"
               >
-                <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${feature.color} flex items-center justify-center shadow-lg mb-6`}>
-                  <feature.icon className="w-7 h-7 text-white" />
+                <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${feature.color} flex items-center justify-center shadow-lg mb-4`}>
+                  <feature.icon className="w-5 h-5 text-white" />
                 </div>
-                <h3 className="text-xl font-display font-semibold text-coastal-900 mb-3">
+                <h3 className="text-lg font-display font-semibold text-coastal-900 mb-2">
                   {feature.title}
                 </h3>
-                <p className="text-coastal-600">{feature.description}</p>
+                <p className="text-sm text-coastal-600">{feature.description}</p>
               </motion.div>
             ))}
           </div>
@@ -317,7 +317,7 @@ export default function LandingPage() {
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-3 gap-6">
             {models.map((model, index) => (
               <motion.div
                 key={model.name}
@@ -326,15 +326,15 @@ export default function LandingPage() {
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
               >
-                <Link to={model.href} className="card-interactive p-8 h-full flex flex-col">
-                  <div className={`w-12 h-12 rounded-xl ${model.color} flex items-center justify-center shadow-lg mb-6`}>
-                    <model.icon className="w-6 h-6 text-white" />
+                <Link to={model.href} className="card-interactive p-6 h-full flex flex-col">
+                  <div className={`w-10 h-10 rounded-xl ${model.color} flex items-center justify-center shadow-lg mb-4`}>
+                    <model.icon className="w-5 h-5 text-white" />
                   </div>
-                  <h3 className="text-xl font-display font-semibold text-coastal-900 mb-3">
+                  <h3 className="text-lg font-display font-semibold text-coastal-900 mb-2">
                     {model.name}
                   </h3>
-                  <p className="text-coastal-600 flex-1">{model.description}</p>
-                  <div className="flex items-center gap-2 text-ocean-600 font-medium mt-4 group-hover:gap-3 transition-all">
+                  <p className="text-sm text-coastal-600 flex-1">{model.description}</p>
+                  <div className="flex items-center gap-2 text-ocean-600 font-medium text-sm mt-4 group-hover:gap-3 transition-all">
                     View Results <ArrowRight className="w-4 h-4" />
                   </div>
                 </Link>

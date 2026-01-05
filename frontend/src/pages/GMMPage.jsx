@@ -125,8 +125,8 @@ export default function GMMPage() {
               animate={{ opacity: 1, y: 0 }}
               className="max-w-3xl"
             >
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-violet-100 text-violet-700 rounded-full text-sm font-medium mb-4">
-                <Layers className="w-4 h-4" />
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-violet-100 text-violet-700 rounded-full text-xs font-medium mb-3">
+                <Layers className="w-3.5 h-3.5" />
                 Unsupervised Learning
               </div>
               <h1 className="section-title mb-4">
@@ -140,41 +140,6 @@ export default function GMMPage() {
           </div>
         </section>
 
-        {/* Stats Grid */}
-        <section className="pb-8">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              <StatCard
-                title="Components"
-                value={metrics.nComponents}
-                subtitle="hidden states"
-                icon={Layers}
-                delay={0.1}
-              />
-              <StatCard
-                title="Model Accuracy"
-                value={`${(metrics.accuracy * 100).toFixed(1)}%`}
-                icon={Target}
-                delay={0.15}
-              />
-              <StatCard
-                title="Normal State"
-                value={`${stateDistribution[0]?.percentage || 0}%`}
-                subtitle="of observations"
-                icon={Circle}
-                delay={0.2}
-              />
-              <StatCard
-                title="High Risk State"
-                value={`${stateDistribution[1]?.percentage || 0}%`}
-                subtitle="of observations"
-                icon={PieChart}
-                delay={0.25}
-              />
-            </div>
-          </div>
-        </section>
-
         {/* Model Info */}
         <section className="pb-8">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -182,11 +147,11 @@ export default function GMMPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="card p-6 bg-gradient-to-r from-violet-50 to-purple-50 border-violet-200"
+              className="card p-5 bg-gradient-to-r from-violet-50 to-purple-50 border-violet-200"
             >
-              <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-xl bg-violet-100 flex items-center justify-center flex-shrink-0">
-                  <Info className="w-5 h-5 text-violet-600" />
+              <div className="flex items-start gap-3">
+                <div className="w-8 h-8 rounded-lg bg-violet-100 flex items-center justify-center flex-shrink-0">
+                  <Info className="w-4 h-4 text-violet-600" />
                 </div>
                 <div>
                   <h3 className="font-semibold text-violet-900 mb-1">
@@ -215,7 +180,7 @@ export default function GMMPage() {
             >
               <Tabs tabs={tabs} activeTab={activeTab} onChange={setActiveTab} />
 
-              <div className="card p-6 mt-6">
+              <div className="card p-5 mt-6">
                 {activeTab === 'distribution' && (
                   <div>
                     <div className="mb-6">
@@ -233,8 +198,8 @@ export default function GMMPage() {
                       <div className="space-y-4">
                         {/* Normal State */}
                         {stateDistribution[0] && (
-                          <div className="p-6 bg-blue-50 rounded-xl border border-blue-200">
-                            <div className="flex items-center gap-3 mb-4">
+                          <div className="p-4 bg-blue-50 rounded-xl border border-blue-200">
+                            <div className="flex items-center gap-3 mb-3">
                               <div className="w-4 h-4 rounded-full bg-blue-500" />
                               <h4 className="font-semibold text-blue-900">{stateDistribution[0].state} State</h4>
                               <span className="ml-auto text-lg font-bold text-blue-700">{stateDistribution[0].percentage}%</span>

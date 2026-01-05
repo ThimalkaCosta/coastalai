@@ -13,8 +13,8 @@ import { motion, AnimatePresence } from 'framer-motion'
 const navItems = [
   { name: 'Metrological Threshold', href: '/dashboard', icon: Cloud },
   { name: 'Morphological Threshold', href: '/morphological-threshold', icon: Mountain },
-  { name: 'Long Term Forecasting', href: '#', icon: TrendingUp },
-  { name: 'Short Term Forecasting', href: '#', icon: Zap },
+  { name: 'Long Term Forecasting', href: '/long-term-forecasting', icon: TrendingUp },
+  { name: 'Short Term Forecasting', href: '/short-term-forecasting', icon: Zap },
 ]
 
 export default function MainHeader() {

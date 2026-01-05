@@ -126,8 +126,6 @@ export default function AnalysisPage() {
     { id: 'correlation', label: 'Correlation' },
     { id: 'pca', label: 'PCA Analysis' },
     { id: 'regimes', label: 'Forcing Regimes' },
-    { id: 'comparison', label: 'Model Comparison' },
-    { id: 'data', label: 'Data Table' },
   ]
 
   const modelCards = [
@@ -520,31 +518,6 @@ export default function AnalysisPage() {
                     data={data.forcingRegimes}
                     title="Forcing Regime Distribution"
                   />
-                )}
-
-                {activeTab === 'comparison' && (
-                  <ROCCurveChart
-                    data={data.roc}
-                    title="ROC Curve Comparison: Model Performance"
-                  />
-                )}
-
-                {activeTab === 'data' && (
-                  <div className="card p-6">
-                    <h3 className="font-display font-semibold text-coastal-900 mb-4">
-                      Processed Environmental Data ({stats.totalYears || 25} years)
-                    </h3>
-                    <DataTable
-                      columns={[
-                        { key: 'year', label: 'Year' },
-                        { key: 'Hm0_max', label: 'Hm0 Max (m)', format: v => v?.toFixed(2) },
-                        { key: 'WindMax', label: 'Wind Max (m/s)', format: v => v?.toFixed(2) },
-                        { key: 'UcurrMax', label: 'Current Max (m/s)', format: v => v?.toFixed(3) },
-                        { key: 'Erosion_Label', label: 'Erosion', format: v => v === 1 ? '✓ Yes' : '✗ No' },
-                      ]}
-                      data={timeSeriesData}
-                    />
-                  </div>
                 )}
               </div>
             </motion.div>

@@ -197,12 +197,12 @@ export default function DataUploadPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="card p-6 bg-gradient-to-r from-ocean-50 to-primary-50 border-ocean-200"
+              className="card p-5 bg-gradient-to-r from-ocean-50 to-primary-50 border-ocean-200"
             >
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-xl bg-ocean-100 flex items-center justify-center flex-shrink-0">
-                    <Info className="w-5 h-5 text-ocean-600" />
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-lg bg-ocean-100 flex items-center justify-center flex-shrink-0">
+                    <Info className="w-4 h-4 text-ocean-600" />
                   </div>
                   <div>
                     <h3 className="font-semibold text-coastal-900 mb-1">
@@ -253,15 +253,15 @@ export default function DataUploadPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1 + index * 0.05 }}
                 >
-                  <div className="mb-4 flex items-center gap-3">
-                    <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${section.color} flex items-center justify-center shadow-lg`}>
-                      <section.icon className="w-5 h-5 text-white" />
+                  <div className="mb-3 flex items-center gap-2.5">
+                    <div className={`w-8 h-8 rounded-lg bg-gradient-to-br ${section.color} flex items-center justify-center shadow-md`}>
+                      <section.icon className="w-4 h-4 text-white" />
                     </div>
                     <div>
-                      <h3 className="font-display font-semibold text-coastal-900">
+                      <h3 className="font-display font-semibold text-base text-coastal-900">
                         {section.title}
                       </h3>
-                      <p className="text-sm text-coastal-500">{section.acceptedFile}</p>
+                      <p className="text-xs text-coastal-500">{section.acceptedFile}</p>
                     </div>
                   </div>
                   
@@ -288,15 +288,15 @@ export default function DataUploadPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="card p-8 text-center"
+              className="card p-6 text-center"
             >
               <div className="max-w-md mx-auto">
                 {allFilesUploaded ? (
                   <>
-                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-ocean-500 to-primary-600 flex items-center justify-center mx-auto mb-6 shadow-lg">
-                      <Play className="w-8 h-8 text-white" />
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-ocean-500 to-primary-600 flex items-center justify-center mx-auto mb-4 shadow-lg">
+                      <Play className="w-6 h-6 text-white" />
                     </div>
-                    <h3 className="text-xl font-display font-semibold text-coastal-900 mb-2">
+                    <h3 className="text-lg font-display font-semibold text-coastal-900 mb-2">
                       All Files Uploaded!
                     </h3>
                     <p className="text-coastal-600 mb-6">

@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import {
   Target,
@@ -12,65 +13,6 @@ import {
 } from 'lucide-react'
 import PageTransition from '../components/common/PageTransition'
 import StatCard from '../components/common/StatCard'
-
-// Complete threshold data from notebook analysis
-const thresholdData = [
-  {
-    id: 0,
-    Driver: 'Hm0_max',
-    Unit: 'm',
-    GMM_Threshold: 2.926,
-    RF_Threshold: 2.735,
-    Erosion_Threshold_Lower: 2.735,
-    Erosion_Threshold_Upper: 2.926,
-    Model_Consensus: 'High',
-    Physical_Interpretation: 'Wave energy exceeds sediment resistance'
-  },
-  {
-    id: 1,
-    Driver: 'UcurrMax',
-    Unit: 'm/s',
-    GMM_Threshold: 0.505,
-    RF_Threshold: 0.435,
-    Erosion_Threshold_Lower: 0.435,
-    Erosion_Threshold_Upper: 0.505,
-    Model_Consensus: 'Low',
-    Physical_Interpretation: 'Offshore sediment transport intensifies'
-  },
-  {
-    id: 2,
-    Driver: 'WindMax',
-    Unit: 'm/s',
-    GMM_Threshold: 6.568,
-    RF_Threshold: 6.485,
-    Erosion_Threshold_Lower: 6.485,
-    Erosion_Threshold_Upper: 6.568,
-    Model_Consensus: 'Medium',
-    Physical_Interpretation: 'Wave generation and surge enhancement'
-  },
-  {
-    id: 3,
-    Driver: 'CumCurrent',
-    Unit: 'm/day',
-    GMM_Threshold: 55.107,
-    RF_Threshold: 54.130,
-    Erosion_Threshold_Lower: 54.130,
-    Erosion_Threshold_Upper: 55.107,
-    Model_Consensus: 'Low',
-    Physical_Interpretation: 'Sustained sediment flux offshore'
-  },
-  {
-    id: 4,
-    Driver: 'StormDays_wave',
-    Unit: 'days',
-    GMM_Threshold: 165.786,
-    RF_Threshold: 174.000,
-    Erosion_Threshold_Lower: 165.786,
-    Erosion_Threshold_Upper: 174.000,
-    Model_Consensus: 'Medium',
-    Physical_Interpretation: 'Prolonged high-energy exposure'
-  }
-]
 
 // Get icon for driver
 const getDriverIcon = (driver) => {
@@ -96,6 +38,25 @@ const getConsensusColor = (consensus) => {
 }
 
 export default function ThresholdPage() {
+  const [thresholdData, setThresholdData] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    // Load threshold data from JSON file
+    fetch('/data/erosion_thresholds.json')
+      .then(response => response.json())
+      .then(data => {
+        // Add id to each item
+        const dataWithIds = data.map((item, index) => ({ ...item, id: index }))
+        setThresholdData(dataWithIds)
+        setLoading(false)
+      })
+      .catch(error => {
+        console.error('Error loading threshold data:', error)
+        setLoading(false)
+      })
+  }, [])
+
   // Calculate statistics
   const stats = {
     totalDrivers: thresholdData.length,
@@ -115,8 +76,8 @@ export default function ThresholdPage() {
               animate={{ opacity: 1, y: 0 }}
               className="max-w-3xl"
             >
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-700 rounded-full text-sm font-medium mb-4">
-                <Target className="w-4 h-4" />
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-100 text-blue-700 rounded-full text-xs font-medium mb-3">
+                <Target className="w-3.5 h-3.5" />
                 Final Summary Analysis
               </div>
               <h1 className="section-title mb-4">
@@ -130,33 +91,46 @@ export default function ThresholdPage() {
           </div>
         </section>
 
-        {/* Stats Grid */}
-        <section className="pb-8">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              <StatCard
-                title="Total Drivers"
-                value={stats.totalDrivers}
-                subtitle="identified factors"
-                icon={Target}
-                delay={0.1}
-              />
-              <StatCard
-                title="High Consensus"
-                value={stats.highConsensus}
-                subtitle="strong agreement"
-                icon={CheckCircle}
-                delay={0.15}
-              />
-              <StatCard
-                title="Medium Consensus"
-                value={stats.mediumConsensus}
-                subtitle="moderate agreement"
-                icon={AlertTriangle}
-                delay={0.2}
-              />
-              <StatCard
-                title="Low Consensus"
+        {loading ? (
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+            <div className="w-16 h-16 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mx-auto mb-4" />
+            <p className="text-coastal-600">Loading threshold data...</p>
+          </div>
+        ) : thresholdData.length === 0 ? (
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+            <AlertTriangle className="w-16 h-16 text-amber-500 mx-auto mb-4" />
+            <h3 className="text-xl font-semibold text-coastal-900 mb-2">No Threshold Data Available</h3>
+            <p className="text-coastal-600">Please run the notebook analysis to generate threshold data.</p>
+          </div>
+        ) : (
+          <>
+            {/* Stats Grid */}
+            <section className="pb-8">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                  <StatCard
+                    title="Total Drivers"
+                    value={stats.totalDrivers}
+                    subtitle="identified factors"
+                    icon={Target}
+                    delay={0.1}
+                  />
+                  <StatCard
+                    title="High Consensus"
+                    value={stats.highConsensus}
+                    subtitle="strong agreement"
+                    icon={CheckCircle}
+                    delay={0.15}
+                  />
+                  <StatCard
+                    title="Medium Consensus"
+                    value={stats.mediumConsensus}
+                    subtitle="moderate agreement"
+                    icon={AlertTriangle}
+                    delay={0.2}
+                  />
+                  <StatCard
+                    title="Low Consensus"
                 value={stats.lowConsensus}
                 subtitle="larger variation"
                 icon={TrendingUp}
@@ -175,9 +149,9 @@ export default function ThresholdPage() {
               transition={{ delay: 0.3 }}
               className="card overflow-hidden"
             >
-              <div className="bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-4">
-                <h3 className="font-display font-semibold text-white text-xl flex items-center gap-2">
-                  <Target className="w-6 h-6" />
+              <div className="bg-gradient-to-r from-blue-600 to-indigo-600 px-5 py-3">
+                <h3 className="font-display font-semibold text-white text-lg flex items-center gap-2">
+                  <Target className="w-5 h-5" />
                   Final Threshold Summary Table
                 </h3>
                 <p className="text-blue-100 text-sm mt-1">
@@ -189,25 +163,25 @@ export default function ThresholdPage() {
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="bg-gray-50 border-b-2 border-gray-200">
-                      <th className="py-4 px-4 text-left font-bold text-gray-600 uppercase tracking-wider text-xs">
+                      <th className="py-3 px-3 text-left font-bold text-gray-600 uppercase tracking-wider text-xs">
                         #
                       </th>
-                      <th className="py-4 px-4 text-left font-bold text-gray-600 uppercase tracking-wider text-xs">
+                      <th className="py-3 px-3 text-left font-bold text-gray-600 uppercase tracking-wider text-xs">
                         Driver
                       </th>
-                      <th className="py-4 px-4 text-center font-bold text-gray-600 uppercase tracking-wider text-xs">
+                      <th className="py-3 px-3 text-center font-bold text-gray-600 uppercase tracking-wider text-xs">
                         Unit
                       </th>
-                      <th className="py-4 px-4 text-center font-bold text-gray-600 uppercase tracking-wider text-xs">
+                      <th className="py-3 px-3 text-center font-bold text-gray-600 uppercase tracking-wider text-xs">
                         Erosion_Threshold_Lower
                       </th>
-                      <th className="py-4 px-4 text-center font-bold text-gray-600 uppercase tracking-wider text-xs">
+                      <th className="py-3 px-3 text-center font-bold text-gray-600 uppercase tracking-wider text-xs">
                         Erosion_Threshold_Upper
                       </th>
-                      <th className="py-4 px-4 text-center font-bold text-gray-600 uppercase tracking-wider text-xs">
+                      <th className="py-3 px-3 text-center font-bold text-gray-600 uppercase tracking-wider text-xs">
                         Model_Consensus
                       </th>
-                      <th className="py-4 px-4 text-left font-bold text-gray-600 uppercase tracking-wider text-xs">
+                      <th className="py-3 px-3 text-left font-bold text-gray-600 uppercase tracking-wider text-xs">
                         Physical_Interpretation
                       </th>
                     </tr>
@@ -225,20 +199,20 @@ export default function ThresholdPage() {
                             index % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'
                           }`}
                         >
-                          <td className="py-4 px-4">
-                            <span className="inline-flex w-8 h-8 items-center justify-center rounded-full bg-blue-100 text-blue-700 font-bold text-sm">
+                          <td className="py-3 px-3">
+                            <span className="inline-flex w-7 h-7 items-center justify-center rounded-full bg-blue-100 text-blue-700 font-bold text-xs">
                               {item.id}
                             </span>
                           </td>
-                          <td className="py-4 px-4">
+                          <td className="py-3 px-3">
                             <div className="flex items-center gap-2">
-                              <div className="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center">
+                              <div className="w-7 h-7 rounded-lg bg-blue-100 flex items-center justify-center">
                                 <Icon className="w-4 h-4 text-blue-600" />
                               </div>
-                              <span className="font-semibold text-gray-900">{item.Driver}</span>
+                              <span className="font-semibold text-sm text-gray-900">{item.Driver}</span>
                             </div>
                           </td>
-                          <td className="py-4 px-4 text-center">
+                          <td className="py-3 px-3 text-center">
                             <span className="inline-flex px-2 py-1 rounded bg-gray-100 text-gray-600 text-sm font-mono">
                               {item.Unit}
                             </span>
@@ -337,6 +311,8 @@ export default function ThresholdPage() {
             </div>
           </div>
         </section>
+          </>
+        )}
       </div>
     </PageTransition>
   )

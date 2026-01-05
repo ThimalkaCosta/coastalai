@@ -96,8 +96,8 @@ export default function XGBoostPage() {
               animate={{ opacity: 1, y: 0 }}
               className="max-w-3xl"
             >
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-100 text-orange-700 rounded-full text-sm font-medium mb-4">
-                <Zap className="w-4 h-4" />
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-orange-100 text-orange-700 rounded-full text-xs font-medium mb-3">
+                <Zap className="w-3.5 h-3.5" />
                 Gradient Boosting
               </div>
               <h1 className="section-title mb-4">
@@ -111,40 +111,6 @@ export default function XGBoostPage() {
           </div>
         </section>
 
-        {/* Stats Grid */}
-        <section className="pb-8">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              <StatCard
-                title="Model Accuracy"
-                value={`${(metrics.accuracy * 100).toFixed(1)}%`}
-                icon={Target}
-                delay={0.1}
-              />
-              <StatCard
-                title="AUC Score"
-                value={`${(metrics.auc * 100).toFixed(1)}%`}
-                subtitle="Area Under Curve"
-                icon={TrendingUp}
-                delay={0.15}
-              />
-              <StatCard
-                title="F1 Score"
-                value={`${(metrics.f1Score * 100).toFixed(1)}%`}
-                icon={BarChart3}
-                delay={0.2}
-              />
-              <StatCard
-                title="Boosting Rounds"
-                value={metrics.nEstimators}
-                subtitle="iterations"
-                icon={Zap}
-                delay={0.25}
-              />
-            </div>
-          </div>
-        </section>
-
         {/* Model Info */}
         <section className="pb-8">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -152,11 +118,11 @@ export default function XGBoostPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="card p-6 bg-gradient-to-r from-orange-50 to-amber-50 border-orange-200"
+              className="card p-5 bg-gradient-to-r from-orange-50 to-amber-50 border-orange-200"
             >
-              <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-xl bg-orange-100 flex items-center justify-center flex-shrink-0">
-                  <Info className="w-5 h-5 text-orange-600" />
+              <div className="flex items-start gap-3">
+                <div className="w-8 h-8 rounded-lg bg-orange-100 flex items-center justify-center flex-shrink-0">
+                  <Info className="w-4 h-4 text-orange-600" />
                 </div>
                 <div>
                   <h3 className="font-semibold text-orange-900 mb-1">
@@ -185,7 +151,7 @@ export default function XGBoostPage() {
             >
               <Tabs tabs={tabs} activeTab={activeTab} onChange={setActiveTab} />
 
-              <div className="card p-6 mt-6">
+              <div className="card p-5 mt-6">
                 {activeTab === 'importance' && (
                   <div>
                     <div className="mb-6">
