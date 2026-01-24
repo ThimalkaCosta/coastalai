@@ -50,6 +50,9 @@ const getInterpretation = (avgShift) => {
 export default function LongTermForecastingPage() {
   const [forecastGenerated, setForecastGenerated] = useState(false)
   const [isGenerating, setIsGenerating] = useState(false)
+  const [selectedYear, setSelectedYear] = useState(2030)
+
+  const AVAILABLE_YEARS = [2025, 2026, 2027, 2028, 2029, 2030]
 
   const interpretation = getInterpretation(DEMO_FORECAST_DATA.avgShorelineShift)
 
@@ -59,7 +62,7 @@ export default function LongTermForecastingPage() {
     // ============================================
     // TODO: Replace with actual backend API call
     // Example:
-    // const response = await fetch('/api/generate-long-term-forecast')
+    // const response = await fetch(`/api/generate-long-term-forecast?year=${selectedYear}`)
     // const data = await response.json()
     // ============================================
     
@@ -107,7 +110,7 @@ export default function LongTermForecastingPage() {
           >
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-sm font-medium mb-6">
               <TrendingUp className="w-4 h-4" />
-              2030 Shoreline Prediction
+              {selectedYear} Shoreline Prediction
             </div>
             
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold mb-4">
@@ -115,13 +118,13 @@ export default function LongTermForecastingPage() {
             </h1>
             
             <p className="text-lg sm:text-xl text-blue-100 mb-8">
-              Comparing historical shoreline ({DEMO_FORECAST_DATA.lastHistoricalYear}) with forecasted {DEMO_FORECAST_DATA.forecastYear} shoreline using advanced coastal dynamics models
+              Comparing historical shoreline ({DEMO_FORECAST_DATA.lastHistoricalYear}) with forecasted {selectedYear} shoreline using advanced coastal dynamics models
             </p>
 
             {/* Quick Stats */}
             <div className="grid grid-cols-3 gap-4 max-w-2xl mx-auto">
               <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4">
-                <div className="text-2xl font-bold">{DEMO_FORECAST_DATA.forecastYear}</div>
+                <div className="text-2xl font-bold">{selectedYear}</div>
                 <div className="text-sm text-blue-100">Target Year</div>
               </div>
               <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4">
@@ -140,37 +143,65 @@ export default function LongTermForecastingPage() {
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50">
         <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 xl:px-8 py-6 sm:py-12">
 
-          {/* Generate Forecast Button */}
+          {/* Generate Forecast Section */}
           {!forecastGenerated && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="card p-6 mb-6 text-center"
+              className="card p-6 mb-6"
             >
-              <TrendingUp className="h-10 w-10 text-blue-600 mx-auto mb-3" />
-              <h2 className="text-xl font-display font-semibold text-coastal-900 mb-2">
-                Generate 2030 Forecast
-              </h2>
-              <p className="text-sm text-coastal-600 mb-4 max-w-2xl mx-auto">
-                Click the button below to generate the long-term shoreline forecast using advanced coastal dynamics models.
-              </p>
-              <button
-                onClick={handleGenerateForecast}
-                disabled={isGenerating}
-                className="btn-primary inline-flex items-center gap-2 px-6 py-2.5 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {isGenerating ? (
-                  <>
-                    <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"></div>
-                    Generating...
-                  </>
-                ) : (
-                  <>
-                    Generate Forecast
-                    <ChevronRight className="h-5 w-5" />
-                  </>
-                )}
-              </button>
+              <div className="text-center mb-6">
+                <TrendingUp className="h-10 w-10 text-blue-600 mx-auto mb-3" />
+                <h2 className="text-xl font-display font-semibold text-coastal-900 mb-2">
+                  Generate {selectedYear} Forecast
+                </h2>
+                <p className="text-sm text-coastal-600 max-w-2xl mx-auto">
+                  Select a target year and generate the long-term shoreline forecast using advanced coastal dynamics models.
+                </p>
+              </div>
+
+              {/* Year Selection */}
+              <div className="mb-6">
+                <label className="block text-sm font-medium text-coastal-700 mb-3 text-center">
+                  Select Target Year
+                </label>
+                <div className="grid grid-cols-3 sm:grid-cols-6 gap-3 max-w-3xl mx-auto">
+                  {AVAILABLE_YEARS.map((year) => (
+                    <button
+                      key={year}
+                      onClick={() => setSelectedYear(year)}
+                      className={`px-4 py-3 rounded-lg font-semibold transition-all ${
+                        selectedYear === year
+                          ? 'bg-blue-600 text-white shadow-lg scale-105'
+                          : 'bg-coastal-50 text-coastal-700 hover:bg-blue-100'
+                      }`}
+                    >
+                      {year}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Generate Button */}
+              <div className="text-center">
+                <button
+                  onClick={handleGenerateForecast}
+                  disabled={isGenerating}
+                  className="btn-primary inline-flex items-center gap-2 px-6 py-2.5 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isGenerating ? (
+                    <>
+                      <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"></div>
+                      Generating...
+                    </>
+                  ) : (
+                    <>
+                      Generate Forecast
+                      <ChevronRight className="h-5 w-5" />
+                    </>
+                  )}
+                </button>
+              </div>
             </motion.div>
           )}
 
@@ -244,14 +275,14 @@ export default function LongTermForecastingPage() {
                   </h3>
                 </div>
                 <p className="text-sm text-coastal-600 mb-4">
-                  Download the forecasted {DEMO_FORECAST_DATA.forecastYear} shoreline as a KML file for use in GIS software and mapping applications.
+                  Download the forecasted {selectedYear} shoreline as a KML file for use in GIS software and mapping applications.
                 </p>
                 <button
                   onClick={handleDownloadKML}
                   className="btn-primary inline-flex items-center gap-2 text-sm px-4 py-2 bg-blue-600 hover:bg-blue-700"
                 >
                   <Download className="h-4 w-4" />
-                  Download {DEMO_FORECAST_DATA.forecastYear} Forecast KML
+                  Download {selectedYear} Forecast KML
                 </button>
               </div>
 

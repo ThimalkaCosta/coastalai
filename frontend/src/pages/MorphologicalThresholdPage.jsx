@@ -14,6 +14,8 @@ import {
   Calendar,
   Layers,
   ArrowDown,
+  Shield,
+  Gauge,
 } from 'lucide-react'
 import PageTransition from '../components/common/PageTransition'
 import MorphoHeader from '../components/layout/MorphoHeader'
@@ -119,6 +121,40 @@ const regimeStability = {
   max: 8
 }
 
+// CVI (Coastal Vulnerability Index) data from notebook
+const cviData = {
+  year: 2025,
+  vulnerabilityLevel: 'Very low',
+  upperBound: 4.0,
+  lowerBound: 1.0,
+  cviValue: 1.34,
+  metrics: {
+    elevationMinM: 0.000,
+    elevationMaxM: 14.480,
+    elevationAvgM: 6.400,
+    distanceMeters: 1359.895,
+    elevationGainM: 65.075,
+    elevationLossM: -54.710,
+    avgSlopeUpward: 7.750,
+    avgSlopeDownward: -6.800,
+  },
+  // Quantile ranges for each metric
+  quantiles: {
+    elevationAvgM: { q25: 5.82, q50: 6.22, q75: 6.72, min: 4.92, max: 7.62 },
+    elevationGainM: { q25: 55.44, q50: 62.10, q75: 69.87, min: 45.71, max: 82.69 },
+    elevationLossM: { q25: -62.46, q50: -55.84, q75: -47.18, min: -77.69, max: -36.69 },
+    avgSlopeUpward: { q25: 6.90, q50: 7.59, q75: 8.49, min: 5.99, max: 9.88 },
+    avgSlopeDownward: { q25: -7.72, q50: -6.89, q75: -5.87, min: -9.29, max: -4.61 },
+  },
+  // Vulnerability level thresholds
+  vulnerabilityRanges: [
+    { level: 'Very low', min: 1.0, max: 1.75, color: 'emerald' },
+    { level: 'Low', min: 1.75, max: 2.5, color: 'green' },
+    { level: 'Moderate', min: 2.5, max: 3.25, color: 'amber' },
+    { level: 'High', min: 3.25, max: 4.0, color: 'red' },
+  ]
+}
+
 export default function MorphologicalThresholdPage() {
   const location = useLocation()
   const [activeTab, setActiveTab] = useState('threshold')
@@ -128,12 +164,13 @@ export default function MorphologicalThresholdPage() {
     { id: 'hmm', name: 'HMM Analysis', icon: Activity },
     { id: 'regime', name: 'Regime Profiles', icon: BarChart3 },
     { id: 'seasonal', name: 'Seasonal Analysis', icon: Calendar },
+    { id: 'cvi', name: 'Coastal Vulnerability Index', icon: Shield },
   ]
 
   // Handle hash navigation on mount and hash change
   useEffect(() => {
     const hash = location.hash.replace('#', '')
-    if (hash && ['threshold', 'hmm', 'regime', 'seasonal'].includes(hash)) {
+    if (hash && ['threshold', 'hmm', 'regime', 'seasonal', 'cvi'].includes(hash)) {
       setActiveTab(hash)
       // Scroll to section with offset for header
       setTimeout(() => {
@@ -765,6 +802,247 @@ export default function MorphologicalThresholdPage() {
                           </div>
                         </div>
                       </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Coastal Vulnerability Index (CVI) */}
+            {activeTab === 'cvi' && (
+              <div id="cvi" className="space-y-6 scroll-mt-24">
+                {/* CVI Summary Cards */}
+                <div className="flex flex-wrap gap-6">
+                  <div className="card p-6 w-full sm:w-auto sm:min-w-[280px]">
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center">
+                        <Shield className="w-5 h-5 text-emerald-600" />
+                      </div>
+                      <span className="text-sm text-coastal-500">Vulnerability Level</span>
+                    </div>
+                    <div className="text-3xl font-display font-bold text-emerald-600">{cviData.vulnerabilityLevel}</div>
+                    <p className="text-sm text-coastal-500 mt-1">Current assessment ({cviData.year})</p>
+                  </div>
+                  <div className="card p-6 w-full sm:w-auto sm:min-w-[280px]">
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className="w-10 h-10 rounded-xl bg-ocean-100 flex items-center justify-center">
+                        <Gauge className="w-5 h-5 text-ocean-600" />
+                      </div>
+                      <span className="text-sm text-coastal-500">CVI Score</span>
+                    </div>
+                    <div className="text-3xl font-display font-bold text-coastal-900">{cviData.cviValue.toFixed(2)}</div>
+                    <p className="text-sm text-coastal-500 mt-1">Range: {cviData.lowerBound} - {cviData.upperBound}</p>
+                  </div>
+                  <div className="card p-6 w-full sm:w-auto sm:min-w-[280px]">
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center">
+                        <Calendar className="w-5 h-5 text-blue-600" />
+                      </div>
+                      <span className="text-sm text-coastal-500">Assessment Year</span>
+                    </div>
+                    <div className="text-3xl font-display font-bold text-coastal-900">{cviData.year}</div>
+                    <p className="text-sm text-coastal-500 mt-1">Latest evaluation data</p>
+                  </div>
+                </div>
+
+                {/* Vulnerability Scale */}
+                <div className="card p-6">
+                  <h3 className="text-lg font-display font-semibold text-coastal-900 mb-4">
+                    Coastal Vulnerability Scale
+                  </h3>
+                  <div className="relative">
+                    <div className="flex h-8 rounded-lg overflow-hidden">
+                      {cviData.vulnerabilityRanges.map((range, index) => (
+                        <div
+                          key={index}
+                          className={`flex-1 flex items-center justify-center text-sm font-medium ${
+                            range.color === 'emerald' ? 'bg-emerald-500 text-white' :
+                            range.color === 'green' ? 'bg-green-500 text-white' :
+                            range.color === 'amber' ? 'bg-amber-500 text-white' :
+                            'bg-red-500 text-white'
+                          }`}
+                        >
+                          {range.level}
+                        </div>
+                      ))}
+                    </div>
+                    {/* Current position indicator */}
+                    <div 
+                      className="absolute top-10 transform -translate-x-1/2"
+                      style={{ 
+                        left: `${((cviData.cviValue - cviData.lowerBound) / (cviData.upperBound - cviData.lowerBound)) * 100}%` 
+                      }}
+                    >
+                      <div className="flex flex-col items-center">
+                        <div className="w-0 h-0 border-l-8 border-r-8 border-b-8 border-transparent border-b-coastal-800" />
+                        <span className="text-sm font-bold text-coastal-800 bg-white px-2 py-1 rounded shadow">
+                          {cviData.cviValue.toFixed(2)}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex justify-between text-sm text-coastal-500 mt-12">
+                    <span>Low Risk ({cviData.lowerBound})</span>
+                    <span>High Risk ({cviData.upperBound})</span>
+                  </div>
+                </div>
+
+                {/* Beach Profile Metrics Table */}
+                <div className="card overflow-hidden">
+                  <div className="p-6 border-b border-coastal-100">
+                    <h2 className="text-xl font-display font-semibold text-coastal-900">
+                      Beach Profile Metrics ({cviData.year})
+                    </h2>
+                    <p className="text-sm text-coastal-500 mt-1">
+                      Elevation and slope measurements used for CVI calculation
+                    </p>
+                  </div>
+                  <div className="overflow-x-auto">
+                    <table className="w-full">
+                      <thead className="bg-coastal-50">
+                        <tr>
+                          <th className="px-6 py-4 text-left text-sm font-semibold text-coastal-700">Metric</th>
+                          <th className="px-6 py-4 text-right text-sm font-semibold text-coastal-700">Value</th>
+                          <th className="px-6 py-4 text-right text-sm font-semibold text-coastal-700">Unit</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-coastal-100">
+                        <tr className="hover:bg-coastal-50 transition-colors">
+                          <td className="px-6 py-4 text-sm font-medium text-coastal-900">Year</td>
+                          <td className="px-6 py-4 text-sm text-right font-mono text-coastal-700">{cviData.year}</td>
+                          <td className="px-6 py-4 text-sm text-right text-coastal-500">-</td>
+                        </tr>
+                        <tr className="hover:bg-coastal-50 transition-colors">
+                          <td className="px-6 py-4 text-sm font-medium text-coastal-900">Elevation Min</td>
+                          <td className="px-6 py-4 text-sm text-right font-mono text-coastal-700">{cviData.metrics.elevationMinM.toFixed(3)}</td>
+                          <td className="px-6 py-4 text-sm text-right text-coastal-500">m</td>
+                        </tr>
+                        <tr className="hover:bg-coastal-50 transition-colors">
+                          <td className="px-6 py-4 text-sm font-medium text-coastal-900">Elevation Max</td>
+                          <td className="px-6 py-4 text-sm text-right font-mono text-coastal-700">{cviData.metrics.elevationMaxM.toFixed(3)}</td>
+                          <td className="px-6 py-4 text-sm text-right text-coastal-500">m</td>
+                        </tr>
+                        <tr className="hover:bg-coastal-50 transition-colors bg-emerald-50">
+                          <td className="px-6 py-4 text-sm font-medium text-emerald-800">Elevation AVG</td>
+                          <td className="px-6 py-4 text-sm text-right font-mono font-semibold text-emerald-700">{cviData.metrics.elevationAvgM.toFixed(3)}</td>
+                          <td className="px-6 py-4 text-sm text-right text-emerald-600">m</td>
+                        </tr>
+                        <tr className="hover:bg-coastal-50 transition-colors">
+                          <td className="px-6 py-4 text-sm font-medium text-coastal-900">Distance</td>
+                          <td className="px-6 py-4 text-sm text-right font-mono text-coastal-700">{cviData.metrics.distanceMeters.toFixed(3)}</td>
+                          <td className="px-6 py-4 text-sm text-right text-coastal-500">m</td>
+                        </tr>
+                        <tr className="hover:bg-coastal-50 transition-colors bg-emerald-50">
+                          <td className="px-6 py-4 text-sm font-medium text-emerald-800">Elevation Gain</td>
+                          <td className="px-6 py-4 text-sm text-right font-mono font-semibold text-emerald-700">{cviData.metrics.elevationGainM.toFixed(3)}</td>
+                          <td className="px-6 py-4 text-sm text-right text-emerald-600">m</td>
+                        </tr>
+                        <tr className="hover:bg-coastal-50 transition-colors bg-emerald-50">
+                          <td className="px-6 py-4 text-sm font-medium text-emerald-800">Elevation Loss</td>
+                          <td className="px-6 py-4 text-sm text-right font-mono font-semibold text-emerald-700">{cviData.metrics.elevationLossM.toFixed(3)}</td>
+                          <td className="px-6 py-4 text-sm text-right text-emerald-600">m</td>
+                        </tr>
+                        <tr className="hover:bg-coastal-50 transition-colors bg-emerald-50">
+                          <td className="px-6 py-4 text-sm font-medium text-emerald-800">AVG Slope Steepest Upward</td>
+                          <td className="px-6 py-4 text-sm text-right font-mono font-semibold text-emerald-700">{cviData.metrics.avgSlopeUpward.toFixed(3)}</td>
+                          <td className="px-6 py-4 text-sm text-right text-emerald-600">%</td>
+                        </tr>
+                        <tr className="hover:bg-coastal-50 transition-colors bg-emerald-50">
+                          <td className="px-6 py-4 text-sm font-medium text-emerald-800">AVG Slope Steepest Downward</td>
+                          <td className="px-6 py-4 text-sm text-right font-mono font-semibold text-emerald-700">{cviData.metrics.avgSlopeDownward.toFixed(3)}</td>
+                          <td className="px-6 py-4 text-sm text-right text-emerald-600">%</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                {/* CVI Component Rankings */}
+                <div className="card p-6">
+                  <h3 className="text-lg font-display font-semibold text-coastal-900 mb-4">
+                    CVI Component Analysis
+                  </h3>
+                  <p className="text-sm text-coastal-500 mb-6">
+                    Ranking of each metric based on quartile thresholds (1 = Low vulnerability, 4 = High vulnerability)
+                  </p>
+                  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {[
+                      { name: 'Elevation AVG', value: cviData.metrics.elevationAvgM, rank: 1, unit: 'm' },
+                      { name: 'Elevation Gain', value: cviData.metrics.elevationGainM, rank: 1, unit: 'm' },
+                      { name: 'Elevation Loss', value: cviData.metrics.elevationLossM, rank: 1, unit: 'm' },
+                      { name: 'Slope Upward', value: cviData.metrics.avgSlopeUpward, rank: 1, unit: '%' },
+                      { name: 'Slope Downward', value: cviData.metrics.avgSlopeDownward, rank: 1, unit: '%' },
+                    ].map((metric, index) => (
+                      <div key={index} className="p-4 bg-coastal-50 rounded-xl">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-sm font-medium text-coastal-700">{metric.name}</span>
+                          <span className={`px-2 py-1 rounded text-xs font-bold ${
+                            metric.rank === 1 ? 'bg-emerald-100 text-emerald-700' :
+                            metric.rank === 2 ? 'bg-green-100 text-green-700' :
+                            metric.rank === 3 ? 'bg-amber-100 text-amber-700' :
+                            'bg-red-100 text-red-700'
+                          }`}>
+                            Rank {metric.rank}
+                          </span>
+                        </div>
+                        <div className="text-xl font-bold text-coastal-900">
+                          {metric.value.toFixed(2)} {metric.unit}
+                        </div>
+                        <div className="mt-2 h-2 bg-coastal-200 rounded-full overflow-hidden">
+                          <div 
+                            className={`h-full rounded-full ${
+                              metric.rank === 1 ? 'bg-emerald-500' :
+                              metric.rank === 2 ? 'bg-green-500' :
+                              metric.rank === 3 ? 'bg-amber-500' :
+                              'bg-red-500'
+                            }`}
+                            style={{ width: `${(metric.rank / 4) * 100}%` }}
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* CVI Interpretation */}
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div className="card p-6">
+                    <h3 className="text-lg font-display font-semibold text-coastal-900 mb-4">
+                      Interpretation
+                    </h3>
+                    <div className="p-4 bg-emerald-50 rounded-xl border border-emerald-200">
+                      <div className="flex items-start gap-3">
+                        <CheckCircle className="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" />
+                        <div>
+                          <div className="font-medium text-emerald-800">Very Low Vulnerability</div>
+                          <div className="text-sm text-emerald-700 mt-1">
+                            The beach profile shows strong morphological stability with favorable elevation 
+                            and slope characteristics. Current conditions indicate minimal erosion susceptibility.
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="card p-6">
+                    <h3 className="text-lg font-display font-semibold text-coastal-900 mb-4">
+                      CVI Formula
+                    </h3>
+                    <div className="p-4 bg-coastal-50 rounded-xl">
+                      <div className="font-mono text-sm text-coastal-700 mb-2">
+                        CVI = √(R₁ × R₂ × R₃ × R₄ × R₅ / n)
+                      </div>
+                      <div className="text-sm text-coastal-500 mt-3">
+                        Where R₁-R₅ are quartile-based ranks for each metric, and n = 5 (number of variables).
+                      </div>
+                    </div>
+                    <div className="mt-4 text-sm text-coastal-600">
+                      <strong>Vulnerability Thresholds:</strong>
+                      <ul className="mt-2 space-y-1">
+                        <li>• Very Low: 1.00 - 1.75</li>
+                        <li>• Low: 1.75 - 2.50</li>
+                        <li>• Moderate: 2.50 - 3.25</li>
+                        <li>• High: 3.25 - 4.00</li>
+                      </ul>
                     </div>
                   </div>
                 </div>

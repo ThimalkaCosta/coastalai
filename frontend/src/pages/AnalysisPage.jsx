@@ -30,6 +30,7 @@ import ForcingRegimeChart from '../components/charts/ForcingRegimeChart'
 import BoxplotComparisonChart from '../components/charts/BoxplotComparisonChart'
 import ThresholdBarChart from '../components/charts/ThresholdBarChart'
 import DataTable from '../components/common/DataTable'
+import YearlyShorelineTable from '../components/common/YearlyShorelineTable'
 import { useData } from '../context/DataContext'
 
 export default function AnalysisPage() {
@@ -123,6 +124,8 @@ export default function AnalysisPage() {
     { id: 'overview', label: 'Overview' },
     { id: 'timeseries', label: 'Time Series' },
     { id: 'thresholds', label: 'Thresholds' },
+    { id: 'drivers', label: 'Drivers Comparison' },
+    { id: 'yearly', label: 'Yearly Data' },
     { id: 'correlation', label: 'Correlation' },
     { id: 'pca', label: 'PCA Analysis' },
     { id: 'regimes', label: 'Forcing Regimes' },
@@ -494,6 +497,29 @@ export default function AnalysisPage() {
                           </tbody>
                         </table>
                       </div>
+                    </div>
+                  </div>
+                )}
+
+                {activeTab === 'drivers' && (
+                  <BoxplotComparisonChart
+                    data={data.boxplot}
+                    title="Environmental Drivers: Erosion vs Stable Years"
+                  />
+                )}
+
+                {activeTab === 'yearly' && (
+                  <div className="space-y-6">
+                    <div className="card p-6">
+                      <h3 className="font-display font-semibold text-coastal-900 mb-4 text-xl">
+                        Annual Shoreline Statistics
+                      </h3>
+                      <p className="text-coastal-600 mb-6">
+                        Yearly aggregated statistics showing Net Shoreline Movement (NSM), 
+                        End Point Rate (EPR), Linear Regression Rate (LRR), and Shoreline Change Envelope (SCE) 
+                        metrics across all transects.
+                      </p>
+                      <YearlyShorelineTable data={data.yearlyShoreline} />
                     </div>
                   </div>
                 )}

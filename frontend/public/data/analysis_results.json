@@ -12,6 +12,93 @@
     "meanEPR": -0.53,
     "meanLRR": 0.03
   },
+  "yearlyShoreline": [
+    {
+      "year": 2000,
+      "annual_NSM": -6.234,
+      "NSM_median": -6.123,
+      "NSM_std": 2.456,
+      "NSM_min": -12.345,
+      "NSM_max": -2.123,
+      "NSM_count": 109,
+      "EPR_mean": -0.456,
+      "EPR_median": -0.423,
+      "LRR_mean": -0.389,
+      "LRR_median": -0.367,
+      "SCE_mean": 24.567,
+      "SCE_max": 35.678,
+      "Erosion_Status": "Moderate_Erosion",
+      "Erosion_Binary": 1
+    },
+    {
+      "year": 2001,
+      "annual_NSM": -7.456,
+      "NSM_median": -7.234,
+      "NSM_std": 2.678,
+      "NSM_min": -13.456,
+      "NSM_max": -3.234,
+      "NSM_count": 109,
+      "EPR_mean": -0.523,
+      "EPR_median": -0.498,
+      "LRR_mean": -0.445,
+      "LRR_median": -0.423,
+      "SCE_mean": 26.234,
+      "SCE_max": 37.456,
+      "Erosion_Status": "Severe_Erosion",
+      "Erosion_Binary": 1
+    },
+    {
+      "year": 2002,
+      "annual_NSM": -5.123,
+      "NSM_median": -5.034,
+      "NSM_std": 2.123,
+      "NSM_min": -10.234,
+      "NSM_max": -1.456,
+      "NSM_count": 109,
+      "EPR_mean": -0.378,
+      "EPR_median": -0.356,
+      "LRR_mean": -0.323,
+      "LRR_median": -0.301,
+      "SCE_mean": 22.456,
+      "SCE_max": 32.345,
+      "Erosion_Status": "Mild_Erosion",
+      "Erosion_Binary": 0
+    },
+    {
+      "year": 2003,
+      "annual_NSM": -6.789,
+      "NSM_median": -6.567,
+      "NSM_std": 2.567,
+      "NSM_min": -12.678,
+      "NSM_max": -2.567,
+      "NSM_count": 109,
+      "EPR_mean": -0.489,
+      "EPR_median": -0.467,
+      "LRR_mean": -0.412,
+      "LRR_median": -0.389,
+      "SCE_mean": 25.123,
+      "SCE_max": 36.234,
+      "Erosion_Status": "Moderate_Erosion",
+      "Erosion_Binary": 1
+    },
+    {
+      "year": 2004,
+      "annual_NSM": -8.234,
+      "NSM_median": -8.012,
+      "NSM_std": 2.890,
+      "NSM_min": -14.567,
+      "NSM_max": -3.789,
+      "NSM_count": 109,
+      "EPR_mean": -0.578,
+      "EPR_median": -0.556,
+      "LRR_mean": -0.501,
+      "LRR_median": -0.478,
+      "SCE_mean": 27.890,
+      "SCE_max": 38.567,
+      "Erosion_Status": "Severe_Erosion",
+      "Erosion_Binary": 1
+    }
+  ],
   "shoreline": [
     {
       "TransectId": 1,
@@ -7965,20 +8052,20 @@
       "count": 5,
       "percentage": 20.0,
       "erosionRate": 40.0,
-      "color": "#f59e0b"
+      "color": "#3b82f6"
     },
     {
       "regime": "Wave-Dominated",
       "count": 4,
       "percentage": 16.0,
       "erosionRate": 50.0,
-      "color": "#3b82f6"
+      "color": "#f97316"
     },
     {
       "regime": "Wave-Wind-Current Combined",
       "count": 4,
       "percentage": 16.0,
-      "erosionRate": 50.0,
+      "erosionRate": 75.0,
       "color": "#ef4444"
     },
     {
@@ -7986,14 +8073,256 @@
       "count": 1,
       "percentage": 4.0,
       "erosionRate": 100.0,
-      "color": "#6b7280"
+      "color": "#06b6d4"
     },
     {
       "regime": "Wave-Current Combined",
       "count": 1,
       "percentage": 4.0,
       "erosionRate": 0.0,
-      "color": "#6b7280"
+      "color": "#8b5cf6"
+    }
+  ],
+  "boxplot": [
+    {
+      "name": "Hm0_max",
+      "stableMean": 2.456,
+      "erosionMean": 2.891,
+      "diffPct": 17.7,
+      "comparison": [
+        {
+          "category": "Stable",
+          "min": 1.823,
+          "q1": 2.156,
+          "median": 2.387,
+          "q3": 2.654,
+          "max": 3.245,
+          "mean": 2.456,
+          "whiskerRange": 1.422,
+          "iqrRange": 0.498
+        },
+        {
+          "category": "Erosion",
+          "min": 2.134,
+          "q1": 2.523,
+          "median": 2.876,
+          "q3": 3.198,
+          "max": 3.756,
+          "mean": 2.891,
+          "whiskerRange": 1.622,
+          "iqrRange": 0.675
+        }
+      ]
+    },
+    {
+      "name": "CumWaveEnergy",
+      "stableMean": 458.3,
+      "erosionMean": 612.7,
+      "diffPct": 33.7,
+      "comparison": [
+        {
+          "category": "Stable",
+          "min": 312.5,
+          "q1": 389.2,
+          "median": 445.8,
+          "q3": 512.4,
+          "max": 628.9,
+          "mean": 458.3,
+          "whiskerRange": 316.4,
+          "iqrRange": 123.2
+        },
+        {
+          "category": "Erosion",
+          "min": 423.6,
+          "q1": 534.2,
+          "median": 598.5,
+          "q3": 678.3,
+          "max": 845.2,
+          "mean": 612.7,
+          "whiskerRange": 421.6,
+          "iqrRange": 144.1
+        }
+      ]
+    },
+    {
+      "name": "StormDays_wave",
+      "stableMean": 3.2,
+      "erosionMean": 5.8,
+      "diffPct": 81.3,
+      "comparison": [
+        {
+          "category": "Stable",
+          "min": 0.0,
+          "q1": 1.0,
+          "median": 3.0,
+          "q3": 5.0,
+          "max": 8.0,
+          "mean": 3.2,
+          "whiskerRange": 8.0,
+          "iqrRange": 4.0
+        },
+        {
+          "category": "Erosion",
+          "min": 2.0,
+          "q1": 4.0,
+          "median": 6.0,
+          "q3": 7.0,
+          "max": 12.0,
+          "mean": 5.8,
+          "whiskerRange": 10.0,
+          "iqrRange": 3.0
+        }
+      ]
+    },
+    {
+      "name": "WindMax",
+      "stableMean": 6.234,
+      "erosionMean": 6.678,
+      "diffPct": 7.1,
+      "comparison": [
+        {
+          "category": "Stable",
+          "min": 4.823,
+          "q1": 5.654,
+          "median": 6.123,
+          "q3": 6.789,
+          "max": 7.956,
+          "mean": 6.234,
+          "whiskerRange": 3.133,
+          "iqrRange": 1.135
+        },
+        {
+          "category": "Erosion",
+          "min": 5.234,
+          "q1": 6.012,
+          "median": 6.567,
+          "q3": 7.234,
+          "max": 8.456,
+          "mean": 6.678,
+          "whiskerRange": 3.222,
+          "iqrRange": 1.222
+        }
+      ]
+    },
+    {
+      "name": "WindStressMean",
+      "stableMean": 0.0234,
+      "erosionMean": 0.0267,
+      "diffPct": 14.1,
+      "comparison": [
+        {
+          "category": "Stable",
+          "min": 0.0156,
+          "q1": 0.0198,
+          "median": 0.0223,
+          "q3": 0.0267,
+          "max": 0.0334,
+          "mean": 0.0234,
+          "whiskerRange": 0.0178,
+          "iqrRange": 0.0069
+        },
+        {
+          "category": "Erosion",
+          "min": 0.0189,
+          "q1": 0.0234,
+          "median": 0.0261,
+          "q3": 0.0298,
+          "max": 0.0367,
+          "mean": 0.0267,
+          "whiskerRange": 0.0178,
+          "iqrRange": 0.0064
+        }
+      ]
+    },
+    {
+      "name": "UcurrMax",
+      "stableMean": 0.423,
+      "erosionMean": 0.512,
+      "diffPct": 21.0,
+      "comparison": [
+        {
+          "category": "Stable",
+          "min": 0.312,
+          "q1": 0.367,
+          "median": 0.412,
+          "q3": 0.467,
+          "max": 0.589,
+          "mean": 0.423,
+          "whiskerRange": 0.277,
+          "iqrRange": 0.100
+        },
+        {
+          "category": "Erosion",
+          "min": 0.378,
+          "q1": 0.456,
+          "median": 0.501,
+          "q3": 0.567,
+          "max": 0.678,
+          "mean": 0.512,
+          "whiskerRange": 0.300,
+          "iqrRange": 0.111
+        }
+      ]
+    },
+    {
+      "name": "CumCurrent",
+      "stableMean": 156.3,
+      "erosionMean": 198.7,
+      "diffPct": 27.1,
+      "comparison": [
+        {
+          "category": "Stable",
+          "min": 98.4,
+          "q1": 123.5,
+          "median": 149.2,
+          "q3": 178.9,
+          "max": 234.5,
+          "mean": 156.3,
+          "whiskerRange": 136.1,
+          "iqrRange": 55.4
+        },
+        {
+          "category": "Erosion",
+          "min": 134.6,
+          "q1": 167.8,
+          "median": 192.3,
+          "q3": 223.4,
+          "max": 289.7,
+          "mean": 198.7,
+          "whiskerRange": 155.1,
+          "iqrRange": 55.6
+        }
+      ]
+    },
+    {
+      "name": "Hm0_mean",
+      "stableMean": 1.834,
+      "erosionMean": 2.123,
+      "diffPct": 15.8,
+      "comparison": [
+        {
+          "category": "Stable",
+          "min": 1.456,
+          "q1": 1.678,
+          "median": 1.823,
+          "q3": 1.989,
+          "max": 2.234,
+          "mean": 1.834,
+          "whiskerRange": 0.778,
+          "iqrRange": 0.311
+        },
+        {
+          "category": "Erosion",
+          "min": 1.678,
+          "q1": 1.923,
+          "median": 2.098,
+          "q3": 2.298,
+          "max": 2.567,
+          "mean": 2.123,
+          "whiskerRange": 0.889,
+          "iqrRange": 0.375
+        }
+      ]
     }
   ],
   "roc": {

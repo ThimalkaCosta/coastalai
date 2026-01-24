@@ -2,178 +2,170 @@ import { useMemo } from 'react'
 import { motion } from 'framer-motion'
 
 const COLORS = {
-  erosion: '#ef4444',
-  stable: '#22c55e',
-  median: '#3b82f6',
-  whisker: '#94a3b8',
+  erosion: '#fca5a5',
+  erosionBorder: '#ef4444',
+  stable: '#86efac',
+  stableBorder: '#22c55e',
+  median: '#f97316',
+  whisker: '#64748b',
 }
 
-function BoxPlot({ data, label, unit, maxValue }) {
-  if (!data) return null
+function BoxPlot({ data, label, maxValue, minValue }) {
+  if (!data || !data.stable || !data.erosion) return null
   
-  const scale = (value) => ((value - 0) / maxValue) * 100
+  const chartHeight = 180
+  const range = maxValue - minValue || 1
+  
+  // Scale function: converts data value to pixel position from bottom
+  const scale = (value) => ((value - minValue) / range) * chartHeight
+
+  const renderBoxplot = (stats, color, borderColor, labelText) => {
+    if (!stats.min && stats.min !== 0) return null
+    
+    const boxBottom = scale(stats.q1)
+    const boxHeight = scale(stats.q3) - scale(stats.q1)
+    const medianPos = scale(stats.median)
+    const minPos = scale(stats.min)
+    const maxPos = scale(stats.max)
+    
+    return (
+      <div className="flex flex-col items-center" style={{ width: '60px' }}>
+        <div className="relative" style={{ height: `${chartHeight}px`, width: '40px' }}>
+          {/* Upper whisker line */}
+          <div
+            className="absolute left-1/2 -translate-x-1/2"
+            style={{
+              bottom: `${scale(stats.q3)}px`,
+              height: `${maxPos - scale(stats.q3)}px`,
+              width: '1px',
+              backgroundColor: COLORS.whisker,
+            }}
+          />
+          {/* Upper whisker cap */}
+          <div
+            className="absolute left-1/2 -translate-x-1/2"
+            style={{
+              bottom: `${maxPos}px`,
+              width: '20px',
+              height: '1px',
+              backgroundColor: COLORS.whisker,
+            }}
+          />
+          
+          {/* Box (IQR) */}
+          <div
+            className="absolute left-0 right-0"
+            style={{
+              bottom: `${boxBottom}px`,
+              height: `${Math.max(boxHeight, 2)}px`,
+              backgroundColor: color,
+              border: `2px solid ${borderColor}`,
+              borderRadius: '2px',
+            }}
+          />
+          
+          {/* Median line */}
+          <div
+            className="absolute left-0 right-0"
+            style={{
+              bottom: `${medianPos}px`,
+              height: '3px',
+              backgroundColor: COLORS.median,
+            }}
+          />
+          
+          {/* Lower whisker line */}
+          <div
+            className="absolute left-1/2 -translate-x-1/2"
+            style={{
+              bottom: `${minPos}px`,
+              height: `${boxBottom - minPos}px`,
+              width: '1px',
+              backgroundColor: COLORS.whisker,
+            }}
+          />
+          {/* Lower whisker cap */}
+          <div
+            className="absolute left-1/2 -translate-x-1/2"
+            style={{
+              bottom: `${minPos}px`,
+              width: '20px',
+              height: '1px',
+              backgroundColor: COLORS.whisker,
+            }}
+          />
+        </div>
+        <span className="text-xs text-coastal-600 mt-2">{labelText}</span>
+      </div>
+    )
+  }
 
   return (
-    <div className="mb-6">
-      <div className="flex items-center justify-between mb-2">
-        <span className="text-sm font-medium text-coastal-700">{label}</span>
-        <span className="text-xs text-coastal-500">{unit}</span>
+    <div className="bg-white border border-coastal-200 rounded-lg p-4 shadow-sm">
+      <div className="text-center mb-4">
+        <span className="text-sm font-semibold text-coastal-900">{label}</span>
       </div>
       
-      <div className="relative h-16">
-        {/* Background scale */}
-        <div className="absolute inset-x-0 top-1/2 transform -translate-y-1/2 h-px bg-coastal-200" />
+      <div className="flex items-end">
+        {/* Y-axis */}
+        <div className="flex flex-col justify-between text-xs text-coastal-500 pr-2" style={{ height: `${chartHeight}px` }}>
+          <span>{maxValue?.toFixed(2)}</span>
+          <span>{((maxValue + minValue) / 2)?.toFixed(2)}</span>
+          <span>{minValue?.toFixed(2)}</span>
+        </div>
         
-        {/* Erosion Boxplot */}
-        <div className="absolute top-1 left-0 right-0 h-6">
-          {/* Whisker line */}
-          <div
-            className="absolute top-1/2 transform -translate-y-1/2 h-px"
-            style={{
-              left: `${scale(data.erosion.min)}%`,
-              width: `${scale(data.erosion.max) - scale(data.erosion.min)}%`,
-              backgroundColor: COLORS.erosion,
-            }}
-          />
-          {/* Min whisker */}
-          <div
-            className="absolute top-1/2 transform -translate-y-1/2 w-px h-3"
-            style={{
-              left: `${scale(data.erosion.min)}%`,
-              backgroundColor: COLORS.erosion,
-            }}
-          />
-          {/* Max whisker */}
-          <div
-            className="absolute top-1/2 transform -translate-y-1/2 w-px h-3"
-            style={{
-              left: `${scale(data.erosion.max)}%`,
-              backgroundColor: COLORS.erosion,
-            }}
-          />
-          {/* Box */}
-          <div
-            className="absolute top-0 h-full rounded opacity-60"
-            style={{
-              left: `${scale(data.erosion.q1)}%`,
-              width: `${scale(data.erosion.q3) - scale(data.erosion.q1)}%`,
-              backgroundColor: COLORS.erosion,
-            }}
-          />
-          {/* Median line */}
-          <div
-            className="absolute top-0 h-full w-0.5"
-            style={{
-              left: `${scale(data.erosion.median)}%`,
-              backgroundColor: '#991b1b',
-            }}
-          />
+        {/* Boxplots container */}
+        <div className="flex-1 flex justify-center gap-4 border-l border-b border-coastal-200 pl-2" style={{ height: `${chartHeight + 10}px` }}>
+          {renderBoxplot(data.stable, COLORS.stable, COLORS.stableBorder, 'Stable')}
+          {renderBoxplot(data.erosion, COLORS.erosion, COLORS.erosionBorder, 'Erosion')}
         </div>
-
-        {/* Stable Boxplot */}
-        <div className="absolute bottom-1 left-0 right-0 h-6">
-          {/* Whisker line */}
-          <div
-            className="absolute top-1/2 transform -translate-y-1/2 h-px"
-            style={{
-              left: `${scale(data.stable.min)}%`,
-              width: `${scale(data.stable.max) - scale(data.stable.min)}%`,
-              backgroundColor: COLORS.stable,
-            }}
-          />
-          {/* Min whisker */}
-          <div
-            className="absolute top-1/2 transform -translate-y-1/2 w-px h-3"
-            style={{
-              left: `${scale(data.stable.min)}%`,
-              backgroundColor: COLORS.stable,
-            }}
-          />
-          {/* Max whisker */}
-          <div
-            className="absolute top-1/2 transform -translate-y-1/2 w-px h-3"
-            style={{
-              left: `${scale(data.stable.max)}%`,
-              backgroundColor: COLORS.stable,
-            }}
-          />
-          {/* Box */}
-          <div
-            className="absolute top-0 h-full rounded opacity-60"
-            style={{
-              left: `${scale(data.stable.q1)}%`,
-              width: `${scale(data.stable.q3) - scale(data.stable.q1)}%`,
-              backgroundColor: COLORS.stable,
-            }}
-          />
-          {/* Median line */}
-          <div
-            className="absolute top-0 h-full w-0.5"
-            style={{
-              left: `${scale(data.stable.median)}%`,
-              backgroundColor: '#166534',
-            }}
-          />
-        </div>
-      </div>
-
-      {/* Values */}
-      <div className="flex justify-between text-xs mt-1">
-        <span className="text-coastal-500">0</span>
-        <div className="flex gap-4">
-          <span className="text-red-600">
-            Erosion: {data.erosion.median.toFixed(2)}
-          </span>
-          <span className="text-green-600">
-            Stable: {data.stable.median.toFixed(2)}
-          </span>
-        </div>
-        <span className="text-coastal-500">{maxValue}</span>
       </div>
     </div>
   )
 }
 
-export default function BoxplotComparisonChart({
-  data,
-  title = 'Erosion vs Stable Years Comparison',
-  className = '',
-}) {
-  const boxplotConfigs = useMemo(() => {
-    if (!data) return []
+export default function BoxplotComparisonChart({ data, className = '' }) {
+  if (!data || data.length === 0) {
+    return (
+      <div className={`card p-6 ${className}`}>
+        <p className="text-coastal-500 text-center">No boxplot data available</p>
+      </div>
+    )
+  }
+
+  // Calculate global min and max for consistent scaling
+  const { globalMin, globalMax } = useMemo(() => {
+    let min = Infinity
+    let max = -Infinity
     
-    return [
-      { 
-        key: 'Hm0_max', 
-        label: 'Maximum Wave Height (Hm0_max)', 
-        unit: 'm',
-        maxValue: 4,
-      },
-      { 
-        key: 'UcurrMax', 
-        label: 'Maximum Current Speed (UcurrMax)', 
-        unit: 'm/s',
-        maxValue: 0.8,
-      },
-      { 
-        key: 'WindMax', 
-        label: 'Maximum Wind Speed (WindMax)', 
-        unit: 'm/s',
-        maxValue: 8,
-      },
-      { 
-        key: 'CumWaveEnergy', 
-        label: 'Cumulative Wave Energy', 
-        unit: 'J/m²',
-        maxValue: 70000,
-      },
-      { 
-        key: 'StormDays_wave', 
-        label: 'Storm Days', 
-        unit: 'days',
-        maxValue: 220,
-      },
-    ]
+    data.forEach(driver => {
+      const stableMin = driver.comparison.find(c => c.category === 'Stable')?.min || 0
+      const stableMax = driver.comparison.find(c => c.category === 'Stable')?.max || 0
+      const erosionMin = driver.comparison.find(c => c.category === 'Erosion')?.min || 0
+      const erosionMax = driver.comparison.find(c => c.category === 'Erosion')?.max || 0
+      
+      min = Math.min(min, stableMin, erosionMin)
+      max = Math.max(max, stableMax, erosionMax)
+    })
+    
+    return { globalMin: min, globalMax: max }
+  }, [data])
+
+  // Prepare data for each driver
+  const driversData = useMemo(() => {
+    return data.map(driver => {
+      const stable = driver.comparison.find(c => c.category === 'Stable')
+      const erosion = driver.comparison.find(c => c.category === 'Erosion')
+      
+      return {
+        name: driver.name,
+        stable: stable || {},
+        erosion: erosion || {},
+        stableMean: driver.stableMean,
+        erosionMean: driver.erosionMean,
+        diffPct: driver.diffPct,
+      }
+    })
   }, [data])
 
   return (
@@ -182,45 +174,55 @@ export default function BoxplotComparisonChart({
       animate={{ opacity: 1, y: 0 }}
       className={`card p-6 ${className}`}
     >
-      <h3 className="font-display font-semibold text-coastal-900 mb-2">{title}</h3>
-      <p className="text-sm text-coastal-600 mb-4">
-        Statistical comparison of environmental drivers between erosion and stable years. 
-        Boxes show interquartile range (Q1-Q3), lines show median, whiskers show min-max.
+      <h3 className="font-display font-semibold text-coastal-900 mb-2">
+        Environmental Drivers: Erosion vs Stable Years
+      </h3>
+      <p className="text-sm text-coastal-600 mb-6">
+        Box plot comparison showing distribution of environmental drivers between erosion and stable years.
       </p>
 
-      {/* Legend */}
-      <div className="flex justify-center gap-6 mb-6">
-        <div className="flex items-center gap-2">
-          <div className="w-6 h-4 rounded bg-red-500 opacity-60" />
-          <span className="text-sm text-coastal-600">Erosion Years</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <div className="w-6 h-4 rounded bg-green-500 opacity-60" />
-          <span className="text-sm text-coastal-600">Stable Years</span>
-        </div>
-      </div>
-
-      <div className="space-y-2">
-        {boxplotConfigs.map((config) => (
+      {/* Boxplot Grid - 2x4 layout */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        {driversData.map((driver, idx) => (
           <BoxPlot
-            key={config.key}
-            data={data ? { erosion: data.erosion[config.key], stable: data.stable[config.key] } : null}
-            label={config.label}
-            unit={config.unit}
-            maxValue={config.maxValue}
+            key={idx}
+            data={driver}
+            label={driver.name}
+            maxValue={driver.erosion.max > driver.stable.max ? driver.erosion.max : driver.stable.max}
+            minValue={driver.erosion.min < driver.stable.min ? driver.erosion.min : driver.stable.min}
           />
         ))}
       </div>
 
-      {/* Summary */}
-      <div className="mt-6 p-4 bg-amber-50 rounded-xl">
-        <h4 className="text-sm font-medium text-amber-900 mb-2">Key Observations</h4>
-        <ul className="text-xs text-amber-700 space-y-1">
-          <li>• Erosion years show consistently higher values across all drivers</li>
-          <li>• Wave height (Hm0_max) shows clear separation between states</li>
-          <li>• Current speed (UcurrMax) is a strong discriminating factor</li>
-          <li>• Storm days significantly higher during erosion periods</li>
-        </ul>
+      {/* Summary Table */}
+      <div className="mt-8 overflow-x-auto">
+        <h4 className="text-sm font-medium text-coastal-700 mb-3">
+          Statistical Comparison: Erosion vs Stable Years
+        </h4>
+        <table className="w-full text-sm">
+          <thead className="bg-coastal-50">
+            <tr>
+              <th className="px-4 py-2 text-left text-coastal-700 font-semibold">Driver</th>
+              <th className="px-4 py-2 text-right text-coastal-700 font-semibold">Erosion</th>
+              <th className="px-4 py-2 text-right text-coastal-700 font-semibold">Stable</th>
+              <th className="px-4 py-2 text-right text-coastal-700 font-semibold">Diff %</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-coastal-100">
+            {driversData.map((driver, idx) => (
+              <tr key={idx} className="hover:bg-coastal-50">
+                <td className="px-4 py-2 font-medium text-coastal-900">{driver.name}</td>
+                <td className="px-4 py-2 text-right text-red-700 font-medium">{driver.erosionMean?.toFixed(3)}</td>
+                <td className="px-4 py-2 text-right text-emerald-700 font-medium">{driver.stableMean?.toFixed(3)}</td>
+                <td className={`px-4 py-2 text-right font-semibold ${
+                  driver.diffPct > 0 ? 'text-red-700' : 'text-emerald-700'
+                }`}>
+                  {driver.diffPct > 0 ? '+' : ''}{driver.diffPct?.toFixed(1)}%
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </motion.div>
   )

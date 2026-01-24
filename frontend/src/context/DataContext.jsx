@@ -23,6 +23,8 @@ export function DataProvider({ children }) {
     pca: null,
     forcingRegimes: null,
     roc: null,
+    boxplot: null,
+    yearlyShoreline: null,
     models: {
       rf: null,
       gmm: null,
@@ -129,6 +131,8 @@ export function DataProvider({ children }) {
         pca: analysisData.pca,
         forcingRegimes: analysisData.forcingRegimes,
         roc: analysisData.roc,
+        boxplot: analysisData.boxplot,
+        yearlyShoreline: analysisData.yearlyShoreline,
         models: {
           rf: rfData,
           gmm: gmmData,

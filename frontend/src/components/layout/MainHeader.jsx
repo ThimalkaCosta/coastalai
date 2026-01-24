@@ -58,7 +58,7 @@ export default function MainHeader() {
                   <span className="font-display font-black text-2xl xl:text-3xl text-cyan-500 drop-shadow-[2px_2px_0px_rgba(14,116,144,0.3)] [text-shadow:_1px_1px_0_rgb(255_255_255),_2px_2px_4px_rgba(0,0,0,0.1)]">AI</span>
                 </div>
                 <span className="text-xs font-semibold text-coastal-500 tracking-[0.15em] uppercase">
-                  Threshold Detection
+                  SRILANKA
                 </span>
               </div>
             </div>
