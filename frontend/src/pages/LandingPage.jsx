@@ -98,23 +98,21 @@ export default function LandingPage() {
   return (
     <PageTransition>
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center overflow-hidden -mt-28 pt-28">
-        {/* Background Image */}
-        <div className="absolute inset-0">
+      <section className="relative min-h-[calc(100vh-80px)] flex items-center overflow-hidden">
+        {/* Background Image - covers full viewport including behind sidebar & header */}
+        <div className="fixed inset-0 z-0">
           <div 
             className="absolute inset-0 bg-cover bg-center bg-no-repeat"
             style={{ 
               backgroundImage: 'url(/background_coastal.png)',
               imageRendering: '-webkit-optimize-contrast',
               filter: 'contrast(1.05) saturate(1.1) brightness(1.02)',
-              transform: 'scale(1.01)',
             }}
           />
-          {/* Subtle overlay for enhanced visual quality */}
           <div className="absolute inset-0 bg-gradient-to-br from-ocean-900/5 via-transparent to-coastal-900/5" />
         </div>
         
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div className="relative w-full px-4 sm:px-6 lg:px-8 py-12">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             {/* Left Content */}
             <div>

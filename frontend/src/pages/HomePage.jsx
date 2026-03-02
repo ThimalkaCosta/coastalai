@@ -18,7 +18,6 @@ import {
   Zap,
 } from 'lucide-react'
 import PageTransition from '../components/common/PageTransition'
-import MainHeader from '../components/layout/MainHeader'
 
 const dashboardOptions = [
   { name: 'Metrological Threshold', href: '/dashboard', icon: Cloud },
@@ -32,8 +31,6 @@ export default function HomePage() {
 
   return (
     <PageTransition>
-      {/* Header */}
-      <MainHeader />
 
       {/* Hero Section - Full Screen */}
       <section className="relative min-h-screen flex items-center overflow-visible pt-20 sm:pt-28">

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Calendar, TrendingUp, TrendingDown, Activity, ChevronRight, Download, Zap, ChevronDown } from 'lucide-react'
 import PageTransition from '../components/common/PageTransition'
-import ShortTermHeader from '../components/layout/ShortTermHeader'
+
 import StatCard from '../components/common/StatCard'
 
 // ============================================
@@ -139,8 +139,6 @@ export default function ShortTermForecastingPage() {
 
   return (
     <PageTransition>
-      <ShortTermHeader />
-      
       {/* Hero Section */}
       <section className="relative text-white overflow-hidden">
         {/* Background Image */}

@@ -18,7 +18,6 @@ import {
   Gauge,
 } from 'lucide-react'
 import PageTransition from '../components/common/PageTransition'
-import MorphoHeader from '../components/layout/MorphoHeader'
 
 // Threshold comparison data (from notebook: comparison DataFrame)
 const thresholdData = [
@@ -210,8 +209,6 @@ export default function MorphologicalThresholdPage() {
 
   return (
     <PageTransition>
-      <MorphoHeader />
-      
       {/* Hero Section */}
       <section className="relative min-h-[60vh] sm:min-h-[70vh] flex items-center overflow-hidden pt-20 sm:pt-28">
         {/* Background Image */}

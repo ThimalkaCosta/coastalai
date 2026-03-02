@@ -1,6 +1,5 @@
 {
   "hosting": {
-    "site": "coastalai",
     "public": "dist",
     "ignore": [
       "firebase.json",
@@ -13,5 +12,8 @@
         "destination": "/index.html"
       }
     ]
+  },
+  "firestore": {
+    "rules": "firestore.rules"
   }
 }

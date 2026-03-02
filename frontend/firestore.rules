@@ -1,0 +1,41 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Users collection — users can read/write their own doc;
+    // Head Office and Manager can read all users; Head Office can update all;
+    // Manager can update only Officer-level users
+    match /users/{uid} {
+      allow read: if request.auth != null && (
+        request.auth.uid == uid ||
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'Head Office' ||
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'Manager'
+      );
+      allow create: if request.auth != null && request.auth.uid == uid;
+      allow update: if request.auth != null && (
+        request.auth.uid == uid ||
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'Head Office' ||
+        (
+          get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'Manager' &&
+          (resource.data.role == 'Officer' || resource.data.status == 'pending')
+        )
+      );
+      allow delete: if request.auth != null && (
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'Head Office' ||
+        (
+          get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'Manager' &&
+          (resource.data.role == 'Officer' || resource.data.status == 'pending')
+        )
+      );
+    }
+
+    // All other collections — authenticated users can read; Managers and Head Office can write
+    match /{collection}/{document=**} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && (
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'Manager' ||
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'Head Office'
+      );
+    }
+  }
+}

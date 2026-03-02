@@ -4,7 +4,6 @@
 import { motion } from 'framer-motion'
 import { AlertTriangle } from 'lucide-react'
 import PageTransition from '../components/common/PageTransition'
-import MorphoHeader from '../components/layout/MorphoHeader'
 
 // Seasonal alignment data (from notebook: crosstab of Month vs State)
 const seasonalData = [
@@ -25,8 +24,6 @@ const seasonalData = [
 export default function SeasonalAnalysisPage() {
   return (
     <PageTransition>
-      <MorphoHeader />
-      
       {/* Content Section */}
       <div className="min-h-screen bg-gradient-to-br from-coastal-50 via-white to-emerald-50 pt-24 sm:pt-28">
         <div className="max-w-7xl px-3 sm:px-4 lg:px-6 xl:px-8 py-6 sm:py-12">

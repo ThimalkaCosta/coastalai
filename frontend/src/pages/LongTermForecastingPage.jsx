@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Download, TrendingUp, TrendingDown, Activity, ChevronRight } from 'lucide-react'
 import PageTransition from '../components/common/PageTransition'
-import LongTermHeader from '../components/layout/LongTermHeader'
+
 import StatCard from '../components/common/StatCard'
 
 // ============================================
@@ -85,8 +85,6 @@ export default function LongTermForecastingPage() {
 
   return (
     <PageTransition>
-      <LongTermHeader />
-      
       {/* Hero Section */}
       <section className="relative text-white overflow-hidden">
         {/* Background Image */}

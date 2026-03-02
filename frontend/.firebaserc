@@ -1,14 +1,5 @@
 {
   "projects": {
-    "default": "vehicleapp-tns"
-  },
-  "targets": {
-    "vehicleapp-tns": {
-      "hosting": {
-        "coastalai": [
-          "coastalai"
-        ]
-      }
-    }
+    "default": "coastaisrilanka"
   }
 }
