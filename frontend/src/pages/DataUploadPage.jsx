@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import {
   Upload,
@@ -13,7 +13,8 @@ import {
   Info,
   Play,
   Loader2,
-  FolderOpen,
+  Server,
+  XCircle,
 } from 'lucide-react'
 import PageTransition from '../components/common/PageTransition'
 import FileUpload from '../components/upload/FileUpload'
@@ -58,11 +59,37 @@ const uploadSections = [
   },
 ]
 
+/* ── Execution progress steps ── */
+const PROGRESS_STEPS = [
+  'Uploading files to server…',
+  'Executing analysis notebook…',
+  'Training ML models (GMM, RF, XGBoost)…',
+  'Computing thresholds & SHAP analysis…',
+  'Processing results…',
+]
+
 export default function DataUploadPage() {
-  const { files, uploadFile, clearFile, uploadProgress, loadDemoData, data } = useData()
+  const {
+    files,
+    uploadFile,
+    clearFile,
+    uploadProgress,
+    loadDemoData,
+    data,
+    runAnalysis,
+    analysisRunning,
+    analysisStatus,
+    backendAvailable,
+    error: contextError,
+  } = useData()
+
+  const navigate = useNavigate()
   const [showSuccess, setShowSuccess] = useState(false)
-  const [isExecuting, setIsExecuting] = useState(false)
-  const [executeStatus, setExecuteStatus] = useState(null)
+  const [analysisComplete, setAnalysisComplete] = useState(false)
+  const [localError, setLocalError] = useState(null)
+
+  // Simulated step progress while the analysis is running
+  const [progressStep, setProgressStep] = useState(0)
 
   const handleUpload = async (sectionId, file) => {
     try {
@@ -78,91 +105,33 @@ export default function DataUploadPage() {
     setTimeout(() => setShowSuccess(false), 3000)
   }
 
-  // Execute Analysis - Save files and trigger notebook
+  // ── Execute Analysis via Backend API ──
   const handleExecuteAnalysis = async () => {
-    setIsExecuting(true)
-    setExecuteStatus('Preparing files...')
+    setLocalError(null)
+    setAnalysisComplete(false)
+    setProgressStep(0)
+
+    // Advance the fake progress indicator while notebook runs
+    const stepInterval = setInterval(() => {
+      setProgressStep((prev) => Math.min(prev + 1, PROGRESS_STEPS.length - 1))
+    }, 30_000) // advance every 30 s
 
     try {
-      // Create a mapping of files to save
-      const filesToSave = {
-        qgisReport: { file: files.qgisReport, name: 'all_stat.csv' },
-        currentData: { file: files.currentData, name: files.currentData?.name || '2000-2025_Current_Data(Physics_Reanalysis).nc' },
-        waveData: { file: files.waveData, name: files.waveData?.name || '2000-2025_Gobal_Ocain_waves_reanalysis.nc' },
-        windData: { file: files.windData, name: files.windData?.name || '2000-2025_Global Ocean Monthly Mean Sea Surface Wind and Stress from Scatterometer and Model.nc' },
+      const result = await runAnalysis()
+      clearInterval(stepInterval)
+      if (result) {
+        setAnalysisComplete(true)
       }
-
-      setExecuteStatus('Saving files to workspace...')
-
-      // Use File System Access API if available
-      if ('showDirectoryPicker' in window) {
-        try {
-          const dirHandle = await window.showDirectoryPicker({
-            id: 'coastal-research',
-            mode: 'readwrite',
-            startIn: 'documents',
-          })
-
-          // Save each uploaded file
-          for (const [key, { file, name }] of Object.entries(filesToSave)) {
-            if (file) {
-              setExecuteStatus(`Saving ${name}...`)
-              const fileHandle = await dirHandle.getFileHandle(name, { create: true })
-              const writable = await fileHandle.createWritable()
-              await writable.write(file)
-              await writable.close()
-            }
-          }
-
-          setExecuteStatus('Files saved! Opening notebook...')
-          
-          // Try to open VS Code with the notebook
-          // This uses the vscode:// protocol handler
-          setTimeout(() => {
-            window.open('vscode://file/d:/Kanjana/Coastal_Research/notebook.ipynb', '_blank')
-          }, 1000)
-
-          setExecuteStatus('Analysis ready! Run all cells in the notebook.')
-          
-        } catch (err) {
-          if (err.name === 'AbortError') {
-            setExecuteStatus('Folder selection cancelled')
-          } else {
-            throw err
-          }
-        }
-      } else {
-        // Fallback: Download files as a zip or individually
-        setExecuteStatus('Downloading files...')
-        
-        for (const [key, { file, name }] of Object.entries(filesToSave)) {
-          if (file) {
-            const url = URL.createObjectURL(file)
-            const a = document.createElement('a')
-            a.href = url
-            a.download = name
-            document.body.appendChild(a)
-            a.click()
-            document.body.removeChild(a)
-            URL.revokeObjectURL(url)
-            await new Promise(r => setTimeout(r, 500)) // Delay between downloads
-          }
-        }
-        
-        setExecuteStatus('Files downloaded! Move them to D:\\Kanjana\\Coastal_Research and run notebook.ipynb')
-      }
-
-    } catch (error) {
-      console.error('Execute analysis failed:', error)
-      setExecuteStatus(`Error: ${error.message}`)
-    } finally {
-      setIsExecuting(false)
-      setTimeout(() => setExecuteStatus(null), 5000)
+    } catch (err) {
+      clearInterval(stepInterval)
+      setLocalError(err.message || 'Analysis execution failed')
     }
   }
 
   const allFilesUploaded = Object.values(files).filter(Boolean).length === 4
   const hasData = data.shoreline || data.thresholds
+  const uploadedCount = Object.values(files).filter(Boolean).length
+  const displayError = localError || contextError
 
   return (
     <PageTransition>
@@ -179,13 +148,60 @@ export default function DataUploadPage() {
                 <Upload className="w-4 h-4" />
                 Data Upload
               </div>
-              <h1 className="section-title mb-4">
-                Upload Your Research Data
-              </h1>
+              <h1 className="section-title mb-4">Upload Your Research Data</h1>
               <p className="section-subtitle">
-                Upload your QGIS analysis reports (CSV) and environmental datasets (NetCDF). 
+                Upload your QGIS analysis reports (CSV) and environmental datasets (NetCDF).
                 The system will process your data for threshold detection analysis.
               </p>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* Backend Status Banner */}
+        <section className="pb-4">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className={`card p-4 flex items-center gap-3 ${
+                backendAvailable === true
+                  ? 'bg-emerald-50 border-emerald-200'
+                  : backendAvailable === false
+                  ? 'bg-amber-50 border-amber-200'
+                  : 'bg-coastal-50 border-coastal-200'
+              }`}
+            >
+              <Server
+                className={`w-5 h-5 ${
+                  backendAvailable === true
+                    ? 'text-emerald-600'
+                    : backendAvailable === false
+                    ? 'text-amber-600'
+                    : 'text-coastal-400'
+                }`}
+              />
+              <div className="flex-1">
+                <p
+                  className={`text-sm font-medium ${
+                    backendAvailable === true
+                      ? 'text-emerald-800'
+                      : backendAvailable === false
+                      ? 'text-amber-800'
+                      : 'text-coastal-600'
+                  }`}
+                >
+                  {backendAvailable === true
+                    ? 'Analysis server is online – ready to process your data'
+                    : backendAvailable === false
+                    ? 'Connecting to analysis server…'
+                    : 'Checking server status…'}
+                </p>
+                {backendAvailable === false && (
+                  <p className="text-xs text-amber-600 mt-1">
+                    The analysis server may take a moment to wake up on first request.
+                  </p>
+                )}
+              </div>
             </motion.div>
           </div>
         </section>
@@ -205,18 +221,13 @@ export default function DataUploadPage() {
                     <Info className="w-4 h-4 text-ocean-600" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-coastal-900 mb-1">
-                      Try with Demo Data
-                    </h3>
+                    <h3 className="font-semibold text-coastal-900 mb-1">Try with Demo Data</h3>
                     <p className="text-sm text-coastal-600">
                       Don't have data ready? Load demo data to explore the analysis features.
                     </p>
                   </div>
                 </div>
-                <button
-                  onClick={handleLoadDemo}
-                  className="btn-secondary whitespace-nowrap"
-                >
+                <button onClick={handleLoadDemo} className="btn-secondary whitespace-nowrap">
                   {hasData ? (
                     <>
                       <CheckCircle className="w-4 h-4 text-emerald-500" />
@@ -254,7 +265,9 @@ export default function DataUploadPage() {
                   transition={{ delay: 0.1 + index * 0.05 }}
                 >
                   <div className="mb-3 flex items-center gap-2.5">
-                    <div className={`w-8 h-8 rounded-lg bg-gradient-to-br ${section.color} flex items-center justify-center shadow-md`}>
+                    <div
+                      className={`w-8 h-8 rounded-lg bg-gradient-to-br ${section.color} flex items-center justify-center shadow-md`}
+                    >
                       <section.icon className="w-4 h-4 text-white" />
                     </div>
                     <div>
@@ -264,7 +277,7 @@ export default function DataUploadPage() {
                       <p className="text-xs text-coastal-500">{section.acceptedFile}</p>
                     </div>
                   </div>
-                  
+
                   <FileUpload
                     title={section.title}
                     description={section.description}
@@ -290,8 +303,91 @@ export default function DataUploadPage() {
               transition={{ delay: 0.4 }}
               className="card p-6 text-center"
             >
-              <div className="max-w-md mx-auto">
-                {allFilesUploaded ? (
+              <div className="max-w-lg mx-auto">
+                {/* ── Analysis Running ── */}
+                {analysisRunning && (
+                  <>
+                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-ocean-500 to-primary-600 flex items-center justify-center mx-auto mb-6 shadow-lg">
+                      <Loader2 className="w-8 h-8 text-white animate-spin" />
+                    </div>
+                    <h3 className="text-xl font-display font-semibold text-coastal-900 mb-2">
+                      Running Analysis…
+                    </h3>
+                    <p className="text-coastal-600 mb-6">
+                      The notebook is being executed server-side. This typically takes 2–5 minutes
+                      depending on your dataset size.
+                    </p>
+
+                    {/* Progress Steps */}
+                    <div className="text-left max-w-sm mx-auto space-y-3 mb-6">
+                      {PROGRESS_STEPS.map((step, i) => (
+                        <div key={i} className="flex items-center gap-3 text-sm">
+                          {i < progressStep ? (
+                            <CheckCircle className="w-4 h-4 text-emerald-500 flex-shrink-0" />
+                          ) : i === progressStep ? (
+                            <Loader2 className="w-4 h-4 text-ocean-600 animate-spin flex-shrink-0" />
+                          ) : (
+                            <div className="w-4 h-4 rounded-full border-2 border-coastal-300 flex-shrink-0" />
+                          )}
+                          <span
+                            className={
+                              i <= progressStep ? 'text-coastal-800' : 'text-coastal-400'
+                            }
+                          >
+                            {step}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+
+                    {analysisStatus && (
+                      <p className="text-xs text-ocean-600 animate-pulse">{analysisStatus}</p>
+                    )}
+                  </>
+                )}
+
+                {/* ── Analysis Complete ── */}
+                {!analysisRunning && analysisComplete && (
+                  <>
+                    <div className="w-16 h-16 rounded-2xl bg-emerald-100 flex items-center justify-center mx-auto mb-6">
+                      <CheckCircle className="w-8 h-8 text-emerald-600" />
+                    </div>
+                    <h3 className="text-xl font-display font-semibold text-coastal-900 mb-2">
+                      Analysis Complete!
+                    </h3>
+                    <p className="text-coastal-600 mb-6">
+                      All models have been trained and results are ready. Navigate to the analysis
+                      dashboard to explore the findings.
+                    </p>
+                    <button
+                      onClick={() => navigate('/analysis')}
+                      className="btn-primary w-full justify-center"
+                    >
+                      View Analysis Results
+                      <ArrowRight className="w-5 h-5" />
+                    </button>
+                  </>
+                )}
+
+                {/* ── Error ── */}
+                {!analysisRunning && displayError && !analysisComplete && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="p-4 bg-red-50 border border-red-200 rounded-xl mb-6 text-left"
+                  >
+                    <div className="flex items-start gap-3">
+                      <XCircle className="w-5 h-5 text-red-500 mt-0.5 flex-shrink-0" />
+                      <div>
+                        <h4 className="font-medium text-red-800 mb-1">Analysis Error</h4>
+                        <p className="text-sm text-red-700">{displayError}</p>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+
+                {/* ── Ready to Execute ── */}
+                {!analysisRunning && !analysisComplete && allFilesUploaded && (
                   <>
                     <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-ocean-500 to-primary-600 flex items-center justify-center mx-auto mb-4 shadow-lg">
                       <Play className="w-6 h-6 text-white" />
@@ -300,45 +396,18 @@ export default function DataUploadPage() {
                       All Files Uploaded!
                     </h3>
                     <p className="text-coastal-600 mb-6">
-                      Click "Execute Analysis" to save files to your workspace and run the analysis notebook.
+                      Click below to send files to the backend and execute the full analysis
+                      notebook automatically.
                     </p>
-                    
+
                     <button
                       onClick={handleExecuteAnalysis}
-                      disabled={isExecuting}
-                      className="btn-primary w-full mb-4 justify-center"
+                      disabled={analysisRunning}
+                      className="btn-primary w-full mb-4 justify-center disabled:opacity-50"
                     >
-                      {isExecuting ? (
-                        <>
-                          <Loader2 className="w-5 h-5 animate-spin" />
-                          Executing...
-                        </>
-                      ) : (
-                        <>
-                          <Play className="w-5 h-5" />
-                          Execute Analysis
-                        </>
-                      )}
+                      <Play className="w-5 h-5" />
+                      Run Analysis
                     </button>
-
-                    {executeStatus && (
-                      <motion.div
-                        initial={{ opacity: 0, y: -10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className={`p-3 rounded-lg text-sm flex items-center gap-2 mb-4 ${
-                          executeStatus.includes('Error') 
-                            ? 'bg-red-100 text-red-700' 
-                            : executeStatus.includes('ready') || executeStatus.includes('saved')
-                              ? 'bg-emerald-100 text-emerald-700'
-                              : 'bg-ocean-100 text-ocean-700'
-                        }`}
-                      >
-                        {executeStatus.includes('Error') ? null : 
-                         executeStatus.includes('ready') ? <CheckCircle className="w-4 h-4" /> :
-                         <Loader2 className="w-4 h-4 animate-spin" />}
-                        {executeStatus}
-                      </motion.div>
-                    )}
 
                     <div className="border-t border-coastal-200 pt-4 mt-4">
                       <p className="text-sm text-coastal-500 mb-3">Or view existing analysis:</p>
@@ -348,7 +417,10 @@ export default function DataUploadPage() {
                       </Link>
                     </div>
                   </>
-                ) : hasData ? (
+                )}
+
+                {/* ── Demo Data Ready ── */}
+                {!analysisRunning && !analysisComplete && !allFilesUploaded && hasData && (
                   <>
                     <div className="w-16 h-16 rounded-2xl bg-emerald-100 flex items-center justify-center mx-auto mb-6">
                       <CheckCircle className="w-8 h-8 text-emerald-600" />
@@ -357,14 +429,17 @@ export default function DataUploadPage() {
                       Demo Data Ready
                     </h3>
                     <p className="text-coastal-600 mb-6">
-                      Demo data has been loaded. Proceed to view the analysis results and visualizations.
+                      Demo data has been loaded. Proceed to view the analysis results.
                     </p>
                     <Link to="/analysis" className="btn-primary">
                       View Analysis
                       <ArrowRight className="w-5 h-5" />
                     </Link>
                   </>
-                ) : (
+                )}
+
+                {/* ── Upload Prompt ── */}
+                {!analysisRunning && !analysisComplete && !allFilesUploaded && !hasData && (
                   <>
                     <div className="w-16 h-16 rounded-2xl bg-coastal-100 flex items-center justify-center mx-auto mb-6">
                       <FileSpreadsheet className="w-8 h-8 text-coastal-400" />
@@ -373,16 +448,17 @@ export default function DataUploadPage() {
                       Upload Your Data
                     </h3>
                     <p className="text-coastal-600 mb-6">
-                      Upload all required datasets or load demo data to explore the analysis features.
+                      Upload all required datasets or load demo data to explore the analysis
+                      features.
                     </p>
                     <div className="flex items-center justify-center gap-4 text-sm text-coastal-500">
                       <span className="flex items-center gap-1">
                         <div className="w-2 h-2 rounded-full bg-emerald-500" />
-                        {Object.values(files).filter(Boolean).length} uploaded
+                        {uploadedCount} uploaded
                       </span>
                       <span className="flex items-center gap-1">
                         <div className="w-2 h-2 rounded-full bg-coastal-300" />
-                        {4 - Object.values(files).filter(Boolean).length} remaining
+                        {4 - uploadedCount} remaining
                       </span>
                     </div>
                   </>
