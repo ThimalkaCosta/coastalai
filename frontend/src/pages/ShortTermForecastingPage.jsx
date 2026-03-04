@@ -227,7 +227,7 @@ export default function ShortTermForecastingPage() {
               className="card p-6 mb-6 text-center"
             >
               <Calendar className="h-10 w-10 text-amber-500 mx-auto mb-3" />
-              <h2 className="text-xl font-display font-semibold text-coastal-900 mb-2">
+              <h2 className="text-xl font-display font-bold text-coastal-900 mb-2">
                 Generate Forecast for {new Date(selectedDate).toLocaleDateString()}
               </h2>
               <p className="text-sm text-coastal-600 mb-4 max-w-2xl mx-auto">
@@ -298,7 +298,7 @@ export default function ShortTermForecastingPage() {
 
               {/* Monsoon Statistics */}
               <div>
-                <h3 className="text-lg font-display font-semibold text-coastal-900 mb-3">
+                <h3 className="text-lg font-display font-bold text-coastal-900 mb-3">
                   {currentMonsoonData.name} - {new Date(selectedDate).toLocaleDateString()}
                 </h3>
                 
@@ -330,7 +330,7 @@ export default function ShortTermForecastingPage() {
               {/* Forecast Visualizations */}
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div className="card p-4">
-                  <h3 className="text-lg font-display font-semibold text-coastal-900 mb-3">
+                  <h3 className="text-lg font-display font-bold text-coastal-900 mb-3">
                     Shoreline Forecast Map 1
                   </h3>
                   <div className="bg-gray-100 rounded-lg overflow-hidden">
@@ -343,7 +343,7 @@ export default function ShortTermForecastingPage() {
                 </div>
 
                 <div className="card p-4">
-                  <h3 className="text-lg font-display font-semibold text-coastal-900 mb-3">
+                  <h3 className="text-lg font-display font-bold text-coastal-900 mb-3">
                     Shoreline Forecast Map 2
                   </h3>
                   <div className="bg-gray-100 rounded-lg overflow-hidden">
@@ -356,7 +356,7 @@ export default function ShortTermForecastingPage() {
                 </div>
 
                 <div className="card p-4">
-                  <h3 className="text-lg font-display font-semibold text-coastal-900 mb-3">
+                  <h3 className="text-lg font-display font-bold text-coastal-900 mb-3">
                     Shoreline Forecast Map 3
                   </h3>
                   <div className="bg-gray-100 rounded-lg overflow-hidden">
@@ -373,7 +373,7 @@ export default function ShortTermForecastingPage() {
               <div className="card p-4">
                 <div className="flex items-center gap-2 mb-3">
                   <Download className="h-5 w-5 text-amber-600" />
-                  <h3 className="text-lg font-display font-semibold text-coastal-900">
+                  <h3 className="text-lg font-display font-bold text-coastal-900">
                     Forecasted Shoreline Change Visualization
                   </h3>
                 </div>
@@ -395,7 +395,7 @@ export default function ShortTermForecastingPage() {
                 interpretation.type === 'accretion' ? 'border-emerald-500' : 
                 'border-amber-500'
               }`}>
-                <h3 className="text-lg font-display font-semibold text-coastal-900 mb-3">
+                <h3 className="text-lg font-display font-bold text-coastal-900 mb-3">
                   Forecast Interpretation
                 </h3>
                 
@@ -431,7 +431,7 @@ export default function ShortTermForecastingPage() {
 
               {/* Shoreline Change Analysis */}
               <div className="card p-4">
-                <h3 className="text-lg font-display font-semibold text-coastal-900 mb-3">
+                <h3 className="text-lg font-display font-bold text-coastal-900 mb-3">
                   Shoreline Change Analysis
                 </h3>
                 <div className="overflow-x-auto">
@@ -466,7 +466,7 @@ export default function ShortTermForecastingPage() {
 
               {/* Storm Analysis */}
               <div className="card p-4 bg-blue-50 border-l-4 border-blue-500">
-                <h3 className="text-lg font-display font-semibold text-coastal-900 mb-2">
+                <h3 className="text-lg font-display font-bold text-coastal-900 mb-2">
                   Storm Analysis (Sri Lanka Thresholds)
                 </h3>
                 <div className="flex items-center gap-2 text-sm text-blue-700">
@@ -479,7 +479,7 @@ export default function ShortTermForecastingPage() {
 
               {/* Predicted Environmental Conditions */}
               <div className="card p-4">
-                <h3 className="text-lg font-display font-semibold text-coastal-900 mb-3">
+                <h3 className="text-lg font-display font-bold text-coastal-900 mb-3">
                   Predicted Environmental Conditions
                 </h3>
                 <p className="text-xs text-coastal-500 mb-3">Forecast Date: {selectedDate}</p>
@@ -538,8 +538,8 @@ export default function ShortTermForecastingPage() {
               </div>
 
               {/* Monsoon Characteristics */}
-              <div className="card p-4 bg-gradient-to-r from-amber-50 to-orange-50">
-                <h3 className="text-base font-display font-semibold text-coastal-900 mb-2">
+              <div className="card p-5 bg-gradient-to-br from-amber-50/80 to-orange-50/80 ring-1 ring-amber-100/50">
+                <h3 className="text-base font-display font-bold text-coastal-900 mb-2">
                   Monsoon Impact on Coastal Dynamics
                 </h3>
                 <div className="text-xs text-coastal-600 space-y-1.5">

@@ -30,7 +30,7 @@ export default function SeasonalAnalysisPage() {
           <div className="space-y-6">
             <div className="card overflow-hidden">
               <div className="p-6 border-b border-coastal-100">
-                <h2 className="text-xl font-display font-semibold text-coastal-900">
+                <h2 className="text-xl font-display font-bold text-coastal-900">
                   Seasonal Alignment Test
                 </h2>
                 <p className="text-sm text-coastal-500 mt-1">
@@ -93,7 +93,7 @@ export default function SeasonalAnalysisPage() {
             {/* Seasonal Insights */}
             <div className="grid md:grid-cols-2 gap-6">
               <div className="card p-6">
-                <h3 className="text-lg font-display font-semibold text-coastal-900 mb-4">
+                <h3 className="text-lg font-display font-bold text-coastal-900 mb-4">
                   Peak Erosion Months
                 </h3>
                 <p className="text-sm text-coastal-500 mb-4">
@@ -119,13 +119,13 @@ export default function SeasonalAnalysisPage() {
                 </div>
               </div>
               <div className="card p-6">
-                <h3 className="text-lg font-display font-semibold text-coastal-900 mb-4">
+                <h3 className="text-lg font-display font-bold text-coastal-900 mb-4">
                   Monsoon Impact
                 </h3>
                 <p className="text-sm text-coastal-500 mb-4">
                   Southwest monsoon (Jun-Sep) shows elevated erosion risk
                 </p>
-                <div className="p-4 bg-amber-50 rounded-xl border border-amber-200">
+                <div className="p-5 bg-amber-50/80 rounded-xl border border-amber-200/60 ring-1 ring-amber-100/50">
                   <div className="flex items-start gap-3">
                     <AlertTriangle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
                     <div>

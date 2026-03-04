@@ -7,9 +7,10 @@ import LandingPage from './pages/LandingPage'
 import DataUploadPage from './pages/DataUploadPage'
 import AnalysisPage from './pages/AnalysisPage'
 import RandomForestPage from './pages/RandomForestPage'
-import GMMPage from './pages/GMMPage'
+import HMMPage from './pages/HMMPage'
 import XGBoostPage from './pages/XGBoostPage'
 import ThresholdPage from './pages/ThresholdPage'
+import ForecastThresholdPage from './pages/ForecastThresholdPage'
 import MorphologicalThresholdPage from './pages/MorphologicalThresholdPage'
 import HMMAnalysisPage from './pages/HMMAnalysisPage'
 import RegimeProfilesPage from './pages/RegimeProfilesPage'
@@ -176,10 +177,10 @@ function App() {
             }
           />
           <Route
-            path="/models/gmm"
+            path="/models/hmm"
             element={
               <ProtectedRoute>
-                <GMMPage />
+                <HMMPage />
               </ProtectedRoute>
             }
           />
@@ -188,6 +189,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <XGBoostPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/forecast-thresholds"
+            element={
+              <ProtectedRoute>
+                <ForecastThresholdPage />
               </ProtectedRoute>
             }
           />

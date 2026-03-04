@@ -30,7 +30,7 @@ const footerLinks = {
 
 export default function Footer() {
   return (
-    <footer className="bg-coastal-900 text-coastal-300">
+    <footer className="bg-gradient-to-b from-coastal-900 to-coastal-950 text-coastal-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8 lg:gap-12">
           {/* Brand */}
@@ -60,7 +60,7 @@ export default function Footer() {
 
           {/* Product Links */}
           <div>
-            <h3 className="font-display font-semibold text-white mb-4">Navigation</h3>
+            <h3 className="font-display font-bold text-white mb-4 text-sm uppercase tracking-wider">Navigation</h3>
             <ul className="space-y-3">
               {footerLinks.product.map((link) => (
                 <li key={link.name}>
@@ -77,7 +77,7 @@ export default function Footer() {
 
           {/* Models Links */}
           <div>
-            <h3 className="font-display font-semibold text-white mb-4">ML Models</h3>
+            <h3 className="font-display font-bold text-white mb-4 text-sm uppercase tracking-wider">ML Models</h3>
             <ul className="space-y-3">
               {footerLinks.models.map((link) => (
                 <li key={link.name}>
@@ -94,7 +94,7 @@ export default function Footer() {
 
           {/* Resources Links */}
           <div>
-            <h3 className="font-display font-semibold text-white mb-4">Resources</h3>
+            <h3 className="font-display font-bold text-white mb-4 text-sm uppercase tracking-wider">Resources</h3>
             <ul className="space-y-3">
               {footerLinks.resources.map((link) => (
                 <li key={link.name}>
@@ -111,7 +111,7 @@ export default function Footer() {
 
           {/* Company Links */}
           <div>
-            <h3 className="font-display font-semibold text-white mb-4">Company</h3>
+            <h3 className="font-display font-bold text-white mb-4 text-sm uppercase tracking-wider">Company</h3>
             <ul className="space-y-3">
               {footerLinks.company.map((link) => (
                 <li key={link.name}>
@@ -128,7 +128,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom */}
-        <div className="mt-12 pt-8 border-t border-coastal-800 flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div className="mt-12 pt-8 border-t border-coastal-800/50 flex flex-col sm:flex-row justify-between items-center gap-4">
           <p className="text-sm text-coastal-500">
             © {new Date().getFullYear()} CoastalAI Threshold Detection Framework. All rights reserved.
           </p>

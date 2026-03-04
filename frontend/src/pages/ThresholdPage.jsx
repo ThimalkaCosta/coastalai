@@ -78,24 +78,24 @@ export default function ThresholdPage() {
 
   return (
     <PageTransition>
-      <div className="min-h-screen bg-gradient-to-b from-coastal-50 to-white">
+      <div className="min-h-screen bg-gradient-to-b from-coastal-50 to-white bg-mesh-1">
         {/* Header */}
-        <section className="pt-12 pb-8">
+        <section className="pt-8 sm:pt-10 pb-6">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               className="max-w-3xl"
             >
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-100 text-blue-700 rounded-full text-xs font-medium mb-3">
+              <div className="page-badge bg-blue-50 text-blue-600 border-blue-100 mb-4">
                 <Target className="w-3.5 h-3.5" />
                 Final Summary Analysis
               </div>
-              <h1 className="section-title mb-4">
+              <h1 className="section-title mb-3">
                 Final Erosion Threshold Summary
               </h1>
               <p className="section-subtitle">
-                Comprehensive threshold values derived from GMM clustering and Random Forest analysis
+                Comprehensive threshold values derived from HMM state detection and Random Forest analysis
                 for identifying coastal erosion-triggering conditions.
               </p>
             </motion.div>
@@ -160,8 +160,8 @@ export default function ThresholdPage() {
               transition={{ delay: 0.3 }}
               className="card overflow-hidden"
             >
-              <div className="bg-gradient-to-r from-blue-600 to-indigo-600 px-5 py-3">
-                <h3 className="font-display font-semibold text-white text-lg flex items-center gap-2">
+              <div className="bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-4">
+                <h3 className="font-display font-bold text-white text-lg flex items-center gap-2">
                   <Target className="w-5 h-5" />
                   Final Threshold Summary Table
                 </h3>
@@ -173,32 +173,32 @@ export default function ThresholdPage() {
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead>
-                    <tr className="bg-gray-50 border-b-2 border-gray-200">
-                      <th className="py-3 px-3 text-left font-bold text-gray-600 uppercase tracking-wider text-xs">
+                    <tr className="bg-coastal-50/80 border-b-2 border-coastal-200">
+                      <th className="py-3.5 px-3 text-left font-semibold text-coastal-600 uppercase tracking-wider text-xs">
                         #
                       </th>
-                      <th className="py-3 px-3 text-left font-bold text-gray-600 uppercase tracking-wider text-xs">
+                      <th className="py-3.5 px-3 text-left font-semibold text-coastal-600 uppercase tracking-wider text-xs">
                         Driver
                       </th>
-                      <th className="py-3 px-3 text-center font-bold text-gray-600 uppercase tracking-wider text-xs">
+                      <th className="py-3.5 px-3 text-center font-semibold text-coastal-600 uppercase tracking-wider text-xs">
                         Unit
                       </th>
-                      <th className="py-3 px-3 text-center font-bold text-gray-600 uppercase tracking-wider text-xs">
-                        GMM_Threshold
+                      <th className="py-3.5 px-3 text-center font-semibold text-coastal-600 uppercase tracking-wider text-xs">
+                        HMM_Threshold
                       </th>
-                      <th className="py-3 px-3 text-center font-bold text-gray-600 uppercase tracking-wider text-xs">
+                      <th className="py-3.5 px-3 text-center font-semibold text-coastal-600 uppercase tracking-wider text-xs">
                         RF_Threshold
                       </th>
-                      <th className="py-3 px-3 text-center font-bold text-gray-600 uppercase tracking-wider text-xs">
+                      <th className="py-3.5 px-3 text-center font-semibold text-coastal-600 uppercase tracking-wider text-xs">
                         Erosion_Threshold_Lower
                       </th>
-                      <th className="py-3 px-3 text-center font-bold text-gray-600 uppercase tracking-wider text-xs">
+                      <th className="py-3.5 px-3 text-center font-semibold text-coastal-600 uppercase tracking-wider text-xs">
                         Erosion_Threshold_Upper
                       </th>
-                      <th className="py-3 px-3 text-center font-bold text-gray-600 uppercase tracking-wider text-xs">
+                      <th className="py-3.5 px-3 text-center font-semibold text-coastal-600 uppercase tracking-wider text-xs">
                         Model_Consensus
                       </th>
-                      <th className="py-3 px-3 text-left font-bold text-gray-600 uppercase tracking-wider text-xs">
+                      <th className="py-3.5 px-3 text-left font-semibold text-coastal-600 uppercase tracking-wider text-xs">
                         Physical_Interpretation
                       </th>
                     </tr>
@@ -236,7 +236,7 @@ export default function ThresholdPage() {
                           </td>
                           <td className="py-4 px-4 text-center">
                             <span className="inline-flex px-3 py-1.5 rounded-lg bg-purple-100 text-purple-700 font-semibold font-mono text-sm">
-                              {item.GMM_Threshold != null ? item.GMM_Threshold.toFixed(3) : '--'}
+                              {item.HMM_Threshold != null ? item.HMM_Threshold.toFixed(3) : '--'}
                             </span>
                           </td>
                           <td className="py-4 px-4 text-center">
@@ -283,7 +283,7 @@ export default function ThresholdPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5 }}
-                className="card p-6 bg-gradient-to-r from-blue-50 to-cyan-50 border-blue-200"
+                className="card p-6 bg-gradient-to-br from-blue-50/80 to-cyan-50/80 border-blue-200/60 ring-1 ring-blue-100/50"
               >
                 <div className="flex items-start gap-4">
                   <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center flex-shrink-0">
@@ -294,9 +294,9 @@ export default function ThresholdPage() {
                       Column Descriptions
                     </h3>
                     <div className="space-y-2 text-sm text-blue-800">
-                      <p><strong>GMM_Threshold:</strong> Derived from Gaussian Mixture Model clustering</p>
+                      <p><strong>HMM_Threshold:</strong> Derived from Hidden Markov Model state detection</p>
                       <p><strong>RF_Threshold:</strong> Derived from Random Forest feature splits</p>
-                      <p><strong>Lower/Upper Bound:</strong> Range between RF and GMM thresholds</p>
+                      <p><strong>Lower/Upper Bound:</strong> Range between RF and HMM thresholds</p>
                       <p><strong>Model_Consensus:</strong> Agreement level between models</p>
                     </div>
                   </div>
@@ -321,7 +321,7 @@ export default function ThresholdPage() {
                     <div className="space-y-2 text-sm">
                       <div className="flex items-center gap-2">
                         <span className="inline-flex px-2 py-0.5 rounded-full bg-green-100 text-green-700 text-xs font-bold border border-green-300">High</span>
-                        <span className="text-gray-600">Strong agreement between GMM and RF thresholds</span>
+                        <span className="text-gray-600">Strong agreement between HMM and RF thresholds</span>
                       </div>
                       <div className="flex items-center gap-2">
                         <span className="inline-flex px-2 py-0.5 rounded-full bg-yellow-100 text-yellow-700 text-xs font-bold border border-yellow-300">Medium</span>

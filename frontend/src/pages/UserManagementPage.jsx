@@ -24,9 +24,9 @@ import {
 import PageTransition from '../components/common/PageTransition'
 
 const ROLE_COLORS = {
-  Officer: 'bg-blue-500/10 text-blue-400 border-blue-500/30',
-  Manager: 'bg-green-500/10 text-green-400 border-green-500/30',
-  'Head Office': 'bg-purple-500/10 text-purple-400 border-purple-500/30',
+  Officer: 'bg-blue-50 text-blue-600 border-blue-200 ring-1 ring-blue-100',
+  Manager: 'bg-emerald-50 text-emerald-600 border-emerald-200 ring-1 ring-emerald-100',
+  'Head Office': 'bg-violet-50 text-violet-600 border-violet-200 ring-1 ring-violet-100',
 }
 
 /**
@@ -130,19 +130,19 @@ export default function UserManagementPage() {
 
   return (
     <PageTransition>
-      <div className="min-h-screen bg-gray-950 p-6">
-        <div className="max-w-5xl mx-auto">
+      <div className="min-h-screen bg-gradient-to-b from-coastal-50 to-white bg-mesh-1">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
           {/* Header */}
           <div className="flex items-center gap-3 mb-8">
-            <div className="w-10 h-10 bg-purple-500/10 rounded-xl flex items-center justify-center">
-              <Users className="w-5 h-5 text-purple-400" />
+            <div className="w-10 h-10 bg-violet-100 rounded-xl flex items-center justify-center ring-1 ring-violet-200/50">
+              <Users className="w-5 h-5 text-violet-600" />
             </div>
             <div>
-              <h1 className="text-xl font-bold text-white">User Management</h1>
-              <p className="text-sm text-gray-400">{subtitle}</p>
+              <h1 className="text-xl font-display font-bold text-coastal-900">User Management</h1>
+              <p className="text-sm text-coastal-500">{subtitle}</p>
             </div>
             <div className="ml-auto">
-              <span className={`text-xs px-3 py-1 rounded-full border font-medium ${ROLE_COLORS[userRole] || ''}`}>
+              <span className={`text-xs px-3 py-1 rounded-full border font-semibold ${ROLE_COLORS[userRole] || ''}`}>
                 {userRole}
               </span>
             </div>
@@ -155,10 +155,10 @@ export default function UserManagementPage() {
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
-                className={`flex items-center gap-2 p-3 rounded-lg mb-6 text-sm ${
+                className={`flex items-center gap-2 p-3 rounded-xl mb-6 text-sm ${
                   message.type === 'success'
-                    ? 'bg-green-500/10 border border-green-500/30 text-green-400'
-                    : 'bg-red-500/10 border border-red-500/30 text-red-400'
+                    ? 'bg-emerald-50 border border-emerald-200 text-emerald-700 ring-1 ring-emerald-100'
+                    : 'bg-red-50 border border-red-200 text-red-700 ring-1 ring-red-100'
                 }`}
               >
                 {message.type === 'success' ? <CheckCircle className="w-4 h-4" /> : <AlertCircle className="w-4 h-4" />}
@@ -174,26 +174,26 @@ export default function UserManagementPage() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+                className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm"
               >
                 <motion.div
                   initial={{ scale: 0.9 }}
                   animate={{ scale: 1 }}
                   exit={{ scale: 0.9 }}
-                  className="bg-gray-900 border border-red-500/30 rounded-2xl p-6 max-w-sm w-full mx-4"
+                  className="bg-white border border-red-200 rounded-2xl p-6 max-w-sm w-full mx-4 shadow-elevation-3"
                 >
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 bg-red-500/10 rounded-full flex items-center justify-center">
-                      <Trash2 className="w-5 h-5 text-red-400" />
+                    <div className="w-10 h-10 bg-red-50 rounded-full flex items-center justify-center ring-1 ring-red-100">
+                      <Trash2 className="w-5 h-5 text-red-500" />
                     </div>
                     <div>
-                      <h3 className="text-sm font-semibold text-white">Delete User</h3>
-                      <p className="text-xs text-gray-400">This action cannot be undone.</p>
+                      <h3 className="text-sm font-semibold text-coastal-900">Delete User</h3>
+                      <p className="text-xs text-coastal-500">This action cannot be undone.</p>
                     </div>
                   </div>
-                  <p className="text-sm text-gray-300 mb-5">
+                  <p className="text-sm text-coastal-600 mb-5">
                     Are you sure you want to remove{' '}
-                    <span className="text-white font-medium">
+                    <span className="text-coastal-900 font-medium">
                       {users.find((u) => u.id === deleteConfirm)?.email || 'this user'}
                     </span>
                     ?
@@ -201,13 +201,13 @@ export default function UserManagementPage() {
                   <div className="flex gap-3">
                     <button
                       onClick={() => setDeleteConfirm(null)}
-                      className="flex-1 px-4 py-2 text-sm bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg transition-colors"
+                      className="flex-1 px-4 py-2 text-sm bg-coastal-100 hover:bg-coastal-200 text-coastal-700 rounded-xl transition-colors font-medium"
                     >
                       Cancel
                     </button>
                     <button
                       onClick={() => removeUser(deleteConfirm)}
-                      className="flex-1 px-4 py-2 text-sm bg-red-500/20 hover:bg-red-500/30 text-red-400 border border-red-500/30 rounded-lg transition-colors"
+                      className="flex-1 px-4 py-2 text-sm bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 rounded-xl transition-colors font-medium"
                     >
                       Delete
                     </button>
@@ -221,8 +221,8 @@ export default function UserManagementPage() {
           {pendingUsers.length > 0 && (
             <div className="mb-8">
               <div className="flex items-center gap-2 mb-4">
-                <Clock className="w-4 h-4 text-yellow-400" />
-                <h2 className="text-sm font-semibold text-yellow-400 uppercase tracking-wider">
+                <Clock className="w-4 h-4 text-amber-500" />
+                <h2 className="text-sm font-semibold text-amber-600 uppercase tracking-wider">
                   Pending Approval ({pendingUsers.length})
                 </h2>
               </div>
@@ -245,15 +245,15 @@ export default function UserManagementPage() {
           {/* Active Users */}
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <Shield className="w-4 h-4 text-gray-400" />
-              <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">
+              <Shield className="w-4 h-4 text-coastal-500" />
+              <h2 className="text-sm font-semibold text-coastal-600 uppercase tracking-wider">
                 Active Users ({activeUsers.length})
               </h2>
             </div>
             {loading ? (
-              <div className="text-center py-12 text-gray-500">Loading users…</div>
+              <div className="text-center py-12 text-coastal-400">Loading users…</div>
             ) : activeUsers.length === 0 ? (
-              <div className="text-center py-12 text-gray-500">No active users yet.</div>
+              <div className="text-center py-12 text-coastal-400">No active users yet.</div>
             ) : (
               <div className="space-y-3">
                 {activeUsers.map((user) => (
@@ -281,23 +281,23 @@ function UserRow({ user, adminRole, allowableRoles, onAssign, onDelete, updating
   const manageable = canManageUser(adminRole, user)
 
   return (
-    <div className="bg-gray-900 border border-gray-700/50 rounded-xl p-4 flex items-center justify-between gap-4">
+    <div className="card p-4 flex items-center justify-between gap-4 hover:shadow-card-hover transition-all duration-300">
       <div className="flex items-center gap-3 min-w-0">
         {user.photoURL ? (
-          <img src={user.photoURL} alt="" className="w-9 h-9 rounded-full" />
+          <img src={user.photoURL} alt="" className="w-9 h-9 rounded-full ring-2 ring-coastal-100" />
         ) : (
-          <div className="w-9 h-9 bg-gray-700 rounded-full flex items-center justify-center text-sm font-semibold text-gray-300">
+          <div className="w-9 h-9 bg-gradient-to-br from-ocean-100 to-primary-100 rounded-full flex items-center justify-center text-sm font-bold text-ocean-700">
             {(user.displayName || user.email || '?')[0].toUpperCase()}
           </div>
         )}
         <div className="min-w-0">
-          <div className="text-sm font-medium text-white truncate">
+          <div className="text-sm font-semibold text-coastal-900 truncate">
             {user.displayName || 'Unknown'}
           </div>
-          <div className="text-xs text-gray-400 truncate">{user.email}</div>
+          <div className="text-xs text-coastal-500 truncate">{user.email}</div>
           {user.requestedRole && !user.role && (
-            <div className="text-xs text-gray-500 mt-0.5">
-              Requested: <span className="text-gray-300">{user.requestedRole}</span>
+            <div className="text-xs text-coastal-400 mt-0.5">
+              Requested: <span className="text-coastal-700 font-medium">{user.requestedRole}</span>
             </div>
           )}
         </div>
@@ -307,14 +307,14 @@ function UserRow({ user, adminRole, allowableRoles, onAssign, onDelete, updating
         {/* Current role badge */}
         {user.role ? (
           <span
-            className={`text-xs px-2.5 py-1 rounded-full border font-medium ${
-              ROLE_COLORS[user.role] || 'bg-gray-500/10 text-gray-400 border-gray-500/30'
+            className={`text-xs px-2.5 py-1 rounded-full border font-semibold ${
+              ROLE_COLORS[user.role] || 'bg-coastal-50 text-coastal-500 border-coastal-200'
             }`}
           >
             {user.role}
           </span>
         ) : (
-          <span className="text-xs px-2.5 py-1 rounded-full border bg-yellow-500/10 text-yellow-400 border-yellow-500/30 font-medium">
+          <span className="text-xs px-2.5 py-1 rounded-full border bg-amber-50 text-amber-600 border-amber-200 ring-1 ring-amber-100 font-semibold">
             Pending
           </span>
         )}
@@ -326,13 +326,13 @@ function UserRow({ user, adminRole, allowableRoles, onAssign, onDelete, updating
               <button
                 onClick={() => setOpen((v) => !v)}
                 disabled={updating}
-                className="flex items-center gap-1 text-xs bg-gray-800 hover:bg-gray-700 border border-gray-600 text-gray-300 px-3 py-1.5 rounded-lg transition-colors disabled:opacity-50"
+                className="flex items-center gap-1 text-xs bg-coastal-50 hover:bg-coastal-100 border border-coastal-200 text-coastal-700 px-3 py-1.5 rounded-xl transition-colors disabled:opacity-50 font-medium"
               >
                 {updating ? 'Saving…' : 'Assign Role'}
                 <ChevronDown className="w-3 h-3" />
               </button>
               {open && (
-                <div className="absolute right-0 mt-1 bg-gray-800 border border-gray-700 rounded-xl shadow-xl z-10 min-w-[140px] overflow-hidden">
+                <div className="absolute right-0 mt-1 bg-white border border-coastal-200 rounded-xl shadow-elevation-2 z-10 min-w-[140px] overflow-hidden">
                   {allowableRoles.map((role) => (
                     <button
                       key={role}
@@ -340,7 +340,7 @@ function UserRow({ user, adminRole, allowableRoles, onAssign, onDelete, updating
                         onAssign(user.id, role)
                         setOpen(false)
                       }}
-                      className="w-full text-left text-xs px-4 py-2.5 hover:bg-gray-700 text-gray-200 transition-colors"
+                      className="w-full text-left text-xs px-4 py-2.5 hover:bg-coastal-50 text-coastal-700 transition-colors font-medium"
                     >
                       {role}
                     </button>
@@ -353,7 +353,7 @@ function UserRow({ user, adminRole, allowableRoles, onAssign, onDelete, updating
             <button
               onClick={() => onDelete(user.id)}
               disabled={updating}
-              className="p-1.5 text-gray-500 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors disabled:opacity-50"
+              className="p-1.5 text-coastal-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-50"
               title="Remove user"
             >
               <Trash2 className="w-3.5 h-3.5" />
@@ -362,7 +362,7 @@ function UserRow({ user, adminRole, allowableRoles, onAssign, onDelete, updating
         )}
 
         {!manageable && (
-          <span className="text-xs text-gray-600 italic">No access</span>
+          <span className="text-xs text-coastal-400 italic">No access</span>
         )}
       </div>
     </div>

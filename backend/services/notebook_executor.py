@@ -272,7 +272,7 @@ results["shoreline"] = shoreline_export
 # 4. Time series (monthly env + annual erosion labels)
 _ts_cols = [c for c in ['monsoon_year', 'Hm0_max', 'Hm0_mean', 'CumWaveEnergy', 'StormDays_wave',
                          'WindMax', 'WindMean', 'WindStressMean', 'UcurrMax', 'UcurrMean',
-                         'CumCurrent', 'Erosion_Label', 'GMM_State'] if c in env_features_monthly.columns]
+                         'CumCurrent', 'Erosion_Label', 'HMM_State'] if c in env_features_monthly.columns]
 results["timeSeries"] = env_features_monthly[_ts_cols].to_dict(orient='records')
 
 # 5. Scatter data (annual: wave height vs NSM)
@@ -320,7 +320,7 @@ results["boxplot"] = boxplot_export
 # 10. ROC data
 try:
     results["roc"] = {{
-        "gmm": {{"fpr": fpr_gmm.tolist(), "tpr": tpr_gmm.tolist(), "auc": _safe(gmm_auc)}},
+        "hmm": {{"fpr": fpr_hmm.tolist(), "tpr": tpr_hmm.tolist(), "auc": _safe(hmm_auc)}},
         "rf":  {{"fpr": fpr_rf.tolist(),  "tpr": tpr_rf.tolist(),  "auc": _safe(rf_auc)}},
         "xgb": {{"fpr": fpr_xgb.tolist(), "tpr": tpr_xgb.tolist(), "auc": _safe(xgb_auc)}},
     }}
@@ -406,22 +406,22 @@ try:
 except Exception as e:
     print(f"XGB export error: {{e}}")
 
-# -- GMM --
+# -- HMM --
 try:
     # Export ALL feature thresholds with erosion/normal centroids
-    _gmm_thresh = {{}}
-    for feat in gmm_thresholds:
-        _gmm_thresh[feat] = {{
-            "value": _safe(round(gmm_thresholds[feat]['threshold'], 3)),
-            "direction": gmm_thresholds[feat]['direction'],
-            "erosionValue": _safe(round(gmm_thresholds[feat]['erosion_value'], 3)),
-            "normalValue": _safe(round(gmm_thresholds[feat]['normal_value'], 3)),
+    _hmm_thresh = {{}}
+    for feat in hmm_thresholds:
+        _hmm_thresh[feat] = {{
+            "value": _safe(round(hmm_thresholds[feat]['threshold'], 3)),
+            "direction": hmm_thresholds[feat]['direction'],
+            "erosionValue": _safe(round(hmm_thresholds[feat]['erosion_value'], 3)),
+            "normalValue": _safe(round(hmm_thresholds[feat]['normal_value'], 3)),
         }}
 
     _state_dist = []
-    _sc = env_features_monthly['GMM_State'].value_counts()
+    _sc = env_features_monthly['HMM_State'].value_counts()
     for st in sorted(_sc.index):
-        _er = env_features_monthly[env_features_monthly['GMM_State'] == st]['Erosion_Label'].mean()
+        _er = env_features_monthly[env_features_monthly['HMM_State'] == st]['Erosion_Label'].mean()
         _state_dist.append({{
             "state": f"State {{st}}",
             "count": _safe(int(_sc[st])),
@@ -450,19 +450,59 @@ try:
     except Exception:
         pass
 
+    # Transition matrix export
+    _transition_matrix = []
+    try:
+        for i in range(n_states):
+            row = {{}}
+            row["from"] = f"S{{i}}"
+            for j in range(n_states):
+                row[f"S{{j}}"] = _safe(round(float(transition_matrix[i][j]), 4))
+            _transition_matrix.append(row)
+    except Exception:
+        pass
+
+    # Regime stability data
+    _regime_stability = {{}}
+    try:
+        _regime_stability = {{
+            "count": _safe(int(len(regime_stability))),
+            "mean": _safe(round(float(regime_stability.mean()), 1)),
+            "std": _safe(round(float(regime_stability.std()), 1)),
+            "min": _safe(int(regime_stability.min())),
+            "q25": _safe(int(regime_stability.quantile(0.25))),
+            "q50": _safe(int(regime_stability.quantile(0.5))),
+            "q75": _safe(int(regime_stability.quantile(0.75))),
+            "max": _safe(int(regime_stability.max())),
+        }}
+    except Exception:
+        pass
+
+    # Final-state dominance
+    _final_state_dominance = []
+    try:
+        for state_idx in range(n_states):
+            pct = float(final_state_dist.get(state_idx, 0))
+            _final_state_dominance.append({{
+                "state": f"State {{state_idx}}",
+                "value": _safe(round(pct, 2)),
+            }})
+    except Exception:
+        pass
+
     # State means for all features
     _all_feats = [f for f in model_features if f in env_features_monthly.columns]
     _normal_means = {{}}
     _highRisk_means = {{}}
     for feat in _all_feats:
         try:
-            _normal_means[feat] = _safe(round(float(env_features_monthly[env_features_monthly['GMM_State'] != erosion_state][feat].mean()), 3))
-            _highRisk_means[feat] = _safe(round(float(env_features_monthly[env_features_monthly['GMM_State'] == erosion_state][feat].mean()), 3))
+            _normal_means[feat] = _safe(round(float(env_features_monthly[env_features_monthly['HMM_State'] != erosion_state][feat].mean()), 3))
+            _highRisk_means[feat] = _safe(round(float(env_features_monthly[env_features_monthly['HMM_State'] == erosion_state][feat].mean()), 3))
         except Exception:
             pass
 
     results["models"] = results.get("models", {{}})
-    results["models"]["gmm"] = {{
+    results["models"]["hmm"] = {{
         "stateDistribution": _state_dist,
         "stateMeans": {{
             "normal": _normal_means,
@@ -470,26 +510,65 @@ try:
         }},
         "stateCentroids": _state_centroids,
         "componentSelection": _component_selection,
+        "transitionMatrix": _transition_matrix,
+        "regimeStability": _regime_stability,
+        "finalStateDominance": _final_state_dominance,
         "erosionState": _safe(int(erosion_state)),
         "metrics": {{
             "nStates": _safe(n_states),
-            "accuracy": _safe(round(gmm_accuracy, 4)),
-            "logLikelihood": _safe(round(float(gmm.score(X_scaled_monthly)), 3)),
-            "aic": _safe(round(float(gmm.aic(X_scaled_monthly)), 3)),
-            "bic": _safe(round(float(gmm.bic(X_scaled_monthly)), 3)),
-            "converged": bool(gmm.converged_),
+            "accuracy": _safe(round(hmm_accuracy, 4)),
+            "logLikelihood": _safe(round(float(hmm_model.score(X_scaled_monthly)), 3)),
+            "aic": _safe(round(float(hmm_aic), 3)),
+            "bic": _safe(round(float(hmm_bic), 3)),
+            "converged": bool(hmm_converged),
             "silhouetteScore": 0,
         }},
-        "thresholds": _gmm_thresh,
+        "thresholds": _hmm_thresh,
     }}
 except Exception as e:
-    print(f"GMM export error: {{e}}")
+    print(f"HMM export error: {{e}}")
 
 # 12. Thresholds (from threshold_summary dataframe)
 try:
     results["thresholds"] = threshold_summary.to_dict(orient="records")
 except Exception:
     results["thresholds"] = None
+
+# 13. Meteorological Threshold Forecasts (SARIMA)
+try:
+    results["forecasts"] = {{
+        "metadata": forecast_metadata,
+        "variables": {{}},
+    }}
+    for _fvar in forecast_export:
+        _fdata = forecast_export[_fvar]
+        _var_export = {{
+            "threshold": _safe(_fdata["threshold"]),
+            "thresholdDirection": _fdata["thresholdDirection"],
+            "historicalMean": _safe(_fdata["historicalMean"]),
+            "historicalStd": _safe(_fdata["historicalStd"]),
+            "historicalMin": _safe(_fdata["historicalMin"]),
+            "historicalMax": _safe(_fdata["historicalMax"]),
+            "riskLevel": _fdata["riskLevel"],
+            "model": _fdata["model"],
+            "validation": _fdata.get("validation", {{}}),
+            "horizons": {{}},
+        }}
+        for _hkey, _hdata in _fdata["horizons"].items():
+            _var_export["horizons"][_hkey] = {{
+                "monthly": _hdata["monthly"],
+                "avgForecast": _safe(_hdata["avgForecast"]),
+                "peakForecast": _safe(_hdata["peakForecast"]),
+                "minForecast": _safe(_hdata["minForecast"]),
+                "exceedanceMonths": _safe(_hdata["exceedanceMonths"]),
+                "exceedancePct": _safe(_hdata["exceedancePct"]),
+                "trendPct": _safe(_hdata["trendPct"]),
+            }}
+        results["forecasts"]["variables"][_fvar] = _var_export
+    print(f"✓ Forecast data exported: {{len(forecast_export)}} variables")
+except Exception as e:
+    print(f"Forecast export error: {{e}}")
+    results["forecasts"] = None
 
 # ---- Write JSON ----
 os.makedirs(os.path.dirname(_RESULTS_PATH), exist_ok=True)

@@ -63,7 +63,7 @@ const uploadSections = [
 const PROGRESS_STEPS = [
   'Uploading files to server…',
   'Executing analysis notebook…',
-  'Training ML models (GMM, RF, XGBoost)…',
+  'Training ML models (HMM, RF, XGBoost)…',
   'Computing thresholds & SHAP analysis…',
   'Processing results…',
 ]
@@ -142,20 +142,20 @@ export default function DataUploadPage() {
 
   return (
     <PageTransition>
-      <div className="min-h-screen bg-gradient-to-b from-coastal-50 to-white">
+      <div className="min-h-screen bg-gradient-to-b from-coastal-50 to-white bg-mesh-1">
         {/* Header */}
-        <section className="pt-12 pb-8">
+        <section className="pt-10 pb-6">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               className="max-w-3xl"
             >
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-ocean-100 text-ocean-700 rounded-full text-sm font-medium mb-4">
-                <Upload className="w-4 h-4" />
+              <div className="page-badge bg-ocean-50 text-ocean-600 border-ocean-100 mb-4">
+                <Upload className="w-3.5 h-3.5" />
                 Data Upload
               </div>
-              <h1 className="section-title mb-4">Upload Your Research Data</h1>
+              <h1 className="section-title mb-3">Upload Your Research Data</h1>
               <p className="section-subtitle">
                 Upload your QGIS analysis reports (CSV) and environmental datasets (NetCDF).
                 The system will process your data for threshold detection analysis.
@@ -172,21 +172,29 @@ export default function DataUploadPage() {
               animate={{ opacity: 1, y: 0 }}
               className={`card p-4 flex items-center gap-3 ${
                 backendAvailable === true
-                  ? 'bg-emerald-50 border-emerald-200'
+                  ? 'bg-emerald-50/80 border-emerald-200/60'
                   : backendAvailable === false
-                  ? 'bg-amber-50 border-amber-200'
-                  : 'bg-coastal-50 border-coastal-200'
+                  ? 'bg-amber-50/80 border-amber-200/60'
+                  : 'bg-coastal-50/80 border-coastal-200/60'
               }`}
             >
-              <Server
-                className={`w-5 h-5 ${
-                  backendAvailable === true
-                    ? 'text-emerald-600'
-                    : backendAvailable === false
-                    ? 'text-amber-600'
-                    : 'text-coastal-400'
-                }`}
-              />
+              <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
+                backendAvailable === true
+                  ? 'bg-emerald-100'
+                  : backendAvailable === false
+                  ? 'bg-amber-100'
+                  : 'bg-coastal-100'
+              }`}>
+                <Server
+                  className={`w-4 h-4 ${
+                    backendAvailable === true
+                      ? 'text-emerald-600'
+                      : backendAvailable === false
+                      ? 'text-amber-600'
+                      : 'text-coastal-400'
+                  }`}
+                />
+              </div>
               <div className="flex-1">
                 <p
                   className={`text-sm font-medium ${
@@ -223,11 +231,11 @@ export default function DataUploadPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="card p-5 bg-gradient-to-r from-ocean-50 to-primary-50 border-ocean-200"
+              className="card p-5 bg-gradient-to-r from-ocean-50/60 to-primary-50/60 border-ocean-200/50"
             >
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-ocean-100 flex items-center justify-center flex-shrink-0">
+                  <div className="w-9 h-9 rounded-xl bg-ocean-100 flex items-center justify-center flex-shrink-0">
                     <Info className="w-4 h-4 text-ocean-600" />
                   </div>
                   <div>
@@ -274,17 +282,17 @@ export default function DataUploadPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1 + index * 0.05 }}
                 >
-                  <div className="mb-3 flex items-center gap-2.5">
+                  <div className="mb-3 flex items-center gap-3">
                     <div
-                      className={`w-8 h-8 rounded-lg bg-gradient-to-br ${section.color} flex items-center justify-center shadow-md`}
+                      className={`w-10 h-10 rounded-xl bg-gradient-to-br ${section.color} flex items-center justify-center shadow-lg shadow-ocean-500/10`}
                     >
-                      <section.icon className="w-4 h-4 text-white" />
+                      <section.icon className="w-5 h-5 text-white" />
                     </div>
                     <div>
-                      <h3 className="font-display font-semibold text-base text-coastal-900">
+                      <h3 className="font-display font-bold text-base text-coastal-900">
                         {section.title}
                       </h3>
-                      <p className="text-xs text-coastal-500">{section.acceptedFile}</p>
+                      <p className="text-xs text-coastal-400 font-medium">{section.acceptedFile}</p>
                     </div>
                   </div>
 

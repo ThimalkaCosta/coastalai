@@ -14,7 +14,7 @@ export default function Tabs({ tabs, defaultTab, activeTab: controlledActiveTab,
   return (
     <div className={className}>
       {/* Tab buttons */}
-      <div className="flex gap-2 p-1 bg-coastal-100 rounded-xl w-fit mb-6">
+      <div className="flex gap-1 p-1 bg-coastal-100/70 backdrop-blur-sm rounded-2xl w-fit mb-6 border border-coastal-200/50">
         {tabs.map((tab) => (
           <button
             key={tab.id}
@@ -26,7 +26,7 @@ export default function Tabs({ tabs, defaultTab, activeTab: controlledActiveTab,
             {activeTab === tab.id && (
               <motion.div
                 layoutId="activeTab"
-                className="absolute inset-0 bg-ocean-500 rounded-lg shadow-lg shadow-ocean-500/25"
+                className="absolute inset-0 bg-gradient-to-r from-ocean-500 to-ocean-600 rounded-xl shadow-lg shadow-ocean-500/20"
                 transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
               />
             )}

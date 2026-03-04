@@ -36,7 +36,7 @@ export default function Navbar() {
 
   return (
     <nav className="fixed top-2 sm:top-3 left-2 sm:left-3 right-2 sm:right-3 z-50">
-      <div className="max-w-[1500px] mx-auto bg-white/70 backdrop-blur-xl rounded-xl sm:rounded-2xl shadow-[0_6px_20px_rgba(0,0,0,0.08),0_2px_6px_rgba(0,0,0,0.05),inset_0_1px_0_rgba(255,255,255,0.6)] border border-white/60">
+      <div className="max-w-[1500px] mx-auto bg-white/80 backdrop-blur-xl rounded-xl sm:rounded-2xl shadow-glass border border-white/50">
         <div className="px-3 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-14 sm:h-16">
             {/* Logo */}
@@ -54,10 +54,10 @@ export default function Navbar() {
                 <Link
                   key={item.href}
                   to={item.href}
-                  className={`inline-flex items-center gap-1.5 px-2.5 xl:px-3 py-2 text-xs xl:text-sm font-medium rounded-lg transition-all duration-200 whitespace-nowrap ${
+                  className={`inline-flex items-center gap-1.5 px-2.5 xl:px-3 py-2 text-xs xl:text-sm font-semibold rounded-lg transition-all duration-200 whitespace-nowrap ${
                     isActive(item.href)
-                      ? 'text-ocean-600 bg-ocean-50'
-                      : 'text-coastal-600 hover:bg-coastal-100 hover:text-coastal-900'
+                      ? 'text-ocean-600 bg-ocean-50 ring-1 ring-ocean-100/50'
+                      : 'text-coastal-600 hover:bg-coastal-50 hover:text-coastal-900'
                   }`}
                 >
                   <item.icon className="w-3.5 h-3.5 flex-shrink-0" />
@@ -93,7 +93,7 @@ export default function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden bg-white border-t border-coastal-100 rounded-b-xl sm:rounded-b-2xl overflow-hidden mt-1"
+            className="lg:hidden bg-white/95 backdrop-blur-xl border-t border-coastal-100/50 rounded-b-xl sm:rounded-b-2xl overflow-hidden mt-1 shadow-glass"
           >
             <div className="px-4 py-4 space-y-1">
               {headerNavigation.map((item) => (

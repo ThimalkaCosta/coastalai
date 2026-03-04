@@ -144,14 +144,14 @@ export default function AnalysisPage() {
       color: 'from-emerald-500 to-teal-500',
     },
     {
-      id: 'gmm',
-      title: 'GMM Clustering',
-      description: 'Gaussian Mixture state detection',
+      id: 'hmm',
+      title: 'HMM State Detection',
+      description: 'Hidden Markov sequential state detection',
       icon: Target,
-      accuracy: data.models?.gmm?.metrics?.silhouetteScore 
-        ? `${data.models.gmm.metrics.silhouetteScore.toFixed(3)}` 
-        : '0.423',
-      link: '/models/gmm',
+      accuracy: data.models?.hmm?.metrics?.logLikelihood 
+        ? `${data.models.hmm.metrics.logLikelihood.toFixed(1)}` 
+        : '--',
+      link: '/models/hmm',
       color: 'from-violet-500 to-purple-500',
     },
     {
@@ -206,20 +206,20 @@ export default function AnalysisPage() {
 
   return (
     <PageTransition>
-      <div className="min-h-screen bg-gradient-to-b from-coastal-50 to-white">
+      <div className="min-h-screen bg-gradient-to-b from-coastal-50 to-white bg-mesh-1">
         {/* Header */}
-        <section className="pt-8 sm:pt-12 pb-6 sm:pb-8">
+        <section className="pt-8 sm:pt-10 pb-6">
           <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 xl:px-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               className="max-w-3xl"
             >
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary-100 text-primary-700 rounded-full text-sm font-medium mb-4">
-                <Activity className="w-4 h-4" />
+              <div className="page-badge bg-primary-50 text-primary-600 border-primary-100 mb-4">
+                <Activity className="w-3.5 h-3.5" />
                 Analysis Overview
               </div>
-              <h1 className="section-title mb-4">
+              <h1 className="section-title mb-3">
                 Coastal Erosion Analysis
               </h1>
               <p className="section-subtitle">
@@ -273,11 +273,11 @@ export default function AnalysisPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="text-xl font-display font-semibold text-coastal-900 mb-6"
+              className="text-xl font-display font-bold text-coastal-900 mb-6"
             >
               Model Results
             </motion.h2>
-            <div className="grid md:grid-cols-3 gap-6">
+            <div className="grid md:grid-cols-3 gap-5">
               {modelCards.map((model, index) => (
                 <motion.div
                   key={model.id}
@@ -286,23 +286,23 @@ export default function AnalysisPage() {
                   transition={{ delay: 0.35 + index * 0.05 }}
                 >
                   <Link to={model.link}>
-                    <div className="card p-6 group hover:shadow-lg transition-all duration-300">
+                    <div className="card p-6 group hover:shadow-card-hover hover:-translate-y-0.5 transition-all duration-300">
                       <div className="flex items-start justify-between mb-4">
-                        <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${model.color} flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform`}>
+                        <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${model.color} flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300`}>
                           <model.icon className="w-6 h-6 text-white" />
                         </div>
-                        <div className="flex items-center gap-1 text-sm text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full">
+                        <div className="flex items-center gap-1.5 text-sm text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full ring-1 ring-emerald-100">
                           <CheckCircle className="w-3 h-3" />
-                          {model.accuracy}
+                          <span className="font-semibold text-xs">{model.accuracy}</span>
                         </div>
                       </div>
-                      <h3 className="font-display font-semibold text-coastal-900 mb-1 group-hover:text-ocean-600 transition-colors">
+                      <h3 className="font-display font-bold text-coastal-900 mb-1 group-hover:text-ocean-600 transition-colors">
                         {model.title}
                       </h3>
-                      <p className="text-sm text-coastal-500 mb-4">
+                      <p className="text-sm text-coastal-500 mb-4 leading-relaxed">
                         {model.description}
                       </p>
-                      <div className="flex items-center text-sm text-ocean-600 font-medium">
+                      <div className="flex items-center text-sm text-ocean-600 font-semibold pt-3 border-t border-coastal-100">
                         View Results
                         <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
                       </div>
@@ -329,32 +329,36 @@ export default function AnalysisPage() {
                   <div className="space-y-6">
                     {/* Key Findings */}
                     <div className="card p-6">
-                      <h3 className="font-display font-semibold text-coastal-900 mb-4">
+                      <h3 className="font-display font-bold text-coastal-900 mb-5">
                         Key Findings
                       </h3>
                       <div className="grid md:grid-cols-2 gap-4">
-                        <div className="p-4 bg-amber-50 rounded-xl border border-amber-200">
+                        <div className="p-5 bg-amber-50/80 rounded-xl border border-amber-200/60 ring-1 ring-amber-100/50">
                           <div className="flex items-start gap-3">
-                            <AlertTriangle className="w-5 h-5 text-amber-600 mt-0.5" />
+                            <div className="w-9 h-9 rounded-lg bg-amber-100 flex items-center justify-center flex-shrink-0">
+                              <AlertTriangle className="w-4.5 h-4.5 text-amber-600" />
+                            </div>
                             <div>
-                              <h4 className="font-medium text-amber-800 mb-1">
+                              <h4 className="font-semibold text-amber-800 mb-1">
                                 High Erosion Alert
                               </h4>
-                              <p className="text-sm text-amber-700">
+                              <p className="text-sm text-amber-700 leading-relaxed">
                                 {stats.erosionRate || '--'}% of transects show erosion with mean NSM of {stats.meanNSM || '--'}m,
                                 indicating significant coastal retreat.
                               </p>
                             </div>
                           </div>
                         </div>
-                        <div className="p-4 bg-ocean-50 rounded-xl border border-ocean-200">
+                        <div className="p-5 bg-ocean-50/80 rounded-xl border border-ocean-200/60 ring-1 ring-ocean-100/50">
                           <div className="flex items-start gap-3">
-                            <Waves className="w-5 h-5 text-ocean-600 mt-0.5" />
+                            <div className="w-9 h-9 rounded-lg bg-ocean-100 flex items-center justify-center flex-shrink-0">
+                              <Waves className="w-4.5 h-4.5 text-ocean-600" />
+                            </div>
                             <div>
-                              <h4 className="font-medium text-ocean-800 mb-1">
+                              <h4 className="font-semibold text-ocean-800 mb-1">
                                 Primary Driver
                               </h4>
-                              <p className="text-sm text-ocean-700">
+                              <p className="text-sm text-ocean-700 leading-relaxed">
                                 Maximum wave height (Hm0_max) identified as the strongest
                                 predictor of erosion events across all models.
                               </p>
@@ -366,39 +370,45 @@ export default function AnalysisPage() {
 
                     {/* Detected Thresholds */}
                     <div className="card p-6">
-                      <h3 className="font-display font-semibold text-coastal-900 mb-4">
+                      <h3 className="font-display font-bold text-coastal-900 mb-5">
                         Detected Erosion Thresholds
                       </h3>
                       <div className="grid sm:grid-cols-3 gap-4">
-                        <div className="p-4 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl">
-                          <div className="flex items-center gap-2 mb-2">
-                            <Waves className="w-4 h-4 text-blue-600" />
-                            <span className="text-sm font-medium text-blue-800">Wave Height</span>
+                        <div className="p-5 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl ring-1 ring-blue-100/50">
+                          <div className="flex items-center gap-2 mb-3">
+                            <div className="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center">
+                              <Waves className="w-4 h-4 text-blue-600" />
+                            </div>
+                            <span className="text-sm font-semibold text-blue-800">Wave Height</span>
                           </div>
                           <p className="text-2xl font-display font-bold text-blue-900">
                             ≥ {thresholdValues.waveHeight}m
                           </p>
-                          <p className="text-xs text-blue-600 mt-1">Hm0_max threshold</p>
+                          <p className="text-xs text-blue-600 mt-1.5 font-medium">Hm0_max threshold</p>
                         </div>
-                        <div className="p-4 bg-gradient-to-br from-violet-50 to-purple-50 rounded-xl">
-                          <div className="flex items-center gap-2 mb-2">
-                            <Droplets className="w-4 h-4 text-violet-600" />
-                            <span className="text-sm font-medium text-violet-800">Current Speed</span>
+                        <div className="p-5 bg-gradient-to-br from-violet-50 to-purple-50 rounded-xl ring-1 ring-violet-100/50">
+                          <div className="flex items-center gap-2 mb-3">
+                            <div className="w-8 h-8 rounded-lg bg-violet-100 flex items-center justify-center">
+                              <Droplets className="w-4 h-4 text-violet-600" />
+                            </div>
+                            <span className="text-sm font-semibold text-violet-800">Current Speed</span>
                           </div>
                           <p className="text-2xl font-display font-bold text-violet-900">
                             ≥ {thresholdValues.currentSpeed}m/s
                           </p>
-                          <p className="text-xs text-violet-600 mt-1">UcurrMax threshold</p>
+                          <p className="text-xs text-violet-600 mt-1.5 font-medium">UcurrMax threshold</p>
                         </div>
-                        <div className="p-4 bg-gradient-to-br from-orange-50 to-amber-50 rounded-xl">
-                          <div className="flex items-center gap-2 mb-2">
-                            <Wind className="w-4 h-4 text-orange-600" />
-                            <span className="text-sm font-medium text-orange-800">Wind Speed</span>
+                        <div className="p-5 bg-gradient-to-br from-orange-50 to-amber-50 rounded-xl ring-1 ring-orange-100/50">
+                          <div className="flex items-center gap-2 mb-3">
+                            <div className="w-8 h-8 rounded-lg bg-orange-100 flex items-center justify-center">
+                              <Wind className="w-4 h-4 text-orange-600" />
+                            </div>
+                            <span className="text-sm font-semibold text-orange-800">Wind Speed</span>
                           </div>
                           <p className="text-2xl font-display font-bold text-orange-900">
                             ≥ {thresholdValues.windSpeed}m/s
                           </p>
-                          <p className="text-xs text-orange-600 mt-1">WindMax threshold</p>
+                          <p className="text-xs text-orange-600 mt-1.5 font-medium">WindMax threshold</p>
                         </div>
                       </div>
                     </div>
@@ -441,7 +451,7 @@ export default function AnalysisPage() {
                 {activeTab === 'thresholds' && (
                   <div className="space-y-6">
                     <div className="card p-6">
-                      <h3 className="font-display font-semibold text-coastal-900 mb-4">
+                      <h3 className="font-display font-bold text-coastal-900 mb-4">
                         Wave Height vs Shoreline Change
                       </h3>
                       {scatterData.length > 0 ? (
@@ -458,39 +468,39 @@ export default function AnalysisPage() {
 
                     {/* Threshold Summary Table */}
                     <div className="card p-6">
-                      <h3 className="font-display font-semibold text-coastal-900 mb-4">
+                      <h3 className="font-display font-bold text-coastal-900 mb-5">
                         Multi-Model Threshold Consensus
                       </h3>
-                      <div className="overflow-x-auto">
+                      <div className="overflow-x-auto rounded-xl ring-1 ring-coastal-200/60">
                         <table className="w-full text-sm">
                           <thead>
-                            <tr className="border-b border-coastal-200">
-                              <th className="text-left py-3 px-4 font-medium text-coastal-700">Driver</th>
-                              <th className="text-center py-3 px-4 font-medium text-coastal-700">Random Forest</th>
-                              <th className="text-center py-3 px-4 font-medium text-coastal-700">GMM</th>
-                              <th className="text-center py-3 px-4 font-medium text-coastal-700">XGBoost</th>
-                              <th className="text-center py-3 px-4 font-medium text-coastal-700">Consensus</th>
+                            <tr className="bg-coastal-50/80 border-b border-coastal-200">
+                              <th className="text-left py-3.5 px-4 font-semibold text-coastal-700">Driver</th>
+                              <th className="text-center py-3.5 px-4 font-semibold text-coastal-700">Random Forest</th>
+                              <th className="text-center py-3.5 px-4 font-semibold text-coastal-700">HMM</th>
+                              <th className="text-center py-3.5 px-4 font-semibold text-coastal-700">XGBoost</th>
+                              <th className="text-center py-3.5 px-4 font-semibold text-coastal-700">Consensus</th>
                             </tr>
                           </thead>
                           <tbody>
                             <tr className="border-b border-coastal-100">
                               <td className="py-3 px-4 font-medium">Wave Height (Hm0_max)</td>
                               <td className="text-center py-3 px-4">≥ {data.models?.rf?.thresholds?.Hm0_max?.value?.toFixed(2) || '--'}m</td>
-                              <td className="text-center py-3 px-4">≥ {data.models?.gmm?.thresholds?.Hm0_max?.value?.toFixed(2) || '--'}m</td>
+                              <td className="text-center py-3 px-4">≥ {data.models?.hmm?.thresholds?.Hm0_max?.value?.toFixed(2) || '--'}m</td>
                               <td className="text-center py-3 px-4">≥ {data.models?.xgb?.thresholds?.Hm0_max?.value?.toFixed(2) || '--'}m</td>
                               <td className="text-center py-3 px-4 font-medium text-emerald-600">High</td>
                             </tr>
                             <tr className="border-b border-coastal-100">
                               <td className="py-3 px-4 font-medium">Current Speed (UcurrMax)</td>
                               <td className="text-center py-3 px-4">≥ {data.models?.rf?.thresholds?.UcurrMax?.value?.toFixed(2) || '--'}m/s</td>
-                              <td className="text-center py-3 px-4">≥ {data.models?.gmm?.thresholds?.UcurrMax?.value?.toFixed(2) || '--'}m/s</td>
+                              <td className="text-center py-3 px-4">≥ {data.models?.hmm?.thresholds?.UcurrMax?.value?.toFixed(2) || '--'}m/s</td>
                               <td className="text-center py-3 px-4">≥ {data.models?.xgb?.thresholds?.UcurrMax?.value?.toFixed(2) || '--'}m/s</td>
                               <td className="text-center py-3 px-4 font-medium text-emerald-600">High</td>
                             </tr>
                             <tr>
                               <td className="py-3 px-4 font-medium">Wind Speed (WindMax)</td>
                               <td className="text-center py-3 px-4">≥ {data.models?.rf?.thresholds?.WindMax?.value?.toFixed(2) || '--'}m/s</td>
-                              <td className="text-center py-3 px-4">≥ {data.models?.gmm?.thresholds?.WindMax?.value?.toFixed(2) || '--'}m/s</td>
+                              <td className="text-center py-3 px-4">≥ {data.models?.hmm?.thresholds?.WindMax?.value?.toFixed(2) || '--'}m/s</td>
                               <td className="text-center py-3 px-4">≥ {data.models?.xgb?.thresholds?.WindMax?.value?.toFixed(2) || '--'}m/s</td>
                               <td className="text-center py-3 px-4 font-medium text-amber-600">Medium</td>
                             </tr>
@@ -511,10 +521,10 @@ export default function AnalysisPage() {
                 {activeTab === 'yearly' && (
                   <div className="space-y-6">
                     <div className="card p-6">
-                      <h3 className="font-display font-semibold text-coastal-900 mb-4 text-xl">
+                      <h3 className="font-display font-bold text-coastal-900 mb-3 text-xl">
                         Annual Shoreline Statistics
                       </h3>
-                      <p className="text-coastal-600 mb-6">
+                      <p className="text-coastal-500 mb-6 leading-relaxed">
                         Yearly aggregated statistics showing Net Shoreline Movement (NSM), 
                         End Point Rate (EPR), Linear Regression Rate (LRR), and Shoreline Change Envelope (SCE) 
                         metrics across all transects.

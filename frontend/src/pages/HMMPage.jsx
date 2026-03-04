@@ -8,6 +8,8 @@ import {
   Info,
   AlertTriangle,
   CheckCircle,
+  ArrowRightLeft,
+  Activity,
 } from 'lucide-react'
 import PageTransition from '../components/common/PageTransition'
 import Tabs from '../components/common/Tabs'
@@ -71,38 +73,53 @@ function getFeatureIcon(feature) {
   return Layers
 }
 
-export default function GMMPage() {
+export default function HMMPage() {
   const { data } = useData()
   const [activeTab, setActiveTab] = useState('distribution')
 
   // ── State distribution data (dynamic) ──
   const stateDistribution = useMemo(() => {
-    return data.models?.gmm?.stateDistribution || []
+    return data.models?.hmm?.stateDistribution || []
   }, [data])
 
   // ── State centroids (all states, all features) ──
   const stateCentroids = useMemo(() => {
-    return data.models?.gmm?.stateCentroids || {}
+    return data.models?.hmm?.stateCentroids || {}
   }, [data])
 
   // ── Component selection (BIC/AIC) ──
   const componentSelection = useMemo(() => {
-    return data.models?.gmm?.componentSelection || []
+    return data.models?.hmm?.componentSelection || []
+  }, [data])
+
+  // ── Transition matrix ──
+  const transitionMatrix = useMemo(() => {
+    return data.models?.hmm?.transitionMatrix || []
+  }, [data])
+
+  // ── Regime stability ──
+  const regimeStability = useMemo(() => {
+    return data.models?.hmm?.regimeStability || {}
+  }, [data])
+
+  // ── Final-state dominance ──
+  const finalStateDominance = useMemo(() => {
+    return data.models?.hmm?.finalStateDominance || []
   }, [data])
 
   // ── Erosion State index ──
   const erosionState = useMemo(() => {
-    return data.models?.gmm?.erosionState ?? null
+    return data.models?.hmm?.erosionState ?? null
   }, [data])
 
   // ── Model metrics (dynamic) ──
   const metrics = useMemo(() => {
-    return data.models?.gmm?.metrics || {}
+    return data.models?.hmm?.metrics || {}
   }, [data])
 
   // ── Thresholds (all features, dynamic) ──
   const thresholds = useMemo(() => {
-    return data.models?.gmm?.thresholds || {}
+    return data.models?.hmm?.thresholds || {}
   }, [data])
 
   // ── Threshold array for table ──
@@ -130,8 +147,16 @@ export default function GMMPage() {
     return first ? Object.keys(first).slice(0, 6) : []
   }, [stateCentroids])
 
+  // ── Transition matrix state keys ──
+  const tmStateKeys = useMemo(() => {
+    if (transitionMatrix.length === 0) return []
+    const first = transitionMatrix[0]
+    return Object.keys(first).filter(k => k !== 'from')
+  }, [transitionMatrix])
+
   const tabs = [
     { id: 'distribution', label: 'State Distribution' },
+    { id: 'transitions', label: 'Transition Matrix' },
     { id: 'thresholds', label: 'Thresholds' },
   ]
 
@@ -146,16 +171,17 @@ export default function GMMPage() {
               animate={{ opacity: 1, y: 0 }}
               className="max-w-3xl"
             >
-              <div className="page-badge bg-violet-50 text-violet-600 border-violet-100 mb-4">
-                <Layers className="w-3.5 h-3.5" />
-                Unsupervised Learning
+              <div className="page-badge bg-emerald-50 text-emerald-600 border-emerald-100 mb-4">
+                <Activity className="w-3.5 h-3.5" />
+                Sequential State Detection
               </div>
               <h1 className="section-title mb-3">
-                GMM State Detection
+                HMM State Detection
               </h1>
               <p className="section-subtitle">
-                Gaussian Mixture Model for identifying hidden erosion states in environmental
-                data. Detects clusters of similar conditions that correlate with erosion events.
+                Hidden Markov Model for sequential erosion state detection. Learns transition
+                probabilities between hidden states and identifies temporal patterns correlated
+                with erosion events.
               </p>
             </motion.div>
           </div>
@@ -168,22 +194,22 @@ export default function GMMPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="card p-5 bg-gradient-to-br from-violet-50/80 to-purple-50/80 border-violet-200/60 ring-1 ring-violet-100/50"
+              className="card p-5 bg-gradient-to-br from-emerald-50/80 to-teal-50/80 border-emerald-200/60 ring-1 ring-emerald-100/50"
             >
               <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-lg bg-violet-100 flex items-center justify-center flex-shrink-0">
-                  <Info className="w-4 h-4 text-violet-600" />
+                <div className="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center flex-shrink-0">
+                  <Info className="w-4 h-4 text-emerald-600" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-violet-900 mb-1">
-                    About Gaussian Mixture Models
+                  <h3 className="font-semibold text-emerald-900 mb-1">
+                    About Hidden Markov Models
                   </h3>
-                  <p className="text-sm text-violet-700">
-                    GMM is a probabilistic model that assumes all data points are generated from
-                    a mixture of Gaussian distributions with unknown parameters. It identifies
-                    hidden clusters (states) in the data without labeled examples. In coastal
-                    erosion analysis, it detects "Normal" and "High Risk" environmental states
-                    based on wave, current, and wind patterns.
+                  <p className="text-sm text-emerald-700">
+                    HMM is a statistical model that assumes the system transitions through unobservable
+                    (hidden) states over time, where each state emits observations with certain probability
+                    distributions. Unlike GMM, HMM captures <strong>temporal dependencies</strong> through
+                    a transition matrix, making it ideal for detecting regime shifts in coastal erosion
+                    where environmental conditions evolve sequentially.
                   </p>
                 </div>
               </div>
@@ -210,19 +236,19 @@ export default function GMMPage() {
                         State Distribution
                       </h3>
                       <p className="text-sm text-coastal-500">
-                        Distribution of observations across {stateDistribution.length || 0} identified environmental states.
+                        Distribution of observations across {stateDistribution.length || 0} identified hidden states.
                       </p>
                     </div>
 
                     {/* Component Selection Summary */}
                     {componentSelection.length > 0 && (
                       <div className="mb-8 p-4 bg-coastal-50 rounded-xl">
-                        <h4 className="font-semibold text-coastal-900 mb-3">Optimal Component Selection</h4>
+                        <h4 className="font-semibold text-coastal-900 mb-3">Optimal State Selection</h4>
                         <div className="overflow-x-auto rounded-xl ring-1 ring-coastal-200/60">
                           <table className="w-full text-sm">
                             <thead>
                               <tr className="border-b border-coastal-200 bg-coastal-50/80">
-                                <th className="text-left py-3 px-3 font-semibold text-coastal-600">n_components</th>
+                                <th className="text-left py-3 px-3 font-semibold text-coastal-600">n_states</th>
                                 <th className="text-right py-3 px-3 font-semibold text-coastal-600">BIC</th>
                                 <th className="text-right py-3 px-3 font-semibold text-coastal-600">AIC</th>
                               </tr>
@@ -231,12 +257,12 @@ export default function GMMPage() {
                               {componentSelection.map((row) => (
                                 <tr
                                   key={row.nComponents}
-                                  className={`border-b border-coastal-100 ${row.nComponents === metrics.nStates ? 'bg-violet-50 font-medium' : ''}`}
+                                  className={`border-b border-coastal-100 ${row.nComponents === metrics.nStates ? 'bg-emerald-50 font-medium' : ''}`}
                                 >
                                   <td className="py-2 px-3">
                                     {row.nComponents}
                                     {row.nComponents === metrics.nStates && (
-                                      <span className="ml-2 inline-flex items-center gap-1 px-2 py-0.5 bg-violet-100 text-violet-700 rounded-full text-xs font-medium">
+                                      <span className="ml-2 inline-flex items-center gap-1 px-2 py-0.5 bg-emerald-100 text-emerald-700 rounded-full text-xs font-medium">
                                         <CheckCircle className="w-3 h-3" /> Optimal
                                       </span>
                                     )}
@@ -254,9 +280,9 @@ export default function GMMPage() {
                     {/* Model Metrics Summary */}
                     {metrics.nStates > 0 && (
                       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-                        <div className="p-4 bg-violet-50 rounded-xl border border-violet-200/60 ring-1 ring-violet-100/50">
-                          <span className="text-xs font-semibold text-violet-600">States</span>
-                          <p className="text-2xl font-bold text-violet-900">{metrics.nStates}</p>
+                        <div className="p-4 bg-emerald-50 rounded-xl border border-emerald-200/60 ring-1 ring-emerald-100/50">
+                          <span className="text-xs font-semibold text-emerald-600">Hidden States</span>
+                          <p className="text-2xl font-bold text-emerald-900">{metrics.nStates}</p>
                         </div>
                         {metrics.logLikelihood !== 0 && (
                           <div className="p-4 bg-blue-50 rounded-xl border border-blue-200/60 ring-1 ring-blue-100/50">
@@ -271,9 +297,9 @@ export default function GMMPage() {
                           </div>
                         )}
                         {metrics.bic !== 0 && (
-                          <div className="p-4 bg-emerald-50 rounded-xl border border-emerald-200/60 ring-1 ring-emerald-100/50">
-                            <span className="text-xs font-semibold text-emerald-600">BIC</span>
-                            <p className="text-2xl font-bold text-emerald-900">{metrics.bic?.toFixed(3)}</p>
+                          <div className="p-4 bg-teal-50 rounded-xl border border-teal-200/60 ring-1 ring-teal-100/50">
+                            <span className="text-xs font-semibold text-teal-600">BIC</span>
+                            <p className="text-2xl font-bold text-teal-900">{metrics.bic?.toFixed(3)}</p>
                           </div>
                         )}
                       </div>
@@ -358,11 +384,11 @@ export default function GMMPage() {
                     )}
 
                     {metrics.converged !== undefined && (
-                      <div className="p-4 bg-violet-50 rounded-xl border border-violet-200">
+                      <div className="p-4 bg-emerald-50 rounded-xl border border-emerald-200">
                         <div className="flex items-start gap-3">
-                          <Info className="w-5 h-5 text-violet-600 mt-0.5" />
-                          <div className="text-sm text-violet-700">
-                            <span className="font-medium text-violet-800">Convergence: </span>
+                          <Info className="w-5 h-5 text-emerald-600 mt-0.5" />
+                          <div className="text-sm text-emerald-700">
+                            <span className="font-medium text-emerald-800">Convergence: </span>
                             {metrics.converged ? 'Model converged successfully ✓' : 'Model did not converge ✗'}
                           </div>
                         </div>
@@ -371,12 +397,156 @@ export default function GMMPage() {
                   </div>
                 )}
 
+                {/* ===================== TRANSITION MATRIX TAB ===================== */}
+                {activeTab === 'transitions' && (
+                  <div>
+                    <div className="mb-6">
+                      <h3 className="font-display font-bold text-coastal-900 mb-2">
+                        HMM Transition Matrix
+                      </h3>
+                      <p className="text-sm text-coastal-500">
+                        Probability of transitioning between hidden states from one time step to the next.
+                      </p>
+                    </div>
+
+                    {/* Transition Matrix Table */}
+                    {transitionMatrix.length > 0 ? (
+                      <div className="mb-8">
+                        <div className="overflow-x-auto p-4 bg-coastal-50 rounded-xl">
+                          <table className="w-full max-w-2xl mx-auto">
+                            <thead>
+                              <tr>
+                                <th className="px-4 py-3 text-sm font-semibold text-coastal-700"></th>
+                                {tmStateKeys.map((col) => (
+                                  <th key={col} className={`px-4 py-3 text-center text-sm font-semibold ${
+                                    erosionState !== null && col === `S${erosionState}` ? 'text-red-600' : 'text-coastal-700'
+                                  }`}>
+                                    {col} {erosionState !== null && col === `S${erosionState}` ? '(Erosion)' : ''}
+                                  </th>
+                                ))}
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {transitionMatrix.map((row, index) => (
+                                <tr key={index}>
+                                  <td className="px-4 py-3 text-sm font-semibold text-coastal-700">{row.from}</td>
+                                  {tmStateKeys.map((col) => (
+                                    <td key={col} className="px-4 py-3 text-center">
+                                      <span 
+                                        className={`inline-block px-3 py-1 rounded-lg font-mono text-sm ${
+                                          row[col] > 0.5 
+                                            ? 'bg-emerald-100 text-emerald-700 font-semibold' 
+                                            : row[col] > 0.1 
+                                              ? 'bg-coastal-100 text-coastal-700'
+                                              : 'bg-coastal-50 text-coastal-400'
+                                        }`}
+                                      >
+                                        {typeof row[col] === 'number' ? row[col].toFixed(3) : row[col]}
+                                      </span>
+                                    </td>
+                                  ))}
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="mb-8 p-8 text-center bg-coastal-50 rounded-xl">
+                        <p className="text-coastal-600">No transition matrix data available. Run the notebook analysis first.</p>
+                      </div>
+                    )}
+
+                    {/* Regime Stability */}
+                    {regimeStability.count > 0 && (
+                      <div className="mb-8">
+                        <h4 className="font-semibold text-coastal-900 mb-4">
+                          Regime Stability Check
+                        </h4>
+                        <p className="text-sm text-coastal-500 mb-4">
+                          Number of state switches per monsoon year cycle (lower = more stable regimes).
+                        </p>
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                          <div className="p-4 bg-emerald-50 rounded-xl border border-emerald-200/60">
+                            <div className="text-xs font-semibold text-emerald-600">Mean Switches</div>
+                            <div className="text-2xl font-bold text-emerald-900">{regimeStability.mean}</div>
+                          </div>
+                          <div className="p-4 bg-blue-50 rounded-xl border border-blue-200/60">
+                            <div className="text-xs font-semibold text-blue-600">Std Dev</div>
+                            <div className="text-2xl font-bold text-blue-900">{regimeStability.std}</div>
+                          </div>
+                          <div className="p-4 bg-cyan-50 rounded-xl border border-cyan-200/60">
+                            <div className="text-xs font-semibold text-cyan-600">Min</div>
+                            <div className="text-2xl font-bold text-cyan-900">{regimeStability.min}</div>
+                          </div>
+                          <div className="p-4 bg-teal-50 rounded-xl border border-teal-200/60">
+                            <div className="text-xs font-semibold text-teal-600">Max</div>
+                            <div className="text-2xl font-bold text-teal-900">{regimeStability.max}</div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Final-State Dominance */}
+                    {finalStateDominance.length > 0 && (
+                      <div className="mb-8">
+                        <h4 className="font-semibold text-coastal-900 mb-4">
+                          Final-State Dominance Test
+                        </h4>
+                        <p className="text-sm text-coastal-500 mb-4">
+                          Distribution of final states in erosion-labeled monsoon year cycles.
+                        </p>
+                        <div className="flex gap-4">
+                          {finalStateDominance.map((item, idx) => {
+                            const style = STATE_BG_CLASSES[idx % STATE_BG_CLASSES.length]
+                            return (
+                              <div key={item.state} className="flex-1">
+                                <div className="text-sm text-coastal-600 mb-2">{item.state}</div>
+                                <div className="h-32 bg-coastal-100 rounded-lg relative overflow-hidden">
+                                  <motion.div 
+                                    initial={{ height: 0 }}
+                                    animate={{ height: `${item.value * 100}%` }}
+                                    transition={{ duration: 0.8, delay: idx * 0.1 }}
+                                    className={`absolute bottom-0 left-0 right-0 ${style.dot} rounded-lg`}
+                                  />
+                                </div>
+                                <div className="text-lg font-bold text-coastal-900 mt-2">
+                                  {(item.value * 100).toFixed(0)}%
+                                </div>
+                              </div>
+                            )
+                          })}
+                        </div>
+                      </div>
+                    )}
+
+                    <div className="p-5 bg-emerald-50/80 rounded-xl border border-emerald-200/60 ring-1 ring-emerald-100/50">
+                      <div className="flex items-start gap-3">
+                        <div className="w-9 h-9 rounded-lg bg-emerald-100 flex items-center justify-center flex-shrink-0">
+                          <ArrowRightLeft className="w-4.5 h-4.5 text-emerald-600" />
+                        </div>
+                        <div>
+                          <h4 className="font-medium text-emerald-800 mb-1">
+                            Interpreting the Transition Matrix
+                          </h4>
+                          <p className="text-sm text-emerald-700">
+                            High diagonal values indicate that states are persistent (the system tends to stay
+                            in the same state). Off-diagonal values show the probability of transitioning to a
+                            different state. A high probability of transitioning to the erosion state indicates
+                            increased risk of regime shift.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
                 {/* ===================== THRESHOLDS TAB ===================== */}
                 {activeTab === 'thresholds' && (
                   <div>
                     <div className="mb-6">
                       <h3 className="font-display font-bold text-coastal-900 mb-2">
-                        GMM-Derived Thresholds
+                        HMM-Derived Thresholds
                       </h3>
                       <p className="text-sm text-coastal-500">
                         Threshold values computed as the midpoint between state cluster centroids.
@@ -391,9 +561,9 @@ export default function GMMPage() {
                           const thresh = thresholds[key]
                           const Icon = getFeatureIcon(key)
                           const gradients = [
+                            'from-emerald-500 to-teal-500',
                             'from-blue-500 to-cyan-500',
-                            'from-indigo-500 to-blue-600',
-                            'from-sky-500 to-teal-500',
+                            'from-sky-500 to-indigo-500',
                           ]
                           const labels = { Hm0_max: 'Wave Height', UcurrMax: 'Current Speed', WindMax: 'Wind Speed' }
                           return (
@@ -420,7 +590,7 @@ export default function GMMPage() {
 
                     {/* Full Thresholds Table */}
                     <div className="mb-8">
-                      <h4 className="font-semibold text-coastal-900 mb-4">All GMM Feature Thresholds</h4>
+                      <h4 className="font-semibold text-coastal-900 mb-4">All HMM Feature Thresholds</h4>
                       {thresholdsArray.length > 0 ? (
                         <div className="overflow-x-auto rounded-xl ring-1 ring-coastal-200/60">
                           <table className="w-full text-sm">
@@ -445,14 +615,14 @@ export default function GMMPage() {
                                   className="border-b border-coastal-100 hover:bg-coastal-50"
                                 >
                                   <td className="py-3 px-4">
-                                    <span className={'inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold text-white ' + ['bg-blue-500', 'bg-indigo-500', 'bg-sky-500'][index] || 'bg-coastal-400'}>
+                                    <span className={'inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold text-white ' + ['bg-emerald-500', 'bg-teal-500', 'bg-blue-500'][index] || 'bg-coastal-400'}>
                                       {index + 1}
                                     </span>
                                   </td>
                                   <td className="py-3 px-4 font-medium text-coastal-900">{thresh.feature}</td>
                                   <td className="py-3 px-4 text-coastal-600">{thresh.description}</td>
                                   <td className="py-3 px-4 text-right">
-                                    <span className="inline-flex items-center gap-1 px-3 py-1 bg-blue-100 text-blue-700 rounded-md font-mono font-medium">
+                                    <span className="inline-flex items-center gap-1 px-3 py-1 bg-emerald-100 text-emerald-700 rounded-md font-mono font-medium">
                                       {thresh.direction} {typeof thresh.value === 'number' ? thresh.value.toFixed(3) : thresh.value}
                                     </span>
                                   </td>
@@ -475,16 +645,16 @@ export default function GMMPage() {
                       )}
                     </div>
 
-                    <div className="p-5 bg-violet-50/80 rounded-xl border border-violet-200/60 ring-1 ring-violet-100/50">
+                    <div className="p-5 bg-emerald-50/80 rounded-xl border border-emerald-200/60 ring-1 ring-emerald-100/50">
                       <div className="flex items-start gap-3">
-                        <div className="w-9 h-9 rounded-lg bg-violet-100 flex items-center justify-center flex-shrink-0">
-                          <Info className="w-4.5 h-4.5 text-violet-600" />
+                        <div className="w-9 h-9 rounded-lg bg-emerald-100 flex items-center justify-center flex-shrink-0">
+                          <Info className="w-4.5 h-4.5 text-emerald-600" />
                         </div>
                         <div>
-                          <h4 className="font-medium text-violet-800 mb-1">
+                          <h4 className="font-medium text-emerald-800 mb-1">
                             Threshold Calculation Method
                           </h4>
-                          <p className="text-sm text-violet-700">
+                          <p className="text-sm text-emerald-700">
                             Thresholds are calculated as the midpoint between the erosion state
                             centroid and the mean of all normal state centroids for each feature.
                             The "Erosion" and "Normal" columns show the respective centroid values.

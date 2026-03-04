@@ -150,7 +150,7 @@ export default function LongTermForecastingPage() {
             >
               <div className="text-center mb-6">
                 <TrendingUp className="h-10 w-10 text-blue-600 mx-auto mb-3" />
-                <h2 className="text-xl font-display font-semibold text-coastal-900 mb-2">
+                <h2 className="text-xl font-display font-bold text-coastal-900 mb-2">
                   Generate {selectedYear} Forecast
                 </h2>
                 <p className="text-sm text-coastal-600 max-w-2xl mx-auto">
@@ -238,7 +238,7 @@ export default function LongTermForecastingPage() {
               {/* Forecast Images */}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div className="card p-4">
-                  <h3 className="text-lg font-display font-semibold text-coastal-900 mb-3">
+                  <h3 className="text-lg font-display font-bold text-coastal-900 mb-3">
                     Shoreline Change Map
                   </h3>
                   <div className="bg-gray-100 rounded-lg overflow-hidden">
@@ -251,7 +251,7 @@ export default function LongTermForecastingPage() {
                 </div>
 
                 <div className="card p-4">
-                  <h3 className="text-lg font-display font-semibold text-coastal-900 mb-3">
+                  <h3 className="text-lg font-display font-bold text-coastal-900 mb-3">
                     Forecast Visualization
                   </h3>
                   <div className="bg-gray-100 rounded-lg overflow-hidden">
@@ -268,7 +268,7 @@ export default function LongTermForecastingPage() {
               <div className="card p-4">
                 <div className="flex items-center gap-2 mb-3">
                   <Download className="h-5 w-5 text-blue-600" />
-                  <h3 className="text-lg font-display font-semibold text-coastal-900">
+                  <h3 className="text-lg font-display font-bold text-coastal-900">
                     Forecasted Shoreline Change Visualization
                   </h3>
                 </div>
@@ -290,7 +290,7 @@ export default function LongTermForecastingPage() {
                 interpretation.type === 'accretion' ? 'border-emerald-500' : 
                 'border-blue-500'
               }`}>
-                <h3 className="text-lg font-display font-semibold text-coastal-900 mb-3">
+                <h3 className="text-lg font-display font-bold text-coastal-900 mb-3">
                   Forecast Interpretation
                 </h3>
                 
@@ -347,8 +347,8 @@ export default function LongTermForecastingPage() {
               </div>
 
               {/* Methodology Note */}
-              <div className="card p-4 bg-gradient-to-r from-blue-50 to-indigo-50">
-                <h3 className="text-base font-display font-semibold text-coastal-900 mb-2">
+              <div className="card p-5 bg-gradient-to-br from-blue-50/80 to-indigo-50/80 ring-1 ring-blue-100/50">
+                <h3 className="text-base font-display font-bold text-coastal-900 mb-2">
                   Forecast Methodology
                 </h3>
                 <p className="text-xs text-coastal-600">

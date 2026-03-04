@@ -33,7 +33,7 @@ export default function HMMAnalysisPage() {
             {/* Transition Matrix */}
             <div className="card overflow-hidden">
               <div className="p-6 border-b border-coastal-100">
-                <h2 className="text-xl font-display font-semibold text-coastal-900">
+                <h2 className="text-xl font-display font-bold text-coastal-900">
                   HMM Transition Matrix
                 </h2>
                 <p className="text-sm text-coastal-500 mt-1">
@@ -79,7 +79,7 @@ export default function HMMAnalysisPage() {
 
             {/* Regime Stability */}
             <div className="card p-6">
-              <h2 className="text-xl font-display font-semibold text-coastal-900 mb-4">
+              <h2 className="text-xl font-display font-bold text-coastal-900 mb-4">
                 Regime Stability Check
               </h2>
               <p className="text-sm text-coastal-500 mb-6">
@@ -107,7 +107,7 @@ export default function HMMAnalysisPage() {
 
             {/* Final State Dominance */}
             <div className="card p-6">
-              <h2 className="text-xl font-display font-semibold text-coastal-900 mb-4">
+              <h2 className="text-xl font-display font-bold text-coastal-900 mb-4">
                 Final-State Dominance Test
               </h2>
               <p className="text-sm text-coastal-500 mb-6">

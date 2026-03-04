@@ -64,7 +64,7 @@ export default function RegimeProfilesPage() {
           <div className="space-y-6">
             <div className="card overflow-hidden">
               <div className="p-6 border-b border-coastal-100">
-                <h2 className="text-xl font-display font-semibold text-coastal-900">
+                <h2 className="text-xl font-display font-bold text-coastal-900">
                   Regime-wise Variable Profiles
                 </h2>
                 <p className="text-sm text-coastal-500 mt-1">
@@ -137,7 +137,7 @@ export default function RegimeProfilesPage() {
                   className={`card p-6 ${state.state === 'State_3' ? 'ring-2 ring-emerald-500' : ''}`}
                 >
                   <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-lg font-display font-semibold text-coastal-900">
+                    <h3 className="text-lg font-display font-bold text-coastal-900">
                       {state.state}
                     </h3>
                     {state.state === 'State_3' && (

@@ -21,83 +21,131 @@
   h1, h2, h3, h4, h5, h6 {
     @apply font-display font-semibold tracking-tight;
   }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  ::selection {
+    @apply bg-ocean-200 text-ocean-900;
+  }
 }
 
 @layer components {
+  /* ── Buttons ── */
   .btn-primary {
     @apply inline-flex items-center justify-center gap-2 px-6 py-3 
-           bg-gradient-to-r from-ocean-500 to-primary-600 
-           text-white font-medium rounded-xl
-           shadow-lg shadow-ocean-500/25
+           bg-gradient-to-r from-ocean-500 to-ocean-600
+           text-white font-semibold rounded-xl
+           shadow-lg shadow-ocean-500/20
            hover:shadow-xl hover:shadow-ocean-500/30
-           hover:from-ocean-600 hover:to-primary-700
-           transition-all duration-300 ease-out
-           focus:outline-none focus:ring-2 focus:ring-ocean-500 focus:ring-offset-2;
+           hover:from-ocean-600 hover:to-ocean-700
+           active:scale-[0.98]
+           transition-all duration-200 ease-out
+           focus:outline-none focus:ring-2 focus:ring-ocean-500/50 focus:ring-offset-2;
   }
   
   .btn-secondary {
     @apply inline-flex items-center justify-center gap-2 px-6 py-3
-           bg-white text-coastal-700 font-medium rounded-xl
+           bg-white text-coastal-700 font-semibold rounded-xl
            border border-coastal-200
-           shadow-soft
+           shadow-sm
            hover:bg-coastal-50 hover:border-coastal-300
-           hover:shadow-card-hover
-           transition-all duration-300 ease-out
-           focus:outline-none focus:ring-2 focus:ring-ocean-500 focus:ring-offset-2;
+           hover:shadow
+           active:scale-[0.98]
+           transition-all duration-200 ease-out
+           focus:outline-none focus:ring-2 focus:ring-ocean-500/50 focus:ring-offset-2;
   }
   
   .btn-ghost {
     @apply inline-flex items-center justify-center gap-2 px-4 py-2
-           text-coastal-600 font-medium rounded-lg
+           text-coastal-600 font-medium rounded-xl
            hover:bg-coastal-100 hover:text-coastal-900
+           active:scale-[0.98]
            transition-all duration-200
-           focus:outline-none focus:ring-2 focus:ring-ocean-500 focus:ring-offset-2;
+           focus:outline-none focus:ring-2 focus:ring-ocean-500/50 focus:ring-offset-2;
+  }
+
+  .btn-danger {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3
+           bg-gradient-to-r from-red-500 to-red-600
+           text-white font-semibold rounded-xl
+           shadow-lg shadow-red-500/20
+           hover:shadow-xl hover:shadow-red-500/30
+           hover:from-red-600 hover:to-red-700
+           active:scale-[0.98]
+           transition-all duration-200 ease-out
+           focus:outline-none focus:ring-2 focus:ring-red-500/50 focus:ring-offset-2;
   }
   
+  /* ── Cards ── */
   .card {
-    @apply bg-white rounded-xl sm:rounded-2xl border border-coastal-100 
-           shadow-card hover:shadow-card-hover
+    @apply bg-white rounded-2xl border border-coastal-100/80
+           shadow-sm
            transition-all duration-300;
   }
   
   .card-interactive {
     @apply card cursor-pointer
-           hover:border-ocean-200 hover:-translate-y-1;
+           hover:border-ocean-200/60 hover:-translate-y-0.5
+           hover:shadow-lg;
+  }
+
+  .card-glass {
+    @apply bg-white/70 backdrop-blur-xl rounded-2xl
+           border border-white/60
+           shadow-xl
+           transition-all duration-300;
   }
   
+  /* ── Typography ── */
   .section-title {
-    @apply text-2xl sm:text-3xl md:text-4xl font-display font-bold text-coastal-900;
+    @apply text-2xl sm:text-3xl md:text-4xl font-display font-bold text-coastal-900 tracking-tight;
   }
   
   .section-subtitle {
-    @apply text-base sm:text-lg text-coastal-500 max-w-2xl;
+    @apply text-base sm:text-lg text-coastal-500 max-w-2xl leading-relaxed;
   }
   
   .gradient-text {
-    @apply bg-gradient-to-r from-ocean-600 to-primary-600 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-ocean-600 via-primary-600 to-ocean-600 bg-clip-text text-transparent;
+  }
+
+  .gradient-text-accent {
+    @apply bg-gradient-to-r from-ocean-500 to-primary-500 bg-clip-text text-transparent;
+  }
+
+  /* ── Page header badge ── */
+  .page-badge {
+    @apply inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold
+           border backdrop-blur-sm;
   }
   
+  /* ── Inputs ── */
   .input-field {
     @apply w-full px-4 py-3 rounded-xl border border-coastal-200
            bg-white text-coastal-900 placeholder-coastal-400
-           focus:outline-none focus:ring-2 focus:ring-ocean-500 focus:border-transparent
+           focus:outline-none focus:ring-2 focus:ring-ocean-500/40 focus:border-ocean-400
            transition-all duration-200;
   }
   
+  /* ── Stat Cards ── */
   .stat-card {
-    @apply card p-4 sm:p-6 flex flex-col;
+    @apply card p-5 sm:p-6 flex flex-col relative overflow-hidden;
   }
   
   .stat-value {
-    @apply text-xl sm:text-2xl lg:text-3xl font-display font-bold text-coastal-900;
+    @apply text-2xl sm:text-3xl font-display font-bold text-coastal-900;
   }
   
   .stat-label {
-    @apply text-xs sm:text-sm text-coastal-500 mt-1;
+    @apply text-xs sm:text-sm text-coastal-500 mt-1 font-medium;
   }
   
+  /* ── Tabs ── */
   .tab-button {
-    @apply px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-medium rounded-lg transition-all duration-200;
+    @apply px-4 sm:px-5 py-2 sm:py-2.5 text-xs sm:text-sm font-semibold rounded-xl transition-all duration-200;
   }
   
   .tab-button-active {
@@ -105,27 +153,38 @@
   }
   
   .tab-button-inactive {
-    @apply text-coastal-600 hover:bg-coastal-100;
+    @apply text-coastal-500 hover:text-coastal-700 hover:bg-white/60;
   }
   
+  /* ── Badges ── */
   .badge {
-    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium;
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold;
   }
   
   .badge-success {
-    @apply badge bg-emerald-100 text-emerald-700;
+    @apply badge bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200;
   }
   
   .badge-warning {
-    @apply badge bg-amber-100 text-amber-700;
+    @apply badge bg-amber-50 text-amber-700 ring-1 ring-amber-200;
   }
   
   .badge-info {
-    @apply badge bg-ocean-100 text-ocean-700;
+    @apply badge bg-ocean-50 text-ocean-700 ring-1 ring-ocean-200;
   }
   
   .badge-error {
-    @apply badge bg-red-100 text-red-700;
+    @apply badge bg-red-50 text-red-700 ring-1 ring-red-200;
+  }
+
+  /* ── Glass effect panels ── */
+  .glass-panel {
+    @apply bg-white/60 backdrop-blur-xl border border-white/40 shadow-xl;
+  }
+
+  /* ── Dividers ── */
+  .divider-gradient {
+    @apply h-px bg-gradient-to-r from-transparent via-coastal-200 to-transparent;
   }
 }
 
@@ -145,20 +204,35 @@
   .animation-delay-500 {
     animation-delay: 500ms;
   }
+
+  /* Gradient mesh backgrounds */
+  .bg-mesh-1 {
+    background: 
+      radial-gradient(at 40% 20%, rgba(14, 165, 233, 0.08) 0px, transparent 50%),
+      radial-gradient(at 80% 0%, rgba(99, 102, 241, 0.06) 0px, transparent 50%),
+      radial-gradient(at 0% 50%, rgba(14, 165, 233, 0.05) 0px, transparent 50%);
+  }
+
+  .bg-mesh-2 {
+    background: 
+      radial-gradient(at 20% 80%, rgba(14, 165, 233, 0.06) 0px, transparent 50%),
+      radial-gradient(at 80% 40%, rgba(99, 102, 241, 0.05) 0px, transparent 50%),
+      radial-gradient(at 50% 0%, rgba(14, 165, 233, 0.04) 0px, transparent 50%);
+  }
 }
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-coastal-100 rounded-full;
+  @apply bg-transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-coastal-300 rounded-full hover:bg-coastal-400;
+  @apply bg-coastal-300/60 rounded-full hover:bg-coastal-400/60;
 }
 
 /* Chart tooltip styles */
@@ -167,5 +241,10 @@
 }
 
 .custom-tooltip {
-  @apply bg-white/95 backdrop-blur-sm rounded-xl p-4 shadow-xl border border-coastal-100;
+  @apply bg-white/95 backdrop-blur-xl rounded-xl p-4 shadow-xl border border-coastal-100;
+}
+
+/* Focus visible for accessibility */
+:focus-visible {
+  @apply outline-2 outline-offset-2 outline-ocean-500;
 }

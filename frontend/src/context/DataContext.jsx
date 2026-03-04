@@ -62,23 +62,26 @@ function normaliseAnalysisData(analysisData) {
     thresholds: analysisData.models.xgb.thresholds || {},
   } : null
 
-  const gmmData = analysisData.models?.gmm ? {
-    stateDistribution: analysisData.models.gmm.stateDistribution || [],
-    stateMeans: analysisData.models.gmm.stateMeans || {},
-    stateCentroids: analysisData.models.gmm.stateCentroids || {},
-    componentSelection: analysisData.models.gmm.componentSelection || [],
-    erosionState: analysisData.models.gmm.erosionState ?? null,
-    probabilityData: analysisData.models.gmm.probabilityData || [],
+  const hmmData = analysisData.models?.hmm ? {
+    stateDistribution: analysisData.models.hmm.stateDistribution || [],
+    stateMeans: analysisData.models.hmm.stateMeans || {},
+    stateCentroids: analysisData.models.hmm.stateCentroids || {},
+    componentSelection: analysisData.models.hmm.componentSelection || [],
+    transitionMatrix: analysisData.models.hmm.transitionMatrix || [],
+    regimeStability: analysisData.models.hmm.regimeStability || {},
+    finalStateDominance: analysisData.models.hmm.finalStateDominance || [],
+    erosionState: analysisData.models.hmm.erosionState ?? null,
+    probabilityData: analysisData.models.hmm.probabilityData || [],
     metrics: {
-      nStates: analysisData.models.gmm.metrics?.nStates || 3,
-      accuracy: analysisData.models.gmm.metrics?.accuracy || 0,
-      silhouetteScore: analysisData.models.gmm.metrics?.silhouetteScore || 0,
-      logLikelihood: analysisData.models.gmm.metrics?.logLikelihood || 0,
-      aic: analysisData.models.gmm.metrics?.aic || 0,
-      bic: analysisData.models.gmm.metrics?.bic || 0,
-      converged: analysisData.models.gmm.metrics?.converged ?? false,
+      nStates: analysisData.models.hmm.metrics?.nStates || 3,
+      accuracy: analysisData.models.hmm.metrics?.accuracy || 0,
+      silhouetteScore: analysisData.models.hmm.metrics?.silhouetteScore || 0,
+      logLikelihood: analysisData.models.hmm.metrics?.logLikelihood || 0,
+      aic: analysisData.models.hmm.metrics?.aic || 0,
+      bic: analysisData.models.hmm.metrics?.bic || 0,
+      converged: analysisData.models.hmm.metrics?.converged ?? false,
     },
-    thresholds: analysisData.models.gmm.thresholds || {},
+    thresholds: analysisData.models.hmm.thresholds || {},
   } : null
 
   return {
@@ -93,7 +96,8 @@ function normaliseAnalysisData(analysisData) {
     roc: analysisData.roc,
     boxplot: analysisData.boxplot,
     yearlyShoreline: analysisData.yearlyShoreline,
-    models: { rf: rfData, gmm: gmmData, xgb: xgbData },
+    models: { rf: rfData, hmm: hmmData, xgb: xgbData },
+    forecasts: analysisData.forecasts || null,
   }
 }
 
@@ -119,7 +123,8 @@ export function DataProvider({ children }) {
     roc: null,
     boxplot: null,
     yearlyShoreline: null,
-    models: { rf: null, gmm: null, xgb: null },
+    models: { rf: null, hmm: null, xgb: null },
+    forecasts: null,
   })
 
   // Loading / error / progress states
@@ -297,7 +302,8 @@ export function DataProvider({ children }) {
       shoreline: null, thresholds: null, processed: null, summary: null,
       scatter: null, correlation: null, pca: null, forcingRegimes: null,
       roc: null, boxplot: null, yearlyShoreline: null,
-      models: { rf: null, gmm: null, xgb: null },
+      models: { rf: null, hmm: null, xgb: null },
+      forecasts: null,
     })
     setDataLoaded(false)
     setAnalysisStatus(null)

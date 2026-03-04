@@ -88,20 +88,20 @@ export default function RandomForestPage() {
 
   return (
     <PageTransition>
-      <div className="min-h-screen bg-gradient-to-b from-coastal-50 to-white">
+      <div className="min-h-screen bg-gradient-to-b from-coastal-50 to-white bg-mesh-1">
         {/* Header */}
-        <section className="pt-12 pb-8">
+        <section className="pt-8 sm:pt-10 pb-6">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               className="max-w-3xl"
             >
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-emerald-100 text-emerald-700 rounded-full text-xs font-medium mb-3">
+              <div className="page-badge bg-emerald-50 text-emerald-600 border-emerald-100 mb-4">
                 <TreeDeciduous className="w-3.5 h-3.5" />
                 Machine Learning Model
               </div>
-              <h1 className="section-title mb-4">
+              <h1 className="section-title mb-3">
                 Random Forest Analysis
               </h1>
               <p className="section-subtitle">
@@ -119,7 +119,7 @@ export default function RandomForestPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="card p-5 bg-gradient-to-r from-emerald-50 to-teal-50 border-emerald-200"
+              className="card p-5 bg-gradient-to-br from-emerald-50/80 to-teal-50/80 border-emerald-200/60 ring-1 ring-emerald-100/50"
             >
               <div className="flex items-start gap-3">
                 <div className="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center flex-shrink-0">
@@ -158,10 +158,10 @@ export default function RandomForestPage() {
                 {activeTab === 'importance' && (
                   <div>
                     <div className="mb-6">
-                      <h3 className="font-display font-semibold text-coastal-900 mb-2">
+                      <h3 className="font-display font-bold text-coastal-900 mb-2">
                         Feature Importance Ranking
                       </h3>
-                      <p className="text-sm text-coastal-600">
+                      <p className="text-sm text-coastal-500">
                         Relative importance of each environmental variable in predicting erosion events.
                         Higher values indicate stronger predictive power.
                       </p>
@@ -204,10 +204,10 @@ export default function RandomForestPage() {
                 {activeTab === 'thresholds' && (
                   <div>
                     <div className="mb-6">
-                      <h3 className="font-display font-semibold text-coastal-900 mb-2">
+                      <h3 className="font-display font-bold text-coastal-900 mb-2">
                         Detected Erosion Thresholds
                       </h3>
-                      <p className="text-sm text-coastal-600">
+                      <p className="text-sm text-coastal-500">
                         Critical values identified by the Random Forest model from decision tree split points.
                         When environmental conditions exceed these thresholds, erosion events are likely to occur.
                       </p>
@@ -249,17 +249,17 @@ export default function RandomForestPage() {
 
                     {/* Full Thresholds Table */}
                     <div className="mb-8">
-                      <h4 className="font-medium text-coastal-900 mb-4">All Feature Thresholds</h4>
+                      <h4 className="font-semibold text-coastal-900 mb-4">All Feature Thresholds</h4>
                       {thresholdsArray.length > 0 ? (
-                        <div className="overflow-x-auto">
+                        <div className="overflow-x-auto rounded-xl ring-1 ring-coastal-200/60">
                           <table className="w-full text-sm">
                             <thead>
-                              <tr className="border-b border-coastal-200 bg-coastal-50">
-                                <th className="text-left py-3 px-4 font-medium text-coastal-600">Rank</th>
-                                <th className="text-left py-3 px-4 font-medium text-coastal-600">Feature</th>
-                                <th className="text-left py-3 px-4 font-medium text-coastal-600">Description</th>
-                                <th className="text-right py-3 px-4 font-medium text-coastal-600">Threshold</th>
-                                <th className="text-center py-3 px-4 font-medium text-coastal-600">Unit</th>
+                              <tr className="border-b border-coastal-200 bg-coastal-50/80">
+                                <th className="text-left py-3.5 px-4 font-semibold text-coastal-600">Rank</th>
+                                <th className="text-left py-3.5 px-4 font-semibold text-coastal-600">Feature</th>
+                                <th className="text-left py-3.5 px-4 font-semibold text-coastal-600">Description</th>
+                                <th className="text-right py-3.5 px-4 font-semibold text-coastal-600">Threshold</th>
+                                <th className="text-center py-3.5 px-4 font-semibold text-coastal-600">Unit</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -296,9 +296,11 @@ export default function RandomForestPage() {
                       )}
                     </div>
 
-                    <div className="p-4 bg-amber-50 rounded-xl border border-amber-200">
+                    <div className="p-5 bg-amber-50/80 rounded-xl border border-amber-200/60 ring-1 ring-amber-100/50">
                       <div className="flex items-start gap-3">
-                        <CheckCircle className="w-5 h-5 text-amber-600 mt-0.5" />
+                        <div className="w-9 h-9 rounded-lg bg-amber-100 flex items-center justify-center flex-shrink-0">
+                          <CheckCircle className="w-4.5 h-4.5 text-amber-600" />
+                        </div>
                         <div>
                           <h4 className="font-medium text-amber-800 mb-1">
                             Interpretation
@@ -318,10 +320,10 @@ export default function RandomForestPage() {
                 {activeTab === 'metrics' && (
                   <div>
                     <div className="mb-6">
-                      <h3 className="font-display font-semibold text-coastal-900 mb-2">
+                      <h3 className="font-display font-bold text-coastal-900 mb-2">
                         Model Performance Metrics
                       </h3>
-                      <p className="text-sm text-coastal-600">
+                      <p className="text-sm text-coastal-500">
                         Evaluation metrics from cross-validation and out-of-bag estimation.
                       </p>
                     </div>
@@ -332,7 +334,7 @@ export default function RandomForestPage() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.1 }}
-                        className="p-4 bg-gradient-to-br from-emerald-50 to-teal-50 rounded-xl border border-emerald-200"
+                        className="p-4 bg-gradient-to-br from-emerald-50 to-teal-50 rounded-xl border border-emerald-200/60 ring-1 ring-emerald-100/50"
                       >
                         <div className="flex items-center justify-between mb-2">
                           <span className="text-sm font-medium text-emerald-700">Test Accuracy</span>
@@ -348,7 +350,7 @@ export default function RandomForestPage() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.15 }}
-                        className="p-4 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl border border-blue-200"
+                        className="p-4 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl border border-blue-200/60 ring-1 ring-blue-100/50"
                       >
                         <div className="flex items-center justify-between mb-2">
                           <span className="text-sm font-medium text-blue-700">CV Accuracy</span>
@@ -366,7 +368,7 @@ export default function RandomForestPage() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.2 }}
-                        className="p-4 bg-gradient-to-br from-violet-50 to-purple-50 rounded-xl border border-violet-200"
+                        className="p-4 bg-gradient-to-br from-violet-50 to-purple-50 rounded-xl border border-violet-200/60 ring-1 ring-violet-100/50"
                       >
                         <div className="flex items-center justify-between mb-2">
                           <span className="text-sm font-medium text-violet-700">OOB Score</span>
@@ -382,7 +384,7 @@ export default function RandomForestPage() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.25 }}
-                        className="p-4 bg-gradient-to-br from-amber-50 to-orange-50 rounded-xl border border-amber-200"
+                        className="p-4 bg-gradient-to-br from-amber-50 to-orange-50 rounded-xl border border-amber-200/60 ring-1 ring-amber-100/50"
                       >
                         <div className="flex items-center justify-between mb-2">
                           <span className="text-sm font-medium text-amber-700">Estimators</span>
@@ -455,9 +457,11 @@ export default function RandomForestPage() {
                     </div>
 
                     {/* Interpretation */}
-                    <div className="mt-6 p-4 bg-emerald-50 rounded-xl border border-emerald-200">
+                    <div className="mt-6 p-5 bg-emerald-50/80 rounded-xl border border-emerald-200/60 ring-1 ring-emerald-100/50">
                       <div className="flex items-start gap-3">
-                        <CheckCircle className="w-5 h-5 text-emerald-600 mt-0.5" />
+                        <div className="w-9 h-9 rounded-lg bg-emerald-100 flex items-center justify-center flex-shrink-0">
+                          <CheckCircle className="w-4.5 h-4.5 text-emerald-600" />
+                        </div>
                         <div>
                           <h4 className="font-medium text-emerald-800 mb-1">
                             Performance Summary

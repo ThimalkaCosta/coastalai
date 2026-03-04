@@ -382,7 +382,7 @@ export default function MorphologicalThresholdPage() {
                 {/* Threshold Comparison Table */}
                 <div className="card overflow-hidden">
                   <div className="p-6 border-b border-coastal-100">
-                    <h2 className="text-xl font-display font-semibold text-coastal-900">
+                    <h2 className="text-xl font-display font-bold text-coastal-900">
                       Current vs Threshold Values
                     </h2>
                     <p className="text-sm text-coastal-500 mt-1">
@@ -437,7 +437,7 @@ export default function MorphologicalThresholdPage() {
 
                 {/* Gap Heatmap Visual */}
                 <div className="card p-6">
-                  <h3 className="text-lg font-display font-semibold text-coastal-900 mb-4">
+                  <h3 className="text-lg font-display font-bold text-coastal-900 mb-4">
                     Distance to Erosion Threshold (Visual)
                   </h3>
                   <div className="flex flex-wrap gap-3">
@@ -472,7 +472,7 @@ export default function MorphologicalThresholdPage() {
                 {/* Transition Matrix */}
                 <div className="card overflow-hidden">
                   <div className="p-6 border-b border-coastal-100">
-                    <h2 className="text-xl font-display font-semibold text-coastal-900">
+                    <h2 className="text-xl font-display font-bold text-coastal-900">
                       HMM Transition Matrix
                     </h2>
                     <p className="text-sm text-coastal-500 mt-1">
@@ -518,7 +518,7 @@ export default function MorphologicalThresholdPage() {
 
                 {/* Regime Stability */}
                 <div className="card p-6">
-                  <h2 className="text-xl font-display font-semibold text-coastal-900 mb-4">
+                  <h2 className="text-xl font-display font-bold text-coastal-900 mb-4">
                     Regime Stability Check
                   </h2>
                   <p className="text-sm text-coastal-500 mb-6">
@@ -546,7 +546,7 @@ export default function MorphologicalThresholdPage() {
 
                 {/* Final State Dominance */}
                 <div className="card p-6">
-                  <h2 className="text-xl font-display font-semibold text-coastal-900 mb-4">
+                  <h2 className="text-xl font-display font-bold text-coastal-900 mb-4">
                     Final-State Dominance Test
                   </h2>
                   <p className="text-sm text-coastal-500 mb-6">
@@ -582,7 +582,7 @@ export default function MorphologicalThresholdPage() {
               <div id="regime" className="space-y-6 scroll-mt-24">
                 <div className="card overflow-hidden">
                   <div className="p-6 border-b border-coastal-100">
-                    <h2 className="text-xl font-display font-semibold text-coastal-900">
+                    <h2 className="text-xl font-display font-bold text-coastal-900">
                       Regime-wise Variable Profiles
                     </h2>
                     <p className="text-sm text-coastal-500 mt-1">
@@ -655,7 +655,7 @@ export default function MorphologicalThresholdPage() {
                       className={`card p-6 ${state.state === 'State_3' ? 'ring-2 ring-emerald-500' : ''}`}
                     >
                       <div className="flex items-center justify-between mb-4">
-                        <h3 className="text-lg font-display font-semibold text-coastal-900">
+                        <h3 className="text-lg font-display font-bold text-coastal-900">
                           {state.state}
                         </h3>
                         {state.state === 'State_3' && (
@@ -693,7 +693,7 @@ export default function MorphologicalThresholdPage() {
               <div id="seasonal" className="space-y-6 scroll-mt-24">
                 <div className="card overflow-hidden">
                   <div className="p-6 border-b border-coastal-100">
-                    <h2 className="text-xl font-display font-semibold text-coastal-900">
+                    <h2 className="text-xl font-display font-bold text-coastal-900">
                       Seasonal Alignment Test
                     </h2>
                     <p className="text-sm text-coastal-500 mt-1">
@@ -756,7 +756,7 @@ export default function MorphologicalThresholdPage() {
                 {/* Seasonal Insights */}
                 <div className="grid md:grid-cols-2 gap-6">
                   <div className="card p-6">
-                    <h3 className="text-lg font-display font-semibold text-coastal-900 mb-4">
+                    <h3 className="text-lg font-display font-bold text-coastal-900 mb-4">
                       Peak Erosion Months
                     </h3>
                     <p className="text-sm text-coastal-500 mb-4">
@@ -782,13 +782,13 @@ export default function MorphologicalThresholdPage() {
                     </div>
                   </div>
                   <div className="card p-6">
-                    <h3 className="text-lg font-display font-semibold text-coastal-900 mb-4">
+                    <h3 className="text-lg font-display font-bold text-coastal-900 mb-4">
                       Monsoon Impact
                     </h3>
                     <p className="text-sm text-coastal-500 mb-4">
                       Southwest monsoon (Jun-Sep) shows elevated erosion risk
                     </p>
-                    <div className="p-4 bg-amber-50 rounded-xl border border-amber-200">
+                    <div className="p-5 bg-amber-50/80 rounded-xl border border-amber-200/60 ring-1 ring-amber-100/50">
                       <div className="flex items-start gap-3">
                         <AlertTriangle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
                         <div>
@@ -844,7 +844,7 @@ export default function MorphologicalThresholdPage() {
 
                 {/* Vulnerability Scale */}
                 <div className="card p-6">
-                  <h3 className="text-lg font-display font-semibold text-coastal-900 mb-4">
+                  <h3 className="text-lg font-display font-bold text-coastal-900 mb-4">
                     Coastal Vulnerability Scale
                   </h3>
                   <div className="relative">
@@ -887,7 +887,7 @@ export default function MorphologicalThresholdPage() {
                 {/* Beach Profile Metrics Table */}
                 <div className="card overflow-hidden">
                   <div className="p-6 border-b border-coastal-100">
-                    <h2 className="text-xl font-display font-semibold text-coastal-900">
+                    <h2 className="text-xl font-display font-bold text-coastal-900">
                       Beach Profile Metrics ({cviData.year})
                     </h2>
                     <p className="text-sm text-coastal-500 mt-1">
@@ -956,7 +956,7 @@ export default function MorphologicalThresholdPage() {
 
                 {/* CVI Component Rankings */}
                 <div className="card p-6">
-                  <h3 className="text-lg font-display font-semibold text-coastal-900 mb-4">
+                  <h3 className="text-lg font-display font-bold text-coastal-900 mb-4">
                     CVI Component Analysis
                   </h3>
                   <p className="text-sm text-coastal-500 mb-6">
@@ -1004,10 +1004,10 @@ export default function MorphologicalThresholdPage() {
                 {/* CVI Interpretation */}
                 <div className="grid md:grid-cols-2 gap-6">
                   <div className="card p-6">
-                    <h3 className="text-lg font-display font-semibold text-coastal-900 mb-4">
+                    <h3 className="text-lg font-display font-bold text-coastal-900 mb-4">
                       Interpretation
                     </h3>
-                    <div className="p-4 bg-emerald-50 rounded-xl border border-emerald-200">
+                    <div className="p-5 bg-emerald-50/80 rounded-xl border border-emerald-200/60 ring-1 ring-emerald-100/50">
                       <div className="flex items-start gap-3">
                         <CheckCircle className="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" />
                         <div>
@@ -1021,7 +1021,7 @@ export default function MorphologicalThresholdPage() {
                     </div>
                   </div>
                   <div className="card p-6">
-                    <h3 className="text-lg font-display font-semibold text-coastal-900 mb-4">
+                    <h3 className="text-lg font-display font-bold text-coastal-900 mb-4">
                       CVI Formula
                     </h3>
                     <div className="p-4 bg-coastal-50 rounded-xl">

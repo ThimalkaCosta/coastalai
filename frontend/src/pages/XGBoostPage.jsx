@@ -87,20 +87,20 @@ export default function XGBoostPage() {
 
   return (
     <PageTransition>
-      <div className="min-h-screen bg-gradient-to-b from-coastal-50 to-white">
+      <div className="min-h-screen bg-gradient-to-b from-coastal-50 to-white bg-mesh-1">
         {/* Header */}
-        <section className="pt-12 pb-8">
+        <section className="pt-8 sm:pt-10 pb-6">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               className="max-w-3xl"
             >
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-orange-100 text-orange-700 rounded-full text-xs font-medium mb-3">
+              <div className="page-badge bg-orange-50 text-orange-600 border-orange-100 mb-4">
                 <Zap className="w-3.5 h-3.5" />
                 Gradient Boosting
               </div>
-              <h1 className="section-title mb-4">
+              <h1 className="section-title mb-3">
                 XGBoost Analysis
               </h1>
               <p className="section-subtitle">
@@ -118,7 +118,7 @@ export default function XGBoostPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="card p-5 bg-gradient-to-r from-orange-50 to-amber-50 border-orange-200"
+              className="card p-5 bg-gradient-to-br from-orange-50/80 to-amber-50/80 border-orange-200/60 ring-1 ring-orange-100/50"
             >
               <div className="flex items-start gap-3">
                 <div className="w-8 h-8 rounded-lg bg-orange-100 flex items-center justify-center flex-shrink-0">
@@ -155,10 +155,10 @@ export default function XGBoostPage() {
                 {activeTab === 'importance' && (
                   <div>
                     <div className="mb-6">
-                      <h3 className="font-display font-semibold text-coastal-900 mb-2">
+                      <h3 className="font-display font-bold text-coastal-900 mb-2">
                         Feature Importance (Gain)
                       </h3>
-                      <p className="text-sm text-coastal-600">
+                      <p className="text-sm text-coastal-500">
                         XGBoost feature importance based on the average gain of splits using each feature.
                         Higher values indicate greater predictive power.
                       </p>
@@ -194,10 +194,10 @@ export default function XGBoostPage() {
                 {activeTab === 'shap' && (
                   <div>
                     <div className="mb-6">
-                      <h3 className="font-display font-semibold text-coastal-900 mb-2">
+                      <h3 className="font-display font-bold text-coastal-900 mb-2">
                         SHAP Value Analysis
                       </h3>
-                      <p className="text-sm text-coastal-600">
+                      <p className="text-sm text-coastal-500">
                         SHAP values explain the contribution of each feature to individual predictions.
                         Positive values push the prediction toward erosion, negative values push away.
                       </p>
@@ -254,9 +254,11 @@ export default function XGBoostPage() {
                       ))}
                     </div>
 
-                    <div className="p-4 bg-gradient-to-r from-orange-50 to-amber-50 rounded-xl border border-orange-200">
+                    <div className="p-5 bg-gradient-to-br from-orange-50/80 to-amber-50/80 rounded-xl border border-orange-200/60 ring-1 ring-orange-100/50">
                       <div className="flex items-start gap-3">
-                        <Sparkles className="w-5 h-5 text-orange-600 mt-0.5" />
+                        <div className="w-9 h-9 rounded-lg bg-orange-100 flex items-center justify-center flex-shrink-0">
+                          <Sparkles className="w-4.5 h-4.5 text-orange-600" />
+                        </div>
                         <div>
                           <h4 className="font-medium text-orange-800 mb-1">
                             Interpreting SHAP Values
@@ -276,10 +278,10 @@ export default function XGBoostPage() {
                 {activeTab === 'thresholds' && (
                   <div>
                     <div className="mb-6">
-                      <h3 className="font-display font-semibold text-coastal-900 mb-2">
+                      <h3 className="font-display font-bold text-coastal-900 mb-2">
                         XGBoost-Derived Thresholds
                       </h3>
-                      <p className="text-sm text-coastal-600">
+                      <p className="text-sm text-coastal-500">
                         Critical thresholds identified through analysis of tree split points
                         and SHAP dependency plots.
                       </p>
@@ -335,7 +337,7 @@ export default function XGBoostPage() {
                       </motion.div>
                     </div>
 
-                    <h4 className="font-medium text-coastal-900 mb-4">Threshold Comparison</h4>
+                    <h4 className="font-semibold text-coastal-900 mb-4">Threshold Comparison</h4>
                     <ThresholdScatterChart
                       data={scatterData}
                       threshold={thresholds.Hm0_max.value}
@@ -348,10 +350,10 @@ export default function XGBoostPage() {
                 {activeTab === 'metrics' && (
                   <div>
                     <div className="mb-6">
-                      <h3 className="font-display font-semibold text-coastal-900 mb-2">
+                      <h3 className="font-display font-bold text-coastal-900 mb-2">
                         Model Performance Metrics
                       </h3>
-                      <p className="text-sm text-coastal-600">
+                      <p className="text-sm text-coastal-500">
                         Evaluation metrics from cross-validation for the XGBoost classifier.
                       </p>
                     </div>
@@ -385,7 +387,7 @@ export default function XGBoostPage() {
                     </div>
 
                     <div className="p-4 bg-coastal-50 rounded-xl">
-                      <h4 className="font-medium text-coastal-900 mb-4">Hyperparameters</h4>
+                      <h4 className="font-semibold text-coastal-900 mb-4">Hyperparameters</h4>
                       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
                         <div className="flex justify-between">
                           <span className="text-coastal-600">Estimators</span>
