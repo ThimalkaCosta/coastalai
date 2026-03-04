@@ -136,11 +136,7 @@
       "outputs": [
         {
           "type": "text",
-          "content": "============================================================"
-        },
-        {
-          "type": "text",
-          "content": "\nDATA FREQUENCY SUMMARY\n============================================================\n\n\ud83d\udcca ENVIRONMENTAL DATA: MONTHLY Frequency\n   - 300 monthly samples\n   - Features: Wave (Hm0), Wind, Current per month\n\n\ud83d\udcca SHORELINE DATA: YEARLY Frequency\n   - 16 yearly samples\n   - Features: NSM, EPR, LRR aggregated from transects\n\n\ud83d\udd17 MERGED DATA: Monthly env + Yearly erosion labels\n   - Each month gets its year's erosion status\n   - Years with shoreline data: 25\n\n\u2713 ACTUAL Shoreline Erosion Labels (from SCE_closest_year):\n   Erosion months: 84 (28.0%)\n   Stable/Accretion months: 216\n\n\ud83d\udcc5 Years with ACTUAL shoreline measurements: [np.int64(2010), np.int64(2011), np.int64(2012), np.int64(2013), np.int64(2014), np.int64(2015), np.int64(2016), np.int64(2017), np.int64(2018), np.int64(2019), np.int64(2020), np.int64(2021), np.int64(2022), np.int64(2023), np.int64(2024)]\n\n============================================================\nFINAL DATA STRUCTURE SUMMARY\n============================================================\n\n\ud83d\udcca env_features_monthly (MONTHLY Environmental + Yearly Erosion Labels):\n   - Rows: 300 monthly samples\n   - Each row: environmental data for one month\n   - Erosion_Label: ACTUAL yearly erosion from shoreline_annual\n   - Columns: ['monsoon_year', 'year_month', 'Hm0_max', 'Hm0_mean', 'Hm0_std', 'Tp_max', 'Tp_mean', 'CumWaveEnergy', 'StormDays_wave', 'time']...\n\n\ud83d\udcca env_features (ANNUAL Environmental + Yearly Erosion Labels):\n   - Rows: 25 yearly samples\n   - Columns: ['monsoon_year', 'Hm0_max_year', 'WindMax_year', 'UcurrMax_year', 'max_forcing', 'Erosion_Label', 'annual_NSM', 'annual_wave_norm', 'annual_wind_norm', 'annual_curr_norm']...\n\n\ud83d\udcca shoreline_annual (YEARLY Shoreline from SCE_closest_year):\n   - Rows: 16 years\n   - Features: annual_NSM, EPR_mean, LRR_mean, Erosion_Binary\n"
+          "content": "============================================================\nDATA FREQUENCY SUMMARY\n============================================================\n\n\ud83d\udcca ENVIRONMENTAL DATA: MONTHLY Frequency\n   - 300 monthly samples\n   - Features: Wave (Hm0), Wind, Current per month\n\n\ud83d\udcca SHORELINE DATA: YEARLY Frequency\n   - 16 yearly samples\n   - Features: NSM, EPR, LRR aggregated from transects\n\n\ud83d\udd17 MERGED DATA: Monthly env + Yearly erosion labels\n   - Each month gets its year's erosion status\n   - Years with shoreline data: 25\n\n\u2713 ACTUAL Shoreline Erosion Labels (from SCE_closest_year):\n   Erosion months: 84 (28.0%)\n   Stable/Accretion months: 216\n\n\ud83d\udcc5 Years with ACTUAL shoreline measurements: [np.int64(2010), np.int64(2011), np.int64(2012), np.int64(2013), np.int64(2014), np.int64(2015), np.int64(2016), np.int64(2017), np.int64(2018), np.int64(2019), np.int64(2020), np.int64(2021), np.int64(2022), np.int64(2023), np.int64(2024)]\n\n============================================================\nFINAL DATA STRUCTURE SUMMARY\n============================================================\n\n\ud83d\udcca env_features_monthly (MONTHLY Environmental + Yearly Erosion Labels):\n   - Rows: 300 monthly samples\n   - Each row: environmental data for one month\n   - Erosion_Label: ACTUAL yearly erosion from shoreline_annual\n   - Columns: ['monsoon_year', 'year_month', 'Hm0_max', 'Hm0_mean', 'Hm0_std', 'Tp_max', 'Tp_mean', 'CumWaveEnergy', 'StormDays_wave', 'time']...\n\n\ud83d\udcca env_features (ANNUAL Environmental + Yearly Erosion Labels):\n   - Rows: 25 yearly samples\n   - Columns: ['monsoon_year', 'Hm0_max_year', 'WindMax_year', 'UcurrMax_year', 'max_forcing', 'Erosion_Label', 'annual_NSM', 'annual_wave_norm', 'annual_wind_norm', 'annual_curr_norm']...\n\n\ud83d\udcca shoreline_annual (YEARLY Shoreline from SCE_closest_year):\n   - Rows: 16 years\n   - Features: annual_NSM, EPR_mean, LRR_mean, Erosion_Binary\n"
         },
         {
           "type": "html",
@@ -184,7 +180,11 @@
       "outputs": [
         {
           "type": "text",
-          "content": "============================================================\nPCA LOADINGS (Feature Contribution to Each PC)\n============================================================\n"
+          "content": "============================================================"
+        },
+        {
+          "type": "text",
+          "content": "\nPCA LOADINGS (Feature Contribution to Each PC)\n============================================================\n"
         },
         {
           "type": "html",
@@ -236,15 +236,11 @@
       "outputs": [
         {
           "type": "text",
-          "content": "============================================================\nHMM - OPTIMAL STATE SELECTION (Monthly Data)\n============================================================\n"
-        },
-        {
-          "type": "text",
           "content": "Model is not converging.  Current: -1063.1798352008693 is not greater than 1819.3953039479159. Delta is -2882.575139148785\n"
         },
         {
           "type": "text",
-          "content": "  n_components=2: BIC=444321.6, AIC=442906.7\n"
+          "content": "============================================================\nHMM - OPTIMAL STATE SELECTION (Monthly Data)\n============================================================\n  n_components=2: BIC=444321.6, AIC=442906.7\n"
         },
         {
           "type": "text",
@@ -264,11 +260,15 @@
         },
         {
           "type": "text",
+          "content": "  n_components=6: BIC=-4077808.5, AIC=-4082141.9\n"
+        },
+        {
+          "type": "text",
           "content": "Model is not converging.  Current: 7398.981963326591 is not greater than 11370.572230101237. Delta is -3971.590266774647\n"
         },
         {
           "type": "text",
-          "content": "  n_components=6: BIC=-4077808.5, AIC=-4082141.9\n  n_components=7: BIC=-4477495.5, AIC=-4482577.1\n\n\u2713 Optimal number of hidden states (by BIC): 7\n"
+          "content": "  n_components=7: BIC=-4477495.5, AIC=-4482577.1\n\n\u2713 Optimal number of hidden states (by BIC): 7\n"
         },
         {
           "type": "text",
@@ -373,7 +373,11 @@
       "outputs": [
         {
           "type": "text",
-          "content": "============================================================\nSHAP ANALYSIS - XGBoost Feature Contributions\n============================================================\n"
+          "content": "============================================================"
+        },
+        {
+          "type": "text",
+          "content": "\nSHAP ANALYSIS - XGBoost Feature Contributions\n============================================================\n"
         },
         {
           "type": "text",
@@ -446,13 +450,25 @@
       "outputs": [
         {
           "type": "error",
-          "ename": "ModuleNotFoundError",
-          "evalue": "No module named 'statsmodels'",
+          "ename": "ValueError",
+          "evalue": "Invalid frequency: ME. Failed to parse with error message: ValueError(\"for Period, please use 'M' instead of 'ME'\")",
           "traceback": [
             "\u001b[31m---------------------------------------------------------------------------\u001b[39m",
-            "\u001b[31mModuleNotFoundError\u001b[39m                       Traceback (most recent call last)",
-            "\u001b[36mCell\u001b[39m\u001b[36m \u001b[39m\u001b[32mIn[31]\u001b[39m\u001b[32m, line 9\u001b[39m\n\u001b[32m      1\u001b[39m \u001b[38;5;66;03m# =============================================================================\u001b[39;00m\n\u001b[32m      2\u001b[39m \u001b[38;5;66;03m# Section 10.1: SARIMA Model Training & Forecasting\u001b[39;00m\n\u001b[32m      3\u001b[39m \u001b[38;5;66;03m# =============================================================================\u001b[39;00m\n\u001b[32m      4\u001b[39m \u001b[38;5;66;03m# Uses historical monthly time series for each key variable to forecast\u001b[39;00m\n\u001b[32m      5\u001b[39m \u001b[38;5;66;03m# future threshold values at 6, 12, 18, and 24 month horizons.\u001b[39;00m\n\u001b[32m      6\u001b[39m \u001b[38;5;66;03m# =============================================================================\u001b[39;00m\n\u001b[32m      8\u001b[39m \u001b[38;5;28;01mimport\u001b[39;00m\u001b[38;5;250m \u001b[39m\u001b[34;01mitertools\u001b[39;00m\n\u001b[32m----> \u001b[39m\u001b[32m9\u001b[39m \u001b[38;5;28;01mfrom\u001b[39;00m\u001b[38;5;250m \u001b[39m\u001b[34;01mstatsmodels\u001b[39;00m\u001b[34;01m.\u001b[39;00m\u001b[34;01mtsa\u001b[39;00m\u001b[34;01m.\u001b[39;00m\u001b[34;01mstatespace\u001b[39;00m\u001b[34;01m.\u001b[39;00m\u001b[34;01msarimax\u001b[39;00m\u001b[38;5;250m \u001b[39m\u001b[38;5;28;01mimport\u001b[39;00m SARIMAX\n\u001b[32m     10\u001b[39m \u001b[38;5;28;01mfrom\u001b[39;00m\u001b[38;5;250m \u001b[39m\u001b[34;01mstatsmodels\u001b[39;00m\u001b[34;01m.\u001b[39;00m\u001b[34;01mtsa\u001b[39;00m\u001b[34;01m.\u001b[39;00m\u001b[34;01mstattools\u001b[39;00m\u001b[38;5;250m \u001b[39m\u001b[38;5;28;01mimport\u001b[39;00m adfuller\n\u001b[32m     12\u001b[39m \u001b[38;5;66;03m# \u2500\u2500 Target variables (the 5 critical erosion drivers) \u2500\u2500\u001b[39;00m\n",
-            "\u001b[31mModuleNotFoundError\u001b[39m: No module named 'statsmodels'"
+            "\u001b[31mValueError\u001b[39m                                Traceback (most recent call last)",
+            "\u001b[36mFile \u001b[39m\u001b[32mpandas/_libs/tslibs/offsets.pyx:6313\u001b[39m, in \u001b[36mpandas._libs.tslibs.offsets.to_offset\u001b[39m\u001b[34m()\u001b[39m\n",
+            "\u001b[36mFile \u001b[39m\u001b[32mpandas/_libs/tslibs/offsets.pyx:6195\u001b[39m, in \u001b[36mpandas._libs.tslibs.offsets._validate_to_offset_alias\u001b[39m\u001b[34m()\u001b[39m\n",
+            "\u001b[31mValueError\u001b[39m: for Period, please use 'M' instead of 'ME'",
+            "\nDuring handling of the above exception, another exception occurred:\n",
+            "\u001b[31mValueError\u001b[39m                                Traceback (most recent call last)",
+            "\u001b[36mCell\u001b[39m\u001b[36m \u001b[39m\u001b[32mIn[31]\u001b[39m\u001b[32m, line 26\u001b[39m\n\u001b[32m     23\u001b[39m ts_data = ts_data.interpolate(method=\u001b[33m'\u001b[39m\u001b[33mtime\u001b[39m\u001b[33m'\u001b[39m).ffill().bfill()\n\u001b[32m     25\u001b[39m \u001b[38;5;66;03m# Ensure frequency is monthly\u001b[39;00m\n\u001b[32m---> \u001b[39m\u001b[32m26\u001b[39m ts_data = \u001b[43mts_data\u001b[49m\u001b[43m.\u001b[49m\u001b[43masfreq\u001b[49m\u001b[43m(\u001b[49m\u001b[33;43m'\u001b[39;49m\u001b[33;43mME\u001b[39;49m\u001b[33;43m'\u001b[39;49m\u001b[43m)\u001b[49m\n\u001b[32m     27\u001b[39m \u001b[38;5;28;01mif\u001b[39;00m ts_data.isnull().sum().sum() > \u001b[32m0\u001b[39m:\n\u001b[32m     28\u001b[39m     ts_data = ts_data.interpolate(method=\u001b[33m'\u001b[39m\u001b[33mtime\u001b[39m\u001b[33m'\u001b[39m).ffill().bfill()\n",
+            "\u001b[36mFile \u001b[39m\u001b[32mD:\\Kanjana\\Coastal_Research\\.venv\\Lib\\site-packages\\pandas\\core\\generic.py:8901\u001b[39m, in \u001b[36mNDFrame.asfreq\u001b[39m\u001b[34m(self, freq, method, how, normalize, fill_value)\u001b[39m\n\u001b[32m   8794\u001b[39m \u001b[38;5;250m\u001b[39m\u001b[33;03m\"\"\"\u001b[39;00m\n\u001b[32m   8795\u001b[39m \u001b[33;03mConvert time series to specified frequency.\u001b[39;00m\n\u001b[32m   8796\u001b[39m \n\u001b[32m   (...)\u001b[39m\u001b[32m   8897\u001b[39m \u001b[33;03m2000-01-01 00:03:00    3.0\u001b[39;00m\n\u001b[32m   8898\u001b[39m \u001b[33;03m\"\"\"\u001b[39;00m\n\u001b[32m   8899\u001b[39m \u001b[38;5;28;01mfrom\u001b[39;00m\u001b[38;5;250m \u001b[39m\u001b[34;01mpandas\u001b[39;00m\u001b[34;01m.\u001b[39;00m\u001b[34;01mcore\u001b[39;00m\u001b[34;01m.\u001b[39;00m\u001b[34;01mresample\u001b[39;00m\u001b[38;5;250m \u001b[39m\u001b[38;5;28;01mimport\u001b[39;00m asfreq\n\u001b[32m-> \u001b[39m\u001b[32m8901\u001b[39m \u001b[38;5;28;01mreturn\u001b[39;00m \u001b[43masfreq\u001b[49m\u001b[43m(\u001b[49m\n\u001b[32m   8902\u001b[39m \u001b[43m    \u001b[49m\u001b[38;5;28;43mself\u001b[39;49m\u001b[43m,\u001b[49m\n\u001b[32m   8903\u001b[39m \u001b[43m    \u001b[49m\u001b[43mfreq\u001b[49m\u001b[43m,\u001b[49m\n\u001b[32m   8904\u001b[39m \u001b[43m    \u001b[49m\u001b[43mmethod\u001b[49m\u001b[43m=\u001b[49m\u001b[43mmethod\u001b[49m\u001b[43m,\u001b[49m\n\u001b[32m   8905\u001b[39m \u001b[43m    \u001b[49m\u001b[43mhow\u001b[49m\u001b[43m=\u001b[49m\u001b[43mhow\u001b[49m\u001b[43m,\u001b[49m\n\u001b[32m   8906\u001b[39m \u001b[43m    \u001b[49m\u001b[43mnormalize\u001b[49m\u001b[43m=\u001b[49m\u001b[43mnormalize\u001b[49m\u001b[43m,\u001b[49m\n\u001b[32m   8907\u001b[39m \u001b[43m    \u001b[49m\u001b[43mfill_value\u001b[49m\u001b[43m=\u001b[49m\u001b[43mfill_value\u001b[49m\u001b[43m,\u001b[49m\n\u001b[32m   8908\u001b[39m \u001b[43m\u001b[49m\u001b[43m)\u001b[49m\n",
+            "\u001b[36mFile \u001b[39m\u001b[32mD:\\Kanjana\\Coastal_Research\\.venv\\Lib\\site-packages\\pandas\\core\\resample.py:3104\u001b[39m, in \u001b[36masfreq\u001b[39m\u001b[34m(obj, freq, method, how, normalize, fill_value)\u001b[39m\n\u001b[32m   3101\u001b[39m             freq = PeriodDtype(freq)._freqstr\n\u001b[32m   3103\u001b[39m     new_obj = obj.copy()\n\u001b[32m-> \u001b[39m\u001b[32m3104\u001b[39m     new_obj.index = \u001b[43mobj\u001b[49m\u001b[43m.\u001b[49m\u001b[43mindex\u001b[49m\u001b[43m.\u001b[49m\u001b[43masfreq\u001b[49m\u001b[43m(\u001b[49m\u001b[43mfreq\u001b[49m\u001b[43m,\u001b[49m\u001b[43m \u001b[49m\u001b[43mhow\u001b[49m\u001b[43m=\u001b[49m\u001b[43mhow\u001b[49m\u001b[43m)\u001b[49m\n\u001b[32m   3106\u001b[39m \u001b[38;5;28;01melif\u001b[39;00m \u001b[38;5;28mlen\u001b[39m(obj.index) == \u001b[32m0\u001b[39m:\n\u001b[32m   3107\u001b[39m     new_obj = obj.copy()\n",
+            "\u001b[36mFile \u001b[39m\u001b[32mD:\\Kanjana\\Coastal_Research\\.venv\\Lib\\site-packages\\pandas\\core\\indexes\\period.py:197\u001b[39m, in \u001b[36mPeriodIndex.asfreq\u001b[39m\u001b[34m(self, freq, how)\u001b[39m\n\u001b[32m    190\u001b[39m \u001b[38;5;129m@doc\u001b[39m(\n\u001b[32m    191\u001b[39m     PeriodArray.asfreq,\n\u001b[32m    192\u001b[39m     other=\u001b[33m\"\u001b[39m\u001b[33marrays.PeriodArray\u001b[39m\u001b[33m\"\u001b[39m,\n\u001b[32m   (...)\u001b[39m\u001b[32m    195\u001b[39m )\n\u001b[32m    196\u001b[39m \u001b[38;5;28;01mdef\u001b[39;00m\u001b[38;5;250m \u001b[39m\u001b[34masfreq\u001b[39m(\u001b[38;5;28mself\u001b[39m, freq=\u001b[38;5;28;01mNone\u001b[39;00m, how: \u001b[38;5;28mstr\u001b[39m = \u001b[33m\"\u001b[39m\u001b[33mE\u001b[39m\u001b[33m\"\u001b[39m) -> Self:\n\u001b[32m--> \u001b[39m\u001b[32m197\u001b[39m     arr = \u001b[38;5;28;43mself\u001b[39;49m\u001b[43m.\u001b[49m\u001b[43m_data\u001b[49m\u001b[43m.\u001b[49m\u001b[43masfreq\u001b[49m\u001b[43m(\u001b[49m\u001b[43mfreq\u001b[49m\u001b[43m,\u001b[49m\u001b[43m \u001b[49m\u001b[43mhow\u001b[49m\u001b[43m)\u001b[49m\n\u001b[32m    198\u001b[39m     \u001b[38;5;28;01mreturn\u001b[39;00m \u001b[38;5;28mtype\u001b[39m(\u001b[38;5;28mself\u001b[39m)._simple_new(arr, name=\u001b[38;5;28mself\u001b[39m.name)\n",
+            "\u001b[36mFile \u001b[39m\u001b[32mD:\\Kanjana\\Coastal_Research\\.venv\\Lib\\site-packages\\pandas\\core\\arrays\\period.py:923\u001b[39m, in \u001b[36mPeriodArray.asfreq\u001b[39m\u001b[34m(self, freq, how)\u001b[39m\n\u001b[32m    921\u001b[39m \u001b[38;5;28;01mif\u001b[39;00m \u001b[38;5;28misinstance\u001b[39m(freq, BaseOffset) \u001b[38;5;129;01mand\u001b[39;00m \u001b[38;5;28mhasattr\u001b[39m(freq, \u001b[33m\"\u001b[39m\u001b[33m_period_dtype_code\u001b[39m\u001b[33m\"\u001b[39m):\n\u001b[32m    922\u001b[39m     freq = PeriodDtype(freq)._freqstr\n\u001b[32m--> \u001b[39m\u001b[32m923\u001b[39m freq = \u001b[43mPeriod\u001b[49m\u001b[43m.\u001b[49m\u001b[43m_maybe_convert_freq\u001b[49m\u001b[43m(\u001b[49m\u001b[43mfreq\u001b[49m\u001b[43m)\u001b[49m\n\u001b[32m    925\u001b[39m base1 = \u001b[38;5;28mself\u001b[39m._dtype._dtype_code\n\u001b[32m    926\u001b[39m base2 = freq._period_dtype_code\n",
+            "\u001b[36mFile \u001b[39m\u001b[32mpandas/_libs/tslibs/period.pyx:1844\u001b[39m, in \u001b[36mpandas._libs.tslibs.period._Period._maybe_convert_freq\u001b[39m\u001b[34m()\u001b[39m\n",
+            "\u001b[36mFile \u001b[39m\u001b[32mpandas/_libs/tslibs/offsets.pyx:6352\u001b[39m, in \u001b[36mpandas._libs.tslibs.offsets.to_offset\u001b[39m\u001b[34m()\u001b[39m\n",
+            "\u001b[36mFile \u001b[39m\u001b[32mpandas/_libs/tslibs/offsets.pyx:6137\u001b[39m, in \u001b[36mpandas._libs.tslibs.offsets.raise_invalid_freq\u001b[39m\u001b[34m()\u001b[39m\n",
+            "\u001b[31mValueError\u001b[39m: Invalid frequency: ME. Failed to parse with error message: ValueError(\"for Period, please use 'M' instead of 'ME'\")"
           ]
         }
       ]
