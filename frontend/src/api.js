@@ -1,11 +1,8 @@
 /**
  * API configuration for CoastalAI backend.
- *
- * VITE_API_URL is set per environment:
- *   - Local dev : http://localhost:8000/api  (via .env.development or Vite proxy)
- *   - Production: https://<cloud-run-url>/api (via .env.production)
  */
-const API_BASE_URL = import.meta.env.VITE_API_URL || '/api'
+const API_BASE_URL =
+  import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
 
 const api = {
   baseUrl: API_BASE_URL,
@@ -43,7 +40,7 @@ const api = {
   /** GET /api/health – Check backend availability */
   async health() {
     try {
-      const res = await fetch(`${API_BASE_URL}/health`, { signal: AbortSignal.timeout(5000) })
+      const res = await fetch(`${API_BASE_URL}/health`, { signal: AbortSignal.timeout(3000) })
       return res.ok
     } catch {
       return false

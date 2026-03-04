@@ -12,7 +12,9 @@ export default function Layout({ children }) {
           {children}
         </main>
       </div>
-      <Footer />
+      <div className="lg:ml-[272px] transition-all duration-300">
+        <Footer />
+      </div>
     </div>
   )
 }

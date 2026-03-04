@@ -111,6 +111,13 @@ export default function DataUploadPage() {
     setAnalysisComplete(false)
     setProgressStep(0)
 
+    if (!backendAvailable) {
+      setLocalError(
+        'Backend server is not running. Start it with: cd backend && uvicorn main:app --reload'
+      )
+      return
+    }
+
     // Advance the fake progress indicator while notebook runs
     const stepInterval = setInterval(() => {
       setProgressStep((prev) => Math.min(prev + 1, PROGRESS_STEPS.length - 1))
@@ -193,12 +200,15 @@ export default function DataUploadPage() {
                   {backendAvailable === true
                     ? 'Analysis server is online – ready to process your data'
                     : backendAvailable === false
-                    ? 'Connecting to analysis server…'
+                    ? 'Analysis server offline – start it to enable dynamic analysis'
                     : 'Checking server status…'}
                 </p>
                 {backendAvailable === false && (
                   <p className="text-xs text-amber-600 mt-1">
-                    The analysis server may take a moment to wake up on first request.
+                    Run:{' '}
+                    <code className="bg-amber-100 px-1.5 py-0.5 rounded text-xs">
+                      cd backend &amp;&amp; uvicorn main:app --reload
+                    </code>
                   </p>
                 )}
               </div>
@@ -402,12 +412,18 @@ export default function DataUploadPage() {
 
                     <button
                       onClick={handleExecuteAnalysis}
-                      disabled={analysisRunning}
+                      disabled={analysisRunning || !backendAvailable}
                       className="btn-primary w-full mb-4 justify-center disabled:opacity-50"
                     >
                       <Play className="w-5 h-5" />
                       Run Analysis
                     </button>
+
+                    {!backendAvailable && (
+                      <p className="text-xs text-amber-600 mb-4">
+                        Start the backend server first to enable analysis execution.
+                      </p>
+                    )}
 
                     <div className="border-t border-coastal-200 pt-4 mt-4">
                       <p className="text-sm text-coastal-500 mb-3">Or view existing analysis:</p>

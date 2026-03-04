@@ -13,8 +13,8 @@ import {
 
 const headerNavigation = [
   { name: 'Home', href: '/', icon: Home },
-  { name: 'Meteorological-Based Threshold Detection', href: '/dashboard', icon: Cloud },
-  { name: 'Morphological-Based Threshold Prediction', href: '/morphological-threshold', icon: Mountain },
+  { name: 'Meteorological Threshold', href: '/dashboard', icon: Cloud },
+  { name: 'Morphological Threshold', href: '/morphological-threshold', icon: Mountain },
   { name: 'Long-Term Forecasting', href: '/long-term-forecasting', icon: TrendingUp },
   { name: 'Short-Term Forecasting', href: '/short-term-forecasting', icon: Zap },
 ]

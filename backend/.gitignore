@@ -1,6 +1,0 @@
-backend/uploads/
-backend/results/
-backend/executed_notebooks/
-__pycache__/
-*.pyc
-.venv/

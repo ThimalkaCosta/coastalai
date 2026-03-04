@@ -194,6 +194,21 @@ def _inject_parameters(
             cell.source = "import matplotlib\nmatplotlib.use('Agg')\n" + cell.source
             break
 
+    # --- Fix pandas 3.x compatibility issues ---
+    for cell in nb.cells:
+        if cell.cell_type != "code":
+            continue
+        if ".fillna(method=" in cell.source:
+            cell.source = cell.source.replace(
+                ".fillna(method='ffill')", ".ffill()"
+            ).replace(
+                ".fillna(method='bfill')", ".bfill()"
+            ).replace(
+                '.fillna(method="ffill")', ".ffill()"
+            ).replace(
+                '.fillna(method="bfill")', ".bfill()"
+            )
+
     # Write parameterised notebook
     param_path = EXECUTED_NOTEBOOKS_DIR / f"param_{uuid.uuid4().hex[:8]}.ipynb"
     nbformat.write(nb, str(param_path))

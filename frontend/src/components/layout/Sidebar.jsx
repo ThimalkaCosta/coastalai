@@ -220,7 +220,7 @@ export default function Sidebar() {
       </AnimatePresence>
 
       {/* Desktop sidebar */}
-      <aside className="hidden lg:flex fixed left-3 top-[76px] bottom-3 w-64 z-40">
+      <aside className="hidden lg:flex fixed left-3 top-[84px] bottom-3 w-64 z-40">
         <div className="w-full h-full bg-white/70 backdrop-blur-xl rounded-2xl shadow-[0_6px_20px_rgba(0,0,0,0.08),0_2px_6px_rgba(0,0,0,0.05),inset_0_1px_0_rgba(255,255,255,0.6)] border border-white/60 flex flex-col overflow-hidden">
           {sidebarContent}
         </div>

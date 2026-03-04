@@ -13,6 +13,7 @@ import {
 } from 'lucide-react'
 import PageTransition from '../components/common/PageTransition'
 import StatCard from '../components/common/StatCard'
+import { useData } from '../context/DataContext'
 
 // Get icon for driver
 const getDriverIcon = (driver) => {
@@ -38,24 +39,34 @@ const getConsensusColor = (consensus) => {
 }
 
 export default function ThresholdPage() {
+  const { data, loading: ctxLoading } = useData()
   const [thresholdData, setThresholdData] = useState([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // Load threshold data from JSON file
-    fetch('/data/erosion_thresholds.json')
-      .then(response => response.json())
-      .then(data => {
-        // Add id to each item
-        const dataWithIds = data.map((item, index) => ({ ...item, id: index }))
-        setThresholdData(dataWithIds)
-        setLoading(false)
-      })
-      .catch(error => {
-        console.error('Error loading threshold data:', error)
-        setLoading(false)
-      })
-  }, [])
+    // Prefer dynamic data from DataContext (analysis_results.json via API)
+    if (data?.thresholds && Array.isArray(data.thresholds) && data.thresholds.length > 0) {
+      const dataWithIds = data.thresholds.map((item, index) => ({ ...item, id: index }))
+      setThresholdData(dataWithIds)
+      setLoading(false)
+      return
+    }
+
+    // Fallback: load from static erosion_thresholds.json
+    if (!ctxLoading) {
+      fetch('/data/erosion_thresholds.json')
+        .then(response => response.json())
+        .then(jsonData => {
+          const dataWithIds = jsonData.map((item, index) => ({ ...item, id: index }))
+          setThresholdData(dataWithIds)
+          setLoading(false)
+        })
+        .catch(error => {
+          console.error('Error loading threshold data:', error)
+          setLoading(false)
+        })
+    }
+  }, [data?.thresholds, ctxLoading])
 
   // Calculate statistics
   const stats = {
@@ -173,6 +184,12 @@ export default function ThresholdPage() {
                         Unit
                       </th>
                       <th className="py-3 px-3 text-center font-bold text-gray-600 uppercase tracking-wider text-xs">
+                        GMM_Threshold
+                      </th>
+                      <th className="py-3 px-3 text-center font-bold text-gray-600 uppercase tracking-wider text-xs">
+                        RF_Threshold
+                      </th>
+                      <th className="py-3 px-3 text-center font-bold text-gray-600 uppercase tracking-wider text-xs">
                         Erosion_Threshold_Lower
                       </th>
                       <th className="py-3 px-3 text-center font-bold text-gray-600 uppercase tracking-wider text-xs">
@@ -218,13 +235,23 @@ export default function ThresholdPage() {
                             </span>
                           </td>
                           <td className="py-4 px-4 text-center">
+                            <span className="inline-flex px-3 py-1.5 rounded-lg bg-purple-100 text-purple-700 font-semibold font-mono text-sm">
+                              {item.GMM_Threshold != null ? item.GMM_Threshold.toFixed(3) : '--'}
+                            </span>
+                          </td>
+                          <td className="py-4 px-4 text-center">
+                            <span className="inline-flex px-3 py-1.5 rounded-lg bg-indigo-100 text-indigo-700 font-semibold font-mono text-sm">
+                              {item.RF_Threshold != null ? item.RF_Threshold.toFixed(3) : '--'}
+                            </span>
+                          </td>
+                          <td className="py-4 px-4 text-center">
                             <span className="inline-flex px-3 py-1.5 rounded-lg bg-cyan-100 text-cyan-700 font-semibold font-mono text-sm">
-                              {item.Erosion_Threshold_Lower.toFixed(3)}
+                              {item.Erosion_Threshold_Lower != null ? item.Erosion_Threshold_Lower.toFixed(3) : '--'}
                             </span>
                           </td>
                           <td className="py-4 px-4 text-center">
                             <span className="inline-flex px-3 py-1.5 rounded-lg bg-teal-100 text-teal-700 font-semibold font-mono text-sm">
-                              {item.Erosion_Threshold_Upper.toFixed(3)}
+                              {item.Erosion_Threshold_Upper != null ? item.Erosion_Threshold_Upper.toFixed(3) : '--'}
                             </span>
                           </td>
                           <td className="py-4 px-4 text-center">
