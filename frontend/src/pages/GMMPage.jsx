@@ -1,117 +1,138 @@
 import { useState, useMemo } from 'react'
 import { motion } from 'framer-motion'
 import {
-  Target,
   Layers,
-  PieChart,
-  BarChart3,
   Waves,
   Wind,
   Droplets,
   Info,
-  Circle,
+  AlertTriangle,
+  CheckCircle,
 } from 'lucide-react'
 import PageTransition from '../components/common/PageTransition'
-import StatCard from '../components/common/StatCard'
 import Tabs from '../components/common/Tabs'
 import StateDistributionChart from '../components/charts/StateDistributionChart'
-import StateProbabilityChart from '../components/charts/StateProbabilityChart'
-import DataTable from '../components/common/DataTable'
 import { useData } from '../context/DataContext'
 
+// Color palette for dynamic states
+const STATE_COLORS = [
+  '#3b82f6', // blue
+  '#ef4444', // red
+  '#f97316', // orange
+  '#8b5cf6', // violet
+  '#06b6d4', // cyan
+  '#22c55e', // green
+  '#ec4899', // pink
+]
+
+const STATE_BG_CLASSES = [
+  { bg: 'bg-blue-50', border: 'border-blue-200', title: 'text-blue-900', text: 'text-blue-700', accent: 'text-blue-600', dot: 'bg-blue-500', badge: 'bg-blue-100 text-blue-700' },
+  { bg: 'bg-red-50', border: 'border-red-200', title: 'text-red-900', text: 'text-red-700', accent: 'text-red-600', dot: 'bg-red-500', badge: 'bg-red-100 text-red-700' },
+  { bg: 'bg-orange-50', border: 'border-orange-200', title: 'text-orange-900', text: 'text-orange-700', accent: 'text-orange-600', dot: 'bg-orange-500', badge: 'bg-orange-100 text-orange-700' },
+  { bg: 'bg-violet-50', border: 'border-violet-200', title: 'text-violet-900', text: 'text-violet-700', accent: 'text-violet-600', dot: 'bg-violet-500', badge: 'bg-violet-100 text-violet-700' },
+  { bg: 'bg-cyan-50', border: 'border-cyan-200', title: 'text-cyan-900', text: 'text-cyan-700', accent: 'text-cyan-600', dot: 'bg-cyan-500', badge: 'bg-cyan-100 text-cyan-700' },
+  { bg: 'bg-emerald-50', border: 'border-emerald-200', title: 'text-emerald-900', text: 'text-emerald-700', accent: 'text-emerald-600', dot: 'bg-emerald-500', badge: 'bg-emerald-100 text-emerald-700' },
+  { bg: 'bg-pink-50', border: 'border-pink-200', title: 'text-pink-900', text: 'text-pink-700', accent: 'text-pink-600', dot: 'bg-pink-500', badge: 'bg-pink-100 text-pink-700' },
+]
+
+const FEATURE_DESCRIPTIONS = {
+  Hm0_max: 'Maximum significant wave height',
+  Hm0_mean: 'Mean significant wave height',
+  CumWaveEnergy: 'Cumulative wave energy',
+  StormDays_wave: 'Number of storm wave days',
+  WindMax: 'Maximum wind speed',
+  WindMean: 'Mean wind speed',
+  WindStressMean: 'Mean wind stress',
+  UcurrMax: 'Maximum ocean current velocity',
+  UcurrMean: 'Mean ocean current velocity',
+  CumCurrent: 'Cumulative current transport',
+  month: 'Month of year',
+}
+
+const FEATURE_UNITS = {
+  Hm0_max: 'm',
+  Hm0_mean: 'm',
+  CumWaveEnergy: 'J/m',
+  StormDays_wave: 'days',
+  WindMax: 'm/s',
+  WindMean: 'm/s',
+  WindStressMean: 'N/m²',
+  UcurrMax: 'm/s',
+  UcurrMean: 'm/s',
+  CumCurrent: 'm²/s',
+  month: '',
+}
+
+// Get prominent icon for a feature
+function getFeatureIcon(feature) {
+  if (feature.toLowerCase().includes('hm0') || feature.toLowerCase().includes('wave') || feature.toLowerCase().includes('storm')) return Waves
+  if (feature.toLowerCase().includes('wind')) return Wind
+  if (feature.toLowerCase().includes('curr')) return Droplets
+  return Layers
+}
+
 export default function GMMPage() {
-  const { data, dataLoaded } = useData()
+  const { data } = useData()
   const [activeTab, setActiveTab] = useState('distribution')
 
-  // State distribution data from actual results
+  // ── State distribution data (dynamic) ──
   const stateDistribution = useMemo(() => {
-    if (data.models?.gmm?.stateDistribution?.length) {
-      return data.models.gmm.stateDistribution
-    }
-    return []
+    return data.models?.gmm?.stateDistribution || []
   }, [data])
 
-  // State means from actual results
-  const stateMeans = useMemo(() => {
-    if (data.models?.gmm?.stateMeans) {
-      return data.models.gmm.stateMeans
-    }
-    return {
-      normal: { Hm0_max: 0, UcurrMax: 0, WindMax: 0 },
-      highRisk: { Hm0_max: 0, UcurrMax: 0, WindMax: 0 },
-    }
+  // ── State centroids (all states, all features) ──
+  const stateCentroids = useMemo(() => {
+    return data.models?.gmm?.stateCentroids || {}
   }, [data])
 
-  // Threshold values from actual GMM results
+  // ── Component selection (BIC/AIC) ──
+  const componentSelection = useMemo(() => {
+    return data.models?.gmm?.componentSelection || []
+  }, [data])
+
+  // ── Erosion State index ──
+  const erosionState = useMemo(() => {
+    return data.models?.gmm?.erosionState ?? null
+  }, [data])
+
+  // ── Model metrics (dynamic) ──
+  const metrics = useMemo(() => {
+    return data.models?.gmm?.metrics || {}
+  }, [data])
+
+  // ── Thresholds (all features, dynamic) ──
   const thresholds = useMemo(() => {
-    if (data.models?.gmm?.thresholds) {
-      return data.models.gmm.thresholds
-    }
-    return {}
+    return data.models?.gmm?.thresholds || {}
   }, [data])
 
-  // All thresholds as array for table display
+  // ── Threshold array for table ──
   const thresholdsArray = useMemo(() => {
     if (!thresholds || Object.keys(thresholds).length === 0) return []
-    
-    const descriptions = {
-      Hm0_max: 'Maximum significant wave height',
-      Hm0_mean: 'Mean significant wave height',
-      CumWaveEnergy: 'Cumulative wave energy',
-      StormDays_wave: 'Number of storm wave days',
-      WindMax: 'Maximum wind speed',
-      WindMean: 'Mean wind speed',
-      WindStressMean: 'Mean wind stress',
-      UcurrMax: 'Maximum ocean current velocity',
-      UcurrMean: 'Mean ocean current velocity',
-      CumCurrent: 'Cumulative current transport',
-    }
-    
     return Object.entries(thresholds).map(([key, val]) => ({
       feature: key,
       value: val.value,
-      unit: val.unit,
-      condition: val.condition,
-      description: descriptions[key] || key,
+      direction: val.direction,
+      erosionValue: val.erosionValue,
+      normalValue: val.normalValue,
+      unit: FEATURE_UNITS[key] || '',
+      description: FEATURE_DESCRIPTIONS[key] || key,
     }))
   }, [thresholds])
 
-  // Model metrics from actual results
-  const metrics = useMemo(() => {
-    const gmmMetrics = data.models?.gmm?.metrics || {}
-    return {
-      silhouetteScore: gmmMetrics.silhouetteScore || gmmMetrics.accuracy || 0,
-      logLikelihood: gmmMetrics.logLikelihood || 0,
-      bic: gmmMetrics.bic || 0,
-      aic: gmmMetrics.aic || 0,
-      nComponents: gmmMetrics.nStates || gmmMetrics.nComponents || stateDistribution.length || 0,
-      convergenceIter: gmmMetrics.convergenceIter || 0,
-      accuracy: gmmMetrics.accuracy || 0,
-    }
-  }, [data, stateDistribution])
+  // ── Top 3 key threshold features (wave, current, wind) ──
+  const topThresholdKeys = useMemo(() => {
+    return ['Hm0_max', 'UcurrMax', 'WindMax'].filter(k => thresholds[k])
+  }, [thresholds])
 
-  // Probability data from actual results - transform for display
-  const probabilityData = useMemo(() => {
-    if (data.models?.gmm?.probabilityData?.length) {
-      return data.models.gmm.probabilityData.map(item => ({
-        year: item.year,
-        normalProb: item.state0 || 0,
-        highRiskProb: item.state1 || 0,
-        extremeProb: item.state2 || 0,
-        state: item.state0 > item.state1 && item.state0 > (item.state2 || 0) ? 0 : 
-               item.state1 > (item.state2 || 0) ? 1 : 2,
-        assignedState: item.state0 > item.state1 && item.state0 > (item.state2 || 0) ? 'Normal' : 
-                       item.state1 > (item.state2 || 0) ? 'High Risk' : 'Extreme',
-      }))
-    }
-    return []
-  }, [data])
+  // ── Centroid features for Distribution tab ──
+  const centroidFeatures = useMemo(() => {
+    const first = Object.values(stateCentroids)[0]
+    return first ? Object.keys(first).slice(0, 6) : []
+  }, [stateCentroids])
 
   const tabs = [
     { id: 'distribution', label: 'State Distribution' },
     { id: 'thresholds', label: 'Thresholds' },
-    { id: 'probability', label: 'Probability Analysis' },
-    { id: 'metrics', label: 'Model Metrics' },
   ]
 
   return (
@@ -181,6 +202,7 @@ export default function GMMPage() {
               <Tabs tabs={tabs} activeTab={activeTab} onChange={setActiveTab} />
 
               <div className="card p-5 mt-6">
+                {/* ===================== STATE DISTRIBUTION TAB ===================== */}
                 {activeTab === 'distribution' && (
                   <div>
                     <div className="mb-6">
@@ -188,88 +210,168 @@ export default function GMMPage() {
                         State Distribution
                       </h3>
                       <p className="text-sm text-coastal-600">
-                        Distribution of observations across identified environmental states.
+                        Distribution of observations across {stateDistribution.length || 0} identified environmental states.
                       </p>
                     </div>
-                    
-                    <div className="grid lg:grid-cols-2 gap-8">
-                      <StateDistributionChart data={stateDistribution} />
-                      
-                      <div className="space-y-4">
-                        {/* Normal State */}
-                        {stateDistribution[0] && (
+
+                    {/* Component Selection Summary */}
+                    {componentSelection.length > 0 && (
+                      <div className="mb-8 p-4 bg-coastal-50 rounded-xl">
+                        <h4 className="font-medium text-coastal-900 mb-3">Optimal Component Selection</h4>
+                        <div className="overflow-x-auto">
+                          <table className="w-full text-sm">
+                            <thead>
+                              <tr className="border-b border-coastal-200">
+                                <th className="text-left py-2 px-3 font-medium text-coastal-600">n_components</th>
+                                <th className="text-right py-2 px-3 font-medium text-coastal-600">BIC</th>
+                                <th className="text-right py-2 px-3 font-medium text-coastal-600">AIC</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {componentSelection.map((row) => (
+                                <tr
+                                  key={row.nComponents}
+                                  className={`border-b border-coastal-100 ${row.nComponents === metrics.nStates ? 'bg-violet-50 font-medium' : ''}`}
+                                >
+                                  <td className="py-2 px-3">
+                                    {row.nComponents}
+                                    {row.nComponents === metrics.nStates && (
+                                      <span className="ml-2 inline-flex items-center gap-1 px-2 py-0.5 bg-violet-100 text-violet-700 rounded-full text-xs font-medium">
+                                        <CheckCircle className="w-3 h-3" /> Optimal
+                                      </span>
+                                    )}
+                                  </td>
+                                  <td className="py-2 px-3 text-right font-mono">{row.bic?.toFixed(1)}</td>
+                                  <td className="py-2 px-3 text-right font-mono">{row.aic?.toFixed(1)}</td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Model Metrics Summary */}
+                    {metrics.nStates > 0 && (
+                      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                        <div className="p-4 bg-violet-50 rounded-xl border border-violet-200">
+                          <span className="text-xs font-medium text-violet-600">States</span>
+                          <p className="text-2xl font-bold text-violet-900">{metrics.nStates}</p>
+                        </div>
+                        {metrics.logLikelihood !== 0 && (
                           <div className="p-4 bg-blue-50 rounded-xl border border-blue-200">
-                            <div className="flex items-center gap-3 mb-3">
-                              <div className="w-4 h-4 rounded-full bg-blue-500" />
-                              <h4 className="font-semibold text-blue-900">{stateDistribution[0].state} State</h4>
-                              <span className="ml-auto text-lg font-bold text-blue-700">{stateDistribution[0].percentage}%</span>
-                            </div>
-                            <p className="text-sm text-blue-700 mb-4">
-                              Environmental conditions within typical ranges. Lower erosion risk.
-                            </p>
-                            <div className="space-y-2 text-sm">
-                              <div className="flex justify-between">
-                                <span className="text-blue-600">Wave Height (Hm0_max)</span>
-                                <span className="font-medium text-blue-900">{stateMeans.normal?.Hm0_max?.toFixed(2) || '-'}m</span>
-                              </div>
-                              <div className="flex justify-between">
-                                <span className="text-blue-600">Current Speed (UcurrMax)</span>
-                                <span className="font-medium text-blue-900">{stateMeans.normal?.UcurrMax?.toFixed(3) || '-'}m/s</span>
-                              </div>
-                              <div className="flex justify-between">
-                                <span className="text-blue-600">Wind Speed (WindMax)</span>
-                                <span className="font-medium text-blue-900">{stateMeans.normal?.WindMax?.toFixed(2) || '-'}m/s</span>
-                              </div>
-                            </div>
+                            <span className="text-xs font-medium text-blue-600">Log-likelihood</span>
+                            <p className="text-2xl font-bold text-blue-900">{metrics.logLikelihood?.toFixed(3)}</p>
                           </div>
                         )}
-
-                        {/* High Risk State */}
-                        {stateDistribution[1] && (
-                          <div className="p-6 bg-red-50 rounded-xl border border-red-200">
-                            <div className="flex items-center gap-3 mb-4">
-                              <div className="w-4 h-4 rounded-full bg-red-500" />
-                              <h4 className="font-semibold text-red-900">{stateDistribution[1].state} State</h4>
-                              <span className="ml-auto text-lg font-bold text-red-700">{stateDistribution[1].percentage}%</span>
-                            </div>
-                            <p className="text-sm text-red-700 mb-4">
-                              Elevated environmental conditions associated with erosion events.
-                            </p>
-                            <div className="space-y-2 text-sm">
-                              <div className="flex justify-between">
-                                <span className="text-red-600">Wave Height (Hm0_max)</span>
-                                <span className="font-medium text-red-900">{stateMeans.highRisk?.Hm0_max?.toFixed(2) || '-'}m</span>
-                              </div>
-                              <div className="flex justify-between">
-                                <span className="text-red-600">Current Speed (UcurrMax)</span>
-                                <span className="font-medium text-red-900">{stateMeans.highRisk?.UcurrMax?.toFixed(3) || '-'}m/s</span>
-                              </div>
-                              <div className="flex justify-between">
-                                <span className="text-red-600">Wind Speed (WindMax)</span>
-                                <span className="font-medium text-red-900">{stateMeans.highRisk?.WindMax?.toFixed(2) || '-'}m/s</span>
-                              </div>
-                            </div>
+                        {metrics.aic !== 0 && (
+                          <div className="p-4 bg-cyan-50 rounded-xl border border-cyan-200">
+                            <span className="text-xs font-medium text-cyan-600">AIC</span>
+                            <p className="text-2xl font-bold text-cyan-900">{metrics.aic?.toFixed(3)}</p>
                           </div>
                         )}
-
-                        {/* Extreme State (if exists) */}
-                        {stateDistribution[2] && (
-                          <div className="p-6 bg-orange-50 rounded-xl border border-orange-200">
-                            <div className="flex items-center gap-3 mb-4">
-                              <div className="w-4 h-4 rounded-full bg-orange-600" />
-                              <h4 className="font-semibold text-orange-900">{stateDistribution[2].state} State</h4>
-                              <span className="ml-auto text-lg font-bold text-orange-700">{stateDistribution[2].percentage}%</span>
-                            </div>
-                            <p className="text-sm text-orange-700 mb-4">
-                              Extreme conditions with highest erosion risk.
-                            </p>
+                        {metrics.bic !== 0 && (
+                          <div className="p-4 bg-emerald-50 rounded-xl border border-emerald-200">
+                            <span className="text-xs font-medium text-emerald-600">BIC</span>
+                            <p className="text-2xl font-bold text-emerald-900">{metrics.bic?.toFixed(3)}</p>
                           </div>
                         )}
                       </div>
+                    )}
+
+                    <div className="grid lg:grid-cols-2 gap-8 mb-8">
+                      <StateDistributionChart data={stateDistribution} />
+
+                      {/* Dynamic state cards */}
+                      <div className="space-y-4">
+                        {stateDistribution.map((state, index) => {
+                          const style = STATE_BG_CLASSES[index % STATE_BG_CLASSES.length]
+                          const isErosion = erosionState !== null && state.state === `State ${erosionState}`
+                          return (
+                            <motion.div
+                              key={state.state}
+                              initial={{ opacity: 0, x: 20 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              transition={{ delay: index * 0.1 }}
+                              className={`p-4 ${style.bg} rounded-xl border ${style.border}`}
+                            >
+                              <div className="flex items-center gap-3 mb-3">
+                                <div className={`w-4 h-4 rounded-full ${style.dot}`} />
+                                <h4 className={`font-semibold ${style.title}`}>{state.state}</h4>
+                                {isErosion && (
+                                  <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-red-100 text-red-700 rounded-full text-xs font-medium">
+                                    <AlertTriangle className="w-3 h-3" /> Erosion State
+                                  </span>
+                                )}
+                                <span className={`ml-auto text-lg font-bold ${style.text}`}>{state.percentage}%</span>
+                              </div>
+                              <div className="flex items-center gap-4 text-sm">
+                                <span className={style.accent}>{state.count} months</span>
+                                <span className={style.accent}>Erosion rate: {state.erosionRate}%</span>
+                              </div>
+                            </motion.div>
+                          )
+                        })}
+                      </div>
                     </div>
+
+                    {/* State Centroids Table */}
+                    {Object.keys(stateCentroids).length > 0 && centroidFeatures.length > 0 && (
+                      <div className="mb-8">
+                        <h4 className="font-medium text-coastal-900 mb-4">State Centroids (first 6 features)</h4>
+                        <div className="overflow-x-auto">
+                          <table className="w-full text-sm">
+                            <thead>
+                              <tr className="border-b border-coastal-200 bg-coastal-50">
+                                <th className="text-left py-3 px-4 font-medium text-coastal-600">State</th>
+                                {centroidFeatures.map((feat) => (
+                                  <th key={feat} className="text-right py-3 px-4 font-medium text-coastal-600">{feat}</th>
+                                ))}
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {Object.entries(stateCentroids).map(([stateName, values], idx) => (
+                                <motion.tr
+                                  key={stateName}
+                                  initial={{ opacity: 0, x: -20 }}
+                                  animate={{ opacity: 1, x: 0 }}
+                                  transition={{ delay: idx * 0.05 }}
+                                  className={'border-b border-coastal-100 hover:bg-coastal-50' + (erosionState !== null && stateName === 'State_' + erosionState ? ' bg-red-50' : '')}
+                                >
+                                  <td className="py-3 px-4 font-medium text-coastal-900">
+                                    {stateName.replace('_', ' ')}
+                                    {erosionState !== null && stateName === `State_${erosionState}` && (
+                                      <span className="ml-2 text-xs text-red-600">⚠ Erosion</span>
+                                    )}
+                                  </td>
+                                  {centroidFeatures.map((feat) => (
+                                    <td key={feat} className="py-3 px-4 text-right font-mono text-coastal-700">
+                                      {typeof values[feat] === 'number' ? values[feat].toFixed(3) : '-'}
+                                    </td>
+                                  ))}
+                                </motion.tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    )}
+
+                    {metrics.converged !== undefined && (
+                      <div className="p-4 bg-violet-50 rounded-xl border border-violet-200">
+                        <div className="flex items-start gap-3">
+                          <Info className="w-5 h-5 text-violet-600 mt-0.5" />
+                          <div className="text-sm text-violet-700">
+                            <span className="font-medium text-violet-800">Convergence: </span>
+                            {metrics.converged ? 'Model converged successfully ✓' : 'Model did not converge ✗'}
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 )}
 
+                {/* ===================== THRESHOLDS TAB ===================== */}
                 {activeTab === 'thresholds' && (
                   <div>
                     <div className="mb-6">
@@ -283,55 +385,36 @@ export default function GMMPage() {
                     </div>
 
                     {/* Top 3 Key Thresholds Cards */}
-                    {thresholds.Hm0_max && thresholds.UcurrMax && thresholds.WindMax && (
-                      <div className="grid sm:grid-cols-3 gap-6 mb-8">
-                        <motion.div
-                          initial={{ opacity: 0, scale: 0.95 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{ delay: 0.1 }}
-                          className="p-6 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl text-white shadow-lg"
-                        >
-                          <div className="flex items-center gap-3 mb-4">
-                            <Waves className="w-8 h-8 opacity-80" />
-                            <span className="font-medium opacity-90">Wave Height</span>
-                          </div>
-                          <p className="text-4xl font-display font-bold mb-1">
-                            {thresholds.Hm0_max.condition} {thresholds.Hm0_max.value?.toFixed(2)}{thresholds.Hm0_max.unit}
-                          </p>
-                          <p className="text-sm opacity-75">State transition boundary</p>
-                        </motion.div>
-
-                        <motion.div
-                          initial={{ opacity: 0, scale: 0.95 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{ delay: 0.15 }}
-                          className="p-6 bg-gradient-to-br from-indigo-500 to-blue-600 rounded-2xl text-white shadow-lg"
-                        >
-                          <div className="flex items-center gap-3 mb-4">
-                            <Droplets className="w-8 h-8 opacity-80" />
-                            <span className="font-medium opacity-90">Current Speed</span>
-                          </div>
-                          <p className="text-4xl font-display font-bold mb-1">
-                            {thresholds.UcurrMax.condition} {thresholds.UcurrMax.value?.toFixed(2)}{thresholds.UcurrMax.unit}
-                          </p>
-                          <p className="text-sm opacity-75">State transition boundary</p>
-                        </motion.div>
-
-                        <motion.div
-                          initial={{ opacity: 0, scale: 0.95 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{ delay: 0.2 }}
-                          className="p-6 bg-gradient-to-br from-sky-500 to-teal-500 rounded-2xl text-white shadow-lg"
-                        >
-                          <div className="flex items-center gap-3 mb-4">
-                            <Wind className="w-8 h-8 opacity-80" />
-                            <span className="font-medium opacity-90">Wind Speed</span>
-                          </div>
-                          <p className="text-4xl font-display font-bold mb-1">
-                            {thresholds.WindMax.condition} {thresholds.WindMax.value?.toFixed(2)}{thresholds.WindMax.unit}
-                          </p>
-                          <p className="text-sm opacity-75">State transition boundary</p>
-                        </motion.div>
+                    {topThresholdKeys.length > 0 && (
+                      <div className={`grid sm:grid-cols-${Math.min(topThresholdKeys.length, 3)} gap-6 mb-8`}>
+                        {topThresholdKeys.map((key, i) => {
+                          const thresh = thresholds[key]
+                          const Icon = getFeatureIcon(key)
+                          const gradients = [
+                            'from-blue-500 to-cyan-500',
+                            'from-indigo-500 to-blue-600',
+                            'from-sky-500 to-teal-500',
+                          ]
+                          const labels = { Hm0_max: 'Wave Height', UcurrMax: 'Current Speed', WindMax: 'Wind Speed' }
+                          return (
+                            <motion.div
+                              key={key}
+                              initial={{ opacity: 0, scale: 0.95 }}
+                              animate={{ opacity: 1, scale: 1 }}
+                              transition={{ delay: i * 0.05 }}
+                              className={`p-6 bg-gradient-to-br ${gradients[i]} rounded-2xl text-white shadow-lg`}
+                            >
+                              <div className="flex items-center gap-3 mb-4">
+                                <Icon className="w-8 h-8 opacity-80" />
+                                <span className="font-medium opacity-90">{labels[key] || key}</span>
+                              </div>
+                              <p className="text-4xl font-display font-bold mb-1">
+                                {typeof thresh.value === 'number' ? thresh.value.toFixed(2) : thresh.value}
+                              </p>
+                              <p className="text-sm opacity-75">State transition boundary</p>
+                            </motion.div>
+                          )
+                        })}
                       </div>
                     )}
 
@@ -347,6 +430,8 @@ export default function GMMPage() {
                                 <th className="text-left py-3 px-4 font-medium text-coastal-600">Feature</th>
                                 <th className="text-left py-3 px-4 font-medium text-coastal-600">Description</th>
                                 <th className="text-right py-3 px-4 font-medium text-coastal-600">Threshold</th>
+                                <th className="text-right py-3 px-4 font-medium text-coastal-600">Erosion</th>
+                                <th className="text-right py-3 px-4 font-medium text-coastal-600">Normal</th>
                                 <th className="text-center py-3 px-4 font-medium text-coastal-600">Unit</th>
                               </tr>
                             </thead>
@@ -360,11 +445,7 @@ export default function GMMPage() {
                                   className="border-b border-coastal-100 hover:bg-coastal-50"
                                 >
                                   <td className="py-3 px-4">
-                                    <span className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold text-white ${
-                                      index === 0 ? 'bg-blue-500' :
-                                      index === 1 ? 'bg-indigo-500' :
-                                      index === 2 ? 'bg-sky-500' : 'bg-coastal-400'
-                                    }`}>
+                                    <span className={'inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold text-white ' + ['bg-blue-500', 'bg-indigo-500', 'bg-sky-500'][index] || 'bg-coastal-400'}>
                                       {index + 1}
                                     </span>
                                   </td>
@@ -372,8 +453,14 @@ export default function GMMPage() {
                                   <td className="py-3 px-4 text-coastal-600">{thresh.description}</td>
                                   <td className="py-3 px-4 text-right">
                                     <span className="inline-flex items-center gap-1 px-3 py-1 bg-blue-100 text-blue-700 rounded-md font-mono font-medium">
-                                      {thresh.condition} {typeof thresh.value === 'number' ? thresh.value.toFixed(2) : thresh.value}
+                                      {thresh.direction} {typeof thresh.value === 'number' ? thresh.value.toFixed(3) : thresh.value}
                                     </span>
+                                  </td>
+                                  <td className="py-3 px-4 text-right font-mono text-red-600">
+                                    {typeof thresh.erosionValue === 'number' ? thresh.erosionValue.toFixed(3) : '-'}
+                                  </td>
+                                  <td className="py-3 px-4 text-right font-mono text-green-600">
+                                    {typeof thresh.normalValue === 'number' ? thresh.normalValue.toFixed(3) : '-'}
                                   </td>
                                   <td className="py-3 px-4 text-center text-coastal-500">{thresh.unit}</td>
                                 </motion.tr>
@@ -396,193 +483,10 @@ export default function GMMPage() {
                             Threshold Calculation Method
                           </h4>
                           <p className="text-sm text-violet-700">
-                            Thresholds are calculated as the weighted average of the cluster
-                            centroids, adjusted by their respective covariances. This provides
-                            an optimal decision boundary for classifying new observations into
-                            normal or high-risk states.
+                            Thresholds are calculated as the midpoint between the erosion state
+                            centroid and the mean of all normal state centroids for each feature.
+                            The "Erosion" and "Normal" columns show the respective centroid values.
                           </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {activeTab === 'probability' && (
-                  <div>
-                    <div className="mb-6">
-                      <h3 className="font-display font-semibold text-coastal-900 mb-2">
-                        State Probability Over Time
-                      </h3>
-                      <p className="text-sm text-coastal-600">
-                        Posterior probability of each state assignment for each monsoon year.
-                      </p>
-                    </div>
-                    <StateProbabilityChart 
-                      data={probabilityData} 
-                      title="State Probability Over Time"
-                      areas={[
-                        { dataKey: 'normalProb', name: 'Normal', color: '#3b82f6' },
-                        { dataKey: 'highRiskProb', name: 'High Risk', color: '#ef4444' },
-                        { dataKey: 'extremeProb', name: 'Extreme', color: '#f97316' },
-                      ]}
-                    />
-                    
-                    <div className="mt-8">
-                      <h4 className="font-medium text-coastal-900 mb-4">State Assignments by Year</h4>
-                      {probabilityData.length > 0 ? (
-                        <div className="overflow-x-auto">
-                          <table className="w-full text-sm">
-                            <thead>
-                              <tr className="border-b border-coastal-200 bg-coastal-50">
-                                <th className="text-left py-3 px-4 font-medium text-coastal-600">Year</th>
-                                <th className="text-right py-3 px-4 font-medium text-coastal-600">P(Normal)</th>
-                                <th className="text-right py-3 px-4 font-medium text-coastal-600">P(High Risk)</th>
-                                <th className="text-right py-3 px-4 font-medium text-coastal-600">P(Extreme)</th>
-                                <th className="text-center py-3 px-4 font-medium text-coastal-600">Assigned State</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {probabilityData.map((item, index) => (
-                                <motion.tr
-                                  key={item.year}
-                                  initial={{ opacity: 0, x: -20 }}
-                                  animate={{ opacity: 1, x: 0 }}
-                                  transition={{ delay: index * 0.02 }}
-                                  className="border-b border-coastal-100 hover:bg-coastal-50"
-                                >
-                                  <td className="py-3 px-4 font-medium text-coastal-900">{item.year}</td>
-                                  <td className="py-3 px-4 text-right">
-                                    <span className={`px-2 py-1 rounded ${item.normalProb > 0.5 ? 'bg-blue-100 text-blue-700 font-medium' : 'text-coastal-600'}`}>
-                                      {(item.normalProb * 100).toFixed(1)}%
-                                    </span>
-                                  </td>
-                                  <td className="py-3 px-4 text-right">
-                                    <span className={`px-2 py-1 rounded ${item.highRiskProb > 0.5 ? 'bg-red-100 text-red-700 font-medium' : 'text-coastal-600'}`}>
-                                      {(item.highRiskProb * 100).toFixed(1)}%
-                                    </span>
-                                  </td>
-                                  <td className="py-3 px-4 text-right">
-                                    <span className={`px-2 py-1 rounded ${item.extremeProb > 0.5 ? 'bg-orange-100 text-orange-700 font-medium' : 'text-coastal-600'}`}>
-                                      {(item.extremeProb * 100).toFixed(1)}%
-                                    </span>
-                                  </td>
-                                  <td className="py-3 px-4 text-center">
-                                    <span className={`inline-flex px-3 py-1 rounded-full text-xs font-medium ${
-                                      item.assignedState === 'Normal' ? 'bg-blue-100 text-blue-700' :
-                                      item.assignedState === 'High Risk' ? 'bg-red-100 text-red-700' :
-                                      'bg-orange-100 text-orange-700'
-                                    }`}>
-                                      {item.assignedState}
-                                    </span>
-                                  </td>
-                                </motion.tr>
-                              ))}
-                            </tbody>
-                          </table>
-                        </div>
-                      ) : (
-                        <div className="p-8 text-center bg-coastal-50 rounded-xl">
-                          <p className="text-coastal-600">No probability data available. Run the notebook analysis first.</p>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                )}
-
-                {activeTab === 'metrics' && (
-                  <div>
-                    <div className="mb-6">
-                      <h3 className="font-display font-semibold text-coastal-900 mb-2">
-                        Model Quality Metrics
-                      </h3>
-                      <p className="text-sm text-coastal-600">
-                        Evaluation metrics for the Gaussian Mixture Model fit.
-                      </p>
-                    </div>
-
-                    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-                      <div className="p-4 bg-gradient-to-br from-violet-50 to-purple-50 rounded-xl border border-violet-200">
-                        <div className="flex items-center justify-between mb-2">
-                          <span className="text-sm font-medium text-violet-700">Model Accuracy</span>
-                          <Target className="w-5 h-5 text-violet-600" />
-                        </div>
-                        <p className="text-3xl font-display font-bold text-violet-900">
-                          {(metrics.accuracy * 100).toFixed(1)}%
-                        </p>
-                        <p className="text-xs text-violet-600 mt-1">State classification accuracy</p>
-                      </div>
-
-                      <div className="p-4 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl border border-blue-200">
-                        <div className="flex items-center justify-between mb-2">
-                          <span className="text-sm font-medium text-blue-700">Components</span>
-                          <Layers className="w-5 h-5 text-blue-600" />
-                        </div>
-                        <p className="text-3xl font-display font-bold text-blue-900">
-                          {metrics.nComponents}
-                        </p>
-                        <p className="text-xs text-blue-600 mt-1">Number of Gaussian components</p>
-                      </div>
-
-                      <div className="p-4 bg-gradient-to-br from-emerald-50 to-teal-50 rounded-xl border border-emerald-200">
-                        <div className="flex items-center justify-between mb-2">
-                          <span className="text-sm font-medium text-emerald-700">Observations</span>
-                          <BarChart3 className="w-5 h-5 text-emerald-600" />
-                        </div>
-                        <p className="text-3xl font-display font-bold text-emerald-900">
-                          {probabilityData.length}
-                        </p>
-                        <p className="text-xs text-emerald-600 mt-1">Years analyzed</p>
-                      </div>
-                    </div>
-
-                    {/* State Distribution Summary */}
-                    <div className="mb-8">
-                      <h4 className="font-medium text-coastal-900 mb-4">State Distribution Summary</h4>
-                      <div className="grid sm:grid-cols-3 gap-4">
-                        {stateDistribution.map((state, index) => (
-                          <div 
-                            key={state.state}
-                            className="p-4 rounded-xl"
-                            style={{ backgroundColor: `${state.color}15`, borderColor: state.color, borderWidth: 1 }}
-                          >
-                            <div className="flex items-center gap-2 mb-2">
-                              <div 
-                                className="w-3 h-3 rounded-full" 
-                                style={{ backgroundColor: state.color }}
-                              />
-                              <span className="font-medium" style={{ color: state.color }}>
-                                {state.state}
-                              </span>
-                            </div>
-                            <p className="text-2xl font-bold text-coastal-900">
-                              {state.count} years
-                            </p>
-                            <p className="text-sm text-coastal-600">
-                              {state.percentage.toFixed(1)}% of observations
-                            </p>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div className="p-4 bg-coastal-50 rounded-xl">
-                      <h4 className="font-medium text-coastal-900 mb-4">Model Configuration</h4>
-                      <div className="grid sm:grid-cols-2 gap-4 text-sm">
-                        <div className="flex justify-between">
-                          <span className="text-coastal-600">Covariance Type</span>
-                          <span className="font-medium text-coastal-900">Full</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-coastal-600">Initialization</span>
-                          <span className="font-medium text-coastal-900">k-means++</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-coastal-600">Max Iterations</span>
-                          <span className="font-medium text-coastal-900">100</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-coastal-600">Tolerance</span>
-                          <span className="font-medium text-coastal-900">1e-4</span>
                         </div>
                       </div>
                     </div>

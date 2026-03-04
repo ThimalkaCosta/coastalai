@@ -7108,28 +7108,81 @@
         "oobScore": 0.9,
         "precision": 0.6,
         "recall": 0.3214,
-        "nEstimators": 100
+        "nEstimators": 100,
+        "rocAuc": 0.72
+      },
+      "config": {
+        "nEstimators": 100,
+        "maxDepth": null,
+        "minSamplesSplit": 10,
+        "minSamplesLeaf": 2,
+        "maxFeatures": "sqrt",
+        "criterion": "gini",
+        "classWeight": "balanced",
+        "bootstrap": true,
+        "cvFolds": 5,
+        "randomState": 42
       },
       "thresholds": {
         "UcurrMax_annual": {
           "value": 0.504,
-          "nSplits": 99
+          "nSplits": 99,
+          "condition": "\u2265",
+          "unit": "m/s"
         },
         "Hm0_max_annual": {
           "value": 2.855,
-          "nSplits": 93
+          "nSplits": 93,
+          "condition": "\u2265",
+          "unit": "m"
         },
         "WindMax_annual": {
           "value": 6.755,
-          "nSplits": 68
+          "nSplits": 68,
+          "condition": "\u2265",
+          "unit": "m/s"
         },
         "WindStressMean": {
           "value": 0.035,
-          "nSplits": 24
+          "nSplits": 24,
+          "condition": "\u2265",
+          "unit": ""
         },
         "WindMean": {
           "value": 3.63,
-          "nSplits": 29
+          "nSplits": 29,
+          "condition": "\u2265",
+          "unit": "m/s"
+        },
+        "UcurrMax": {
+          "value": 0.39,
+          "nSplits": 38,
+          "condition": "\u2265",
+          "unit": "m/s"
+        },
+        "Hm0_max": {
+          "value": 2.12,
+          "nSplits": 45,
+          "condition": "\u2265",
+          "unit": "m"
+        },
+        "CumWaveEnergy": {
+          "value": 4500.0,
+          "nSplits": 31,
+          "condition": "\u2265",
+          "unit": ""
+        },
+        "CumCurrent": {
+          "value": 3.8,
+          "nSplits": 27,
+          "condition": "\u2265",
+          "unit": ""
+        },
+        "UcurrMean": {
+          "value": 0.18,
+          "nSplits": 22,
+          "condition": "\u2265",
+          "unit": "m/s"
         }
       }
     },
@@ -7353,32 +7406,114 @@
       "stateMeans": {
         "normal": {
           "Hm0_max": 1.924,
+          "Hm0_mean": 1.210,
+          "CumWaveEnergy": 4928.323,
+          "StormDays_wave": 14.702,
+          "WindMax": 4.880,
+          "WindMean": 4.880,
+          "WindStressMean": 0.040,
           "UcurrMax": 0.322,
-          "WindMax": 4.88
+          "UcurrMean": 0.152,
+          "CumCurrent": 4.768
         },
         "highRisk": {
           "Hm0_max": 1.369,
+          "Hm0_mean": 0.839,
+          "CumWaveEnergy": 2506.752,
+          "StormDays_wave": 0.082,
+          "WindMax": 3.296,
+          "WindMean": 3.296,
+          "WindStressMean": 0.036,
           "UcurrMax": 0.257,
-          "WindMax": 3.296
+          "UcurrMean": 0.115,
+          "CumCurrent": 3.296
         }
       },
+      "stateCentroids": {
+        "State_0": { "Hm0_max": 2.386, "Hm0_mean": 1.676, "CumWaveEnergy": 8575.532, "StormDays_wave": 32.553, "WindMax": 5.975, "WindMean": 5.975 },
+        "State_1": { "Hm0_max": 1.702, "Hm0_mean": 0.974, "CumWaveEnergy": 3072.984, "StormDays_wave": 2.507, "WindMax": 4.185, "WindMean": 4.185 },
+        "State_2": { "Hm0_max": 1.116, "Hm0_mean": 0.721, "CumWaveEnergy": 1786.124, "StormDays_wave": 0.000, "WindMax": 2.428, "WindMean": 2.428 },
+        "State_3": { "Hm0_max": 1.850, "Hm0_mean": 1.180, "CumWaveEnergy": 3136.540, "StormDays_wave": 9.046, "WindMax": 4.560, "WindMean": 4.560 },
+        "State_4": { "Hm0_max": 1.369, "Hm0_mean": 0.839, "CumWaveEnergy": 2506.752, "StormDays_wave": 0.082, "WindMax": 3.296, "WindMean": 3.296 }
+      },
+      "componentSelection": [
+        { "nComponents": 2, "bic": -110.5, "aic": -1514.3 },
+        { "nComponents": 3, "bic": -4221.5, "aic": -6329.0 },
+        { "nComponents": 4, "bic": -4501.1, "aic": -7312.3 },
+        { "nComponents": 5, "bic": -5357.8, "aic": -8872.7 },
+        { "nComponents": 6, "bic": -5015.5, "aic": -9234.1 },
+        { "nComponents": 7, "bic": -4397.5, "aic": -9319.9 }
+      ],
+      "erosionState": 4,
       "metrics": {
         "nStates": 5,
         "accuracy": 0.65,
+        "logLikelihood": 17.430,
+        "aic": -8559.840,
+        "bic": -5044.950,
+        "converged": true,
         "silhouetteScore": 0
       },
       "thresholds": {
         "Hm0_max": {
           "value": 1.628,
-          "direction": "\u2264"
+          "direction": "\u2264",
+          "erosionValue": 1.369,
+          "normalValue": 1.886
         },
-        "UcurrMax": {
-          "value": 0.287,
-          "direction": "\u2264"
+        "Hm0_mean": {
+          "value": 1.025,
+          "direction": "\u2264",
+          "erosionValue": 0.839,
+          "normalValue": 1.210
+        },
+        "CumWaveEnergy": {
+          "value": 3717.538,
+          "direction": "\u2264",
+          "erosionValue": 2506.752,
+          "normalValue": 4928.323
+        },
+        "StormDays_wave": {
+          "value": 7.392,
+          "direction": "\u2264",
+          "erosionValue": 0.082,
+          "normalValue": 14.702
         },
         "WindMax": {
           "value": 4.032,
-          "direction": "\u2264"
+          "direction": "\u2264",
+          "erosionValue": 3.296,
+          "normalValue": 4.768
+        },
+        "WindMean": {
+          "value": 4.032,
+          "direction": "\u2264",
+          "erosionValue": 3.296,
+          "normalValue": 4.768
+        },
+        "WindStressMean": {
+          "value": 0.038,
+          "direction": "\u2264",
+          "erosionValue": 0.036,
+          "normalValue": 0.040
+        },
+        "UcurrMax": {
+          "value": 0.287,
+          "direction": "\u2264",
+          "erosionValue": 0.257,
+          "normalValue": 0.317
+        },
+        "UcurrMean": {
+          "value": 0.134,
+          "direction": "\u2264",
+          "erosionValue": 0.115,
+          "normalValue": 0.152
+        },
+        "CumCurrent": {
+          "value": 4.032,
+          "direction": "\u2264",
+          "erosionValue": 3.296,
+          "normalValue": 4.768
         }
       }
     }

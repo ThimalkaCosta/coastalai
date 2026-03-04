@@ -330,13 +330,35 @@ except Exception:
 # 11. Models
 # -- Random Forest --
 try:
+    # Export ALL thresholds (sorted by importance), not just top 5
+    _importance_order = feature_importance["Feature"].tolist()
     _rf_thresh = {{}}
-    for feat in feature_importance.head(5)["Feature"]:
+    for feat in _importance_order:
         if feat in rf_thresholds:
             scaled = rf_thresholds[feat]["median_threshold"]
             idx = model_features.index(feat)
             orig = scaled * scaler.scale_[idx] + scaler.mean_[idx]
-            _rf_thresh[feat] = {{"value": _safe(round(orig, 3)), "nSplits": _safe(rf_thresholds[feat]["n_splits"])}}
+            _rf_thresh[feat] = {{
+                "value": _safe(round(orig, 3)),
+                "nSplits": _safe(rf_thresholds[feat]["n_splits"]),
+                "condition": "\u2265",
+                "unit": "m" if "Hm0" in feat else "m/s" if "curr" in feat.lower() or "Wind" in feat else "",
+            }}
+
+    # Model configuration from best estimator
+    _bp = rf_search.best_params_ if hasattr(rf_search, 'best_params_') else {{}}
+    _rf_config = {{
+        "nEstimators": _safe(rf_model.n_estimators),
+        "maxDepth": _safe(_bp.get("max_depth", None)),
+        "minSamplesSplit": _safe(_bp.get("min_samples_split", 2)),
+        "minSamplesLeaf": _safe(_bp.get("min_samples_leaf", 1)),
+        "maxFeatures": _safe(str(_bp.get("max_features", "sqrt"))),
+        "criterion": _safe(getattr(rf_model, "criterion", "gini")),
+        "classWeight": _safe(str(_bp.get("class_weight", "balanced"))),
+        "bootstrap": _safe(getattr(rf_model, "bootstrap", True)),
+        "cvFolds": _safe(int(n_splits)),
+        "randomState": 42,
+    }}
 
     results["models"] = results.get("models", {{}})
     results["models"]["rf"] = {{
@@ -351,7 +373,9 @@ try:
             "precision": _safe(round(precision_score(y_monthly, y_pred_rf, zero_division=0), 4)),
             "recall": _safe(round(recall_score(y_monthly, y_pred_rf, zero_division=0), 4)),
             "nEstimators": _safe(rf_model.n_estimators),
+            "rocAuc": _safe(round(rf_auc, 4)),
         }},
+        "config": _rf_config,
         "thresholds": _rf_thresh,
     }}
 except Exception as e:
@@ -384,13 +408,15 @@ except Exception as e:
 
 # -- GMM --
 try:
+    # Export ALL feature thresholds with erosion/normal centroids
     _gmm_thresh = {{}}
-    for feat in ['Hm0_max', 'UcurrMax', 'WindMax']:
-        if feat in gmm_thresholds:
-            _gmm_thresh[feat] = {{
-                "value": _safe(round(gmm_thresholds[feat]['threshold'], 3)),
-                "direction": gmm_thresholds[feat]['direction'],
-            }}
+    for feat in gmm_thresholds:
+        _gmm_thresh[feat] = {{
+            "value": _safe(round(gmm_thresholds[feat]['threshold'], 3)),
+            "direction": gmm_thresholds[feat]['direction'],
+            "erosionValue": _safe(round(gmm_thresholds[feat]['erosion_value'], 3)),
+            "normalValue": _safe(round(gmm_thresholds[feat]['normal_value'], 3)),
+        }}
 
     _state_dist = []
     _sc = env_features_monthly['GMM_State'].value_counts()
@@ -403,18 +429,55 @@ try:
             "erosionRate": _safe(round(_er * 100, 1)),
         }})
 
+    # State centroids (all features, original scale)
+    _state_centroids = {{}}
+    try:
+        for i in range(n_states):
+            _row = state_means_df.loc[f'State_{{i}}']
+            _state_centroids[f"State_{{i}}"] = {{feat: _safe(round(float(_row[feat]), 3)) for feat in model_features if feat in _row.index}}
+    except Exception:
+        pass
+
+    # Component selection data (BIC/AIC for each n_components)
+    _component_selection = []
+    try:
+        for idx, n in enumerate(n_components_range):
+            _component_selection.append({{
+                "nComponents": _safe(int(n)),
+                "bic": _safe(round(float(bic_scores[idx]), 1)),
+                "aic": _safe(round(float(aic_scores[idx]), 1)),
+            }})
+    except Exception:
+        pass
+
+    # State means for all features
+    _all_feats = [f for f in model_features if f in env_features_monthly.columns]
+    _normal_means = {{}}
+    _highRisk_means = {{}}
+    for feat in _all_feats:
+        try:
+            _normal_means[feat] = _safe(round(float(env_features_monthly[env_features_monthly['GMM_State'] != erosion_state][feat].mean()), 3))
+            _highRisk_means[feat] = _safe(round(float(env_features_monthly[env_features_monthly['GMM_State'] == erosion_state][feat].mean()), 3))
+        except Exception:
+            pass
+
     results["models"] = results.get("models", {{}})
     results["models"]["gmm"] = {{
         "stateDistribution": _state_dist,
         "stateMeans": {{
-            "normal": {{feat: _safe(round(float(env_features_monthly[env_features_monthly['GMM_State'] != erosion_state][feat].mean()), 3))
-                        for feat in ['Hm0_max', 'UcurrMax', 'WindMax'] if feat in env_features_monthly.columns}},
-            "highRisk": {{feat: _safe(round(float(env_features_monthly[env_features_monthly['GMM_State'] == erosion_state][feat].mean()), 3))
-                          for feat in ['Hm0_max', 'UcurrMax', 'WindMax'] if feat in env_features_monthly.columns}},
+            "normal": _normal_means,
+            "highRisk": _highRisk_means,
         }},
+        "stateCentroids": _state_centroids,
+        "componentSelection": _component_selection,
+        "erosionState": _safe(int(erosion_state)),
         "metrics": {{
             "nStates": _safe(n_states),
             "accuracy": _safe(round(gmm_accuracy, 4)),
+            "logLikelihood": _safe(round(float(gmm.score(X_scaled_monthly)), 3)),
+            "aic": _safe(round(float(gmm.aic(X_scaled_monthly)), 3)),
+            "bic": _safe(round(float(gmm.bic(X_scaled_monthly)), 3)),
+            "converged": bool(gmm.converged_),
             "silhouetteScore": 0,
         }},
         "thresholds": _gmm_thresh,

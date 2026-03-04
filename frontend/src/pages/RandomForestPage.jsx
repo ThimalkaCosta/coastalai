@@ -12,50 +12,57 @@ import {
   CheckCircle,
 } from 'lucide-react'
 import PageTransition from '../components/common/PageTransition'
-import StatCard from '../components/common/StatCard'
 import Tabs from '../components/common/Tabs'
 import FeatureImportanceChart from '../components/charts/FeatureImportanceChart'
-import ThresholdScatterChart from '../components/charts/ThresholdScatterChart'
-import DataTable from '../components/common/DataTable'
 import { useData } from '../context/DataContext'
 
+// Feature description mapping
+const FEATURE_DESCRIPTIONS = {
+  Hm0_max: 'Maximum significant wave height',
+  Hm0_max_annual: 'Annual max significant wave height',
+  Hm0_mean: 'Mean significant wave height',
+  CumWaveEnergy: 'Cumulative wave energy',
+  StormDays_wave: 'Number of storm wave days',
+  WindMax: 'Maximum wind speed',
+  WindMax_annual: 'Annual maximum wind speed',
+  WindMean: 'Mean wind speed',
+  WindStressMean: 'Mean wind stress',
+  UcurrMax: 'Maximum ocean current velocity',
+  UcurrMax_annual: 'Annual max ocean current velocity',
+  UcurrMean: 'Mean ocean current velocity',
+  CumCurrent: 'Cumulative current transport',
+}
+
 export default function RandomForestPage() {
-  const { data, dataLoaded } = useData()
+  const { data } = useData()
   const [activeTab, setActiveTab] = useState('importance')
 
   // Feature importance data from actual results
   const featureImportance = useMemo(() => {
-    if (data.models?.rf?.featureImportance?.length) {
-      return data.models.rf.featureImportance
-    }
-    return []
+    return data.models?.rf?.featureImportance || []
   }, [data])
 
   // Threshold values from actual results
   const thresholds = useMemo(() => {
-    if (data.models?.rf?.thresholds) {
-      return data.models.rf.thresholds
-    }
-    return {}
+    return data.models?.rf?.thresholds || {}
   }, [data])
 
   // All thresholds as array for table display - properly ordered by importance
   const thresholdsArray = useMemo(() => {
     if (!thresholds || Object.keys(thresholds).length === 0) return []
-    
-    // Get feature importance order for sorting
+
     const importanceOrder = featureImportance.map(f => f.feature)
-    
+
     const entries = Object.entries(thresholds).map(([key, val]) => ({
       feature: key,
       value: val.value,
-      unit: val.unit,
-      condition: val.condition,
-      description: getFeatureDescription(key),
+      unit: val.unit || '',
+      condition: val.condition || '≥',
+      nSplits: val.nSplits,
+      description: FEATURE_DESCRIPTIONS[key] || key,
       importanceRank: importanceOrder.indexOf(key),
     }))
-    
-    // Sort by importance rank (features not in importance list go to end)
+
     return entries.sort((a, b) => {
       const rankA = a.importanceRank === -1 ? 999 : a.importanceRank
       const rankB = b.importanceRank === -1 ? 999 : b.importanceRank
@@ -63,63 +70,20 @@ export default function RandomForestPage() {
     })
   }, [thresholds, featureImportance])
 
-  // Helper function to get feature descriptions
-  function getFeatureDescription(feature) {
-    const descriptions = {
-      Hm0_max: 'Maximum significant wave height',
-      Hm0_mean: 'Mean significant wave height',
-      CumWaveEnergy: 'Cumulative wave energy',
-      StormDays_wave: 'Number of storm wave days',
-      WindMax: 'Maximum wind speed',
-      WindMean: 'Mean wind speed',
-      WindStressMean: 'Mean wind stress',
-      UcurrMax: 'Maximum ocean current velocity',
-      UcurrMean: 'Mean ocean current velocity',
-      CumCurrent: 'Cumulative current transport',
-    }
-    return descriptions[feature] || feature
-  }
-
   // Model metrics from actual results
   const metrics = useMemo(() => {
-    if (data.models?.rf?.metrics) {
-      const m = data.models.rf.metrics
-      return {
-        accuracy: m.accuracy || 0,
-        cvAccuracy: m.cvAccuracy || 0,
-        cvStd: m.cvStd || 0,
-        precision: m.precision || m.accuracy || 0,
-        recall: m.recall || m.accuracy || 0,
-        f1Score: m.f1Score || m.cvAccuracy || 0,
-        oobScore: m.oobScore || m.cvAccuracy || 0,
-        nEstimators: m.nEstimators || 100,
-      }
-    }
-    return {
-      accuracy: 1.0,
-      cvAccuracy: 0.76,
-      cvStd: 0.08,
-      precision: 1.0,
-      recall: 1.0,
-      f1Score: 0.76,
-      oobScore: 0.76,
-      nEstimators: 100,
-    }
+    return data.models?.rf?.metrics || {}
   }, [data])
 
-  // Scatter data for threshold visualization from actual data
-  const scatterData = useMemo(() => {
-    if (data.scatter?.length) {
-      return data.scatter
-    }
-    return []
+  // Model configuration from actual results
+  const config = useMemo(() => {
+    return data.models?.rf?.config || {}
   }, [data])
 
   const tabs = [
     { id: 'importance', label: 'Feature Importance' },
     { id: 'thresholds', label: 'Thresholds' },
     { id: 'metrics', label: 'Model Metrics' },
-    { id: 'predictions', label: 'Predictions' },
   ]
 
   return (
@@ -169,8 +133,9 @@ export default function RandomForestPage() {
                     Random Forest is an ensemble learning method that constructs multiple decision
                     trees during training and outputs the mode of the classes for classification.
                     It provides robust feature importance rankings and handles non-linear relationships
-                    well. The model uses {metrics.nEstimators} trees with an OOB score of{' '}
-                    {(metrics.oobScore * 100).toFixed(1)}%, indicating good generalization.
+                    well.
+                    {metrics.nEstimators ? ` The model uses ${metrics.nEstimators} trees` : ''}
+                    {metrics.oobScore ? ` with an OOB score of ${(metrics.oobScore * 100).toFixed(1)}%, indicating good generalization.` : '.'}
                   </p>
                 </div>
               </div>
@@ -189,6 +154,7 @@ export default function RandomForestPage() {
               <Tabs tabs={tabs} activeTab={activeTab} onChange={setActiveTab} />
 
               <div className="card p-5 mt-6">
+                {/* ===================== FEATURE IMPORTANCE TAB ===================== */}
                 {activeTab === 'importance' && (
                   <div>
                     <div className="mb-6">
@@ -200,34 +166,41 @@ export default function RandomForestPage() {
                         Higher values indicate stronger predictive power.
                       </p>
                     </div>
-                    <FeatureImportanceChart data={featureImportance} color="#10b981" />
-                    
-                    <div className="mt-8 grid sm:grid-cols-3 gap-4">
-                      {featureImportance.slice(0, 3).map((item, index) => (
-                        <div
-                          key={item.feature}
-                          className="p-4 bg-coastal-50 rounded-xl"
-                        >
-                          <div className="flex items-center gap-2 mb-2">
-                            <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold text-white ${
-                              index === 0 ? 'bg-emerald-500' :
-                              index === 1 ? 'bg-teal-500' : 'bg-cyan-500'
-                            }`}>
-                              {index + 1}
+
+                    {featureImportance.length > 0 ? (
+                      <>
+                        <FeatureImportanceChart data={featureImportance} color="#10b981" />
+
+                        <div className="mt-8 grid sm:grid-cols-3 gap-4">
+                          {featureImportance.slice(0, 3).map((item, index) => (
+                            <div
+                              key={item.feature}
+                              className="p-4 bg-coastal-50 rounded-xl"
+                            >
+                              <div className="flex items-center gap-2 mb-2">
+                                <div className={'w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold text-white ' + ['bg-emerald-500', 'bg-teal-500', 'bg-cyan-500'][index]}>
+                                  {index + 1}
+                                </div>
+                                <span className="text-sm font-medium text-coastal-700">
+                                  {item.fullName || item.feature}
+                                </span>
+                              </div>
+                              <p className="text-2xl font-display font-bold text-coastal-900">
+                                {(item.importance * 100).toFixed(1)}%
+                              </p>
                             </div>
-                            <span className="text-sm font-medium text-coastal-700">
-                              {item.fullName}
-                            </span>
-                          </div>
-                          <p className="text-2xl font-display font-bold text-coastal-900">
-                            {(item.importance * 100).toFixed(1)}%
-                          </p>
+                          ))}
                         </div>
-                      ))}
-                    </div>
+                      </>
+                    ) : (
+                      <div className="p-8 text-center bg-coastal-50 rounded-xl">
+                        <p className="text-coastal-600">No feature importance data available. Run the notebook analysis first.</p>
+                      </div>
+                    )}
                   </div>
                 )}
 
+                {/* ===================== THRESHOLDS TAB ===================== */}
                 {activeTab === 'thresholds' && (
                   <div>
                     <div className="mb-6">
@@ -243,53 +216,34 @@ export default function RandomForestPage() {
                     {/* Top 3 Key Thresholds Cards */}
                     {thresholdsArray.length > 0 && (
                       <div className="grid sm:grid-cols-3 gap-6 mb-8">
-                        <motion.div
-                          initial={{ opacity: 0, scale: 0.95 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{ delay: 0.1 }}
-                          className="p-6 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl text-white shadow-lg"
-                        >
-                          <div className="flex items-center gap-3 mb-4">
-                            <Waves className="w-8 h-8 opacity-80" />
-                            <span className="font-medium opacity-90">Wave Height</span>
-                          </div>
-                          <p className="text-4xl font-display font-bold mb-1">
-                            {thresholds.Hm0_max?.condition || '≥'} {thresholds.Hm0_max?.value?.toFixed(2) || '--'}{thresholds.Hm0_max?.unit || 'm'}
-                          </p>
-                          <p className="text-sm opacity-75">Maximum significant wave height</p>
-                        </motion.div>
-
-                        <motion.div
-                          initial={{ opacity: 0, scale: 0.95 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{ delay: 0.15 }}
-                          className="p-6 bg-gradient-to-br from-indigo-500 to-blue-600 rounded-2xl text-white shadow-lg"
-                        >
-                          <div className="flex items-center gap-3 mb-4">
-                            <Droplets className="w-8 h-8 opacity-80" />
-                            <span className="font-medium opacity-90">Current Speed</span>
-                          </div>
-                          <p className="text-4xl font-display font-bold mb-1">
-                            {thresholds.UcurrMax?.condition || '≥'} {thresholds.UcurrMax?.value?.toFixed(2) || '--'}{thresholds.UcurrMax?.unit || 'm/s'}
-                          </p>
-                          <p className="text-sm opacity-75">Maximum ocean current velocity</p>
-                        </motion.div>
-
-                        <motion.div
-                          initial={{ opacity: 0, scale: 0.95 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{ delay: 0.2 }}
-                          className="p-6 bg-gradient-to-br from-sky-500 to-teal-500 rounded-2xl text-white shadow-lg"
-                        >
-                          <div className="flex items-center gap-3 mb-4">
-                            <Wind className="w-8 h-8 opacity-80" />
-                            <span className="font-medium opacity-90">Wind Speed</span>
-                          </div>
-                          <p className="text-4xl font-display font-bold mb-1">
-                            {thresholds.WindMax?.condition || '≥'} {thresholds.WindMax?.value?.toFixed(2) || '--'}{thresholds.WindMax?.unit || 'm/s'}
-                          </p>
-                          <p className="text-sm opacity-75">Maximum wind speed at surface</p>
-                        </motion.div>
+                        {thresholdsArray.slice(0, 3).map((thresh, i) => {
+                          const icons = [Waves, Droplets, Wind]
+                          const Icon = icons[i] || Waves
+                          const gradients = [
+                            'from-blue-500 to-cyan-500',
+                            'from-indigo-500 to-blue-600',
+                            'from-sky-500 to-teal-500',
+                          ]
+                          const labels = ['Wave Height', 'Current Speed', 'Wind Speed']
+                          return (
+                            <motion.div
+                              key={thresh.feature}
+                              initial={{ opacity: 0, scale: 0.95 }}
+                              animate={{ opacity: 1, scale: 1 }}
+                              transition={{ delay: 0.1 + i * 0.05 }}
+                              className={'p-6 bg-gradient-to-br rounded-2xl text-white shadow-lg ' + gradients[i]}
+                            >
+                              <div className="flex items-center gap-3 mb-4">
+                                <Icon className="w-8 h-8 opacity-80" />
+                                <span className="font-medium opacity-90">{labels[i] || thresh.feature}</span>
+                              </div>
+                              <p className="text-4xl font-display font-bold mb-1">
+                                {thresh.condition} {typeof thresh.value === 'number' ? thresh.value.toFixed(2) : '--'}{thresh.unit}
+                              </p>
+                              <p className="text-sm opacity-75">{thresh.description}</p>
+                            </motion.div>
+                          )
+                        })}
                       </div>
                     )}
 
@@ -318,11 +272,7 @@ export default function RandomForestPage() {
                                   className="border-b border-coastal-100 hover:bg-coastal-50"
                                 >
                                   <td className="py-3 px-4">
-                                    <span className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold text-white ${
-                                      index === 0 ? 'bg-emerald-500' :
-                                      index === 1 ? 'bg-teal-500' :
-                                      index === 2 ? 'bg-cyan-500' : 'bg-coastal-400'
-                                    }`}>
+                                    <span className={'inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold text-white ' + (['bg-emerald-500', 'bg-teal-500', 'bg-cyan-500'][index] || 'bg-coastal-400')}>
                                       {index + 1}
                                     </span>
                                   </td>
@@ -354,7 +304,7 @@ export default function RandomForestPage() {
                             Interpretation
                           </h4>
                           <p className="text-sm text-amber-700">
-                            These thresholds were extracted from the median split points of {metrics.nEstimators} decision trees.
+                            These thresholds were extracted from the median split points of {metrics.nEstimators || 'N/A'} decision trees.
                             When any of these thresholds are exceeded during a monsoon year,
                             the probability of significant erosion increases substantially.
                           </p>
@@ -364,6 +314,7 @@ export default function RandomForestPage() {
                   </div>
                 )}
 
+                {/* ===================== MODEL METRICS TAB ===================== */}
                 {activeTab === 'metrics' && (
                   <div>
                     <div className="mb-6">
@@ -388,7 +339,7 @@ export default function RandomForestPage() {
                           <Target className="w-5 h-5 text-emerald-600" />
                         </div>
                         <p className="text-3xl font-display font-bold text-emerald-900">
-                          {(metrics.accuracy * 100).toFixed(1)}%
+                          {metrics.accuracy ? (metrics.accuracy * 100).toFixed(1) + '%' : '--'}
                         </p>
                         <p className="text-xs text-emerald-600 mt-1">On held-out test set</p>
                       </motion.div>
@@ -404,9 +355,11 @@ export default function RandomForestPage() {
                           <BarChart3 className="w-5 h-5 text-blue-600" />
                         </div>
                         <p className="text-3xl font-display font-bold text-blue-900">
-                          {(metrics.cvAccuracy * 100).toFixed(1)}%
+                          {metrics.cvAccuracy ? (metrics.cvAccuracy * 100).toFixed(1) + '%' : '--'}
                         </p>
-                        <p className="text-xs text-blue-600 mt-1">± {(metrics.cvStd * 100).toFixed(1)}% std</p>
+                        <p className="text-xs text-blue-600 mt-1">
+                          {metrics.cvStd ? '± ' + (metrics.cvStd * 100).toFixed(1) + '% std' : 'GroupKFold cross-validation'}
+                        </p>
                       </motion.div>
 
                       <motion.div
@@ -420,7 +373,7 @@ export default function RandomForestPage() {
                           <Brain className="w-5 h-5 text-violet-600" />
                         </div>
                         <p className="text-3xl font-display font-bold text-violet-900">
-                          {(metrics.oobScore * 100).toFixed(1)}%
+                          {metrics.oobScore ? (metrics.oobScore * 100).toFixed(1) + '%' : '--'}
                         </p>
                         <p className="text-xs text-violet-600 mt-1">Out-of-bag estimate</p>
                       </motion.div>
@@ -436,7 +389,7 @@ export default function RandomForestPage() {
                           <TreeDeciduous className="w-5 h-5 text-amber-600" />
                         </div>
                         <p className="text-3xl font-display font-bold text-amber-900">
-                          {metrics.nEstimators}
+                          {metrics.nEstimators || '--'}
                         </p>
                         <p className="text-xs text-amber-600 mt-1">Decision trees</p>
                       </motion.div>
@@ -445,12 +398,12 @@ export default function RandomForestPage() {
                     {/* Detailed Metrics */}
                     <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
                       {[
-                        { label: 'Precision', value: metrics.precision, desc: 'Positive predictive value', color: 'emerald' },
-                        { label: 'Recall', value: metrics.recall, desc: 'True positive rate / Sensitivity', color: 'blue' },
-                        { label: 'F1 Score', value: metrics.f1Score, desc: 'Harmonic mean of Precision & Recall', color: 'violet' },
+                        { label: 'Precision', value: metrics.precision, desc: 'Positive predictive value', color: '#10b981' },
+                        { label: 'Recall', value: metrics.recall, desc: 'True positive rate / Sensitivity', color: '#3b82f6' },
+                        { label: 'F1 Score', value: metrics.f1Score, desc: 'Harmonic mean of Precision & Recall', color: '#8b5cf6' },
                       ].map((metric, index) => (
-                        <motion.div 
-                          key={metric.label} 
+                        <motion.div
+                          key={metric.label}
                           initial={{ opacity: 0, y: 20 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: 0.3 + index * 0.05 }}
@@ -461,13 +414,13 @@ export default function RandomForestPage() {
                               {metric.label}
                             </span>
                             <span className="text-lg font-display font-bold text-coastal-900">
-                              {(metric.value * 100).toFixed(1)}%
+                              {metric.value ? (metric.value * 100).toFixed(1) + '%' : '--'}
                             </span>
                           </div>
                           <div className="w-full bg-coastal-200 rounded-full h-2">
                             <div
-                              className={`bg-${metric.color}-500 h-2 rounded-full transition-all duration-500`}
-                              style={{ width: `${metric.value * 100}%`, backgroundColor: metric.color === 'emerald' ? '#10b981' : metric.color === 'blue' ? '#3b82f6' : '#8b5cf6' }}
+                              className="h-2 rounded-full transition-all duration-500"
+                              style={{ width: `${(metric.value || 0) * 100}%`, backgroundColor: metric.color }}
                             />
                           </div>
                           <p className="text-xs text-coastal-500 mt-2">{metric.desc}</p>
@@ -475,43 +428,30 @@ export default function RandomForestPage() {
                       ))}
                     </div>
 
-                    {/* Model Configuration */}
+                    {/* Model Configuration - fully dynamic */}
                     <div className="p-4 bg-coastal-50 rounded-xl">
                       <h4 className="font-medium text-coastal-900 mb-4">Model Configuration</h4>
-                      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
-                        <div className="flex justify-between p-2 bg-white rounded-lg">
-                          <span className="text-coastal-600">Number of Trees</span>
-                          <span className="font-medium text-coastal-900">{metrics.nEstimators}</span>
+                      {Object.keys(config).length > 0 ? (
+                        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
+                          {[
+                            { label: 'Number of Trees', value: config.nEstimators },
+                            { label: 'Max Depth', value: config.maxDepth === null || config.maxDepth === 'None' ? 'None (unlimited)' : config.maxDepth },
+                            { label: 'Min Samples Split', value: config.minSamplesSplit },
+                            { label: 'Bootstrap', value: config.bootstrap != null ? String(config.bootstrap) : '--' },
+                            { label: 'Criterion', value: config.criterion ? config.criterion.charAt(0).toUpperCase() + config.criterion.slice(1) : '--' },
+                            { label: 'CV Folds', value: config.cvFolds },
+                            { label: 'Random State', value: config.randomState },
+                            { label: 'Class Weight', value: config.classWeight ? config.classWeight.charAt(0).toUpperCase() + config.classWeight.slice(1) : '--' },
+                          ].map((item) => (
+                            <div key={item.label} className="flex justify-between p-2 bg-white rounded-lg">
+                              <span className="text-coastal-600">{item.label}</span>
+                              <span className="font-medium text-coastal-900">{item.value != null ? String(item.value) : '--'}</span>
+                            </div>
+                          ))}
                         </div>
-                        <div className="flex justify-between p-2 bg-white rounded-lg">
-                          <span className="text-coastal-600">Max Depth</span>
-                          <span className="font-medium text-coastal-900">None (unlimited)</span>
-                        </div>
-                        <div className="flex justify-between p-2 bg-white rounded-lg">
-                          <span className="text-coastal-600">Min Samples Split</span>
-                          <span className="font-medium text-coastal-900">2</span>
-                        </div>
-                        <div className="flex justify-between p-2 bg-white rounded-lg">
-                          <span className="text-coastal-600">Bootstrap</span>
-                          <span className="font-medium text-coastal-900">True</span>
-                        </div>
-                        <div className="flex justify-between p-2 bg-white rounded-lg">
-                          <span className="text-coastal-600">Criterion</span>
-                          <span className="font-medium text-coastal-900">Gini</span>
-                        </div>
-                        <div className="flex justify-between p-2 bg-white rounded-lg">
-                          <span className="text-coastal-600">CV Folds</span>
-                          <span className="font-medium text-coastal-900">5</span>
-                        </div>
-                        <div className="flex justify-between p-2 bg-white rounded-lg">
-                          <span className="text-coastal-600">Random State</span>
-                          <span className="font-medium text-coastal-900">42</span>
-                        </div>
-                        <div className="flex justify-between p-2 bg-white rounded-lg">
-                          <span className="text-coastal-600">Class Weight</span>
-                          <span className="font-medium text-coastal-900">Balanced</span>
-                        </div>
-                      </div>
+                      ) : (
+                        <p className="text-sm text-coastal-500">No configuration data available. Run the notebook analysis first.</p>
+                      )}
                     </div>
 
                     {/* Interpretation */}
@@ -523,34 +463,20 @@ export default function RandomForestPage() {
                             Performance Summary
                           </h4>
                           <p className="text-sm text-emerald-700">
-                            The model achieves {(metrics.accuracy * 100).toFixed(0)}% accuracy on the test set with 
-                            {' '}{(metrics.cvAccuracy * 100).toFixed(0)}% ± {(metrics.cvStd * 100).toFixed(0)}% cross-validation accuracy.
-                            {metrics.accuracy > metrics.cvAccuracy && ' The higher test accuracy compared to CV suggests some overfitting, which is expected given the small dataset size (25 years).'}
-                            {metrics.cvAccuracy >= 0.7 && ' The cross-validation score indicates reasonable generalization capability.'}
+                            {metrics.accuracy && metrics.cvAccuracy ? (
+                              <>
+                                The model achieves {(metrics.accuracy * 100).toFixed(0)}% accuracy on the test set with
+                                {' '}{(metrics.cvAccuracy * 100).toFixed(0)}%{metrics.cvStd ? ' ± ' + (metrics.cvStd * 100).toFixed(0) + '%' : ''} cross-validation accuracy.
+                                {metrics.accuracy > metrics.cvAccuracy && ' The higher test accuracy compared to CV suggests some overfitting, which is expected given the small dataset size.'}
+                                {metrics.cvAccuracy >= 0.7 && ' The cross-validation score indicates reasonable generalization capability.'}
+                              </>
+                            ) : (
+                              'Run the notebook analysis to see performance metrics.'
+                            )}
                           </p>
                         </div>
                       </div>
                     </div>
-                  </div>
-                )}
-
-                {activeTab === 'predictions' && (
-                  <div>
-                    <div className="mb-6">
-                      <h3 className="font-display font-semibold text-coastal-900 mb-2">
-                        Prediction Visualization
-                      </h3>
-                      <p className="text-sm text-coastal-600">
-                        Scatter plot showing the relationship between wave height and shoreline
-                        movement, colored by model predictions.
-                      </p>
-                    </div>
-                    <ThresholdScatterChart
-                      data={scatterData}
-                      threshold={thresholds.Hm0_max.value}
-                      xLabel="Maximum Wave Height (m)"
-                      yLabel="Net Shoreline Movement (m)"
-                    />
                   </div>
                 )}
               </div>

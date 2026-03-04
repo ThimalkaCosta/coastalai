@@ -33,12 +33,14 @@ function normaliseAnalysisData(analysisData) {
       accuracy: analysisData.models.rf.metrics?.accuracy || 0,
       cvAccuracy: analysisData.models.rf.metrics?.cvAccuracy || 0,
       cvStd: analysisData.models.rf.metrics?.cvStd || 0,
-      f1Score: analysisData.models.rf.metrics?.f1Score || analysisData.models.rf.metrics?.cvAccuracy || 0,
-      oobScore: analysisData.models.rf.metrics?.oobScore || analysisData.models.rf.metrics?.cvAccuracy || 0,
+      f1Score: analysisData.models.rf.metrics?.f1Score || 0,
+      oobScore: analysisData.models.rf.metrics?.oobScore || 0,
       nEstimators: analysisData.models.rf.metrics?.nEstimators || 100,
-      precision: analysisData.models.rf.metrics?.precision || analysisData.models.rf.metrics?.accuracy || 0,
-      recall: analysisData.models.rf.metrics?.recall || analysisData.models.rf.metrics?.accuracy || 0,
+      precision: analysisData.models.rf.metrics?.precision || 0,
+      recall: analysisData.models.rf.metrics?.recall || 0,
+      rocAuc: analysisData.models.rf.metrics?.rocAuc || 0,
     },
+    config: analysisData.models.rf.config || {},
     thresholds: analysisData.models.rf.thresholds || {},
   } : null
 
@@ -63,11 +65,18 @@ function normaliseAnalysisData(analysisData) {
   const gmmData = analysisData.models?.gmm ? {
     stateDistribution: analysisData.models.gmm.stateDistribution || [],
     stateMeans: analysisData.models.gmm.stateMeans || {},
+    stateCentroids: analysisData.models.gmm.stateCentroids || {},
+    componentSelection: analysisData.models.gmm.componentSelection || [],
+    erosionState: analysisData.models.gmm.erosionState ?? null,
     probabilityData: analysisData.models.gmm.probabilityData || [],
     metrics: {
       nStates: analysisData.models.gmm.metrics?.nStates || 3,
       accuracy: analysisData.models.gmm.metrics?.accuracy || 0,
       silhouetteScore: analysisData.models.gmm.metrics?.silhouetteScore || 0,
+      logLikelihood: analysisData.models.gmm.metrics?.logLikelihood || 0,
+      aic: analysisData.models.gmm.metrics?.aic || 0,
+      bic: analysisData.models.gmm.metrics?.bic || 0,
+      converged: analysisData.models.gmm.metrics?.converged ?? false,
     },
     thresholds: analysisData.models.gmm.thresholds || {},
   } : null
