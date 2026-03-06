@@ -14,14 +14,14 @@ import {
 const headerNavigation = [
   { name: 'Home', href: '/', icon: Home },
   { name: 'Meteorological Threshold', href: '/dashboard', icon: Cloud },
-  { name: 'Morphological Threshold', href: '/morphological-threshold', icon: Mountain },
+  { name: 'Morphological Threshold', href: '/morph/upload', icon: Mountain },
   { name: 'Long-Term Forecasting', href: '/long-term-forecasting', icon: TrendingUp },
   { name: 'Short-Term Forecasting', href: '/short-term-forecasting', icon: Zap },
 ]
 
 /* Paths belonging to each top-level section (for active-tab highlighting) */
 const METEOROLOGICAL_PATHS = ['/dashboard', '/upload', '/analysis', '/threshold', '/models', '/admin']
-const MORPHOLOGICAL_PATHS = ['/morphological-threshold', '/hmm-analysis', '/regime-profiles', '/seasonal-analysis']
+const MORPHOLOGICAL_PATHS = ['/morph/upload', '/morph/threshold', '/morph/forecast']
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -30,7 +30,7 @@ export default function Navbar() {
   const isActive = (href) => {
     if (href === '/') return location.pathname === '/'
     if (href === '/dashboard') return METEOROLOGICAL_PATHS.some((p) => location.pathname.startsWith(p))
-    if (href === '/morphological-threshold') return MORPHOLOGICAL_PATHS.some((p) => location.pathname.startsWith(p))
+    if (href === '/morph/upload') return MORPHOLOGICAL_PATHS.some((p) => location.pathname.startsWith(p))
     return location.pathname === href
   }
 

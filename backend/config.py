@@ -14,8 +14,15 @@ UPLOAD_DIR = BASE_DIR / "uploads"
 RESULTS_DIR = BASE_DIR / "results"
 EXECUTED_NOTEBOOKS_DIR = BASE_DIR / "executed_notebooks"
 
+# --- Morphological module paths ---
+MORPH_NOTEBOOK_PATH = PROJECT_ROOT / "thimalka.ipynb"
+MORPH_UPLOAD_DIR = BASE_DIR / "uploads" / "morphological"
+MORPH_RESULTS_DIR = BASE_DIR / "results" / "morphological"
+MORPH_EXECUTED_NOTEBOOKS_DIR = BASE_DIR / "executed_notebooks" / "morphological"
+
 # Create directories
-for d in [UPLOAD_DIR, RESULTS_DIR, EXECUTED_NOTEBOOKS_DIR]:
+for d in [UPLOAD_DIR, RESULTS_DIR, EXECUTED_NOTEBOOKS_DIR,
+          MORPH_UPLOAD_DIR, MORPH_RESULTS_DIR, MORPH_EXECUTED_NOTEBOOKS_DIR]:
     d.mkdir(parents=True, exist_ok=True)
 
 # Frontend data path (where the frontend reads analysis_results.json)
