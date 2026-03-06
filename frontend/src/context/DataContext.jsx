@@ -87,6 +87,8 @@ function normaliseAnalysisData(analysisData) {
   return {
     shoreline: analysisData.shoreline,
     thresholds: analysisData.thresholds,
+    modelComparison: analysisData.modelComparison || null,
+    thresholdComparison: analysisData.thresholdComparison || null,
     processed: analysisData.timeSeries,
     summary: analysisData.summary,
     scatter: analysisData.scatter,
@@ -114,6 +116,8 @@ export function DataProvider({ children }) {
   const [data, setData] = useState({
     shoreline: null,
     thresholds: null,
+    modelComparison: null,
+    thresholdComparison: null,
     processed: null,
     summary: null,
     scatter: null,
@@ -295,11 +299,12 @@ export function DataProvider({ children }) {
     return result !== null
   }, [loadAnalysisResults])
 
-  // ── Clear all data ──
+  // ── Clear all data (files + results) ──
   const clearAllData = useCallback(() => {
     setFiles({ qgisReport: null, currentData: null, waveData: null, windData: null })
     setData({
-      shoreline: null, thresholds: null, processed: null, summary: null,
+      shoreline: null, thresholds: null, modelComparison: null, thresholdComparison: null,
+      processed: null, summary: null,
       scatter: null, correlation: null, pca: null, forcingRegimes: null,
       roc: null, boxplot: null, yearlyShoreline: null,
       models: { rf: null, hmm: null, xgb: null },
@@ -307,7 +312,27 @@ export function DataProvider({ children }) {
     })
     setDataLoaded(false)
     setAnalysisStatus(null)
+    setError(null)
   }, [])
+
+  // ── Clear analysis results only (keep uploaded files) ──
+  const clearAnalysis = useCallback(async () => {
+    setData({
+      shoreline: null, thresholds: null, modelComparison: null, thresholdComparison: null,
+      processed: null, summary: null,
+      scatter: null, correlation: null, pca: null, forcingRegimes: null,
+      roc: null, boxplot: null, yearlyShoreline: null,
+      models: { rf: null, hmm: null, xgb: null },
+      forecasts: null,
+    })
+    setDataLoaded(false)
+    setAnalysisStatus(null)
+    setError(null)
+    // Also clear server-side results so next load doesn't re-fetch old data
+    if (backendAvailable) {
+      try { await api.clearResults() } catch { /* ignore */ }
+    }
+  }, [backendAvailable])
 
   // ── Summary stats ──
   const getSummaryStats = useCallback(() => {
@@ -338,6 +363,7 @@ export function DataProvider({ children }) {
     loadDemoData,
     loadAnalysisResults,
     clearAllData,
+    clearAnalysis,
     getSummaryStats,
     // NEW: dynamic analysis execution
     runAnalysis,

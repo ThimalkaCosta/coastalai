@@ -15,6 +15,7 @@ import {
   Loader2,
   Server,
   XCircle,
+  Trash2,
 } from 'lucide-react'
 import PageTransition from '../components/common/PageTransition'
 import FileUpload from '../components/upload/FileUpload'
@@ -59,13 +60,17 @@ const uploadSections = [
   },
 ]
 
-/* ── Execution progress steps ── */
+/* ── Execution progress steps (mirrors notebook.ipynb flow) ── */
 const PROGRESS_STEPS = [
   'Uploading files to server…',
-  'Executing analysis notebook…',
-  'Training ML models (HMM, RF, XGBoost)…',
-  'Computing thresholds & SHAP analysis…',
-  'Processing results…',
+  'Loading & processing environmental data (NetCDF)…',
+  'Feature engineering & exploratory analysis…',
+  'Training HMM state detection model…',
+  'Training Random Forest classifier…',
+  'Training XGBoost & SHAP analysis…',
+  'Computing multi-model consensus thresholds…',
+  'Running SARIMA forecasts…',
+  'Processing & exporting results…',
 ]
 
 export default function DataUploadPage() {
@@ -80,6 +85,7 @@ export default function DataUploadPage() {
     analysisRunning,
     analysisStatus,
     backendAvailable,
+    clearAnalysis,
     error: contextError,
   } = useData()
 
@@ -121,7 +127,7 @@ export default function DataUploadPage() {
     // Advance the fake progress indicator while notebook runs
     const stepInterval = setInterval(() => {
       setProgressStep((prev) => Math.min(prev + 1, PROGRESS_STEPS.length - 1))
-    }, 30_000) // advance every 30 s
+    }, 18_000) // advance every 18 s (9 steps × ~18s ≈ ~2.5 min typical run)
 
     try {
       const result = await runAnalysis()
@@ -383,6 +389,13 @@ export default function DataUploadPage() {
                     >
                       View Analysis Results
                       <ArrowRight className="w-5 h-5" />
+                    </button>
+                    <button
+                      onClick={() => { clearAnalysis(); setAnalysisComplete(false) }}
+                      className="btn-secondary w-full justify-center mt-3 text-red-600 border-red-200 hover:bg-red-50"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                      Clear Results & Re-upload
                     </button>
                   </>
                 )}

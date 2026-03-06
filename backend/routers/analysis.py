@@ -112,6 +112,26 @@ async def upload_files(
 
 
 # ---------------------------------------------------------------------------
+# DELETE /api/results  –  clear all analysis results
+# ---------------------------------------------------------------------------
+@router.delete("/results")
+async def clear_results():
+    """Delete all analysis result files so the frontend starts fresh."""
+    deleted = []
+    # Clear frontend public data
+    frontend_json = FRONTEND_DATA_DIR / "analysis_results.json"
+    if frontend_json.exists():
+        frontend_json.unlink()
+        deleted.append(str(frontend_json))
+    # Clear backend results
+    if RESULTS_DIR.exists():
+        for f in RESULTS_DIR.glob("results_*.json"):
+            f.unlink()
+            deleted.append(str(f))
+    return {"cleared": len(deleted), "files": deleted}
+
+
+# ---------------------------------------------------------------------------
 # GET /api/analyze/status  –  check if backend is ready
 # ---------------------------------------------------------------------------
 @router.get("/analyze/status")

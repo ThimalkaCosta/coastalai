@@ -53,6 +53,13 @@ const api = {
     if (!res.ok) throw new Error('Status check failed')
     return res.json()
   },
+
+  /** DELETE /api/results – Clear all analysis results from server */
+  async clearResults() {
+    const res = await fetch(`${API_BASE_URL}/results`, { method: 'DELETE' })
+    if (!res.ok) throw new Error('Failed to clear results')
+    return res.json()
+  },
 }
 
 export default api

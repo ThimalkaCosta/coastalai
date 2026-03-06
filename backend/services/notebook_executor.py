@@ -539,11 +539,40 @@ try:
 except Exception as e:
     print(f"HMM export error: {{e}}")
 
-# 12. Thresholds (from threshold_summary dataframe)
+# 12. Thresholds — final consensus table + model comparison + per-variable comparison
 try:
-    results["thresholds"] = threshold_summary.to_dict(orient="records")
+    results["thresholds"] = threshold_export
 except Exception:
     results["thresholds"] = None
+
+try:
+    results["modelComparison"] = model_comparison.to_dict(orient="records")
+except Exception:
+    results["modelComparison"] = None
+
+try:
+    # Build per-variable threshold comparison with numeric values (not string ranges)
+    _thresh_comp = []
+    _all_drv = sorted(set(hmm_thresholds.keys()) & set(rf_thresholds.keys()) & set(xgb_thresholds.keys()))
+    for _drv in _all_drv:
+        _h = hmm_thresholds[_drv]
+        _r = rf_thresholds[_drv]
+        _x = xgb_thresholds[_drv]
+        _thresh_comp.append({{
+            "Variable": _drv,
+            "HMM_Threshold": _safe(round(_h["threshold"], 4)),
+            "HMM_Range_Lower": _safe(round(_h["threshold_lower"], 4)),
+            "HMM_Range_Upper": _safe(round(_h["threshold_upper"], 4)),
+            "RF_Threshold": _safe(round(_r["threshold"], 4)),
+            "RF_Range_Lower": _safe(round(_r["threshold_lower"], 4)),
+            "RF_Range_Upper": _safe(round(_r["threshold_upper"], 4)),
+            "XGB_Threshold": _safe(round(_x["threshold"], 4)),
+            "XGB_Range_Lower": _safe(round(_x["threshold_lower"], 4)),
+            "XGB_Range_Upper": _safe(round(_x["threshold_upper"], 4)),
+        }})
+    results["thresholdComparison"] = _thresh_comp
+except Exception:
+    results["thresholdComparison"] = None
 
 # 13. Meteorological Threshold Forecasts (SARIMA)
 try:
