@@ -180,11 +180,7 @@
       "outputs": [
         {
           "type": "text",
-          "content": "============================================================"
-        },
-        {
-          "type": "text",
-          "content": "\nPCA LOADINGS (Feature Contribution to Each PC)\n============================================================\n"
+          "content": "============================================================\nPCA LOADINGS (Feature Contribution to Each PC)\n============================================================\n"
         },
         {
           "type": "html",
@@ -236,11 +232,15 @@
       "outputs": [
         {
           "type": "text",
+          "content": "============================================================\nHMM - OPTIMAL STATE SELECTION (Monthly Data)\n============================================================\n"
+        },
+        {
+          "type": "text",
           "content": "Model is not converging.  Current: -1063.1798352008693 is not greater than 1819.3953039479159. Delta is -2882.575139148785\n"
         },
         {
           "type": "text",
-          "content": "============================================================\nHMM - OPTIMAL STATE SELECTION (Monthly Data)\n============================================================\n  n_components=2: BIC=444321.6, AIC=442906.7\n"
+          "content": "  n_components=2: BIC=444321.6, AIC=442906.7\n"
         },
         {
           "type": "text",
@@ -252,7 +252,11 @@
         },
         {
           "type": "text",
-          "content": "  n_components=5: BIC=-4309257.7, AIC=-4312850.4\n"
+          "content": "  n_components=5: BIC=-4309257.7, AIC=-4312850.4"
+        },
+        {
+          "type": "text",
+          "content": "\n"
         },
         {
           "type": "text",
@@ -260,15 +264,11 @@
         },
         {
           "type": "text",
-          "content": "  n_components=6: BIC=-4077808.5, AIC=-4082141.9\n"
-        },
-        {
-          "type": "text",
           "content": "Model is not converging.  Current: 7398.981963326591 is not greater than 11370.572230101237. Delta is -3971.590266774647\n"
         },
         {
           "type": "text",
-          "content": "  n_components=7: BIC=-4477495.5, AIC=-4482577.1\n\n\u2713 Optimal number of hidden states (by BIC): 7\n"
+          "content": "  n_components=6: BIC=-4077808.5, AIC=-4082141.9\n  n_components=7: BIC=-4477495.5, AIC=-4482577.1\n\n\u2713 Optimal number of hidden states (by BIC): 7\n"
         },
         {
           "type": "text",
@@ -373,11 +373,7 @@
       "outputs": [
         {
           "type": "text",
-          "content": "============================================================"
-        },
-        {
-          "type": "text",
-          "content": "\nSHAP ANALYSIS - XGBoost Feature Contributions\n============================================================\n"
+          "content": "============================================================\nSHAP ANALYSIS - XGBoost Feature Contributions\n============================================================\n"
         },
         {
           "type": "text",
@@ -446,29 +442,89 @@
       ]
     },
     {
+      "cellIndex": 42,
+      "outputs": [
+        {
+          "type": "text",
+          "content": "======================================================================\nSARIMA FORECASTING \u2013 MONTHLY ENVIRONMENTAL DATA\n======================================================================\nTime range: 2000-04 \u2192 2025-03\nTotal months: 300\nVariables: ['Hm0_max', 'UcurrMax', 'WindMax', 'CumCurrent', 'StormDays_wave']\nHorizons: [6, 12, 18, 24] months\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nADF Stationarity Tests (p < 0.05 \u2192 stationary)\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n  Hm0_max             : p=0.0039  \u2713 Stationary\n  UcurrMax            : p=0.0003  \u2713 Stationary\n  WindMax             : p=0.0149  \u2713 Stationary\n  CumCurrent          : p=0.0001  \u2713 Stationary\n  StormDays_wave      : p=0.0087  \u2713 Stationary\n\n======================================================================\nTRAINING SARIMA MODELS (this may take a minute...)\n======================================================================\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nTraining: Hm0_max\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n"
+        },
+        {
+          "type": "text",
+          "content": "  \u2713 Best order: SARIMA(1, 0, 0)x(0, 1, 1, 12)\n  \u2713 AIC: 205.5\n  \u2713 MAE: 0.3233\n  \u2713 RMSE: 0.5108\n  \u2192  6-month avg: 2.2669  |  peak: 2.6035\n  \u2192 12-month avg: 1.8572  |  peak: 2.6035\n  \u2192 18-month avg: 1.9934  |  peak: 2.6035\n  \u2192 24-month avg: 1.8570  |  peak: 2.6035\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nTraining: UcurrMax\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n"
+        },
+        {
+          "type": "text",
+          "content": "  \u2713 Best order: SARIMA(0, 0, 0)x(1, 1, 1, 12)\n  \u2713 AIC: -678.4\n  \u2713 MAE: 0.0634\n  \u2713 RMSE: 0.0947\n  \u2192  6-month avg: 0.2957  |  peak: 0.3356\n  \u2192 12-month avg: 0.3153  |  peak: 0.4266\n  \u2192 18-month avg: 0.3087  |  peak: 0.4266\n  \u2192 24-month avg: 0.3152  |  peak: 0.4639\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nTraining: WindMax\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n"
+        },
+        {
+          "type": "text",
+          "content": "D:\\Kanjana\\Coastal_Research\\.venv\\Lib\\site-packages\\statsmodels\\base\\model.py:607: ConvergenceWarning: Maximum Likelihood optimization failed to converge. Check mle_retvals\n  warnings.warn(\"Maximum Likelihood optimization failed to \"\n"
+        },
+        {
+          "type": "text",
+          "content": "  \u2713 Best order: SARIMA(2, 0, 0)x(0, 1, 1, 12)\n  \u2713 AIC: 481.9\n  \u2713 MAE: 0.5951\n  \u2713 RMSE: 0.9402\n  \u2192  6-month avg: 5.4035  |  peak: 6.2102\n  \u2192 12-month avg: 4.4629  |  peak: 6.2102\n  \u2192 18-month avg: 4.7921  |  peak: 6.2353\n  \u2192 24-month avg: 4.4751  |  peak: 6.2353\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nTraining: CumCurrent\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n"
+        },
+        {
+          "type": "text",
+          "content": "D:\\Kanjana\\Coastal_Research\\.venv\\Lib\\site-packages\\statsmodels\\base\\model.py:607: ConvergenceWarning: Maximum Likelihood optimization failed to converge. Check mle_retvals\n  warnings.warn(\"Maximum Likelihood optimization failed to \"\n"
+        },
+        {
+          "type": "text",
+          "content": "  \u2713 Best order: SARIMA(0, 0, 2)x(0, 1, 1, 12)\n  \u2713 AIC: 760.6\n  \u2713 MAE: 0.9133\n  \u2713 RMSE: 1.3840\n  \u2192  6-month avg: 4.4826  |  peak: 5.8465\n  \u2192 12-month avg: 4.4761  |  peak: 5.8465\n  \u2192 18-month avg: 4.4783  |  peak: 5.8465\n  \u2192 24-month avg: 4.4761  |  peak: 5.8465\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nTraining: StormDays_wave\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n"
+        },
+        {
+          "type": "text",
+          "content": "  \u2713 Best order: SARIMA(1, 0, 2)x(0, 1, 1, 12)\n  \u2713 AIC: 2287.4\n  \u2713 MAE: 9.2468\n  \u2713 RMSE: 17.0240\n  \u2192  6-month avg: 25.5163  |  peak: 48.7825\n  \u2192 12-month avg: 13.7444  |  peak: 48.7825\n  \u2192 18-month avg: 17.6676  |  peak: 48.7825\n  \u2192 24-month avg: 13.7438  |  peak: 48.7825\n\n\u2713 All 5 SARIMA models trained successfully\n"
+        }
+      ]
+    },
+    {
       "cellIndex": 43,
       "outputs": [
         {
+          "type": "text",
+          "content": "======================================================================\nTHRESHOLD EXCEEDANCE ANALYSIS\n======================================================================\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nHm0_max: Threshold = 1.8771 (\u2265)\n  Historical: mean=1.8332, std=0.6203\n   6-month: avg=2.2669, peak=2.6035, exceedance=83%, trend=+23.7%\n  12-month: avg=1.8572, peak=2.6035, exceedance=50%, trend=+1.3%\n  18-month: avg=1.9934, peak=2.6035, exceedance=61%, trend=+8.7%\n  24-month: avg=1.8570, peak=2.6035, exceedance=50%, trend=+1.3%\n  \u2192 Risk Level: High\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nUcurrMax: Threshold = 0.3607 (\u2265)\n  Historical: mean=0.3112, std=0.0794\n   6-month: avg=0.2957, peak=0.3356, exceedance=0%, trend=-5.0%\n  12-month: avg=0.3153, peak=0.4266, exceedance=17%, trend=+1.3%\n  18-month: avg=0.3087, peak=0.4266, exceedance=11%, trend=-0.8%\n  24-month: avg=0.3152, peak=0.4639, exceedance=17%, trend=+1.3%\n  \u2192 Risk Level: Low\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nWindMax: Threshold = 4.3889 (\u2264)\n  Historical: mean=4.6215, std=1.2961\n   6-month: avg=5.4035, peak=6.2102, exceedance=17%, trend=+16.9%\n  12-month: avg=4.4629, peak=6.2102, exceedance=50%, trend=-3.4%\n  18-month: avg=4.7921, peak=6.2353, exceedance=39%, trend=+3.7%\n  24-month: avg=4.4751, peak=6.2353, exceedance=50%, trend=-3.2%\n  \u2192 Risk Level: High\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nCumCurrent: Threshold = 5.0426 (\u2265)\n  Historical: mean=4.5079, std=1.1241\n   6-month: avg=4.4826, peak=5.8465, exceedance=17%, trend=-0.6%\n  12-month: avg=4.4761, peak=5.8465, exceedance=17%, trend=-0.7%\n  18-month: avg=4.4783, peak=5.8465, exceedance=17%, trend=-0.7%\n  24-month: avg=4.4761, peak=5.8465, exceedance=17%, trend=-0.7%\n  \u2192 Risk Level: Low\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nStormDays_wave: Threshold = 6.5731 (\u2264)\n  Historical: mean=13.5267, std=23.1992\n   6-month: avg=25.5163, peak=48.7825, exceedance=17%, trend=+88.6%\n  12-month: avg=13.7444, peak=48.7825, exceedance=50%, trend=+1.6%\n  18-month: avg=17.6676, peak=48.7825, exceedance=39%, trend=+30.6%\n  24-month: avg=13.7438, peak=48.7825, exceedance=50%, trend=+1.6%\n  \u2192 Risk Level: High\n\n======================================================================\nMODEL VALIDATION (24-month hold-out)\n======================================================================\n"
+        },
+        {
+          "type": "text",
+          "content": "  Hm0_max             : MAE=0.3198  RMSE=0.4086  MAPE=17.9%  r=0.782\n"
+        },
+        {
+          "type": "text",
+          "content": "  UcurrMax            : MAE=0.0618  RMSE=0.0833  MAPE=22.4%  r=0.497\n"
+        },
+        {
+          "type": "text",
+          "content": "  WindMax             : MAE=0.4371  RMSE=0.5539  MAPE=12.1%  r=0.938\n"
+        },
+        {
+          "type": "text",
+          "content": "  CumCurrent          : MAE=0.8133  RMSE=1.1595  MAPE=19.4%  r=0.552\n"
+        },
+        {
+          "type": "text",
+          "content": "  StormDays_wave      : MAE=13.5261  RMSE=22.2342  MAPE=463.2%  r=0.505\n\n======================================================================\nCOMPOSITE RISK FORECAST\n======================================================================\n  Variables at High risk:   3\n  Variables at Medium risk: 0\n  Variables at Low risk:    2\n  \u2550\u2550\u2550 Overall Risk: High \u2550\u2550\u2550\n\n\u2713 Forecast export ready: 5 variables \u00d7 4 horizons\n"
+        }
+      ]
+    },
+    {
+      "cellIndex": 45,
+      "outputs": [
+        {
           "type": "error",
-          "ename": "ValueError",
-          "evalue": "Invalid frequency: ME. Failed to parse with error message: ValueError(\"for Period, please use 'M' instead of 'ME'\")",
+          "ename": "TypeError",
+          "evalue": "float() argument must be a string or a real number, not 'Period'",
           "traceback": [
             "\u001b[31m---------------------------------------------------------------------------\u001b[39m",
-            "\u001b[31mValueError\u001b[39m                                Traceback (most recent call last)",
-            "\u001b[36mFile \u001b[39m\u001b[32mpandas/_libs/tslibs/offsets.pyx:6313\u001b[39m, in \u001b[36mpandas._libs.tslibs.offsets.to_offset\u001b[39m\u001b[34m()\u001b[39m\n",
-            "\u001b[36mFile \u001b[39m\u001b[32mpandas/_libs/tslibs/offsets.pyx:6195\u001b[39m, in \u001b[36mpandas._libs.tslibs.offsets._validate_to_offset_alias\u001b[39m\u001b[34m()\u001b[39m\n",
-            "\u001b[31mValueError\u001b[39m: for Period, please use 'M' instead of 'ME'",
-            "\nDuring handling of the above exception, another exception occurred:\n",
-            "\u001b[31mValueError\u001b[39m                                Traceback (most recent call last)",
-            "\u001b[36mCell\u001b[39m\u001b[36m \u001b[39m\u001b[32mIn[31]\u001b[39m\u001b[32m, line 26\u001b[39m\n\u001b[32m     23\u001b[39m ts_data = ts_data.interpolate(method=\u001b[33m'\u001b[39m\u001b[33mtime\u001b[39m\u001b[33m'\u001b[39m).ffill().bfill()\n\u001b[32m     25\u001b[39m \u001b[38;5;66;03m# Ensure frequency is monthly\u001b[39;00m\n\u001b[32m---> \u001b[39m\u001b[32m26\u001b[39m ts_data = \u001b[43mts_data\u001b[49m\u001b[43m.\u001b[49m\u001b[43masfreq\u001b[49m\u001b[43m(\u001b[49m\u001b[33;43m'\u001b[39;49m\u001b[33;43mME\u001b[39;49m\u001b[33;43m'\u001b[39;49m\u001b[43m)\u001b[49m\n\u001b[32m     27\u001b[39m \u001b[38;5;28;01mif\u001b[39;00m ts_data.isnull().sum().sum() > \u001b[32m0\u001b[39m:\n\u001b[32m     28\u001b[39m     ts_data = ts_data.interpolate(method=\u001b[33m'\u001b[39m\u001b[33mtime\u001b[39m\u001b[33m'\u001b[39m).ffill().bfill()\n",
-            "\u001b[36mFile \u001b[39m\u001b[32mD:\\Kanjana\\Coastal_Research\\.venv\\Lib\\site-packages\\pandas\\core\\generic.py:8901\u001b[39m, in \u001b[36mNDFrame.asfreq\u001b[39m\u001b[34m(self, freq, method, how, normalize, fill_value)\u001b[39m\n\u001b[32m   8794\u001b[39m \u001b[38;5;250m\u001b[39m\u001b[33;03m\"\"\"\u001b[39;00m\n\u001b[32m   8795\u001b[39m \u001b[33;03mConvert time series to specified frequency.\u001b[39;00m\n\u001b[32m   8796\u001b[39m \n\u001b[32m   (...)\u001b[39m\u001b[32m   8897\u001b[39m \u001b[33;03m2000-01-01 00:03:00    3.0\u001b[39;00m\n\u001b[32m   8898\u001b[39m \u001b[33;03m\"\"\"\u001b[39;00m\n\u001b[32m   8899\u001b[39m \u001b[38;5;28;01mfrom\u001b[39;00m\u001b[38;5;250m \u001b[39m\u001b[34;01mpandas\u001b[39;00m\u001b[34;01m.\u001b[39;00m\u001b[34;01mcore\u001b[39;00m\u001b[34;01m.\u001b[39;00m\u001b[34;01mresample\u001b[39;00m\u001b[38;5;250m \u001b[39m\u001b[38;5;28;01mimport\u001b[39;00m asfreq\n\u001b[32m-> \u001b[39m\u001b[32m8901\u001b[39m \u001b[38;5;28;01mreturn\u001b[39;00m \u001b[43masfreq\u001b[49m\u001b[43m(\u001b[49m\n\u001b[32m   8902\u001b[39m \u001b[43m    \u001b[49m\u001b[38;5;28;43mself\u001b[39;49m\u001b[43m,\u001b[49m\n\u001b[32m   8903\u001b[39m \u001b[43m    \u001b[49m\u001b[43mfreq\u001b[49m\u001b[43m,\u001b[49m\n\u001b[32m   8904\u001b[39m \u001b[43m    \u001b[49m\u001b[43mmethod\u001b[49m\u001b[43m=\u001b[49m\u001b[43mmethod\u001b[49m\u001b[43m,\u001b[49m\n\u001b[32m   8905\u001b[39m \u001b[43m    \u001b[49m\u001b[43mhow\u001b[49m\u001b[43m=\u001b[49m\u001b[43mhow\u001b[49m\u001b[43m,\u001b[49m\n\u001b[32m   8906\u001b[39m \u001b[43m    \u001b[49m\u001b[43mnormalize\u001b[49m\u001b[43m=\u001b[49m\u001b[43mnormalize\u001b[49m\u001b[43m,\u001b[49m\n\u001b[32m   8907\u001b[39m \u001b[43m    \u001b[49m\u001b[43mfill_value\u001b[49m\u001b[43m=\u001b[49m\u001b[43mfill_value\u001b[49m\u001b[43m,\u001b[49m\n\u001b[32m   8908\u001b[39m \u001b[43m\u001b[49m\u001b[43m)\u001b[49m\n",
-            "\u001b[36mFile \u001b[39m\u001b[32mD:\\Kanjana\\Coastal_Research\\.venv\\Lib\\site-packages\\pandas\\core\\resample.py:3104\u001b[39m, in \u001b[36masfreq\u001b[39m\u001b[34m(obj, freq, method, how, normalize, fill_value)\u001b[39m\n\u001b[32m   3101\u001b[39m             freq = PeriodDtype(freq)._freqstr\n\u001b[32m   3103\u001b[39m     new_obj = obj.copy()\n\u001b[32m-> \u001b[39m\u001b[32m3104\u001b[39m     new_obj.index = \u001b[43mobj\u001b[49m\u001b[43m.\u001b[49m\u001b[43mindex\u001b[49m\u001b[43m.\u001b[49m\u001b[43masfreq\u001b[49m\u001b[43m(\u001b[49m\u001b[43mfreq\u001b[49m\u001b[43m,\u001b[49m\u001b[43m \u001b[49m\u001b[43mhow\u001b[49m\u001b[43m=\u001b[49m\u001b[43mhow\u001b[49m\u001b[43m)\u001b[49m\n\u001b[32m   3106\u001b[39m \u001b[38;5;28;01melif\u001b[39;00m \u001b[38;5;28mlen\u001b[39m(obj.index) == \u001b[32m0\u001b[39m:\n\u001b[32m   3107\u001b[39m     new_obj = obj.copy()\n",
-            "\u001b[36mFile \u001b[39m\u001b[32mD:\\Kanjana\\Coastal_Research\\.venv\\Lib\\site-packages\\pandas\\core\\indexes\\period.py:197\u001b[39m, in \u001b[36mPeriodIndex.asfreq\u001b[39m\u001b[34m(self, freq, how)\u001b[39m\n\u001b[32m    190\u001b[39m \u001b[38;5;129m@doc\u001b[39m(\n\u001b[32m    191\u001b[39m     PeriodArray.asfreq,\n\u001b[32m    192\u001b[39m     other=\u001b[33m\"\u001b[39m\u001b[33marrays.PeriodArray\u001b[39m\u001b[33m\"\u001b[39m,\n\u001b[32m   (...)\u001b[39m\u001b[32m    195\u001b[39m )\n\u001b[32m    196\u001b[39m \u001b[38;5;28;01mdef\u001b[39;00m\u001b[38;5;250m \u001b[39m\u001b[34masfreq\u001b[39m(\u001b[38;5;28mself\u001b[39m, freq=\u001b[38;5;28;01mNone\u001b[39;00m, how: \u001b[38;5;28mstr\u001b[39m = \u001b[33m\"\u001b[39m\u001b[33mE\u001b[39m\u001b[33m\"\u001b[39m) -> Self:\n\u001b[32m--> \u001b[39m\u001b[32m197\u001b[39m     arr = \u001b[38;5;28;43mself\u001b[39;49m\u001b[43m.\u001b[49m\u001b[43m_data\u001b[49m\u001b[43m.\u001b[49m\u001b[43masfreq\u001b[49m\u001b[43m(\u001b[49m\u001b[43mfreq\u001b[49m\u001b[43m,\u001b[49m\u001b[43m \u001b[49m\u001b[43mhow\u001b[49m\u001b[43m)\u001b[49m\n\u001b[32m    198\u001b[39m     \u001b[38;5;28;01mreturn\u001b[39;00m \u001b[38;5;28mtype\u001b[39m(\u001b[38;5;28mself\u001b[39m)._simple_new(arr, name=\u001b[38;5;28mself\u001b[39m.name)\n",
-            "\u001b[36mFile \u001b[39m\u001b[32mD:\\Kanjana\\Coastal_Research\\.venv\\Lib\\site-packages\\pandas\\core\\arrays\\period.py:923\u001b[39m, in \u001b[36mPeriodArray.asfreq\u001b[39m\u001b[34m(self, freq, how)\u001b[39m\n\u001b[32m    921\u001b[39m \u001b[38;5;28;01mif\u001b[39;00m \u001b[38;5;28misinstance\u001b[39m(freq, BaseOffset) \u001b[38;5;129;01mand\u001b[39;00m \u001b[38;5;28mhasattr\u001b[39m(freq, \u001b[33m\"\u001b[39m\u001b[33m_period_dtype_code\u001b[39m\u001b[33m\"\u001b[39m):\n\u001b[32m    922\u001b[39m     freq = PeriodDtype(freq)._freqstr\n\u001b[32m--> \u001b[39m\u001b[32m923\u001b[39m freq = \u001b[43mPeriod\u001b[49m\u001b[43m.\u001b[49m\u001b[43m_maybe_convert_freq\u001b[49m\u001b[43m(\u001b[49m\u001b[43mfreq\u001b[49m\u001b[43m)\u001b[49m\n\u001b[32m    925\u001b[39m base1 = \u001b[38;5;28mself\u001b[39m._dtype._dtype_code\n\u001b[32m    926\u001b[39m base2 = freq._period_dtype_code\n",
-            "\u001b[36mFile \u001b[39m\u001b[32mpandas/_libs/tslibs/period.pyx:1844\u001b[39m, in \u001b[36mpandas._libs.tslibs.period._Period._maybe_convert_freq\u001b[39m\u001b[34m()\u001b[39m\n",
-            "\u001b[36mFile \u001b[39m\u001b[32mpandas/_libs/tslibs/offsets.pyx:6352\u001b[39m, in \u001b[36mpandas._libs.tslibs.offsets.to_offset\u001b[39m\u001b[34m()\u001b[39m\n",
-            "\u001b[36mFile \u001b[39m\u001b[32mpandas/_libs/tslibs/offsets.pyx:6137\u001b[39m, in \u001b[36mpandas._libs.tslibs.offsets.raise_invalid_freq\u001b[39m\u001b[34m()\u001b[39m\n",
-            "\u001b[31mValueError\u001b[39m: Invalid frequency: ME. Failed to parse with error message: ValueError(\"for Period, please use 'M' instead of 'ME'\")"
+            "\u001b[31mTypeError\u001b[39m                                 Traceback (most recent call last)",
+            "\u001b[36mCell\u001b[39m\u001b[36m \u001b[39m\u001b[32mIn[33]\u001b[39m\u001b[32m, line 15\u001b[39m\n\u001b[32m     13\u001b[39m \u001b[38;5;66;03m# Plot last 48 months of historical data\u001b[39;00m\n\u001b[32m     14\u001b[39m hist_tail = series.iloc[-\u001b[32m48\u001b[39m:]\n\u001b[32m---> \u001b[39m\u001b[32m15\u001b[39m \u001b[43max\u001b[49m\u001b[43m.\u001b[49m\u001b[43mplot\u001b[49m\u001b[43m(\u001b[49m\u001b[43mhist_tail\u001b[49m\u001b[43m.\u001b[49m\u001b[43mindex\u001b[49m\u001b[43m,\u001b[49m\u001b[43m \u001b[49m\u001b[43mhist_tail\u001b[49m\u001b[43m.\u001b[49m\u001b[43mvalues\u001b[49m\u001b[43m,\u001b[49m\u001b[43m \u001b[49m\u001b[33;43m'\u001b[39;49m\u001b[33;43mb-\u001b[39;49m\u001b[33;43m'\u001b[39;49m\u001b[43m,\u001b[49m\u001b[43m \u001b[49m\u001b[43mlinewidth\u001b[49m\u001b[43m=\u001b[49m\u001b[32;43m1.2\u001b[39;49m\u001b[43m,\u001b[49m\u001b[43m \u001b[49m\u001b[43mlabel\u001b[49m\u001b[43m=\u001b[49m\u001b[33;43m'\u001b[39;49m\u001b[33;43mHistorical\u001b[39;49m\u001b[33;43m'\u001b[39;49m\u001b[43m)\u001b[49m\n\u001b[32m     17\u001b[39m \u001b[38;5;28;01mif\u001b[39;00m var \u001b[38;5;129;01min\u001b[39;00m forecast_results:\n\u001b[32m     18\u001b[39m     fc = forecast_results[var]\n",
+            "\u001b[36mFile \u001b[39m\u001b[32mD:\\Kanjana\\Coastal_Research\\.venv\\Lib\\site-packages\\matplotlib\\axes\\_axes.py:1779\u001b[39m, in \u001b[36mAxes.plot\u001b[39m\u001b[34m(self, scalex, scaley, data, *args, **kwargs)\u001b[39m\n\u001b[32m   1777\u001b[39m lines = [*\u001b[38;5;28mself\u001b[39m._get_lines(\u001b[38;5;28mself\u001b[39m, *args, data=data, **kwargs)]\n\u001b[32m   1778\u001b[39m \u001b[38;5;28;01mfor\u001b[39;00m line \u001b[38;5;129;01min\u001b[39;00m lines:\n\u001b[32m-> \u001b[39m\u001b[32m1779\u001b[39m     \u001b[38;5;28;43mself\u001b[39;49m\u001b[43m.\u001b[49m\u001b[43madd_line\u001b[49m\u001b[43m(\u001b[49m\u001b[43mline\u001b[49m\u001b[43m)\u001b[49m\n\u001b[32m   1780\u001b[39m \u001b[38;5;28;01mif\u001b[39;00m scalex:\n\u001b[32m   1781\u001b[39m     \u001b[38;5;28mself\u001b[39m._request_autoscale_view(\u001b[33m\"\u001b[39m\u001b[33mx\u001b[39m\u001b[33m\"\u001b[39m)\n",
+            "\u001b[36mFile \u001b[39m\u001b[32mD:\\Kanjana\\Coastal_Research\\.venv\\Lib\\site-packages\\matplotlib\\axes\\_base.py:2417\u001b[39m, in \u001b[36m_AxesBase.add_line\u001b[39m\u001b[34m(self, line)\u001b[39m\n\u001b[32m   2414\u001b[39m \u001b[38;5;28;01mif\u001b[39;00m line.get_clip_path() \u001b[38;5;129;01mis\u001b[39;00m \u001b[38;5;28;01mNone\u001b[39;00m:\n\u001b[32m   2415\u001b[39m     line.set_clip_path(\u001b[38;5;28mself\u001b[39m.patch)\n\u001b[32m-> \u001b[39m\u001b[32m2417\u001b[39m \u001b[38;5;28;43mself\u001b[39;49m\u001b[43m.\u001b[49m\u001b[43m_update_line_limits\u001b[49m\u001b[43m(\u001b[49m\u001b[43mline\u001b[49m\u001b[43m)\u001b[49m\n\u001b[32m   2418\u001b[39m \u001b[38;5;28;01mif\u001b[39;00m \u001b[38;5;129;01mnot\u001b[39;00m line.get_label():\n\u001b[32m   2419\u001b[39m     line.set_label(\u001b[33mf\u001b[39m\u001b[33m'\u001b[39m\u001b[33m_child\u001b[39m\u001b[38;5;132;01m{\u001b[39;00m\u001b[38;5;28mlen\u001b[39m(\u001b[38;5;28mself\u001b[39m._children)\u001b[38;5;132;01m}\u001b[39;00m\u001b[33m'\u001b[39m)\n",
+            "\u001b[36mFile \u001b[39m\u001b[32mD:\\Kanjana\\Coastal_Research\\.venv\\Lib\\site-packages\\matplotlib\\axes\\_base.py:2440\u001b[39m, in \u001b[36m_AxesBase._update_line_limits\u001b[39m\u001b[34m(self, line)\u001b[39m\n\u001b[32m   2436\u001b[39m \u001b[38;5;28;01mdef\u001b[39;00m\u001b[38;5;250m \u001b[39m\u001b[34m_update_line_limits\u001b[39m(\u001b[38;5;28mself\u001b[39m, line):\n\u001b[32m   2437\u001b[39m \u001b[38;5;250m    \u001b[39m\u001b[33;03m\"\"\"\u001b[39;00m\n\u001b[32m   2438\u001b[39m \u001b[33;03m    Figures out the data limit of the given line, updating `.Axes.dataLim`.\u001b[39;00m\n\u001b[32m   2439\u001b[39m \u001b[33;03m    \"\"\"\u001b[39;00m\n\u001b[32m-> \u001b[39m\u001b[32m2440\u001b[39m     path = \u001b[43mline\u001b[49m\u001b[43m.\u001b[49m\u001b[43mget_path\u001b[49m\u001b[43m(\u001b[49m\u001b[43m)\u001b[49m\n\u001b[32m   2441\u001b[39m     \u001b[38;5;28;01mif\u001b[39;00m path.vertices.size == \u001b[32m0\u001b[39m:\n\u001b[32m   2442\u001b[39m         \u001b[38;5;28;01mreturn\u001b[39;00m\n",
+            "\u001b[36mFile \u001b[39m\u001b[32mD:\\Kanjana\\Coastal_Research\\.venv\\Lib\\site-packages\\matplotlib\\lines.py:1052\u001b[39m, in \u001b[36mLine2D.get_path\u001b[39m\u001b[34m(self)\u001b[39m\n\u001b[32m   1050\u001b[39m \u001b[38;5;250m\u001b[39m\u001b[33;03m\"\"\"Return the `~matplotlib.path.Path` associated with this line.\"\"\"\u001b[39;00m\n\u001b[32m   1051\u001b[39m \u001b[38;5;28;01mif\u001b[39;00m \u001b[38;5;28mself\u001b[39m._invalidy \u001b[38;5;129;01mor\u001b[39;00m \u001b[38;5;28mself\u001b[39m._invalidx:\n\u001b[32m-> \u001b[39m\u001b[32m1052\u001b[39m     \u001b[38;5;28;43mself\u001b[39;49m\u001b[43m.\u001b[49m\u001b[43mrecache\u001b[49m\u001b[43m(\u001b[49m\u001b[43m)\u001b[49m\n\u001b[32m   1053\u001b[39m \u001b[38;5;28;01mreturn\u001b[39;00m \u001b[38;5;28mself\u001b[39m._path\n",
+            "\u001b[36mFile \u001b[39m\u001b[32mD:\\Kanjana\\Coastal_Research\\.venv\\Lib\\site-packages\\matplotlib\\lines.py:689\u001b[39m, in \u001b[36mLine2D.recache\u001b[39m\u001b[34m(self, always)\u001b[39m\n\u001b[32m    687\u001b[39m \u001b[38;5;28;01mif\u001b[39;00m always \u001b[38;5;129;01mor\u001b[39;00m \u001b[38;5;28mself\u001b[39m._invalidx:\n\u001b[32m    688\u001b[39m     xconv = \u001b[38;5;28mself\u001b[39m.convert_xunits(\u001b[38;5;28mself\u001b[39m._xorig)\n\u001b[32m--> \u001b[39m\u001b[32m689\u001b[39m     x = \u001b[43m_to_unmasked_float_array\u001b[49m\u001b[43m(\u001b[49m\u001b[43mxconv\u001b[49m\u001b[43m)\u001b[49m.ravel()\n\u001b[32m    690\u001b[39m \u001b[38;5;28;01melse\u001b[39;00m:\n\u001b[32m    691\u001b[39m     x = \u001b[38;5;28mself\u001b[39m._x\n",
+            "\u001b[36mFile \u001b[39m\u001b[32mD:\\Kanjana\\Coastal_Research\\.venv\\Lib\\site-packages\\matplotlib\\cbook.py:1355\u001b[39m, in \u001b[36m_to_unmasked_float_array\u001b[39m\u001b[34m(x)\u001b[39m\n\u001b[32m   1353\u001b[39m     \u001b[38;5;28;01mreturn\u001b[39;00m np.ma.asarray(x, \u001b[38;5;28mfloat\u001b[39m).filled(np.nan)\n\u001b[32m   1354\u001b[39m \u001b[38;5;28;01melse\u001b[39;00m:\n\u001b[32m-> \u001b[39m\u001b[32m1355\u001b[39m     \u001b[38;5;28;01mreturn\u001b[39;00m \u001b[43mnp\u001b[49m\u001b[43m.\u001b[49m\u001b[43masarray\u001b[49m\u001b[43m(\u001b[49m\u001b[43mx\u001b[49m\u001b[43m,\u001b[49m\u001b[43m \u001b[49m\u001b[38;5;28;43mfloat\u001b[39;49m\u001b[43m)\u001b[49m\n",
+            "\u001b[31mTypeError\u001b[39m: float() argument must be a string or a real number, not 'Period'"
           ]
         }
       ]
