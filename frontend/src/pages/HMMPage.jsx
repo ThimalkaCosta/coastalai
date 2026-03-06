@@ -147,7 +147,7 @@ export default function HMMPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="card p-5 bg-gradient-to-br from-emerald-50/80 to-teal-50/80 border-emerald-200/60 ring-1 ring-emerald-100/50"
+              className="card p-4 bg-gradient-to-br from-emerald-50/80 to-teal-50/80 border-emerald-200/60 ring-1 ring-emerald-100/50"
             >
               <div className="flex items-start gap-3">
                 <div className="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center flex-shrink-0">
@@ -172,7 +172,7 @@ export default function HMMPage() {
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
               <Tabs tabs={tabs} activeTab={activeTab} onChange={setActiveTab} />
 
-              <div className="card p-5 mt-6">
+              <div className="card p-4 mt-5">
                 {/* ── STATE DISTRIBUTION ── */}
                 {activeTab === 'distribution' && (
                   <div>
@@ -225,24 +225,24 @@ export default function HMMPage() {
                       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                         <div className="p-4 bg-emerald-50 rounded-xl border border-emerald-200/60">
                           <span className="text-xs font-semibold text-emerald-600">Hidden States</span>
-                          <p className="text-2xl font-bold text-emerald-900">{metrics.nStates}</p>
+                          <p className="text-xl font-bold text-emerald-900">{metrics.nStates}</p>
                         </div>
                         {!!metrics.logLikelihood && (
                           <div className="p-4 bg-blue-50 rounded-xl border border-blue-200/60">
                             <span className="text-xs font-semibold text-blue-600">Log-likelihood</span>
-                            <p className="text-2xl font-bold text-blue-900">{metrics.logLikelihood?.toFixed(3)}</p>
+                            <p className="text-xl font-bold text-blue-900">{metrics.logLikelihood?.toFixed(3)}</p>
                           </div>
                         )}
                         {!!metrics.aic && (
                           <div className="p-4 bg-cyan-50 rounded-xl border border-cyan-200/60">
                             <span className="text-xs font-semibold text-cyan-600">AIC</span>
-                            <p className="text-2xl font-bold text-cyan-900">{metrics.aic?.toFixed(3)}</p>
+                            <p className="text-xl font-bold text-cyan-900">{metrics.aic?.toFixed(3)}</p>
                           </div>
                         )}
                         {!!metrics.bic && (
                           <div className="p-4 bg-teal-50 rounded-xl border border-teal-200/60">
                             <span className="text-xs font-semibold text-teal-600">BIC</span>
-                            <p className="text-2xl font-bold text-teal-900">{metrics.bic?.toFixed(3)}</p>
+                            <p className="text-xl font-bold text-teal-900">{metrics.bic?.toFixed(3)}</p>
                           </div>
                         )}
                       </div>
@@ -394,7 +394,7 @@ export default function HMMPage() {
                           ].map(({ label, val, bg }) => (
                             <div key={label} className={`p-4 rounded-xl border ${bg.split(' ').slice(0, 2).join(' ')}`}>
                               <div className={`text-xs font-semibold ${bg.split(' ')[2]}`}>{label}</div>
-                              <div className={`text-2xl font-bold ${bg.split(' ')[3]}`}>{val}</div>
+                              <div className={`text-xl font-bold ${bg.split(' ')[3]}`}>{val}</div>
                             </div>
                           ))}
                         </div>
@@ -429,9 +429,9 @@ export default function HMMPage() {
                       </div>
                     )}
 
-                    <div className="p-5 bg-emerald-50/80 rounded-xl border border-emerald-200/60">
-                      <div className="flex items-start gap-3">
-                        <div className="w-9 h-9 rounded-lg bg-emerald-100 flex items-center justify-center flex-shrink-0">
+                    <div className="p-4 bg-emerald-50/80 rounded-xl border border-emerald-200/60">
+                      <div className="flex items-start gap-2">
+                        <div className="w-7 h-7 rounded-lg bg-emerald-100 flex items-center justify-center flex-shrink-0">
                           <ArrowRightLeft className="w-4 h-4 text-emerald-600" />
                         </div>
                         <div>
@@ -459,7 +459,7 @@ export default function HMMPage() {
 
                     {/* Top 3 cards */}
                     {topThresholdKeys.length > 0 && (
-                      <div className={`grid sm:grid-cols-${Math.min(topThresholdKeys.length, 3)} gap-6 mb-8`}>
+                      <div className={`grid sm:grid-cols-${Math.min(topThresholdKeys.length, 3)} gap-4 mb-6`}>
                         {topThresholdKeys.map((key, i) => {
                           const thresh = thresholds[key]
                           const Icon = getFeatureIcon(key)
@@ -471,13 +471,13 @@ export default function HMMPage() {
                               initial={{ opacity: 0, scale: 0.95 }}
                               animate={{ opacity: 1, scale: 1 }}
                               transition={{ delay: i * 0.05 }}
-                              className={`p-6 bg-gradient-to-br ${gradients[i]} rounded-2xl text-white shadow-lg`}
+                              className={`p-4 bg-gradient-to-br ${gradients[i]} rounded-xl text-white shadow-lg`}
                             >
-                              <div className="flex items-center gap-3 mb-4">
-                                <Icon className="w-8 h-8 opacity-80" />
-                                <span className="font-medium opacity-90">{labels[key] || key}</span>
+                              <div className="flex items-center gap-2 mb-3">
+                                <Icon className="w-6 h-6 opacity-80" />
+                                <span className="font-medium opacity-90 text-sm">{labels[key] || key}</span>
                               </div>
-                              <p className="text-4xl font-display font-bold mb-1">
+                              <p className="text-2xl font-display font-bold mb-1">
                                 {typeof thresh.value === 'number' ? thresh.value.toFixed(2) : thresh.value}
                               </p>
                               <p className="text-sm opacity-75">State transition boundary</p>
@@ -541,9 +541,9 @@ export default function HMMPage() {
                       </div>
                     )}
 
-                    <div className="p-5 bg-emerald-50/80 rounded-xl border border-emerald-200/60">
-                      <div className="flex items-start gap-3">
-                        <div className="w-9 h-9 rounded-lg bg-emerald-100 flex items-center justify-center flex-shrink-0">
+                    <div className="p-4 bg-emerald-50/80 rounded-xl border border-emerald-200/60">
+                      <div className="flex items-start gap-2">
+                        <div className="w-7 h-7 rounded-lg bg-emerald-100 flex items-center justify-center flex-shrink-0">
                           <Info className="w-4 h-4 text-emerald-600" />
                         </div>
                         <div>

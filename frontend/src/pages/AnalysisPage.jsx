@@ -277,7 +277,7 @@ export default function AnalysisPage() {
             >
               Model Results
             </motion.h2>
-            <div className="grid md:grid-cols-3 gap-5">
+            <div className="grid md:grid-cols-3 gap-4">
               {modelCards.map((model, index) => (
                 <motion.div
                   key={model.id}
@@ -286,25 +286,25 @@ export default function AnalysisPage() {
                   transition={{ delay: 0.35 + index * 0.05 }}
                 >
                   <Link to={model.link}>
-                    <div className="card p-6 group hover:shadow-card-hover hover:-translate-y-0.5 transition-all duration-300">
-                      <div className="flex items-start justify-between mb-4">
-                        <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${model.color} flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300`}>
-                          <model.icon className="w-6 h-6 text-white" />
+                    <div className="card p-4 group hover:shadow-md hover:-translate-y-0.5 transition-all duration-300">
+                      <div className="flex items-start justify-between mb-3">
+                        <div className={`w-9 h-9 rounded-lg bg-gradient-to-br ${model.color} flex items-center justify-center shadow-md group-hover:scale-110 transition-transform duration-300`}>
+                          <model.icon className="w-4.5 h-4.5 text-white" />
                         </div>
-                        <div className="flex items-center gap-1.5 text-sm text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full ring-1 ring-emerald-100">
+                        <div className="flex items-center gap-1.5 text-sm text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full ring-1 ring-emerald-100">
                           <CheckCircle className="w-3 h-3" />
                           <span className="font-semibold text-xs">{model.accuracy}</span>
                         </div>
                       </div>
-                      <h3 className="font-display font-bold text-coastal-900 mb-1 group-hover:text-ocean-600 transition-colors">
+                      <h3 className="font-display font-bold text-coastal-900 text-sm mb-0.5 group-hover:text-ocean-600 transition-colors">
                         {model.title}
                       </h3>
-                      <p className="text-sm text-coastal-500 mb-4 leading-relaxed">
+                      <p className="text-xs text-coastal-500 mb-3 leading-relaxed">
                         {model.description}
                       </p>
-                      <div className="flex items-center text-sm text-ocean-600 font-semibold pt-3 border-t border-coastal-100">
+                      <div className="flex items-center text-xs text-ocean-600 font-semibold pt-2.5 border-t border-coastal-100">
                         View Results
-                        <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
+                        <ArrowRight className="w-3.5 h-3.5 ml-1 group-hover:translate-x-1 transition-transform" />
                       </div>
                     </div>
                   </Link>
@@ -328,37 +328,37 @@ export default function AnalysisPage() {
                 {activeTab === 'overview' && (
                   <div className="space-y-6">
                     {/* Key Findings */}
-                    <div className="card p-6">
-                      <h3 className="font-display font-bold text-coastal-900 mb-5">
+                    <div className="card p-5">
+                      <h3 className="font-display font-bold text-coastal-900 mb-4 text-sm">
                         Key Findings
                       </h3>
-                      <div className="grid md:grid-cols-2 gap-4">
-                        <div className="p-5 bg-amber-50/80 rounded-xl border border-amber-200/60 ring-1 ring-amber-100/50">
-                          <div className="flex items-start gap-3">
-                            <div className="w-9 h-9 rounded-lg bg-amber-100 flex items-center justify-center flex-shrink-0">
-                              <AlertTriangle className="w-4.5 h-4.5 text-amber-600" />
+                      <div className="grid md:grid-cols-2 gap-3">
+                        <div className="p-3.5 bg-amber-50/80 rounded-lg border border-amber-200/60 ring-1 ring-amber-100/50">
+                          <div className="flex items-start gap-2.5">
+                            <div className="w-7 h-7 rounded-lg bg-amber-100 flex items-center justify-center flex-shrink-0">
+                              <AlertTriangle className="w-3.5 h-3.5 text-amber-600" />
                             </div>
                             <div>
-                              <h4 className="font-semibold text-amber-800 mb-1">
+                              <h4 className="font-semibold text-amber-800 text-sm mb-0.5">
                                 High Erosion Alert
                               </h4>
-                              <p className="text-sm text-amber-700 leading-relaxed">
+                              <p className="text-xs text-amber-700 leading-relaxed">
                                 {stats.erosionRate || '--'}% of transects show erosion with mean NSM of {stats.meanNSM || '--'}m,
                                 indicating significant coastal retreat.
                               </p>
                             </div>
                           </div>
                         </div>
-                        <div className="p-5 bg-ocean-50/80 rounded-xl border border-ocean-200/60 ring-1 ring-ocean-100/50">
-                          <div className="flex items-start gap-3">
-                            <div className="w-9 h-9 rounded-lg bg-ocean-100 flex items-center justify-center flex-shrink-0">
-                              <Waves className="w-4.5 h-4.5 text-ocean-600" />
+                        <div className="p-3.5 bg-ocean-50/80 rounded-lg border border-ocean-200/60 ring-1 ring-ocean-100/50">
+                          <div className="flex items-start gap-2.5">
+                            <div className="w-7 h-7 rounded-lg bg-ocean-100 flex items-center justify-center flex-shrink-0">
+                              <Waves className="w-3.5 h-3.5 text-ocean-600" />
                             </div>
                             <div>
-                              <h4 className="font-semibold text-ocean-800 mb-1">
+                              <h4 className="font-semibold text-ocean-800 text-sm mb-0.5">
                                 Primary Driver
                               </h4>
-                              <p className="text-sm text-ocean-700 leading-relaxed">
+                              <p className="text-xs text-ocean-700 leading-relaxed">
                                 Maximum wave height (Hm0_max) identified as the strongest
                                 predictor of erosion events across all models.
                               </p>
@@ -369,46 +369,46 @@ export default function AnalysisPage() {
                     </div>
 
                     {/* Detected Thresholds */}
-                    <div className="card p-6">
-                      <h3 className="font-display font-bold text-coastal-900 mb-5">
+                    <div className="card p-5">
+                      <h3 className="font-display font-bold text-coastal-900 mb-4 text-sm">
                         Detected Erosion Thresholds
                       </h3>
-                      <div className="grid sm:grid-cols-3 gap-4">
-                        <div className="p-5 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl ring-1 ring-blue-100/50">
-                          <div className="flex items-center gap-2 mb-3">
-                            <div className="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center">
-                              <Waves className="w-4 h-4 text-blue-600" />
+                      <div className="grid sm:grid-cols-3 gap-3">
+                        <div className="p-3.5 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-lg ring-1 ring-blue-100/50">
+                          <div className="flex items-center gap-2 mb-2">
+                            <div className="w-7 h-7 rounded-lg bg-blue-100 flex items-center justify-center">
+                              <Waves className="w-3.5 h-3.5 text-blue-600" />
                             </div>
-                            <span className="text-sm font-semibold text-blue-800">Wave Height</span>
+                            <span className="text-xs font-semibold text-blue-800">Wave Height</span>
                           </div>
-                          <p className="text-2xl font-display font-bold text-blue-900">
+                          <p className="text-xl font-display font-bold text-blue-900">
                             ≥ {thresholdValues.waveHeight}m
                           </p>
-                          <p className="text-xs text-blue-600 mt-1.5 font-medium">Hm0_max threshold</p>
+                          <p className="text-[11px] text-blue-600 mt-1 font-medium">Hm0_max threshold</p>
                         </div>
-                        <div className="p-5 bg-gradient-to-br from-violet-50 to-purple-50 rounded-xl ring-1 ring-violet-100/50">
-                          <div className="flex items-center gap-2 mb-3">
-                            <div className="w-8 h-8 rounded-lg bg-violet-100 flex items-center justify-center">
-                              <Droplets className="w-4 h-4 text-violet-600" />
+                        <div className="p-3.5 bg-gradient-to-br from-violet-50 to-purple-50 rounded-lg ring-1 ring-violet-100/50">
+                          <div className="flex items-center gap-2 mb-2">
+                            <div className="w-7 h-7 rounded-lg bg-violet-100 flex items-center justify-center">
+                              <Droplets className="w-3.5 h-3.5 text-violet-600" />
                             </div>
-                            <span className="text-sm font-semibold text-violet-800">Current Speed</span>
+                            <span className="text-xs font-semibold text-violet-800">Current Speed</span>
                           </div>
-                          <p className="text-2xl font-display font-bold text-violet-900">
+                          <p className="text-xl font-display font-bold text-violet-900">
                             ≥ {thresholdValues.currentSpeed}m/s
                           </p>
-                          <p className="text-xs text-violet-600 mt-1.5 font-medium">UcurrMax threshold</p>
+                          <p className="text-[11px] text-violet-600 mt-1 font-medium">UcurrMax threshold</p>
                         </div>
-                        <div className="p-5 bg-gradient-to-br from-orange-50 to-amber-50 rounded-xl ring-1 ring-orange-100/50">
-                          <div className="flex items-center gap-2 mb-3">
-                            <div className="w-8 h-8 rounded-lg bg-orange-100 flex items-center justify-center">
-                              <Wind className="w-4 h-4 text-orange-600" />
+                        <div className="p-3.5 bg-gradient-to-br from-orange-50 to-amber-50 rounded-lg ring-1 ring-orange-100/50">
+                          <div className="flex items-center gap-2 mb-2">
+                            <div className="w-7 h-7 rounded-lg bg-orange-100 flex items-center justify-center">
+                              <Wind className="w-3.5 h-3.5 text-orange-600" />
                             </div>
-                            <span className="text-sm font-semibold text-orange-800">Wind Speed</span>
+                            <span className="text-xs font-semibold text-orange-800">Wind Speed</span>
                           </div>
-                          <p className="text-2xl font-display font-bold text-orange-900">
+                          <p className="text-xl font-display font-bold text-orange-900">
                             ≥ {thresholdValues.windSpeed}m/s
                           </p>
-                          <p className="text-xs text-orange-600 mt-1.5 font-medium">WindMax threshold</p>
+                          <p className="text-[11px] text-orange-600 mt-1 font-medium">WindMax threshold</p>
                         </div>
                       </div>
                     </div>

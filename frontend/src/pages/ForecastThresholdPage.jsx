@@ -229,7 +229,7 @@ export default function ForecastThresholdPage() {
           <section className="pb-20">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="card p-12 text-center">
-                <TrendingUp className="w-12 h-12 text-coastal-300 mx-auto mb-4" />
+                <TrendingUp className="w-9 h-9 text-coastal-300 mx-auto mb-3" />
                 <h3 className="text-lg font-semibold text-coastal-700 mb-2">No Forecast Data Available</h3>
                 <p className="text-coastal-500">
                   Run the full analysis notebook to generate SARIMA forecasts for each environmental variable.
@@ -284,7 +284,7 @@ export default function ForecastThresholdPage() {
             {/* Summary Cards */}
             <section className="pb-8">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
                   {summaryCards.map((card, idx) => {
                     const Icon = card.icon
                     const exceeds = card.threshold && card.avgForecast >= card.threshold
@@ -294,36 +294,36 @@ export default function ForecastThresholdPage() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.3 + idx * 0.05 }}
-                        className={`card p-4 border-l-4 ${exceeds ? 'border-l-red-400' : 'border-l-emerald-400'}`}
+                        className={`card p-3 border-l-[3px] ${exceeds ? 'border-l-red-400' : 'border-l-emerald-400'}`}
                       >
-                        <div className="flex items-center justify-between mb-3">
-                          <div className="flex items-center gap-2">
-                            <Icon className="w-4 h-4" style={{ color: card.color }} />
-                            <span className="text-sm font-semibold text-coastal-700">{card.label}</span>
+                        <div className="flex items-center justify-between mb-2">
+                          <div className="flex items-center gap-1.5">
+                            <Icon className="w-3.5 h-3.5" style={{ color: card.color }} />
+                            <span className="text-xs font-semibold text-coastal-700">{card.label}</span>
                           </div>
                           <RiskBadge level={card.riskLevel} />
                         </div>
-                        <div className="text-2xl font-bold text-coastal-900 mb-1">
-                          {card.avgForecast?.toFixed(2)} <span className="text-sm font-normal text-coastal-500">{card.unit}</span>
+                        <div className="text-xl font-bold text-coastal-900 mb-0.5">
+                          {card.avgForecast?.toFixed(2)} <span className="text-xs font-normal text-coastal-500">{card.unit}</span>
                         </div>
-                        <div className="flex items-center justify-between text-xs">
+                        <div className="flex items-center justify-between text-[11px]">
                           <span className="text-coastal-500">
                             Threshold: {card.threshold?.toFixed(2)} {card.unit}
                           </span>
-                          <div className="flex items-center gap-1">
+                          <div className="flex items-center gap-0.5">
                             <TrendIcon value={card.trendPct} />
                             <span className={card.trendPct > 0 ? 'text-red-600' : 'text-emerald-600'}>
                               {card.trendPct > 0 ? '+' : ''}{card.trendPct?.toFixed(1)}%
                             </span>
                           </div>
                         </div>
-                        <div className="mt-2 h-1.5 bg-coastal-100 rounded-full overflow-hidden">
+                        <div className="mt-1.5 h-1 bg-coastal-100 rounded-full overflow-hidden">
                           <div
                             className={`h-full rounded-full transition-all ${exceeds ? 'bg-red-400' : 'bg-emerald-400'}`}
                             style={{ width: `${Math.min(card.exceedancePct || 0, 100)}%` }}
                           />
                         </div>
-                        <div className="text-xs text-coastal-500 mt-1">
+                        <div className="text-[11px] text-coastal-500 mt-0.5">
                           {card.exceedancePct?.toFixed(0)}% months exceed threshold
                         </div>
                       </motion.div>
@@ -362,13 +362,13 @@ export default function ForecastThresholdPage() {
                               const monthly = horizonData?.monthly || []
 
                               return (
-                                <div key={varKey} className="card p-5">
-                                  <div className="flex items-center justify-between mb-4">
-                                    <div className="flex items-center gap-3">
-                                      {meta.icon && <meta.icon className="w-5 h-5" style={{ color: meta.color }} />}
+                                <div key={varKey} className="card p-4">
+                                  <div className="flex items-center justify-between mb-3">
+                                    <div className="flex items-center gap-2">
+                                      {meta.icon && <meta.icon className="w-4 h-4" style={{ color: meta.color }} />}
                                       <div>
-                                        <h4 className="font-semibold text-coastal-900">{meta.label || varKey}</h4>
-                                        <p className="text-xs text-coastal-500">{meta.description}</p>
+                                        <h4 className="font-semibold text-coastal-900 text-sm">{meta.label || varKey}</h4>
+                                        <p className="text-[11px] text-coastal-500">{meta.description}</p>
                                       </div>
                                     </div>
                                     <div className="flex items-center gap-3">
@@ -382,7 +382,7 @@ export default function ForecastThresholdPage() {
                                     </div>
                                   </div>
 
-                                  <div className="h-64">
+                                  <div className="h-56">
                                     <ResponsiveContainer width="100%" height="100%">
                                       <AreaChart data={monthly} margin={{ top: 10, right: 30, left: 10, bottom: 0 }}>
                                         <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
@@ -469,7 +469,7 @@ export default function ForecastThresholdPage() {
                           </div>
 
                           {/* Info box */}
-                          <div className="mt-6 card p-5 bg-gradient-to-br from-teal-50/80 to-emerald-50/80 border-teal-200/60">
+                          <div className="mt-4 card p-4 bg-gradient-to-br from-teal-50/80 to-emerald-50/80 border-teal-200/60">
                             <div className="flex items-start gap-3">
                               <div className="w-8 h-8 rounded-lg bg-teal-100 flex items-center justify-center flex-shrink-0">
                                 <Info className="w-4 h-4 text-teal-600" />
@@ -498,8 +498,8 @@ export default function ForecastThresholdPage() {
                           exit={{ opacity: 0 }}
                         >
                           {/* Comparison table across all horizons */}
-                          <div className="card p-5 mb-6">
-                            <h3 className="font-display font-bold text-coastal-900 mb-4">
+                          <div className="card p-4 mb-5">
+                            <h3 className="font-display font-bold text-coastal-900 text-sm mb-3">
                               Forecast Comparison Across Horizons
                             </h3>
                             <div className="overflow-x-auto rounded-xl ring-1 ring-coastal-200/60">
@@ -563,14 +563,14 @@ export default function ForecastThresholdPage() {
                           </div>
 
                           {/* Exceedance bar chart */}
-                          <div className="card p-5 mb-6">
-                            <h3 className="font-display font-bold text-coastal-900 mb-2">
+                          <div className="card p-4 mb-5">
+                            <h3 className="font-display font-bold text-coastal-900 text-sm mb-1.5">
                               Threshold Exceedance by Variable ({selectedHorizon}-Month Horizon)
                             </h3>
-                            <p className="text-sm text-coastal-500 mb-4">
+                            <p className="text-xs text-coastal-500 mb-3">
                               Percentage of forecasted months where predicted value exceeds the erosion threshold.
                             </p>
-                            <div className="h-64">
+                            <div className="h-56">
                               <ResponsiveContainer width="100%" height="100%">
                                 <BarChart
                                   data={summaryCards.map(c => ({
@@ -643,11 +643,11 @@ export default function ForecastThresholdPage() {
                           animate={{ opacity: 1 }}
                           exit={{ opacity: 0 }}
                         >
-                          <div className="card p-5 mb-6">
-                            <h3 className="font-display font-bold text-coastal-900 mb-2">
+                          <div className="card p-4 mb-5">
+                            <h3 className="font-display font-bold text-coastal-900 text-sm mb-1.5">
                               Hold-Out Validation Results
                             </h3>
-                            <p className="text-sm text-coastal-500 mb-4">
+                            <p className="text-xs text-coastal-500 mb-3">
                               Each SARIMA model was re-trained on all data except the last 24 months,
                               then forecasted those held-out months to measure real predictive accuracy.
                             </p>
@@ -702,8 +702,8 @@ export default function ForecastThresholdPage() {
                           </div>
 
                           {/* Validation methodology */}
-                          <div className="grid md:grid-cols-2 gap-6">
-                            <div className="card p-5 bg-gradient-to-br from-blue-50/80 to-cyan-50/80 border-blue-200/60">
+                          <div className="grid md:grid-cols-2 gap-4">
+                            <div className="card p-4 bg-gradient-to-br from-blue-50/80 to-cyan-50/80 border-blue-200/60">
                               <div className="flex items-start gap-3">
                                 <div className="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center flex-shrink-0">
                                   <BarChart3 className="w-4 h-4 text-blue-600" />
@@ -718,7 +718,7 @@ export default function ForecastThresholdPage() {
                                 </div>
                               </div>
                             </div>
-                            <div className="card p-5 bg-gradient-to-br from-emerald-50/80 to-teal-50/80 border-emerald-200/60">
+                            <div className="card p-4 bg-gradient-to-br from-emerald-50/80 to-teal-50/80 border-emerald-200/60">
                               <div className="flex items-start gap-3">
                                 <div className="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center flex-shrink-0">
                                   <CheckCircle className="w-4 h-4 text-emerald-600" />

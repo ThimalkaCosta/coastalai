@@ -118,7 +118,7 @@ export default function XGBoostPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="card p-5 bg-gradient-to-br from-orange-50/80 to-amber-50/80 border-orange-200/60 ring-1 ring-orange-100/50"
+              className="card p-4 bg-gradient-to-br from-orange-50/80 to-amber-50/80 border-orange-200/60 ring-1 ring-orange-100/50"
             >
               <div className="flex items-start gap-3">
                 <div className="w-8 h-8 rounded-lg bg-orange-100 flex items-center justify-center flex-shrink-0">
@@ -151,7 +151,7 @@ export default function XGBoostPage() {
             >
               <Tabs tabs={tabs} activeTab={activeTab} onChange={setActiveTab} />
 
-              <div className="card p-5 mt-6">
+              <div className="card p-4 mt-5">
                 {activeTab === 'importance' && (
                   <div>
                     <div className="mb-6">
@@ -182,7 +182,7 @@ export default function XGBoostPage() {
                               {item.fullName}
                             </span>
                           </div>
-                          <p className="text-2xl font-display font-bold text-coastal-900">
+                          <p className="text-xl font-display font-bold text-coastal-900">
                             {(item.importance * 100).toFixed(1)}%
                           </p>
                         </div>
@@ -254,9 +254,9 @@ export default function XGBoostPage() {
                       ))}
                     </div>
 
-                    <div className="p-5 bg-gradient-to-br from-orange-50/80 to-amber-50/80 rounded-xl border border-orange-200/60 ring-1 ring-orange-100/50">
-                      <div className="flex items-start gap-3">
-                        <div className="w-9 h-9 rounded-lg bg-orange-100 flex items-center justify-center flex-shrink-0">
+                    <div className="p-4 bg-gradient-to-br from-orange-50/80 to-amber-50/80 rounded-xl border border-orange-200/60 ring-1 ring-orange-100/50">
+                      <div className="flex items-start gap-2">
+                        <div className="w-7 h-7 rounded-lg bg-orange-100 flex items-center justify-center flex-shrink-0">
                           <Sparkles className="w-4.5 h-4.5 text-orange-600" />
                         </div>
                         <div>
@@ -287,18 +287,18 @@ export default function XGBoostPage() {
                       </p>
                     </div>
 
-                    <div className="grid sm:grid-cols-3 gap-6 mb-8">
+                    <div className="grid sm:grid-cols-3 gap-4 mb-6">
                       <motion.div
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: 0.1 }}
-                        className="p-6 bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl text-white shadow-lg"
+                        className="p-4 bg-gradient-to-br from-orange-500 to-red-500 rounded-xl text-white shadow-lg"
                       >
-                        <div className="flex items-center gap-3 mb-4">
-                          <Waves className="w-8 h-8 opacity-80" />
-                          <span className="font-medium opacity-90">Wave Height</span>
+                        <div className="flex items-center gap-2 mb-3">
+                          <Waves className="w-6 h-6 opacity-80" />
+                          <span className="font-medium opacity-90 text-sm">Wave Height</span>
                         </div>
-                        <p className="text-4xl font-display font-bold mb-1">
+                        <p className="text-2xl font-display font-bold mb-1">
                           {thresholds.Hm0_max.condition} {thresholds.Hm0_max.value}{thresholds.Hm0_max.unit}
                         </p>
                         <p className="text-sm opacity-75">Optimal split point</p>
@@ -308,13 +308,13 @@ export default function XGBoostPage() {
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: 0.15 }}
-                        className="p-6 bg-gradient-to-br from-amber-500 to-orange-500 rounded-2xl text-white shadow-lg"
+                        className="p-4 bg-gradient-to-br from-amber-500 to-orange-500 rounded-xl text-white shadow-lg"
                       >
-                        <div className="flex items-center gap-3 mb-4">
-                          <Droplets className="w-8 h-8 opacity-80" />
-                          <span className="font-medium opacity-90">Current Speed</span>
+                        <div className="flex items-center gap-2 mb-3">
+                          <Droplets className="w-6 h-6 opacity-80" />
+                          <span className="font-medium opacity-90 text-sm">Current Speed</span>
                         </div>
-                        <p className="text-4xl font-display font-bold mb-1">
+                        <p className="text-2xl font-display font-bold mb-1">
                           {thresholds.UcurrMax.condition} {thresholds.UcurrMax.value}{thresholds.UcurrMax.unit}
                         </p>
                         <p className="text-sm opacity-75">Optimal split point</p>
@@ -324,13 +324,13 @@ export default function XGBoostPage() {
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: 0.2 }}
-                        className="p-6 bg-gradient-to-br from-yellow-500 to-amber-500 rounded-2xl text-white shadow-lg"
+                        className="p-4 bg-gradient-to-br from-yellow-500 to-amber-500 rounded-xl text-white shadow-lg"
                       >
-                        <div className="flex items-center gap-3 mb-4">
-                          <Wind className="w-8 h-8 opacity-80" />
-                          <span className="font-medium opacity-90">Wind Speed</span>
+                        <div className="flex items-center gap-2 mb-3">
+                          <Wind className="w-6 h-6 opacity-80" />
+                          <span className="font-medium opacity-90 text-sm">Wind Speed</span>
                         </div>
-                        <p className="text-4xl font-display font-bold mb-1">
+                        <p className="text-2xl font-display font-bold mb-1">
                           {thresholds.WindMax.condition} {thresholds.WindMax.value}{thresholds.WindMax.unit}
                         </p>
                         <p className="text-sm opacity-75">Optimal split point</p>

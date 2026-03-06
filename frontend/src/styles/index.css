@@ -81,7 +81,7 @@
   
   /* ── Cards ── */
   .card {
-    @apply bg-white rounded-2xl border border-coastal-100/80
+    @apply bg-white rounded-xl border border-coastal-100/80
            shadow-sm
            transition-all duration-300;
   }
@@ -89,23 +89,23 @@
   .card-interactive {
     @apply card cursor-pointer
            hover:border-ocean-200/60 hover:-translate-y-0.5
-           hover:shadow-lg;
+           hover:shadow-md;
   }
 
   .card-glass {
-    @apply bg-white/70 backdrop-blur-xl rounded-2xl
+    @apply bg-white/70 backdrop-blur-xl rounded-xl
            border border-white/60
-           shadow-xl
+           shadow-lg
            transition-all duration-300;
   }
   
   /* ── Typography ── */
   .section-title {
-    @apply text-2xl sm:text-3xl md:text-4xl font-display font-bold text-coastal-900 tracking-tight;
+    @apply text-xl sm:text-2xl md:text-3xl font-display font-bold text-coastal-900 tracking-tight;
   }
   
   .section-subtitle {
-    @apply text-base sm:text-lg text-coastal-500 max-w-2xl leading-relaxed;
+    @apply text-sm sm:text-base text-coastal-500 max-w-2xl leading-relaxed;
   }
   
   .gradient-text {
@@ -132,15 +132,15 @@
   
   /* ── Stat Cards ── */
   .stat-card {
-    @apply card p-5 sm:p-6 flex flex-col relative overflow-hidden;
+    @apply card p-3.5 sm:p-4 flex flex-col relative overflow-hidden;
   }
   
   .stat-value {
-    @apply text-2xl sm:text-3xl font-display font-bold text-coastal-900;
+    @apply text-xl sm:text-2xl font-display font-bold text-coastal-900;
   }
   
   .stat-label {
-    @apply text-xs sm:text-sm text-coastal-500 mt-1 font-medium;
+    @apply text-[11px] sm:text-xs text-coastal-500 mt-1 font-medium;
   }
   
   /* ── Tabs ── */

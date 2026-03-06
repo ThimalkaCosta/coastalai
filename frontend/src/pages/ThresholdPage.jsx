@@ -160,12 +160,12 @@ export default function ThresholdPage() {
               transition={{ delay: 0.3 }}
               className="card overflow-hidden"
             >
-              <div className="bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-4">
-                <h3 className="font-display font-bold text-white text-lg flex items-center gap-2">
-                  <Target className="w-5 h-5" />
+              <div className="bg-gradient-to-r from-blue-600 to-indigo-600 px-5 py-3">
+                <h3 className="font-display font-bold text-white text-base flex items-center gap-2">
+                  <Target className="w-4 h-4" />
                   Final Threshold Summary Table
                 </h3>
-                <p className="text-blue-100 text-sm mt-1">
+                <p className="text-blue-100 text-xs mt-0.5">
                   Comparison of erosion thresholds with physical interpretation
                 </p>
               </div>
@@ -216,51 +216,51 @@ export default function ThresholdPage() {
                             index % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'
                           }`}
                         >
-                          <td className="py-3 px-3">
-                            <span className="inline-flex w-7 h-7 items-center justify-center rounded-full bg-blue-100 text-blue-700 font-bold text-xs">
+                          <td className="py-2.5 px-3">
+                            <span className="inline-flex w-6 h-6 items-center justify-center rounded-full bg-blue-100 text-blue-700 font-bold text-xs">
                               {item.id}
                             </span>
                           </td>
-                          <td className="py-3 px-3">
+                          <td className="py-2.5 px-3">
                             <div className="flex items-center gap-2">
-                              <div className="w-7 h-7 rounded-lg bg-blue-100 flex items-center justify-center">
-                                <Icon className="w-4 h-4 text-blue-600" />
+                              <div className="w-6 h-6 rounded-lg bg-blue-100 flex items-center justify-center">
+                                <Icon className="w-3.5 h-3.5 text-blue-600" />
                               </div>
-                              <span className="font-semibold text-sm text-gray-900">{item.Driver}</span>
+                              <span className="font-semibold text-xs text-gray-900">{item.Driver}</span>
                             </div>
                           </td>
-                          <td className="py-3 px-3 text-center">
-                            <span className="inline-flex px-2 py-1 rounded bg-gray-100 text-gray-600 text-sm font-mono">
+                          <td className="py-2.5 px-3 text-center">
+                            <span className="inline-flex px-2 py-0.5 rounded bg-gray-100 text-gray-600 text-xs font-mono">
                               {item.Unit}
                             </span>
                           </td>
-                          <td className="py-4 px-4 text-center">
-                            <span className="inline-flex px-3 py-1.5 rounded-lg bg-purple-100 text-purple-700 font-semibold font-mono text-sm">
+                          <td className="py-3 px-3 text-center">
+                            <span className="inline-flex px-2.5 py-1 rounded-lg bg-purple-100 text-purple-700 font-semibold font-mono text-xs">
                               {item.HMM_Threshold != null ? item.HMM_Threshold.toFixed(3) : '--'}
                             </span>
                           </td>
-                          <td className="py-4 px-4 text-center">
-                            <span className="inline-flex px-3 py-1.5 rounded-lg bg-indigo-100 text-indigo-700 font-semibold font-mono text-sm">
+                          <td className="py-3 px-3 text-center">
+                            <span className="inline-flex px-2.5 py-1 rounded-lg bg-indigo-100 text-indigo-700 font-semibold font-mono text-xs">
                               {item.RF_Threshold != null ? item.RF_Threshold.toFixed(3) : '--'}
                             </span>
                           </td>
-                          <td className="py-4 px-4 text-center">
-                            <span className="inline-flex px-3 py-1.5 rounded-lg bg-cyan-100 text-cyan-700 font-semibold font-mono text-sm">
+                          <td className="py-3 px-3 text-center">
+                            <span className="inline-flex px-2.5 py-1 rounded-lg bg-cyan-100 text-cyan-700 font-semibold font-mono text-xs">
                               {item.Erosion_Threshold_Lower != null ? item.Erosion_Threshold_Lower.toFixed(3) : '--'}
                             </span>
                           </td>
-                          <td className="py-4 px-4 text-center">
-                            <span className="inline-flex px-3 py-1.5 rounded-lg bg-teal-100 text-teal-700 font-semibold font-mono text-sm">
+                          <td className="py-3 px-3 text-center">
+                            <span className="inline-flex px-2.5 py-1 rounded-lg bg-teal-100 text-teal-700 font-semibold font-mono text-xs">
                               {item.Erosion_Threshold_Upper != null ? item.Erosion_Threshold_Upper.toFixed(3) : '--'}
                             </span>
                           </td>
-                          <td className="py-4 px-4 text-center">
-                            <span className={`inline-flex px-3 py-1 rounded-full text-sm font-bold border ${getConsensusColor(item.Model_Consensus)}`}>
+                          <td className="py-3 px-3 text-center">
+                            <span className={`inline-flex px-2.5 py-0.5 rounded-full text-xs font-bold border ${getConsensusColor(item.Model_Consensus)}`}>
                               {item.Model_Consensus}
                             </span>
                           </td>
-                          <td className="py-4 px-4">
-                            <span className="text-gray-700 text-sm">
+                          <td className="py-3 px-3">
+                            <span className="text-gray-700 text-xs">
                               {item.Physical_Interpretation}
                             </span>
                           </td>
@@ -283,17 +283,17 @@ export default function ThresholdPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5 }}
-                className="card p-6 bg-gradient-to-br from-blue-50/80 to-cyan-50/80 border-blue-200/60 ring-1 ring-blue-100/50"
+                className="card p-4 bg-gradient-to-br from-blue-50/80 to-cyan-50/80 border-blue-200/60 ring-1 ring-blue-100/50"
               >
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center flex-shrink-0">
-                    <Info className="w-5 h-5 text-blue-600" />
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center flex-shrink-0">
+                    <Info className="w-4 h-4 text-blue-600" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-blue-900 mb-3">
+                    <h3 className="font-semibold text-blue-900 text-sm mb-2">
                       Column Descriptions
                     </h3>
-                    <div className="space-y-2 text-sm text-blue-800">
+                    <div className="space-y-1.5 text-xs text-blue-800">
                       <p><strong>HMM_Threshold:</strong> Derived from Hidden Markov Model state detection</p>
                       <p><strong>RF_Threshold:</strong> Derived from Random Forest feature splits</p>
                       <p><strong>Lower/Upper Bound:</strong> Range between RF and HMM thresholds</p>
@@ -308,17 +308,17 @@ export default function ThresholdPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6 }}
-                className="card p-6"
+                className="card p-4"
               >
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center flex-shrink-0">
-                    <CheckCircle className="w-5 h-5 text-gray-600" />
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center flex-shrink-0">
+                    <CheckCircle className="w-4 h-4 text-gray-600" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-gray-900 mb-3">
+                    <h3 className="font-semibold text-gray-900 text-sm mb-2">
                       Model Consensus Levels
                     </h3>
-                    <div className="space-y-2 text-sm">
+                    <div className="space-y-1.5 text-xs">
                       <div className="flex items-center gap-2">
                         <span className="inline-flex px-2 py-0.5 rounded-full bg-green-100 text-green-700 text-xs font-bold border border-green-300">High</span>
                         <span className="text-gray-600">Strong agreement between HMM and RF thresholds</span>

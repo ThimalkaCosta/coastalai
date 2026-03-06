@@ -119,7 +119,7 @@ export default function RandomForestPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="card p-5 bg-gradient-to-br from-emerald-50/80 to-teal-50/80 border-emerald-200/60 ring-1 ring-emerald-100/50"
+              className="card p-4 bg-gradient-to-br from-emerald-50/80 to-teal-50/80 border-emerald-200/60 ring-1 ring-emerald-100/50"
             >
               <div className="flex items-start gap-3">
                 <div className="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center flex-shrink-0">
@@ -153,7 +153,7 @@ export default function RandomForestPage() {
             >
               <Tabs tabs={tabs} activeTab={activeTab} onChange={setActiveTab} />
 
-              <div className="card p-5 mt-6">
+              <div className="card p-4 mt-5">
                 {/* ===================== FEATURE IMPORTANCE TAB ===================== */}
                 {activeTab === 'importance' && (
                   <div>
@@ -185,7 +185,7 @@ export default function RandomForestPage() {
                                   {item.fullName || item.feature}
                                 </span>
                               </div>
-                              <p className="text-2xl font-display font-bold text-coastal-900">
+                              <p className="text-xl font-display font-bold text-coastal-900">
                                 {(item.importance * 100).toFixed(1)}%
                               </p>
                             </div>
@@ -215,7 +215,7 @@ export default function RandomForestPage() {
 
                     {/* Top 3 Key Thresholds Cards */}
                     {thresholdsArray.length > 0 && (
-                      <div className="grid sm:grid-cols-3 gap-6 mb-8">
+                      <div className="grid sm:grid-cols-3 gap-4 mb-6">
                         {thresholdsArray.slice(0, 3).map((thresh, i) => {
                           const icons = [Waves, Droplets, Wind]
                           const Icon = icons[i] || Waves
@@ -231,13 +231,13 @@ export default function RandomForestPage() {
                               initial={{ opacity: 0, scale: 0.95 }}
                               animate={{ opacity: 1, scale: 1 }}
                               transition={{ delay: 0.1 + i * 0.05 }}
-                              className={'p-6 bg-gradient-to-br rounded-2xl text-white shadow-lg ' + gradients[i]}
+                              className={'p-4 bg-gradient-to-br rounded-xl text-white shadow-lg ' + gradients[i]}
                             >
-                              <div className="flex items-center gap-3 mb-4">
-                                <Icon className="w-8 h-8 opacity-80" />
-                                <span className="font-medium opacity-90">{labels[i] || thresh.feature}</span>
+                              <div className="flex items-center gap-2 mb-3">
+                                <Icon className="w-6 h-6 opacity-80" />
+                                <span className="font-medium opacity-90 text-sm">{labels[i] || thresh.feature}</span>
                               </div>
-                              <p className="text-4xl font-display font-bold mb-1">
+                              <p className="text-2xl font-display font-bold mb-1">
                                 {thresh.condition} {typeof thresh.value === 'number' ? thresh.value.toFixed(2) : '--'}{thresh.unit}
                               </p>
                               <p className="text-sm opacity-75">{thresh.description}</p>
@@ -296,9 +296,9 @@ export default function RandomForestPage() {
                       )}
                     </div>
 
-                    <div className="p-5 bg-amber-50/80 rounded-xl border border-amber-200/60 ring-1 ring-amber-100/50">
-                      <div className="flex items-start gap-3">
-                        <div className="w-9 h-9 rounded-lg bg-amber-100 flex items-center justify-center flex-shrink-0">
+                    <div className="p-4 bg-amber-50/80 rounded-xl border border-amber-200/60 ring-1 ring-amber-100/50">
+                      <div className="flex items-start gap-2">
+                        <div className="w-7 h-7 rounded-lg bg-amber-100 flex items-center justify-center flex-shrink-0">
                           <CheckCircle className="w-4.5 h-4.5 text-amber-600" />
                         </div>
                         <div>
@@ -340,7 +340,7 @@ export default function RandomForestPage() {
                           <span className="text-sm font-medium text-emerald-700">Test Accuracy</span>
                           <Target className="w-5 h-5 text-emerald-600" />
                         </div>
-                        <p className="text-3xl font-display font-bold text-emerald-900">
+                        <p className="text-xl font-display font-bold text-emerald-900">
                           {metrics.accuracy ? (metrics.accuracy * 100).toFixed(1) + '%' : '--'}
                         </p>
                         <p className="text-xs text-emerald-600 mt-1">On held-out test set</p>
@@ -356,7 +356,7 @@ export default function RandomForestPage() {
                           <span className="text-sm font-medium text-blue-700">CV Accuracy</span>
                           <BarChart3 className="w-5 h-5 text-blue-600" />
                         </div>
-                        <p className="text-3xl font-display font-bold text-blue-900">
+                        <p className="text-xl font-display font-bold text-blue-900">
                           {metrics.cvAccuracy ? (metrics.cvAccuracy * 100).toFixed(1) + '%' : '--'}
                         </p>
                         <p className="text-xs text-blue-600 mt-1">
@@ -374,7 +374,7 @@ export default function RandomForestPage() {
                           <span className="text-sm font-medium text-violet-700">OOB Score</span>
                           <Brain className="w-5 h-5 text-violet-600" />
                         </div>
-                        <p className="text-3xl font-display font-bold text-violet-900">
+                        <p className="text-xl font-display font-bold text-violet-900">
                           {metrics.oobScore ? (metrics.oobScore * 100).toFixed(1) + '%' : '--'}
                         </p>
                         <p className="text-xs text-violet-600 mt-1">Out-of-bag estimate</p>
@@ -390,7 +390,7 @@ export default function RandomForestPage() {
                           <span className="text-sm font-medium text-amber-700">Estimators</span>
                           <TreeDeciduous className="w-5 h-5 text-amber-600" />
                         </div>
-                        <p className="text-3xl font-display font-bold text-amber-900">
+                        <p className="text-xl font-display font-bold text-amber-900">
                           {metrics.nEstimators || '--'}
                         </p>
                         <p className="text-xs text-amber-600 mt-1">Decision trees</p>
@@ -457,9 +457,9 @@ export default function RandomForestPage() {
                     </div>
 
                     {/* Interpretation */}
-                    <div className="mt-6 p-5 bg-emerald-50/80 rounded-xl border border-emerald-200/60 ring-1 ring-emerald-100/50">
-                      <div className="flex items-start gap-3">
-                        <div className="w-9 h-9 rounded-lg bg-emerald-100 flex items-center justify-center flex-shrink-0">
+                    <div className="mt-4 p-4 bg-emerald-50/80 rounded-xl border border-emerald-200/60 ring-1 ring-emerald-100/50">
+                      <div className="flex items-start gap-2">
+                        <div className="w-7 h-7 rounded-lg bg-emerald-100 flex items-center justify-center flex-shrink-0">
                           <CheckCircle className="w-4.5 h-4.5 text-emerald-600" />
                         </div>
                         <div>
