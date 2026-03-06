@@ -2,7 +2,6 @@ import { useState, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   TrendingUp,
-  AlertTriangle,
   CheckCircle,
   Info,
   Waves,
@@ -17,8 +16,8 @@ import {
   Minus,
 } from 'lucide-react'
 import {
-  AreaChart, Area, LineChart, Line, XAxis, YAxis, CartesianGrid,
-  Tooltip, ResponsiveContainer, ReferenceLine, Legend, BarChart, Bar, Cell,
+  AreaChart, Area, Line, XAxis, YAxis, CartesianGrid,
+  Tooltip, ResponsiveContainer, ReferenceLine, BarChart, Bar, Cell,
 } from 'recharts'
 import PageTransition from '../components/common/PageTransition'
 import Tabs from '../components/common/Tabs'
@@ -123,28 +122,38 @@ function RiskBadge({ level }) {
 }
 
 // Custom tooltip for forecast charts
-function ForecastTooltip({ active, payload, label, unit, threshold }) {
+function ForecastTooltip({ active, payload, label, unit, threshold, color }) {
   if (!active || !payload?.length) return null
   const d = payload[0]?.payload
+  if (!d) return null
+  const exceeds = threshold != null && d.predicted != null && d.predicted >= threshold
   return (
-    <div className="bg-white/95 backdrop-blur-sm border border-coastal-200 rounded-xl shadow-lg p-3 text-sm">
-      <div className="font-semibold text-coastal-900 mb-1">{label}</div>
-      <div className="space-y-0.5">
-        <div className="flex items-center gap-2">
-          <span className="w-2.5 h-2.5 rounded-full bg-blue-500" />
-          <span className="text-coastal-600">Predicted:</span>
-          <span className="font-mono font-medium">{d?.predicted?.toFixed(3)} {unit}</span>
+    <div className="bg-white border border-gray-200 rounded-xl shadow-xl p-4 text-sm min-w-[200px]">
+      <div className="font-bold text-gray-900 mb-2 pb-2 border-b border-gray-100 text-base">{label}</div>
+      <div className="space-y-1.5">
+        <div className="flex items-center justify-between gap-4">
+          <div className="flex items-center gap-2">
+            <span className="w-3 h-3 rounded-full" style={{ backgroundColor: color || '#3b82f6' }} />
+            <span className="text-gray-600">Predicted:</span>
+          </div>
+          <span className={`font-mono font-bold text-base ${exceeds ? 'text-red-600' : 'text-gray-900'}`}>
+            {d.predicted?.toFixed(3)} {unit}
+          </span>
         </div>
-        <div className="flex items-center gap-2">
-          <span className="w-2.5 h-2.5 rounded-full bg-blue-200" />
-          <span className="text-coastal-600">95% CI:</span>
-          <span className="font-mono">{d?.ci_lower?.toFixed(3)} – {d?.ci_upper?.toFixed(3)}</span>
+        <div className="flex items-center justify-between gap-4">
+          <div className="flex items-center gap-2">
+            <span className="w-3 h-3 rounded-sm opacity-40" style={{ backgroundColor: color || '#3b82f6' }} />
+            <span className="text-gray-600">95% CI:</span>
+          </div>
+          <span className="font-mono text-gray-700">{d.ci_lower?.toFixed(3)} – {d.ci_upper?.toFixed(3)}</span>
         </div>
-        {threshold && (
-          <div className="flex items-center gap-2 pt-1 border-t border-coastal-100">
-            <span className="w-2.5 h-2.5 rounded-full bg-orange-500" />
-            <span className="text-coastal-600">Threshold:</span>
-            <span className="font-mono font-medium">{threshold.toFixed(3)} {unit}</span>
+        {threshold != null && (
+          <div className="flex items-center justify-between gap-4 pt-2 mt-1 border-t border-gray-100">
+            <div className="flex items-center gap-2">
+              <span className="w-3 h-0.5 bg-red-500" />
+              <span className="text-gray-600">Threshold:</span>
+            </div>
+            <span className="font-mono font-semibold text-red-600">{threshold.toFixed(3)} {unit}</span>
           </div>
         )}
       </div>
@@ -362,102 +371,193 @@ export default function ForecastThresholdPage() {
                               const monthly = horizonData?.monthly || []
 
                               return (
-                                <div key={varKey} className="card p-4">
-                                  <div className="flex items-center justify-between mb-3">
-                                    <div className="flex items-center gap-2">
-                                      {meta.icon && <meta.icon className="w-4 h-4" style={{ color: meta.color }} />}
-                                      <div>
-                                        <h4 className="font-semibold text-coastal-900 text-sm">{meta.label || varKey}</h4>
-                                        <p className="text-[11px] text-coastal-500">{meta.description}</p>
+                                <div key={varKey} className="card overflow-hidden">
+                                  {/* Card header with gradient */}
+                                  <div className={`bg-gradient-to-r ${meta.gradient || 'from-gray-500 to-gray-600'} px-5 py-3`}>
+                                    <div className="flex items-center justify-between">
+                                      <div className="flex items-center gap-2.5">
+                                        {meta.icon && <meta.icon className="w-5 h-5 text-white/90" />}
+                                        <div>
+                                          <h4 className="font-bold text-white text-base">{meta.label || varKey}</h4>
+                                          <p className="text-white/70 text-xs">{meta.description}</p>
+                                        </div>
                                       </div>
-                                    </div>
-                                    <div className="flex items-center gap-3">
-                                      <RiskBadge level={v?.riskLevel} />
-                                      <div className="text-right">
-                                        <div className="text-xs text-coastal-500">Exceedance</div>
-                                        <div className="text-lg font-bold text-coastal-900">
-                                          {horizonData?.exceedancePct?.toFixed(0)}%
+                                      <div className="flex items-center gap-3">
+                                        <RiskBadge level={v?.riskLevel} />
+                                        <div className="text-right bg-white/15 rounded-lg px-3 py-1.5">
+                                          <div className="text-white/70 text-[10px] font-medium uppercase tracking-wider">Exceedance</div>
+                                          <div className="text-white text-xl font-bold">
+                                            {horizonData?.exceedancePct?.toFixed(0)}%
+                                          </div>
                                         </div>
                                       </div>
                                     </div>
                                   </div>
 
-                                  <div className="h-56">
-                                    <ResponsiveContainer width="100%" height="100%">
-                                      <AreaChart data={monthly} margin={{ top: 10, right: 30, left: 10, bottom: 0 }}>
-                                        <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                                        <XAxis dataKey="date" tick={{ fontSize: 11 }} />
-                                        <YAxis tick={{ fontSize: 11 }} />
-                                        <Tooltip content={<ForecastTooltip unit={meta.unit} threshold={v?.threshold} />} />
-                                        {v?.threshold && (
-                                          <ReferenceLine
-                                            y={v.threshold}
-                                            stroke="#f97316"
-                                            strokeDasharray="8 4"
-                                            strokeWidth={2}
-                                            label={{ value: `Threshold: ${v.threshold.toFixed(2)}`, position: 'right', fontSize: 11, fill: '#f97316' }}
+                                  {/* Chart area */}
+                                  <div className="px-4 pt-4 pb-2">
+                                    {/* Custom legend */}
+                                    <div className="flex flex-wrap items-center gap-5 mb-3 text-xs">
+                                      <div className="flex items-center gap-1.5">
+                                        <span className="w-4 h-[3px] rounded-full" style={{ backgroundColor: meta.color || '#3b82f6' }} />
+                                        <span className="text-gray-600 font-medium">Predicted</span>
+                                      </div>
+                                      <div className="flex items-center gap-1.5">
+                                        <span className="w-4 h-3 rounded-sm opacity-25" style={{ backgroundColor: meta.color || '#3b82f6' }} />
+                                        <span className="text-gray-600 font-medium">95% Confidence Interval</span>
+                                      </div>
+                                      <div className="flex items-center gap-1.5">
+                                        <span className="w-4 h-0 border-t-2 border-dashed border-red-500" />
+                                        <span className="text-gray-600 font-medium">Erosion Threshold</span>
+                                      </div>
+                                      <div className="flex items-center gap-1.5">
+                                        <span className="w-4 h-0 border-t border-dashed border-gray-400" />
+                                        <span className="text-gray-600 font-medium">Historical Mean</span>
+                                      </div>
+                                    </div>
+
+                                    <div className="h-72">
+                                      <ResponsiveContainer width="100%" height="100%">
+                                        <AreaChart data={monthly} margin={{ top: 15, right: 25, left: 15, bottom: 5 }}>
+                                          <defs>
+                                            <linearGradient id={`ciGrad-${varKey}`} x1="0" y1="0" x2="0" y2="1">
+                                              <stop offset="0%" stopColor={meta.color || '#3b82f6'} stopOpacity={0.25} />
+                                              <stop offset="100%" stopColor={meta.color || '#3b82f6'} stopOpacity={0.05} />
+                                            </linearGradient>
+                                          </defs>
+                                          <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" strokeOpacity={0.7} />
+                                          <XAxis
+                                            dataKey="date"
+                                            tick={{ fontSize: 11, fill: '#6b7280' }}
+                                            axisLine={{ stroke: '#d1d5db' }}
+                                            tickLine={{ stroke: '#d1d5db' }}
                                           />
-                                        )}
-                                        <ReferenceLine
-                                          y={v?.historicalMean}
-                                          stroke="#94a3b8"
-                                          strokeDasharray="4 4"
-                                          strokeWidth={1}
-                                          label={{ value: 'Hist. Mean', position: 'left', fontSize: 10, fill: '#94a3b8' }}
-                                        />
-                                        <Area
-                                          type="monotone"
-                                          dataKey="ci_upper"
-                                          stroke="none"
-                                          fill={meta.color || '#3b82f6'}
-                                          fillOpacity={0.08}
-                                          name="CI Upper"
-                                        />
-                                        <Area
-                                          type="monotone"
-                                          dataKey="ci_lower"
-                                          stroke="none"
-                                          fill="#ffffff"
-                                          fillOpacity={1}
-                                          name="CI Lower"
-                                        />
-                                        <Line
-                                          type="monotone"
-                                          dataKey="predicted"
-                                          stroke={meta.color || '#3b82f6'}
-                                          strokeWidth={2.5}
-                                          dot={{ r: 3, fill: meta.color || '#3b82f6' }}
-                                          name="Predicted"
-                                        />
-                                      </AreaChart>
-                                    </ResponsiveContainer>
+                                          <YAxis
+                                            tick={{ fontSize: 11, fill: '#6b7280' }}
+                                            axisLine={{ stroke: '#d1d5db' }}
+                                            tickLine={{ stroke: '#d1d5db' }}
+                                            label={{
+                                              value: meta.unit ? `Value (${meta.unit})` : 'Value',
+                                              angle: -90,
+                                              position: 'insideLeft',
+                                              offset: -5,
+                                              style: { fontSize: 11, fill: '#9ca3af', fontWeight: 500 },
+                                            }}
+                                          />
+                                          <Tooltip
+                                            content={<ForecastTooltip unit={meta.unit} threshold={v?.threshold} color={meta.color} />}
+                                            cursor={{ stroke: '#d1d5db', strokeWidth: 1, strokeDasharray: '4 4' }}
+                                          />
+                                          {/* Threshold reference line */}
+                                          {v?.threshold && (
+                                            <ReferenceLine
+                                              y={v.threshold}
+                                              stroke="#ef4444"
+                                              strokeDasharray="8 5"
+                                              strokeWidth={2}
+                                              label={{
+                                                value: `Threshold: ${v.threshold.toFixed(2)} ${meta.unit}`,
+                                                position: 'insideTopRight',
+                                                fontSize: 11,
+                                                fontWeight: 600,
+                                                fill: '#ef4444',
+                                                offset: 8,
+                                              }}
+                                            />
+                                          )}
+                                          {/* Historical mean reference line */}
+                                          <ReferenceLine
+                                            y={v?.historicalMean}
+                                            stroke="#9ca3af"
+                                            strokeDasharray="5 5"
+                                            strokeWidth={1.5}
+                                            label={{
+                                              value: `Hist. Mean: ${v?.historicalMean?.toFixed(2) || '--'}`,
+                                              position: 'insideBottomLeft',
+                                              fontSize: 10,
+                                              fill: '#9ca3af',
+                                              offset: 8,
+                                            }}
+                                          />
+                                          {/* CI band — upper boundary (fills down to ci_lower) */}
+                                          <Area
+                                            type="monotone"
+                                            dataKey="ci_upper"
+                                            stroke="none"
+                                            fill={`url(#ciGrad-${varKey})`}
+                                            fillOpacity={1}
+                                            isAnimationActive={false}
+                                          />
+                                          {/* CI band — lower boundary (erases below) */}
+                                          <Area
+                                            type="monotone"
+                                            dataKey="ci_lower"
+                                            stroke="none"
+                                            fill="#ffffff"
+                                            fillOpacity={1}
+                                            isAnimationActive={false}
+                                          />
+                                          {/* CI upper boundary line */}
+                                          <Line
+                                            type="monotone"
+                                            dataKey="ci_upper"
+                                            stroke={meta.color || '#3b82f6'}
+                                            strokeWidth={1}
+                                            strokeOpacity={0.3}
+                                            strokeDasharray="3 3"
+                                            dot={false}
+                                            isAnimationActive={false}
+                                          />
+                                          {/* CI lower boundary line */}
+                                          <Line
+                                            type="monotone"
+                                            dataKey="ci_lower"
+                                            stroke={meta.color || '#3b82f6'}
+                                            strokeWidth={1}
+                                            strokeOpacity={0.3}
+                                            strokeDasharray="3 3"
+                                            dot={false}
+                                            isAnimationActive={false}
+                                          />
+                                          {/* Predicted line */}
+                                          <Line
+                                            type="monotone"
+                                            dataKey="predicted"
+                                            stroke={meta.color || '#3b82f6'}
+                                            strokeWidth={3}
+                                            dot={{ r: 4, fill: meta.color || '#3b82f6', strokeWidth: 2, stroke: '#fff' }}
+                                            activeDot={{ r: 6, fill: meta.color || '#3b82f6', strokeWidth: 2, stroke: '#fff' }}
+                                          />
+                                        </AreaChart>
+                                      </ResponsiveContainer>
+                                    </div>
                                   </div>
 
                                   {/* Quick stats row */}
-                                  <div className="grid grid-cols-4 gap-4 mt-4 pt-4 border-t border-coastal-100">
-                                    <div>
-                                      <div className="text-xs text-coastal-500">Avg Forecast</div>
-                                      <div className="font-semibold text-coastal-900">
-                                        {horizonData?.avgForecast?.toFixed(3)} {meta.unit}
+                                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-px bg-gray-100">
+                                    <div className="bg-white px-4 py-3">
+                                      <div className="text-[11px] text-gray-500 font-medium uppercase tracking-wider">Avg Forecast</div>
+                                      <div className="font-bold text-gray-900 text-lg mt-0.5">
+                                        {horizonData?.avgForecast?.toFixed(3)} <span className="text-xs font-normal text-gray-400">{meta.unit}</span>
                                       </div>
                                     </div>
-                                    <div>
-                                      <div className="text-xs text-coastal-500">Peak Forecast</div>
-                                      <div className="font-semibold text-coastal-900">
-                                        {horizonData?.peakForecast?.toFixed(3)} {meta.unit}
+                                    <div className="bg-white px-4 py-3">
+                                      <div className="text-[11px] text-gray-500 font-medium uppercase tracking-wider">Peak Forecast</div>
+                                      <div className="font-bold text-gray-900 text-lg mt-0.5">
+                                        {horizonData?.peakForecast?.toFixed(3)} <span className="text-xs font-normal text-gray-400">{meta.unit}</span>
                                       </div>
                                     </div>
-                                    <div>
-                                      <div className="text-xs text-coastal-500">Historical Mean</div>
-                                      <div className="font-semibold text-coastal-500">
-                                        {v?.historicalMean?.toFixed(3)} {meta.unit}
+                                    <div className="bg-white px-4 py-3">
+                                      <div className="text-[11px] text-gray-500 font-medium uppercase tracking-wider">Historical Mean</div>
+                                      <div className="font-bold text-gray-500 text-lg mt-0.5">
+                                        {v?.historicalMean?.toFixed(3)} <span className="text-xs font-normal text-gray-400">{meta.unit}</span>
                                       </div>
                                     </div>
-                                    <div>
-                                      <div className="text-xs text-coastal-500">Trend vs History</div>
-                                      <div className="flex items-center gap-1">
+                                    <div className="bg-white px-4 py-3">
+                                      <div className="text-[11px] text-gray-500 font-medium uppercase tracking-wider">Trend vs History</div>
+                                      <div className="flex items-center gap-1.5 mt-0.5">
                                         <TrendIcon value={horizonData?.trendPct} />
-                                        <span className={`font-semibold ${horizonData?.trendPct > 0 ? 'text-red-600' : 'text-emerald-600'}`}>
+                                        <span className={`font-bold text-lg ${horizonData?.trendPct > 0 ? 'text-red-600' : 'text-emerald-600'}`}>
                                           {horizonData?.trendPct > 0 ? '+' : ''}{horizonData?.trendPct?.toFixed(1)}%
                                         </span>
                                       </div>
@@ -563,34 +663,48 @@ export default function ForecastThresholdPage() {
                           </div>
 
                           {/* Exceedance bar chart */}
-                          <div className="card p-4 mb-5">
-                            <h3 className="font-display font-bold text-coastal-900 text-sm mb-1.5">
-                              Threshold Exceedance by Variable ({selectedHorizon}-Month Horizon)
-                            </h3>
-                            <p className="text-xs text-coastal-500 mb-3">
-                              Percentage of forecasted months where predicted value exceeds the erosion threshold.
-                            </p>
-                            <div className="h-56">
-                              <ResponsiveContainer width="100%" height="100%">
-                                <BarChart
-                                  data={summaryCards.map(c => ({
-                                    name: c.label,
-                                    exceedance: c.exceedancePct || 0,
-                                    color: VARIABLE_META[c.key]?.color || '#6b7280',
-                                  }))}
-                                  margin={{ top: 5, right: 30, left: 10, bottom: 5 }}
-                                >
-                                  <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                                  <XAxis dataKey="name" tick={{ fontSize: 11 }} />
-                                  <YAxis domain={[0, 100]} tick={{ fontSize: 11 }} label={{ value: 'Exceedance %', angle: -90, position: 'insideLeft', fontSize: 12 }} />
-                                  <Tooltip formatter={(val) => [`${val.toFixed(1)}%`, 'Exceedance']} />
-                                  <Bar dataKey="exceedance" radius={[6, 6, 0, 0]}>
-                                    {summaryCards.map((card, i) => (
-                                      <Cell key={i} fill={VARIABLE_META[card.key]?.color || '#6b7280'} fillOpacity={0.8} />
-                                    ))}
-                                  </Bar>
-                                </BarChart>
-                              </ResponsiveContainer>
+                          <div className="card overflow-hidden mb-5">
+                            <div className="bg-gradient-to-r from-gray-700 to-gray-900 px-5 py-3">
+                              <h3 className="font-bold text-white text-sm">
+                                Threshold Exceedance by Variable ({selectedHorizon}-Month Horizon)
+                              </h3>
+                              <p className="text-gray-300 text-xs mt-0.5">
+                                Percentage of forecasted months where predicted value exceeds the erosion threshold
+                              </p>
+                            </div>
+                            <div className="p-4">
+                              <div className="h-64">
+                                <ResponsiveContainer width="100%" height="100%">
+                                  <BarChart
+                                    data={summaryCards.map(c => ({
+                                      name: c.label,
+                                      exceedance: c.exceedancePct || 0,
+                                      color: VARIABLE_META[c.key]?.color || '#6b7280',
+                                    }))}
+                                    margin={{ top: 10, right: 30, left: 15, bottom: 5 }}
+                                  >
+                                    <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" strokeOpacity={0.7} />
+                                    <XAxis dataKey="name" tick={{ fontSize: 12, fill: '#4b5563', fontWeight: 500 }} axisLine={{ stroke: '#d1d5db' }} />
+                                    <YAxis
+                                      domain={[0, 100]}
+                                      tick={{ fontSize: 11, fill: '#6b7280' }}
+                                      axisLine={{ stroke: '#d1d5db' }}
+                                      label={{ value: 'Exceedance %', angle: -90, position: 'insideLeft', fontSize: 12, fill: '#9ca3af', fontWeight: 500, offset: -5 }}
+                                    />
+                                    <Tooltip
+                                      cursor={{ fill: '#f3f4f6' }}
+                                      formatter={(val) => [`${val.toFixed(1)}%`, 'Exceedance']}
+                                      contentStyle={{ borderRadius: '12px', border: '1px solid #e5e7eb', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
+                                    />
+                                    <ReferenceLine y={50} stroke="#ef4444" strokeDasharray="6 4" strokeWidth={1.5} label={{ value: '50% threshold', position: 'insideTopRight', fontSize: 10, fill: '#ef4444' }} />
+                                    <Bar dataKey="exceedance" radius={[8, 8, 0, 0]} barSize={50}>
+                                      {summaryCards.map((card, i) => (
+                                        <Cell key={i} fill={VARIABLE_META[card.key]?.color || '#6b7280'} fillOpacity={0.85} />
+                                      ))}
+                                    </Bar>
+                                  </BarChart>
+                                </ResponsiveContainer>
+                              </div>
                             </div>
                           </div>
 
