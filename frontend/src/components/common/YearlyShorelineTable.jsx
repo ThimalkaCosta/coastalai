@@ -24,14 +24,16 @@ const YearlyShorelineTable = ({ data }) => {
 
   const getErosionStatusColor = (status) => {
     switch (status) {
-      case 'Severe_Erosion':
+      case 'High Erosion':
         return 'bg-red-100 text-red-800';
-      case 'Moderate_Erosion':
+      case 'Low Erosion':
         return 'bg-orange-100 text-orange-800';
-      case 'Mild_Erosion':
-        return 'bg-yellow-100 text-yellow-800';
       case 'Stable':
-        return 'bg-green-100 text-green-800';
+        return 'bg-sky-100 text-sky-700';
+      case 'Low Accretion':
+        return 'bg-teal-100 text-teal-700';
+      case 'High Accretion':
+        return 'bg-emerald-100 text-emerald-800';
       default:
         return 'bg-gray-100 text-gray-800';
     }

@@ -14,28 +14,17 @@ import {
   BarChart3,
   Target,
   Brain,
-  GitBranch,
-  Layers,
-  PieChart,
 } from 'lucide-react'
 import PageTransition from '../components/common/PageTransition'
 import StatCard from '../components/common/StatCard'
-import Tabs from '../components/common/Tabs'
 import TimeSeriesChart from '../components/charts/TimeSeriesChart'
-import ThresholdScatterChart from '../components/charts/ThresholdScatterChart'
-import CorrelationMatrixChart from '../components/charts/CorrelationMatrixChart'
-import PCAChart from '../components/charts/PCAChart'
-import ROCCurveChart from '../components/charts/ROCCurveChart'
-import ForcingRegimeChart from '../components/charts/ForcingRegimeChart'
 import BoxplotComparisonChart from '../components/charts/BoxplotComparisonChart'
 import ThresholdBarChart from '../components/charts/ThresholdBarChart'
-import DataTable from '../components/common/DataTable'
 import YearlyShorelineTable from '../components/common/YearlyShorelineTable'
 import { useData } from '../context/DataContext'
 
 export default function AnalysisPage() {
   const { data, loading, dataLoaded } = useData()
-  const [activeTab, setActiveTab] = useState('overview')
 
   // Calculate statistics from actual data
   const stats = useMemo(() => {
@@ -119,17 +108,6 @@ export default function AnalysisPage() {
     }
     return { waveHeight: '--', currentSpeed: '--', windSpeed: '--' }
   }, [data])
-
-  const tabs = [
-    { id: 'overview', label: 'Overview' },
-    { id: 'timeseries', label: 'Time Series' },
-    { id: 'thresholds', label: 'Thresholds' },
-    { id: 'drivers', label: 'Drivers Comparison' },
-    { id: 'yearly', label: 'Yearly Data' },
-    { id: 'correlation', label: 'Correlation' },
-    { id: 'pca', label: 'PCA Analysis' },
-    { id: 'regimes', label: 'Forcing Regimes' },
-  ]
 
   const modelCards = [
     {
@@ -314,247 +292,179 @@ export default function AnalysisPage() {
           </div>
         </section>
 
-        {/* Tabs Section */}
-        <section className="pb-20">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
-            >
-              <Tabs tabs={tabs} activeTab={activeTab} onChange={setActiveTab} />
-
-              <div className="mt-6">
-                {activeTab === 'overview' && (
-                  <div className="space-y-6">
-                    {/* Key Findings */}
-                    <div className="card p-5">
-                      <h3 className="font-display font-bold text-coastal-900 mb-4 text-sm">
-                        Key Findings
-                      </h3>
-                      <div className="grid md:grid-cols-2 gap-3">
-                        <div className="p-3.5 bg-amber-50/80 rounded-lg border border-amber-200/60 ring-1 ring-amber-100/50">
-                          <div className="flex items-start gap-2.5">
-                            <div className="w-7 h-7 rounded-lg bg-amber-100 flex items-center justify-center flex-shrink-0">
-                              <AlertTriangle className="w-3.5 h-3.5 text-amber-600" />
-                            </div>
-                            <div>
-                              <h4 className="font-semibold text-amber-800 text-sm mb-0.5">
-                                High Erosion Alert
-                              </h4>
-                              <p className="text-xs text-amber-700 leading-relaxed">
-                                {stats.erosionRate || '--'}% of transects show erosion with mean NSM of {stats.meanNSM || '--'}m,
-                                indicating significant coastal retreat.
-                              </p>
-                            </div>
-                          </div>
+        {/* ── SECTION DIVIDER HELPER ── */}
+        {/* Overview Section */}
+        <section className="pb-8" id="overview">
+          <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 xl:px-8">
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}>
+              <div className="flex items-center gap-3 mb-5">
+                <div className="w-1 h-7 rounded-full bg-gradient-to-b from-ocean-500 to-ocean-300" />
+                <h2 className="text-lg font-display font-bold text-coastal-900">Overview</h2>
+              </div>
+              <div className="space-y-4">
+                {/* Key Findings */}
+                <div className="card p-5">
+                  <h3 className="font-display font-bold text-coastal-900 mb-4 text-sm">Key Findings</h3>
+                  <div className="grid md:grid-cols-2 gap-3">
+                    <div className="p-3.5 bg-amber-50/80 rounded-lg border border-amber-200/60 ring-1 ring-amber-100/50">
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-7 h-7 rounded-lg bg-amber-100 flex items-center justify-center flex-shrink-0">
+                          <AlertTriangle className="w-3.5 h-3.5 text-amber-600" />
                         </div>
-                        <div className="p-3.5 bg-ocean-50/80 rounded-lg border border-ocean-200/60 ring-1 ring-ocean-100/50">
-                          <div className="flex items-start gap-2.5">
-                            <div className="w-7 h-7 rounded-lg bg-ocean-100 flex items-center justify-center flex-shrink-0">
-                              <Waves className="w-3.5 h-3.5 text-ocean-600" />
-                            </div>
-                            <div>
-                              <h4 className="font-semibold text-ocean-800 text-sm mb-0.5">
-                                Primary Driver
-                              </h4>
-                              <p className="text-xs text-ocean-700 leading-relaxed">
-                                Maximum wave height (Hm0_max) identified as the strongest
-                                predictor of erosion events across all models.
-                              </p>
-                            </div>
-                          </div>
+                        <div>
+                          <h4 className="font-semibold text-amber-800 text-sm mb-0.5">High Erosion Alert</h4>
+                          <p className="text-xs text-amber-700 leading-relaxed">
+                            {stats.erosionRate || '--'}% of transects show erosion with mean NSM of {stats.meanNSM || '--'}m,
+                            indicating significant coastal retreat.
+                          </p>
                         </div>
                       </div>
                     </div>
-
-                    {/* Detected Thresholds */}
-                    <div className="card p-5">
-                      <h3 className="font-display font-bold text-coastal-900 mb-4 text-sm">
-                        Detected Erosion Thresholds
-                      </h3>
-                      <div className="grid sm:grid-cols-3 gap-3">
-                        <div className="p-3.5 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-lg ring-1 ring-blue-100/50">
-                          <div className="flex items-center gap-2 mb-2">
-                            <div className="w-7 h-7 rounded-lg bg-blue-100 flex items-center justify-center">
-                              <Waves className="w-3.5 h-3.5 text-blue-600" />
-                            </div>
-                            <span className="text-xs font-semibold text-blue-800">Wave Height</span>
-                          </div>
-                          <p className="text-xl font-display font-bold text-blue-900">
-                            ≥ {thresholdValues.waveHeight}m
-                          </p>
-                          <p className="text-[11px] text-blue-600 mt-1 font-medium">Hm0_max threshold</p>
+                    <div className="p-3.5 bg-ocean-50/80 rounded-lg border border-ocean-200/60 ring-1 ring-ocean-100/50">
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-7 h-7 rounded-lg bg-ocean-100 flex items-center justify-center flex-shrink-0">
+                          <Waves className="w-3.5 h-3.5 text-ocean-600" />
                         </div>
-                        <div className="p-3.5 bg-gradient-to-br from-violet-50 to-purple-50 rounded-lg ring-1 ring-violet-100/50">
-                          <div className="flex items-center gap-2 mb-2">
-                            <div className="w-7 h-7 rounded-lg bg-violet-100 flex items-center justify-center">
-                              <Droplets className="w-3.5 h-3.5 text-violet-600" />
-                            </div>
-                            <span className="text-xs font-semibold text-violet-800">Current Speed</span>
-                          </div>
-                          <p className="text-xl font-display font-bold text-violet-900">
-                            ≥ {thresholdValues.currentSpeed}m/s
+                        <div>
+                          <h4 className="font-semibold text-ocean-800 text-sm mb-0.5">Primary Driver</h4>
+                          <p className="text-xs text-ocean-700 leading-relaxed">
+                            Maximum wave height (Hm0_max) identified as the strongest
+                            predictor of erosion events across all models.
                           </p>
-                          <p className="text-[11px] text-violet-600 mt-1 font-medium">UcurrMax threshold</p>
-                        </div>
-                        <div className="p-3.5 bg-gradient-to-br from-orange-50 to-amber-50 rounded-lg ring-1 ring-orange-100/50">
-                          <div className="flex items-center gap-2 mb-2">
-                            <div className="w-7 h-7 rounded-lg bg-orange-100 flex items-center justify-center">
-                              <Wind className="w-3.5 h-3.5 text-orange-600" />
-                            </div>
-                            <span className="text-xs font-semibold text-orange-800">Wind Speed</span>
-                          </div>
-                          <p className="text-xl font-display font-bold text-orange-900">
-                            ≥ {thresholdValues.windSpeed}m/s
-                          </p>
-                          <p className="text-[11px] text-orange-600 mt-1 font-medium">WindMax threshold</p>
                         </div>
                       </div>
                     </div>
-
-                    {/* Quick Boxplot Preview */}
-                    {data.boxplotData && (
-                      <BoxplotComparisonChart
-                        data={data.boxplotData}
-                        title="Environmental Driver Comparison: Erosion vs Stable Years"
-                      />
-                    )}
                   </div>
-                )}
+                </div>
 
-                {activeTab === 'timeseries' && (
-                  <div className="space-y-6">
-                    <TimeSeriesChart
-                      data={timeSeriesData}
-                      title={`Environmental Variables Over Time (${stats.yearRange || '2000-2024'})`}
-                      lines={[
-                        { dataKey: 'Hm0_max', name: 'Wave Height (m)', color: '#3b82f6' },
-                        { dataKey: 'UcurrMax', name: 'Current Speed (m/s)', color: '#8b5cf6' },
-                      ]}
-                      threshold={thresholdValues.waveHeight}
-                      thresholdLabel={`Wave Threshold: ${thresholdValues.waveHeight}m`}
-                    />
-                    
-                    {waveHeightData.length > 0 && (
-                      <ThresholdBarChart
-                        data={waveHeightData}
-                        title="Maximum Wave Height by Year"
-                        threshold={thresholdValues.waveHeight}
-                        thresholdLabel={`Erosion Threshold (${thresholdValues.waveHeight}m)`}
-                        unit="m"
-                      />
-                    )}
-                  </div>
-                )}
-
-                {activeTab === 'thresholds' && (
-                  <div className="space-y-6">
-                    <div className="card p-6">
-                      <h3 className="font-display font-bold text-coastal-900 mb-4">
-                        Wave Height vs Shoreline Change
-                      </h3>
-                      {scatterData.length > 0 ? (
-                        <ThresholdScatterChart
-                          data={scatterData}
-                          threshold={thresholdValues.waveHeight}
-                          xLabel="Maximum Wave Height (m)"
-                          yLabel="Net Shoreline Movement (m)"
-                        />
-                      ) : (
-                        <p className="text-coastal-500 text-center py-8">No scatter data available</p>
-                      )}
-                    </div>
-
-                    {/* Threshold Summary Table */}
-                    <div className="card p-6">
-                      <h3 className="font-display font-bold text-coastal-900 mb-5">
-                        Multi-Model Threshold Consensus
-                      </h3>
-                      <div className="overflow-x-auto rounded-xl ring-1 ring-coastal-200/60">
-                        <table className="w-full text-sm">
-                          <thead>
-                            <tr className="bg-coastal-50/80 border-b border-coastal-200">
-                              <th className="text-left py-3.5 px-4 font-semibold text-coastal-700">Driver</th>
-                              <th className="text-center py-3.5 px-4 font-semibold text-coastal-700">Random Forest</th>
-                              <th className="text-center py-3.5 px-4 font-semibold text-coastal-700">HMM</th>
-                              <th className="text-center py-3.5 px-4 font-semibold text-coastal-700">XGBoost</th>
-                              <th className="text-center py-3.5 px-4 font-semibold text-coastal-700">Consensus</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr className="border-b border-coastal-100">
-                              <td className="py-3 px-4 font-medium">Wave Height (Hm0_max)</td>
-                              <td className="text-center py-3 px-4">≥ {data.models?.rf?.thresholds?.Hm0_max?.value?.toFixed(2) || '--'}m</td>
-                              <td className="text-center py-3 px-4">≥ {data.models?.hmm?.thresholds?.Hm0_max?.value?.toFixed(2) || '--'}m</td>
-                              <td className="text-center py-3 px-4">≥ {data.models?.xgb?.thresholds?.Hm0_max?.value?.toFixed(2) || '--'}m</td>
-                              <td className="text-center py-3 px-4 font-medium text-emerald-600">High</td>
-                            </tr>
-                            <tr className="border-b border-coastal-100">
-                              <td className="py-3 px-4 font-medium">Current Speed (UcurrMax)</td>
-                              <td className="text-center py-3 px-4">≥ {data.models?.rf?.thresholds?.UcurrMax?.value?.toFixed(2) || '--'}m/s</td>
-                              <td className="text-center py-3 px-4">≥ {data.models?.hmm?.thresholds?.UcurrMax?.value?.toFixed(2) || '--'}m/s</td>
-                              <td className="text-center py-3 px-4">≥ {data.models?.xgb?.thresholds?.UcurrMax?.value?.toFixed(2) || '--'}m/s</td>
-                              <td className="text-center py-3 px-4 font-medium text-emerald-600">High</td>
-                            </tr>
-                            <tr>
-                              <td className="py-3 px-4 font-medium">Wind Speed (WindMax)</td>
-                              <td className="text-center py-3 px-4">≥ {data.models?.rf?.thresholds?.WindMax?.value?.toFixed(2) || '--'}m/s</td>
-                              <td className="text-center py-3 px-4">≥ {data.models?.hmm?.thresholds?.WindMax?.value?.toFixed(2) || '--'}m/s</td>
-                              <td className="text-center py-3 px-4">≥ {data.models?.xgb?.thresholds?.WindMax?.value?.toFixed(2) || '--'}m/s</td>
-                              <td className="text-center py-3 px-4 font-medium text-amber-600">Medium</td>
-                            </tr>
-                          </tbody>
-                        </table>
+                {/* Detected Thresholds */}
+                <div className="card p-5">
+                  <h3 className="font-display font-bold text-coastal-900 mb-4 text-sm">Detected Erosion Thresholds</h3>
+                  <div className="grid sm:grid-cols-3 gap-3">
+                    <div className="p-3.5 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-lg ring-1 ring-blue-100/50">
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="w-7 h-7 rounded-lg bg-blue-100 flex items-center justify-center">
+                          <Waves className="w-3.5 h-3.5 text-blue-600" />
+                        </div>
+                        <span className="text-xs font-semibold text-blue-800">Wave Height</span>
                       </div>
+                      <p className="text-xl font-display font-bold text-blue-900">≥ {thresholdValues.waveHeight}m</p>
+                      <p className="text-[11px] text-blue-600 mt-1 font-medium">Hm0_max threshold</p>
+                    </div>
+                    <div className="p-3.5 bg-gradient-to-br from-violet-50 to-purple-50 rounded-lg ring-1 ring-violet-100/50">
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="w-7 h-7 rounded-lg bg-violet-100 flex items-center justify-center">
+                          <Droplets className="w-3.5 h-3.5 text-violet-600" />
+                        </div>
+                        <span className="text-xs font-semibold text-violet-800">Current Speed</span>
+                      </div>
+                      <p className="text-xl font-display font-bold text-violet-900">≥ {thresholdValues.currentSpeed}m/s</p>
+                      <p className="text-[11px] text-violet-600 mt-1 font-medium">UcurrMax threshold</p>
+                    </div>
+                    <div className="p-3.5 bg-gradient-to-br from-orange-50 to-amber-50 rounded-lg ring-1 ring-orange-100/50">
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="w-7 h-7 rounded-lg bg-orange-100 flex items-center justify-center">
+                          <Wind className="w-3.5 h-3.5 text-orange-600" />
+                        </div>
+                        <span className="text-xs font-semibold text-orange-800">Wind Speed</span>
+                      </div>
+                      <p className="text-xl font-display font-bold text-orange-900">≥ {thresholdValues.windSpeed}m/s</p>
+                      <p className="text-[11px] text-orange-600 mt-1 font-medium">WindMax threshold</p>
                     </div>
                   </div>
-                )}
+                </div>
 
-                {activeTab === 'drivers' && (
+                {data.boxplotData && (
                   <BoxplotComparisonChart
-                    data={data.boxplot}
-                    title="Environmental Drivers: Erosion vs Stable Years"
+                    data={data.boxplotData}
+                    title="Environmental Driver Comparison: Erosion vs Stable Years"
                   />
                 )}
+              </div>
+            </motion.div>
+          </div>
+        </section>
 
-                {activeTab === 'yearly' && (
-                  <div className="space-y-6">
-                    <div className="card p-6">
-                      <h3 className="font-display font-bold text-coastal-900 mb-3 text-xl">
-                        Annual Shoreline Statistics
-                      </h3>
-                      <p className="text-coastal-500 mb-6 leading-relaxed">
-                        Yearly aggregated statistics showing Net Shoreline Movement (NSM), 
-                        End Point Rate (EPR), Linear Regression Rate (LRR), and Shoreline Change Envelope (SCE) 
-                        metrics across all transects.
-                      </p>
-                      <YearlyShorelineTable data={data.yearlyShoreline} />
-                    </div>
-                  </div>
-                )}
+        {/* Divider */}
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 xl:px-8 pb-6">
+          <div className="border-t border-coastal-200/60" />
+        </div>
 
-                {activeTab === 'correlation' && (
-                  <CorrelationMatrixChart
-                    data={data.correlation}
-                    title="Correlation Matrix: Environmental Drivers and Erosion"
+        {/* Time Series Section */}
+        <section className="pb-8" id="timeseries">
+          <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 xl:px-8">
+            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
+              <div className="flex items-center gap-3 mb-5">
+                <div className="w-1 h-7 rounded-full bg-gradient-to-b from-blue-500 to-blue-300" />
+                <h2 className="text-lg font-display font-bold text-coastal-900">Time Series</h2>
+              </div>
+              <div className="space-y-4">
+                <TimeSeriesChart
+                  data={timeSeriesData}
+                  title={`Environmental Variables Over Time (${stats.yearRange || '2000-2024'})`}
+                  lines={[
+                    { dataKey: 'Hm0_max', name: 'Wave Height (m)', color: '#3b82f6' },
+                    { dataKey: 'UcurrMax', name: 'Current Speed (m/s)', color: '#8b5cf6' },
+                  ]}
+                  threshold={thresholdValues.waveHeight}
+                  thresholdLabel={`Wave Threshold: ${thresholdValues.waveHeight}m`}
+                />
+                {waveHeightData.length > 0 && (
+                  <ThresholdBarChart
+                    data={waveHeightData}
+                    title="Maximum Wave Height by Year"
+                    threshold={thresholdValues.waveHeight}
+                    thresholdLabel={`Erosion Threshold (${thresholdValues.waveHeight}m)`}
+                    unit="m"
                   />
                 )}
+              </div>
+            </motion.div>
+          </div>
+        </section>
 
-                {activeTab === 'pca' && (
-                  <PCAChart
-                    data={data.pca?.data}
-                    variance={data.pca?.variance}
-                    title="PCA: Erosion vs Stable Years"
-                  />
-                )}
+        {/* Divider */}
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 xl:px-8 pb-6">
+          <div className="border-t border-coastal-200/60" />
+        </div>
 
-                {activeTab === 'regimes' && (
-                  <ForcingRegimeChart
-                    data={data.forcingRegimes}
-                    title="Forcing Regime Distribution"
-                  />
-                )}
+        {/* Drivers Comparison Section */}
+        <section className="pb-8" id="drivers">
+          <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 xl:px-8">
+            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
+              <div className="flex items-center gap-3 mb-5">
+                <div className="w-1 h-7 rounded-full bg-gradient-to-b from-violet-500 to-violet-300" />
+                <h2 className="text-lg font-display font-bold text-coastal-900">Drivers Comparison</h2>
+              </div>
+              <BoxplotComparisonChart
+                data={data.boxplot}
+                title="Environmental Drivers: Erosion vs Stable Years"
+              />
+            </motion.div>
+          </div>
+        </section>
+
+        {/* Divider */}
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 xl:px-8 pb-6">
+          <div className="border-t border-coastal-200/60" />
+        </div>
+
+        {/* Yearly Data Section */}
+        <section className="pb-20" id="yearly">
+          <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 xl:px-8">
+            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
+              <div className="flex items-center gap-3 mb-5">
+                <div className="w-1 h-7 rounded-full bg-gradient-to-b from-emerald-500 to-emerald-300" />
+                <h2 className="text-lg font-display font-bold text-coastal-900">Yearly Data</h2>
+              </div>
+              <div className="card p-5">
+                <h3 className="font-display font-bold text-coastal-900 mb-2 text-sm">Annual Shoreline Statistics</h3>
+                <p className="text-xs text-coastal-500 mb-5 leading-relaxed">
+                  Yearly aggregated statistics showing Net Shoreline Movement (NSM),
+                  End Point Rate (EPR), Linear Regression Rate (LRR), and Shoreline Change Envelope (SCE)
+                  metrics across all transects.
+                </p>
+                <YearlyShorelineTable data={data.yearlyShoreline} />
               </div>
             </motion.div>
           </div>
