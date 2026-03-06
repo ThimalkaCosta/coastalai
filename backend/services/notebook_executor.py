@@ -335,13 +335,12 @@ try:
     _rf_thresh = {{}}
     for feat in _importance_order:
         if feat in rf_thresholds:
-            scaled = rf_thresholds[feat]["median_threshold"]
-            idx = model_features.index(feat)
-            orig = scaled * scaler.scale_[idx] + scaler.mean_[idx]
             _rf_thresh[feat] = {{
-                "value": _safe(round(orig, 3)),
+                "value": _safe(round(rf_thresholds[feat]["threshold"], 3)),
+                "lower": _safe(round(rf_thresholds[feat]["threshold_lower"], 3)),
+                "upper": _safe(round(rf_thresholds[feat]["threshold_upper"], 3)),
                 "nSplits": _safe(rf_thresholds[feat]["n_splits"]),
-                "condition": "\u2265",
+                "condition": rf_thresholds[feat].get("direction", "\u2265"),
                 "unit": "m" if "Hm0" in feat else "m/s" if "curr" in feat.lower() or "Wind" in feat else "",
             }}
 
@@ -383,6 +382,18 @@ except Exception as e:
 
 # -- XGBoost --
 try:
+    _xgb_thresh = {{}}
+    for feat in xgb_thresholds:
+        _xgb_thresh[feat] = {{
+            "value": _safe(round(xgb_thresholds[feat]["threshold"], 3)),
+            "lower": _safe(round(xgb_thresholds[feat]["threshold_lower"], 3)),
+            "upper": _safe(round(xgb_thresholds[feat]["threshold_upper"], 3)),
+            "nSplits": _safe(xgb_thresholds[feat]["n_splits"]),
+            "condition": xgb_thresholds[feat].get("direction", "\u2265"),
+            "importance": _safe(round(xgb_thresholds[feat]["importance"], 4)),
+            "unit": "m" if "Hm0" in feat else "m/s" if "curr" in feat.lower() or "Wind" in feat else "",
+        }}
+
     results["models"] = results.get("models", {{}})
     results["models"]["xgb"] = {{
         "featureImportance": [{{"Feature": _safe(r["Feature"]), "Importance": _safe(r["Importance"])}}
@@ -401,7 +412,7 @@ try:
             "maxDepth": _safe(xgb_model.max_depth),
             "learningRate": _safe(xgb_model.learning_rate),
         }},
-        "thresholds": _rf_thresh,  # Use RF thresholds as base
+        "thresholds": _xgb_thresh,
     }}
 except Exception as e:
     print(f"XGB export error: {{e}}")
