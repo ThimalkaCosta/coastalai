@@ -19,8 +19,6 @@ import MorphForecastPage from './pages/MorphForecastPage'
 import HMMAnalysisPage from './pages/HMMAnalysisPage'
 import RegimeProfilesPage from './pages/RegimeProfilesPage'
 import SeasonalAnalysisPage from './pages/SeasonalAnalysisPage'
-import LongTermForecastingPage from './pages/LongTermForecastingPage'
-import ShortTermForecastingPage from './pages/ShortTermForecastingPage'
 import LoginPage from './pages/LoginPage'
 import UserManagementPage from './pages/UserManagementPage'
 import UnauthorizedPage from './pages/UnauthorizedPage'
@@ -34,8 +32,6 @@ const HEADER_ONLY_PATHS = [
   '/hmm-analysis',
   '/regime-profiles',
   '/seasonal-analysis',
-  '/long-term-forecasting',
-  '/short-term-forecasting',
 ]
 
 /* Morphological module paths (sidebar layout) */
@@ -147,22 +143,7 @@ function App() {
                   </ProtectedRoute>
                 }
               />
-              <Route
-                path="/long-term-forecasting"
-                element={
-                  <ProtectedRoute>
-                    <LongTermForecastingPage />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/short-term-forecasting"
-                element={
-                  <ProtectedRoute>
-                    <ShortTermForecastingPage />
-                  </ProtectedRoute>
-                }
-              />
+
             </Routes>
           </AnimatePresence>
         </main>

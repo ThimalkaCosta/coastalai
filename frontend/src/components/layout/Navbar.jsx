@@ -7,16 +7,12 @@ import {
   Home,
   Cloud,
   Mountain,
-  TrendingUp,
-  Zap,
 } from 'lucide-react'
 
 const headerNavigation = [
   { name: 'Home', href: '/', icon: Home },
   { name: 'Meteorological Threshold', href: '/dashboard', icon: Cloud },
   { name: 'Morphological Threshold', href: '/morph/upload', icon: Mountain },
-  { name: 'Long-Term Forecasting', href: '/long-term-forecasting', icon: TrendingUp },
-  { name: 'Short-Term Forecasting', href: '/short-term-forecasting', icon: Zap },
 ]
 
 /* Paths belonging to each top-level section (for active-tab highlighting) */

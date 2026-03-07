@@ -14,16 +14,12 @@ import {
   Navigation,
   Cloud,
   Mountain,
-  TrendingUp,
-  Zap,
 } from 'lucide-react'
 import PageTransition from '../components/common/PageTransition'
 
 const dashboardOptions = [
   { name: 'Metrological Threshold', href: '/dashboard', icon: Cloud },
   { name: 'Morphological Threshold', href: '/morphological-threshold', icon: Mountain },
-  { name: 'Long Term Forecasting', href: '/long-term-forecasting', icon: TrendingUp },
-  { name: 'Short Term Forecasting', href: '/short-term-forecasting', icon: Zap },
 ]
 
 export default function HomePage() {
