@@ -7,6 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from config import CORS_ORIGINS
 from routers import analysis
 from routers import morphological
+from routers import shortterm
 
 app = FastAPI(
     title="CoastalAI Analysis API",
@@ -26,6 +27,7 @@ app.add_middleware(
 # Routes
 app.include_router(analysis.router, prefix="/api", tags=["analysis"])
 app.include_router(morphological.router, prefix="/api/morphological", tags=["morphological"])
+app.include_router(shortterm.router, prefix="/api/shortterm", tags=["shortterm"])
 
 
 @app.get("/api/health")

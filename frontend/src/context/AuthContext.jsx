@@ -102,9 +102,12 @@ export function AuthProvider({ children }) {
       setUserRole(null)
       setUserProfile(profile)
     } else {
-      // Existing user — update last login
-      await setDoc(userDocRef, { lastLogin: serverTimestamp() }, { merge: true })
-      const data = userDoc.data()
+      // Existing user — sync display name & photo from auth provider, update last login
+      const updates = { lastLogin: serverTimestamp() }
+      if (user.displayName) updates.displayName = user.displayName
+      if (user.photoURL) updates.photoURL = user.photoURL
+      await setDoc(userDocRef, updates, { merge: true })
+      const data = { ...userDoc.data(), ...updates }
       setUserRole(data.role || null)
       setUserProfile(data)
     }
@@ -145,8 +148,11 @@ export function AuthProvider({ children }) {
       const userDocRef = doc(db, 'users', result.user.uid)
       const userDoc = await getDoc(userDocRef)
       if (userDoc.exists()) {
-        await setDoc(userDocRef, { lastLogin: serverTimestamp() }, { merge: true })
-        const data = userDoc.data()
+        const updates = { lastLogin: serverTimestamp() }
+        if (result.user.displayName) updates.displayName = result.user.displayName
+        if (result.user.photoURL) updates.photoURL = result.user.photoURL
+        await setDoc(userDocRef, updates, { merge: true })
+        const data = { ...userDoc.data(), ...updates }
         setUserRole(data.role || null)
         setUserProfile(data)
       }

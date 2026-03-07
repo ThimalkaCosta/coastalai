@@ -245,6 +245,7 @@ function NewChatPanel() {
           {selectedUsers.map((u) => (
             <span
               key={u.id}
+              title={`${u.displayName || ''} (${u.email})`}
               className="inline-flex items-center gap-1 text-xs bg-ocean-100 text-ocean-700 px-2 py-1 rounded-full"
             >
               {(u.displayName || u.email).split(' ')[0]}
@@ -273,7 +274,10 @@ function NewChatPanel() {
                 <span className="text-sm font-medium text-coastal-800 truncate block">
                   {user.displayName || user.email}
                 </span>
-                <RoleBadge role={user.role} />
+                <div className="flex items-center gap-1.5 flex-wrap">
+                  <RoleBadge role={user.role} />
+                  <span className="text-[10px] text-coastal-400 truncate">{user.email}</span>
+                </div>
               </div>
               {mode === 'group' && (
                 <div
@@ -297,7 +301,7 @@ function NewChatPanel() {
         <div className="p-3 border-t border-coastal-200/70">
           <button
             onClick={handleCreateGroup}
-            disabled={selectedUsers.length < 2 || !groupName.trim()}
+            disabled={selectedUsers.length < 1 || !groupName.trim()}
             className="w-full py-2.5 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-ocean-500 to-ocean-600 shadow-md shadow-ocean-500/20 hover:shadow-lg disabled:opacity-40 disabled:cursor-not-allowed transition-all"
           >
             Create Group ({selectedUsers.length} members)
@@ -368,8 +372,19 @@ function MessageThread() {
         <Avatar name={display.name} photo={display.photo} size="sm" role={display.role} />
         <div className="flex-1 min-w-0">
           <p className="text-sm font-bold text-coastal-800 truncate">{display.name}</p>
-          {display.role && <RoleBadge role={display.role} />}
+          {convo?.type === 'group' ? (
+            <span className="text-[10px] text-coastal-400">{convo.participantIds?.length} members</span>
+          ) : display.role ? <RoleBadge role={display.role} /> : null}
         </div>
+        {convo?.type === 'group' && (
+          <button
+            onClick={() => setView('groupInfo')}
+            className="p-1.5 rounded-lg hover:bg-coastal-100 text-coastal-500 transition-colors"
+            title="Group info"
+          >
+            <Users size={16} />
+          </button>
+        )}
       </div>
 
       {/* Messages */}
@@ -411,7 +426,10 @@ function MessageThread() {
                   }`}
                 >
                   {!isMine && convo?.type === 'group' && (
-                    <p className="text-[10px] font-bold text-ocean-500 mb-0.5">{msg.senderName}</p>
+                    <div className="flex items-center gap-1 mb-0.5">
+                      <p className="text-[10px] font-bold text-ocean-500">{msg.senderName}</p>
+                      {msg.senderRole && <RoleBadge role={msg.senderRole} />}
+                    </div>
                   )}
                   <p className="whitespace-pre-wrap break-words">{msg.text}</p>
                   <p
@@ -451,6 +469,75 @@ function MessageThread() {
             <Send size={18} />
           </button>
         </div>
+      </div>
+    </div>
+  )
+}
+
+/* ──────────── GROUP INFO PANEL ──────────── */
+function GroupInfoPanel() {
+  const { activeConversation, conversations, setView, leaveGroup } = useChat()
+  const { currentUser } = useAuth()
+  const convo = conversations.find((c) => c.id === activeConversation)
+
+  if (!convo) return null
+
+  const members = Object.entries(convo.participants || {}).map(([id, info]) => ({
+    id,
+    ...info,
+  }))
+
+  return (
+    <div className="flex flex-col h-full">
+      {/* Header */}
+      <div className="flex items-center gap-2 px-4 py-3 border-b border-coastal-200/70">
+        <button
+          onClick={() => setView('thread')}
+          className="p-1.5 rounded-lg hover:bg-coastal-100 text-coastal-500 transition-colors"
+        >
+          <ArrowLeft size={18} />
+        </button>
+        <h3 className="text-base font-bold text-coastal-800">Group Info</h3>
+      </div>
+
+      {/* Group name & count */}
+      <div className="px-4 py-3 border-b border-coastal-100">
+        <p className="text-sm font-bold text-coastal-800">{convo.name || 'Group Chat'}</p>
+        <p className="text-xs text-coastal-400 mt-1">{members.length} members</p>
+      </div>
+
+      {/* Members list */}
+      <div className="flex-1 overflow-y-auto">
+        <p className="px-4 py-2 text-[10px] font-semibold text-coastal-500 uppercase tracking-wide">Members</p>
+        <div className="divide-y divide-coastal-100">
+          {members.map((m) => (
+            <div key={m.id} className="flex items-center gap-3 px-4 py-2.5">
+              <Avatar name={m.displayName} photo={m.photoURL} size="sm" role={m.role} />
+              <div className="flex-1 min-w-0">
+                <span className="text-sm font-medium text-coastal-800 truncate block">
+                  {m.displayName}
+                  {m.id === currentUser?.uid && (
+                    <span className="text-[10px] text-coastal-400 ml-1">(You)</span>
+                  )}
+                </span>
+                <div className="flex items-center gap-1.5">
+                  <RoleBadge role={m.role} />
+                  {m.email && <span className="text-[10px] text-coastal-400 truncate">{m.email}</span>}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Leave group */}
+      <div className="p-3 border-t border-coastal-200/70">
+        <button
+          onClick={() => leaveGroup(activeConversation)}
+          className="w-full py-2.5 rounded-xl text-sm font-semibold text-red-600 bg-red-50 hover:bg-red-100 transition-colors"
+        >
+          Leave Group
+        </button>
       </div>
     </div>
   )
@@ -500,6 +587,7 @@ export default function ChatWidget() {
             {view === 'list' && <ConversationList />}
             {view === 'new' && <NewChatPanel />}
             {view === 'thread' && <MessageThread />}
+            {view === 'groupInfo' && <GroupInfoPanel />}
           </motion.div>
         )}
       </AnimatePresence>

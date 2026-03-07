@@ -22,6 +22,7 @@ import SeasonalAnalysisPage from './pages/SeasonalAnalysisPage'
 import LoginPage from './pages/LoginPage'
 import UserManagementPage from './pages/UserManagementPage'
 import UnauthorizedPage from './pages/UnauthorizedPage'
+import ShortTermForecastPage from './pages/ShortTermForecastPage'
 import ProtectedRoute from './components/auth/ProtectedRoute'
 import { useAuth } from './context/AuthContext'
 import { MorphDataProvider } from './context/MorphDataContext'
@@ -32,6 +33,7 @@ const HEADER_ONLY_PATHS = [
   '/hmm-analysis',
   '/regime-profiles',
   '/seasonal-analysis',
+  '/short-term',
 ]
 
 /* Morphological module paths (sidebar layout) */
@@ -140,6 +142,14 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <SeasonalAnalysisPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/short-term"
+                element={
+                  <ProtectedRoute>
+                    <ShortTermForecastPage />
                   </ProtectedRoute>
                 }
               />

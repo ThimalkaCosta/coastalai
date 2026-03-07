@@ -7,10 +7,10 @@ import {
   onSnapshot,
   addDoc,
   updateDoc,
+  deleteDoc,
+  deleteField,
   doc,
   serverTimestamp,
-  getDocs,
-  limit,
 } from 'firebase/firestore'
 import { db } from '../firebase'
 import { useAuth } from './AuthContext'
@@ -29,18 +29,18 @@ export function ChatProvider({ children }) {
 
   const uid = currentUser?.uid
 
-  // Fetch all users for new-chat search
+  // Real-time listener for all active users (for new-chat search)
   useEffect(() => {
     if (!uid) return
-    const fetchUsers = async () => {
-      const snap = await getDocs(collection(db, 'users'))
+    const q = query(collection(db, 'users'), where('status', '==', 'active'))
+    const unsub = onSnapshot(q, (snap) => {
       setAllUsers(
         snap.docs
           .map((d) => ({ id: d.id, ...d.data() }))
-          .filter((u) => u.id !== uid && u.role && u.status === 'active'),
+          .filter((u) => u.id !== uid && u.role),
       )
-    }
-    fetchUsers()
+    })
+    return unsub
   }, [uid])
 
   // Real-time listener for conversations where current user is a participant
@@ -116,6 +116,7 @@ export function ChatProvider({ children }) {
           senderId: uid,
           senderName,
           senderPhoto: currentUser?.photoURL || null,
+          senderRole: userProfile?.role || '',
           createdAt: serverTimestamp(),
         },
       )
@@ -168,11 +169,13 @@ export function ChatProvider({ children }) {
         participants: {
           [uid]: {
             displayName: senderName,
+            email: currentUser?.email || '',
             photoURL: currentUser?.photoURL || null,
             role: userProfile?.role || '',
           },
           [otherUser.id]: {
             displayName: otherUser.displayName || otherUser.email,
+            email: otherUser.email || '',
             photoURL: otherUser.photoURL || null,
             role: otherUser.role || '',
           },
@@ -205,6 +208,7 @@ export function ChatProvider({ children }) {
       const participantsMap = {
         [uid]: {
           displayName: senderName,
+          email: currentUser?.email || '',
           photoURL: currentUser?.photoURL || null,
           role: userProfile?.role || '',
         },
@@ -214,6 +218,7 @@ export function ChatProvider({ children }) {
         if (u) {
           participantsMap[mid] = {
             displayName: u.displayName || u.email,
+            email: u.email || '',
             photoURL: u.photoURL || null,
             role: u.role || '',
           }
@@ -240,6 +245,30 @@ export function ChatProvider({ children }) {
     [uid, currentUser, userProfile, allUsers],
   )
 
+  // Leave a group conversation
+  const leaveGroup = useCallback(
+    async (convoId) => {
+      if (!uid || !convoId) return
+      const convo = conversations.find((c) => c.id === convoId)
+      if (convo?.type !== 'group') return
+
+      const remaining = convo.participantIds.filter((id) => id !== uid)
+      if (remaining.length === 0) {
+        await deleteDoc(doc(db, 'conversations', convoId))
+      } else {
+        await updateDoc(doc(db, 'conversations', convoId), {
+          participantIds: remaining,
+          [`participants.${uid}`]: deleteField(),
+        })
+      }
+      if (activeConversation === convoId) {
+        setActiveConversation(null)
+        setView('list')
+      }
+    },
+    [uid, conversations, activeConversation],
+  )
+
   // Helper to get conversation display info
   const getConvoDisplay = useCallback(
     (convo) => {
@@ -248,6 +277,7 @@ export function ChatProvider({ children }) {
           name: convo.name || 'Group Chat',
           photo: null,
           role: 'Group',
+          memberCount: convo.participantIds?.length || 0,
         }
       }
       // Direct conversation — show the other person
@@ -276,6 +306,7 @@ export function ChatProvider({ children }) {
     sendMessage,
     openConversation,
     createGroupConversation,
+    leaveGroup,
     getConvoDisplay,
     markRead,
   }
