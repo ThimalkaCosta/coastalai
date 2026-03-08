@@ -1,6 +1,7 @@
 import { Routes, Route, useLocation, Navigate } from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
 import Layout from './components/layout/Layout'
+import MorphLayout from './components/layout/MorphLayout'
 import Navbar from './components/layout/Navbar'
 import ChatWidget from './components/chat/ChatWidget'
 import HomePage from './pages/HomePage'
@@ -20,7 +21,13 @@ import UserManagementPage from './pages/UserManagementPage'
 import UnauthorizedPage from './pages/UnauthorizedPage'
 import ShortTermForecastPage from './pages/ShortTermForecastPage'
 import LongTermForecastPage from './pages/LongTermForecastPage'
-import MorphologicalThresholdPage from './pages/MorphologicalThresholdPage'
+import MorphOverviewPage from './pages/morphological/MorphOverviewPage'
+import MorphErosionPage from './pages/morphological/MorphErosionPage'
+import MorphVulnerabilityPage from './pages/morphological/MorphVulnerabilityPage'
+import MorphShorelinePage from './pages/morphological/MorphShorelinePage'
+import MorphRiskPage from './pages/morphological/MorphRiskPage'
+import MorphRunPage from './pages/morphological/MorphRunPage'
+import { MorphDataProvider } from './context/MorphDataContext'
 import ProtectedRoute from './components/auth/ProtectedRoute'
 import { useAuth } from './context/AuthContext'
 
@@ -32,7 +39,6 @@ const HEADER_ONLY_PATHS = [
   '/seasonal-analysis',
   '/short-term',
   '/long-term',
-  '/morphological',
 ]
 
 function App() {
@@ -48,6 +54,7 @@ function App() {
     location.pathname === '/login' || location.pathname === '/unauthorized'
 
   const isHeaderOnlyPage = HEADER_ONLY_PATHS.includes(location.pathname)
+  const isMorphPage = location.pathname.startsWith('/morphological')
 
   /* ── Public pages (no navbar, no sidebar) ── */
   if (isPublicPage) {
@@ -117,20 +124,35 @@ function App() {
                   </ProtectedRoute>
                 }
               />
-              <Route
-                path="/morphological"
-                element={
-                  <ProtectedRoute>
-                    <MorphologicalThresholdPage />
-                  </ProtectedRoute>
-                }
-              />
 
             </Routes>
           </AnimatePresence>
         </main>
         <ChatWidget />
       </div>
+    )
+  }
+
+  /* ── Morphological pages (navbar + morph sidebar) ── */
+  if (isMorphPage) {
+    return (
+      <>
+        <MorphLayout>
+          <MorphDataProvider>
+            <AnimatePresence mode="wait">
+              <Routes>
+                <Route path="/morphological" element={<ProtectedRoute><MorphOverviewPage /></ProtectedRoute>} />
+                <Route path="/morphological/erosion" element={<ProtectedRoute><MorphErosionPage /></ProtectedRoute>} />
+                <Route path="/morphological/vulnerability" element={<ProtectedRoute><MorphVulnerabilityPage /></ProtectedRoute>} />
+                <Route path="/morphological/shoreline" element={<ProtectedRoute><MorphShorelinePage /></ProtectedRoute>} />
+                <Route path="/morphological/risk" element={<ProtectedRoute><MorphRiskPage /></ProtectedRoute>} />
+                <Route path="/morphological/run" element={<ProtectedRoute><MorphRunPage /></ProtectedRoute>} />
+              </Routes>
+            </AnimatePresence>
+          </MorphDataProvider>
+        </MorphLayout>
+        <ChatWidget />
+      </>
     )
   }
 

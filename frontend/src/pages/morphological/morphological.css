@@ -23,7 +23,7 @@
   background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 40%, #e2e8f0 100%);
   color: var(--mt-text);
   font-family: var(--mt-font);
-  padding-top: 76px;
+  padding-top: 0;
 }
 
 /* ── Root ── */
@@ -127,40 +127,6 @@
   max-width: 420px;
   font-size: 14px;
   margin: 0;
-}
-
-/* ── Tabs ── */
-.mt-tabs {
-  display: flex;
-  gap: 4px;
-  border-bottom: 1px solid var(--mt-border);
-  padding-bottom: 0;
-  overflow-x: auto;
-}
-
-.mt-tab {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 10px 16px;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--mt-text-dim);
-  background: transparent;
-  border: none;
-  border-bottom: 2px solid transparent;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: all 0.15s;
-}
-.mt-tab:hover {
-  color: var(--mt-text);
-  background: var(--mt-surface-2);
-  border-radius: 8px 8px 0 0;
-}
-.mt-tab-active {
-  color: var(--mt-accent);
-  border-bottom-color: var(--mt-accent);
 }
 
 /* ── Content ── */
