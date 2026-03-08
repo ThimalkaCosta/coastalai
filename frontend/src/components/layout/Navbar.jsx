@@ -6,22 +6,22 @@ import {
   X,
   Home,
   Cloud,
-  Mountain,
   TrendingUp,
   Activity,
+  Mountain,
 } from 'lucide-react'
 
 const headerNavigation = [
   { name: 'Home', href: '/', icon: Home },
   { name: 'Meteorological Threshold', href: '/dashboard', icon: Cloud },
-  { name: 'Morphological Threshold', href: '/morph/upload', icon: Mountain },
+  { name: 'Morphological Threshold', href: '/morphological', icon: Mountain },
   { name: 'Short-Term Forecasting', href: '/short-term', icon: TrendingUp },
   { name: 'Long-Term Forecasting', href: '/long-term', icon: Activity },
 ]
 
 /* Paths belonging to each top-level section (for active-tab highlighting) */
 const METEOROLOGICAL_PATHS = ['/dashboard', '/upload', '/analysis', '/threshold', '/models', '/admin']
-const MORPHOLOGICAL_PATHS = ['/morph/upload', '/morph/threshold', '/morph/forecast']
+const MORPHOLOGICAL_PATHS = ['/morphological']
 const SHORTTERM_PATHS = ['/short-term']
 const LONGTERM_PATHS = ['/long-term']
 
@@ -32,7 +32,7 @@ export default function Navbar() {
   const isActive = (href) => {
     if (href === '/') return location.pathname === '/'
     if (href === '/dashboard') return METEOROLOGICAL_PATHS.some((p) => location.pathname.startsWith(p))
-    if (href === '/morph/upload') return MORPHOLOGICAL_PATHS.some((p) => location.pathname.startsWith(p))
+    if (href === '/morphological') return MORPHOLOGICAL_PATHS.some((p) => location.pathname.startsWith(p))
     if (href === '/short-term') return SHORTTERM_PATHS.some((p) => location.pathname.startsWith(p))
     if (href === '/long-term') return LONGTERM_PATHS.some((p) => location.pathname.startsWith(p))
     return location.pathname === href

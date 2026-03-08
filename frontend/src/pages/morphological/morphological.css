@@ -1,0 +1,485 @@
+/* ═══════════════════════════════════════════════════════════════
+   Morphological Threshold — Scoped Design System (Light Theme)
+   All rules scoped under .mt-forecast-wrapper
+   ═══════════════════════════════════════════════════════════════ */
+
+.mt-forecast-wrapper {
+  --mt-bg: #f8fafc;
+  --mt-surface: #ffffff;
+  --mt-surface-2: #f1f5f9;
+  --mt-border: rgba(15, 23, 42, 0.1);
+  --mt-text: #1e293b;
+  --mt-text-dim: #64748b;
+  --mt-accent: #2563eb;
+  --mt-accent-glow: rgba(37, 99, 235, 0.15);
+  --mt-green: #16a34a;
+  --mt-red: #dc2626;
+  --mt-orange: #d97706;
+  --mt-radius: 12px;
+  --mt-font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --mt-mono: 'IBM Plex Mono', 'Fira Code', monospace;
+
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 40%, #e2e8f0 100%);
+  color: var(--mt-text);
+  font-family: var(--mt-font);
+  padding-top: 76px;
+}
+
+/* ── Root ── */
+.mt-root {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 32px 24px 80px;
+}
+
+/* ── Header ── */
+.mt-header {
+  margin-bottom: 32px;
+}
+
+.mt-header-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.mt-title {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--mt-text);
+  margin: 0 0 4px;
+}
+
+.mt-subtitle {
+  font-size: 14px;
+  color: var(--mt-text-dim);
+  margin: 0;
+}
+
+/* ── Run Button ── */
+.mt-run-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  background: var(--mt-accent);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.mt-run-btn:hover:not(:disabled) {
+  background: #1d4ed8;
+  box-shadow: 0 4px 16px var(--mt-accent-glow);
+}
+.mt-run-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.mt-spin {
+  animation: mt-spin-anim 1s linear infinite;
+}
+@keyframes mt-spin-anim {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Error ── */
+.mt-error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: var(--mt-red);
+  border-radius: var(--mt-radius);
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
+/* ── Empty State ── */
+.mt-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 12px;
+  padding: 80px 20px;
+  color: var(--mt-text-dim);
+}
+.mt-empty h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--mt-text);
+  margin: 0;
+}
+.mt-empty p {
+  max-width: 420px;
+  font-size: 14px;
+  margin: 0;
+}
+
+/* ── Tabs ── */
+.mt-tabs {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid var(--mt-border);
+  padding-bottom: 0;
+  overflow-x: auto;
+}
+
+.mt-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--mt-text-dim);
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s;
+}
+.mt-tab:hover {
+  color: var(--mt-text);
+  background: var(--mt-surface-2);
+  border-radius: 8px 8px 0 0;
+}
+.mt-tab-active {
+  color: var(--mt-accent);
+  border-bottom-color: var(--mt-accent);
+}
+
+/* ── Content ── */
+.mt-content {
+  animation: mt-fadein 0.25s ease;
+}
+@keyframes mt-fadein {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.mt-section {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ── Cards ── */
+.mt-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+.mt-cards-3 { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+.mt-cards-4 { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+
+.mt-card {
+  background: var(--mt-surface);
+  border: 1px solid var(--mt-border);
+  border-radius: var(--mt-radius);
+  padding: 20px;
+}
+.mt-card-highlight {
+  border-left: 4px solid var(--mt-accent);
+}
+.mt-card-label {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--mt-text-dim);
+  margin-bottom: 6px;
+}
+.mt-card-value {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--mt-text);
+  margin-bottom: 4px;
+  font-family: var(--mt-mono);
+}
+.mt-card-note {
+  font-size: 12px;
+  color: var(--mt-text-dim);
+}
+
+/* ── Badges ── */
+.mt-badge {
+  display: inline-flex;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+.mt-badge-green {
+  background: #dcfce7;
+  color: #15803d;
+}
+.mt-badge-orange {
+  background: #fef3c7;
+  color: #b45309;
+}
+.mt-badge-red {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+/* ── Panels ── */
+.mt-panel {
+  background: var(--mt-surface);
+  border: 1px solid var(--mt-border);
+  border-radius: var(--mt-radius);
+  padding: 24px;
+}
+.mt-panel-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--mt-text);
+  margin: 0 0 16px;
+}
+
+/* ── Tables ── */
+.mt-table-wrap {
+  overflow-x: auto;
+}
+.mt-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.mt-table th {
+  text-align: left;
+  padding: 10px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--mt-text-dim);
+  background: var(--mt-surface-2);
+  border-bottom: 1px solid var(--mt-border);
+}
+.mt-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--mt-border);
+  font-family: var(--mt-mono);
+  font-size: 12px;
+}
+.mt-table tbody tr:hover {
+  background: rgba(37, 99, 235, 0.03);
+}
+.mt-table-matrix td,
+.mt-table-matrix th {
+  text-align: center;
+  min-width: 70px;
+}
+.mt-cell-highlight {
+  background: rgba(220, 38, 38, 0.08) !important;
+  font-weight: 700;
+}
+.mt-row-erosion {
+  background: rgba(220, 38, 38, 0.04);
+}
+.mt-row-forecast {
+  background: rgba(37, 99, 235, 0.06);
+  font-weight: 600;
+}
+.mt-row-active {
+  background: rgba(37, 99, 235, 0.08);
+  font-weight: 600;
+}
+
+/* ── Text colours ── */
+.mt-text-green { color: var(--mt-green); font-weight: 600; }
+.mt-text-red   { color: var(--mt-red);   font-weight: 600; }
+.mt-bold  { font-weight: 700; }
+.mt-dim   { color: var(--mt-text-dim); font-size: 13px; font-weight: 400; }
+
+/* ── Model grid ── */
+.mt-model-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+}
+.mt-model-item {
+  padding: 14px;
+  background: var(--mt-surface-2);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.mt-model-selected {
+  border: 1px solid var(--mt-accent);
+  background: rgba(37, 99, 235, 0.06);
+}
+.mt-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--mt-text-dim);
+}
+.mt-val {
+  font-size: 16px;
+  font-weight: 700;
+  font-family: var(--mt-mono);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ── Index (CVI / BMSI) display ── */
+.mt-idx-grid {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.mt-idx-card {
+  flex: 1;
+  min-width: 180px;
+  text-align: center;
+  padding: 20px;
+  background: var(--mt-surface-2);
+  border-radius: 10px;
+}
+.mt-idx-forecast {
+  border: 2px solid var(--mt-accent);
+  background: rgba(37, 99, 235, 0.04);
+}
+.mt-idx-header {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--mt-text-dim);
+  margin-bottom: 8px;
+}
+.mt-idx-value {
+  font-size: 32px;
+  font-weight: 900;
+  font-family: var(--mt-mono);
+  color: var(--mt-text);
+  margin-bottom: 8px;
+}
+.mt-idx-arrow {
+  color: var(--mt-text-dim);
+  flex-shrink: 0;
+}
+.mt-idx-bounds {
+  font-size: 12px;
+  color: var(--mt-text-dim);
+}
+.mt-hint {
+  font-size: 12px;
+  color: var(--mt-text-dim);
+  margin-top: 8px;
+  font-style: italic;
+}
+
+/* ── Chart ── */
+.mt-chart-wrap {
+  overflow-x: auto;
+}
+.mt-chart {
+  width: 100%;
+  max-width: 700px;
+  height: auto;
+}
+.mt-chart-label {
+  font-size: 11px;
+  fill: var(--mt-text-dim);
+  font-family: var(--mt-mono);
+}
+.mt-chart-label-fc {
+  fill: var(--mt-red);
+  font-weight: 700;
+}
+
+/* ── Risk hero ── */
+.mt-risk-hero {
+  display: flex;
+  justify-content: center;
+}
+.mt-risk-status {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 24px 40px;
+  border-radius: 16px;
+  min-width: 320px;
+}
+.mt-risk-status.mt-badge-green {
+  background: #dcfce7;
+  color: #15803d;
+}
+.mt-risk-status.mt-badge-orange {
+  background: #fef3c7;
+  color: #b45309;
+}
+.mt-risk-status.mt-badge-red {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+.mt-risk-safety {
+  font-size: 24px;
+  font-weight: 800;
+}
+.mt-risk-zone {
+  font-size: 13px;
+  font-weight: 600;
+  opacity: 0.8;
+}
+
+/* ── Logic list ── */
+.mt-logic-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.mt-logic-list li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  background: var(--mt-surface-2);
+  color: var(--mt-text-dim);
+}
+.mt-logic-active {
+  background: rgba(37, 99, 235, 0.08) !important;
+  color: var(--mt-text) !important;
+  font-weight: 600;
+  border: 1px solid var(--mt-accent);
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .mt-root { padding: 16px 12px 60px; }
+  .mt-title { font-size: 22px; }
+  .mt-cards-grid { grid-template-columns: 1fr; }
+  .mt-idx-grid { flex-direction: column; }
+  .mt-idx-arrow { transform: rotate(90deg); }
+  .mt-risk-status { padding: 16px 20px; min-width: auto; }
+}
