@@ -1,14 +1,58 @@
-// STDashboard.jsx — Short-Term Forecasting Dashboard (integrated)
+// STDashboard.jsx — Integrated + UI improvements merged
 import { useCallback, useEffect, useRef, useState } from 'react'
 import Plot from 'react-plotly.js'
 import { Download, RefreshCw, AlertTriangle, Map, BarChart2, FileText, CheckCircle, ChevronDown, ChevronUp, Maximize2, X } from 'lucide-react'
 import STLandingPage from './STLandingPage'
 import STParametersPage from './STParametersPage'
 
+// ✅ Preserved: friend's API base using VITE_API_URL + shortterm paths
 const API_BASE = (import.meta.env.VITE_API_URL || 'http://localhost:8000').replace(/\/api\/?$/, '').replace(/\/$/, '')
 
 const PAGES = { LANDING: 'landing', PARAMETERS: 'parameters', RESULTS: 'results' }
 
+// ── ResultsWaveCanvas — animated wave canvas for the results banner (NEW) ──
+function ResultsWaveCanvas() {
+  const canvasRef = useRef(null)
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const ctx = canvas.getContext('2d')
+    let animId, t = 0
+    const resize = () => { canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight }
+    resize()
+    window.addEventListener('resize', resize)
+    const configs = [
+      { amp: 14, freq: 0.009, speed: 0.022, yFrac: 0.45, c0: 'rgba(29,101,212,0.38)', c1: 'rgba(29,101,212,0.08)' },
+      { amp: 10, freq: 0.013, speed: 0.032, yFrac: 0.58, c0: 'rgba(6,182,212,0.30)',  c1: 'rgba(29,101,212,0.06)' },
+      { amp: 7,  freq: 0.018, speed: 0.044, yFrac: 0.70, c0: 'rgba(96,165,250,0.22)', c1: 'rgba(6,182,212,0.05)' },
+      { amp: 5,  freq: 0.025, speed: 0.058, yFrac: 0.82, c0: 'rgba(147,197,253,0.16)', c1: 'rgba(96,165,250,0.03)' },
+    ]
+    const draw = () => {
+      const { width, height } = canvas
+      ctx.clearRect(0, 0, width, height)
+      configs.forEach(({ amp, freq, speed, yFrac, c0, c1 }) => {
+        const yBase = height * yFrac
+        ctx.beginPath()
+        ctx.moveTo(0, yBase)
+        for (let x = 0; x <= width; x += 2) {
+          const y = yBase + Math.sin(x * freq + t * speed) * amp
+            + Math.sin(x * freq * 1.6 + t * speed * 0.7) * (amp * 0.4)
+          ctx.lineTo(x, y)
+        }
+        ctx.lineTo(width, height); ctx.lineTo(0, height); ctx.closePath()
+        const g = ctx.createLinearGradient(0, yBase - amp, 0, height)
+        g.addColorStop(0, c0); g.addColorStop(1, c1)
+        ctx.fillStyle = g; ctx.fill()
+      })
+      t++; animId = requestAnimationFrame(draw)
+    }
+    draw()
+    return () => { cancelAnimationFrame(animId); window.removeEventListener('resize', resize) }
+  }, [])
+  return <canvas ref={canvasRef} className="rp-results-banner-canvas" />
+}
+
+// ── Lightbox ──
 function Lightbox({ src, onClose }) {
   useEffect(() => {
     const handler = (e) => { if (e.key === 'Escape') onClose() }
@@ -23,70 +67,200 @@ function Lightbox({ src, onClose }) {
   )
 }
 
-function KmlViewer({ file, onDownload }) {
-  const isWow = file.filename?.toLowerCase().includes('wow') || file.filename?.toLowerCase().includes('risk')
-  const isForecast = file.filename?.toLowerCase().includes('forecast')
+// ── Parse KML coordinates string → [[lat,lng], ...] ──
+function parseKmlCoords(coordStr) {
+  if (!coordStr) return []
+  return coordStr.trim().split(/\s+/).map(c => {
+    const [lng, lat] = c.split(',').map(Number)
+    return [lat, lng]
+  }).filter(([lat, lng]) => !isNaN(lat) && !isNaN(lng))
+}
+
+// ── Parse full KML text into layers ──
+function parseKml(kmlText) {
+  const parser = new DOMParser()
+  const doc = parser.parseFromString(kmlText, 'text/xml')
+  const placemarks = Array.from(doc.querySelectorAll('Placemark'))
+  const layers = { refLine: null, fcLine: null, riskZones: [], hotspots: [] }
+
+  placemarks.forEach(pm => {
+    const nameEl = pm.querySelector('n, name')
+    const name = nameEl?.textContent?.trim() || ''
+    const styleUrl = pm.querySelector('styleUrl')?.textContent?.trim().replace('#', '') || ''
+    const coordEl = pm.querySelector('LineString coordinates, LinearRing coordinates, coordinates')
+    const coords = coordEl ? parseKmlCoords(coordEl.textContent) : []
+    const pointEl = pm.querySelector('Point coordinates')
+
+    if (pointEl) {
+      const [lng, lat] = pointEl.textContent.trim().split(',').map(Number)
+      if (!isNaN(lat)) layers.hotspots.push({ lat, lng, name })
+      return
+    }
+
+    if (name.includes('Reference') || styleUrl === 'refLine' || styleUrl === 'whiteLine') {
+      layers.refLine = coords
+    } else if (name.includes('Forecast') || styleUrl === 'fcLine' || styleUrl === 'redLine') {
+      layers.fcLine = coords
+    } else if (name.includes('HIGH') && coords.length > 2) {
+      layers.riskZones.push({ coords, level: 'HIGH', name })
+    } else if (name.includes('MED') && coords.length > 2) {
+      layers.riskZones.push({ coords, level: 'MED', name })
+    } else if (name.includes('LOW') && coords.length > 2) {
+      layers.riskZones.push({ coords, level: 'LOW', name })
+    }
+  })
+  return layers
+}
+
+// ── LeafletKmlMap — real Leaflet map with satellite tiles (NEW) ──
+function LeafletKmlMap({ kmlUrl, filename, onDownload, mapId }) {
+  const mapRef = useRef(null)
+  const leafletRef = useRef(null)
+  const [status, setStatus] = useState('loading')
+  const isWow = filename?.toLowerCase().includes('wow') || filename?.toLowerCase().includes('risk')
+  const isForecast = filename?.toLowerCase().includes('forecast')
+
+  useEffect(() => {
+    let map = null
+    let cancelled = false
+
+    const initMap = async () => {
+      if (!window.L) {
+        await new Promise((resolve, reject) => {
+          const css = document.createElement('link')
+          css.rel = 'stylesheet'
+          css.href = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css'
+          document.head.appendChild(css)
+          const js = document.createElement('script')
+          js.src = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js'
+          js.onload = resolve; js.onerror = reject
+          document.head.appendChild(js)
+        })
+      }
+      if (cancelled) return
+      const L = window.L
+
+      let kmlText = ''
+      try {
+        const res = await fetch(kmlUrl)
+        kmlText = await res.text()
+      } catch (e) {
+        setStatus('error'); return
+      }
+      if (cancelled) return
+
+      const layers = parseKml(kmlText)
+      const allCoords = [...(layers.refLine || []), ...(layers.fcLine || [])]
+      if (allCoords.length === 0) { setStatus('error'); return }
+
+      const lats = allCoords.map(c => c[0]), lngs = allCoords.map(c => c[1])
+      const centre = [(Math.min(...lats) + Math.max(...lats)) / 2, (Math.min(...lngs) + Math.max(...lngs)) / 2]
+
+      if (!mapRef.current || leafletRef.current) return
+      map = L.map(mapRef.current, { zoomControl: true, attributionControl: true }).setView(centre, 17)
+      leafletRef.current = map
+
+      L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'Tiles © Esri',
+        maxZoom: 20,
+      }).addTo(map)
+
+      L.tileLayer('https://stamen-tiles.a.ssl.fastly.net/toner-hybrid/{z}/{x}/{y}.png', {
+        opacity: 0.3, maxZoom: 20
+      }).addTo(map)
+
+      const RISK_COLORS = { HIGH: '#ef4444', MED: '#f97316', LOW: '#22c55e' }
+      layers.riskZones.forEach(({ coords, level }) => {
+        if (coords.length < 3) return
+        L.polygon(coords, {
+          color: RISK_COLORS[level] || '#ef4444',
+          fillColor: RISK_COLORS[level] || '#ef4444',
+          fillOpacity: 0.2,
+          weight: 1.5,
+          opacity: 0.7,
+        }).addTo(map).bindPopup(`<b>${level} Risk Zone</b>`)
+      })
+
+      if (layers.refLine?.length > 1) {
+        L.polyline(layers.refLine, { color: '#ffffff', weight: 3, opacity: 0.95 })
+          .addTo(map).bindPopup('<b>Current Shoreline (Reference)</b>')
+      }
+
+      if (layers.fcLine?.length > 1) {
+        L.polyline(layers.fcLine, { color: '#f87171', weight: 3, opacity: 0.95, dashArray: isWow ? null : '8 5' })
+          .addTo(map).bindPopup('<b>Forecast Shoreline</b>')
+      }
+
+      layers.hotspots.forEach(({ lat, lng, name }) => {
+        const isHigh = name.includes('HIGH')
+        const isMed = name.includes('MED')
+        const pinColor = isHigh ? '#ef4444' : isMed ? '#f97316' : '#22c55e'
+        const icon = L.divIcon({
+          html: `<div style="width:14px;height:14px;border-radius:50%;background:${pinColor};border:2.5px solid white;box-shadow:0 0 8px ${pinColor}aa"></div>`,
+          iconSize: [14, 14], iconAnchor: [7, 7], className: ''
+        })
+        L.marker([lat, lng], { icon }).addTo(map).bindPopup(`<b>${name}</b>`)
+      })
+
+      const bounds = L.latLngBounds(allCoords)
+      map.fitBounds(bounds, { padding: [30, 30] })
+      if (!cancelled) setStatus('ready')
+    }
+
+    initMap().catch(() => setStatus('error'))
+
+    return () => {
+      cancelled = true
+      if (leafletRef.current) { leafletRef.current.remove(); leafletRef.current = null }
+    }
+  }, [kmlUrl])
 
   return (
     <div className="rp-kml-viewer">
       <div className="rp-kml-viewer-header">
         <div className="rp-kml-viewer-title">
           <Map size={16} />
-          <span>{isWow ? 'Risk & Hotspot Map' : isForecast ? 'Forecast Shoreline' : file.filename}</span>
+          <span>{isWow ? 'WOW Risk Map — Live Preview' : isForecast ? 'Forecast Shoreline — Live Preview' : filename}</span>
           {isWow && <span className="rp-kml-badge risk">RISK ZONES</span>}
           {isForecast && <span className="rp-kml-badge forecast">FORECAST</span>}
         </div>
-        <button className="rp-kml-dl-btn" onClick={() => onDownload(file.filename)}>
+        <button className="rp-kml-dl-btn" onClick={() => onDownload(filename)}>
           <Download size={14} /> Download KML
         </button>
       </div>
-      <div className="rp-kml-map-preview">
-        <div className="rp-kml-map-bg" />
-        <div className="rp-kml-map-overlay">
-          {isWow && (
-            <>
-              <div className="rp-kml-shoreline ref" />
-              <div className="rp-kml-shoreline forecast" />
-              <div className="rp-kml-risk-band" />
-              {[
-                { top: '28%', left: '38%', label: '#1: HIGH' },
-                { top: '42%', left: '44%', label: '#2: HIGH' },
-                { top: '58%', left: '50%', label: '#3: MED' },
-              ].map((h, i) => (
-                <div key={i} className="rp-kml-hotspot" style={{ top: h.top, left: h.left }}>
-                  <div className="rp-kml-hotspot-pin" />
-                  <div className="rp-kml-hotspot-label">{h.label}</div>
-                </div>
-              ))}
-              <div className="rp-kml-legend">
-                <div><span className="rp-leg-line white" /> Current Shoreline</div>
-                <div><span className="rp-leg-line red" /> Forecast Shoreline</div>
-                <div><span className="rp-leg-band" /> Risk Bands</div>
-              </div>
-            </>
-          )}
-          {isForecast && !isWow && (
-            <>
-              <div className="rp-kml-shoreline ref" />
-              <div className="rp-kml-shoreline forecast" />
-              <div className="rp-kml-legend">
-                <div><span className="rp-leg-line white" /> Current Shoreline</div>
-                <div><span className="rp-leg-line red dashed" /> Forecast Shoreline</div>
-              </div>
-            </>
-          )}
-          <div className="rp-kml-map-hint">
-            <Map size={13} /> Open in Google Earth for full interactive view
+
+      <div className="rp-leaflet-wrap" style={{ position: 'relative', height: 360 }}>
+        {status === 'loading' && (
+          <div className="rp-map-loading">
+            <div className="rp-map-spinner" />
+            <span>Loading satellite map…</span>
           </div>
-        </div>
+        )}
+        {status === 'error' && (
+          <div className="rp-map-loading">
+            <Map size={22} style={{ color: 'var(--text3)' }} />
+            <span style={{ color: 'var(--text3)', marginTop: 8 }}>Map unavailable — download KML for Google Earth</span>
+          </div>
+        )}
+        <div ref={mapRef} id={mapId} style={{ width: '100%', height: '100%', borderRadius: '0 0 18px 18px' }} />
       </div>
+
       <div className="rp-kml-instructions">
-        <p>📥 Download the KML file and open with <strong>Google Earth Pro</strong> or any GIS software to view the interactive risk map.</p>
+        <p>🛰 Live map with satellite imagery (Esri World Imagery). Scroll to zoom, drag to pan.
+          &nbsp;·&nbsp; Download KML for full <strong>Google Earth Pro</strong> experience with 3D terrain.</p>
       </div>
     </div>
   )
 }
 
+// ── KmlViewer — delegates to LeafletKmlMap, uses shortterm download path ──
+function KmlViewer({ file, onDownload }) {
+  // ✅ Preserved: shortterm API path
+  const kmlUrl = `${API_BASE}/api/shortterm/download/${encodeURIComponent(file.filename)}`
+  return <LeafletKmlMap kmlUrl={kmlUrl} filename={file.filename} onDownload={onDownload} mapId={`kml-map-${file.filename}`} />
+}
+
+// ── ChartCard ──
 function ChartCard({ output, idx, onExpand }) {
   const titles = [
     'Environmental Feature Correlation Matrix',
@@ -284,19 +458,10 @@ function MetricStrip({ text }) {
   )
 }
 
+// ── RESULTS PAGE ──
 function ResultsPage({ data, onBack, loading, error, downloadFile, forecastDate, runMode }) {
   const [lightbox, setLightbox] = useState(null)
   const [activeTab, setActiveTab] = useState('charts')
-  const [mapZoom, setMapZoom] = useState(1)
-  const [mapPan, setMapPan] = useState({ x: 0, y: 0 })
-  const [isPanning, setIsPanning] = useState(false)
-  const panStart = useRef(null)
-  const mapRef = useRef(null)
-
-  const onMapMouseDown = (e) => { setIsPanning(true); panStart.current = { x: e.clientX - mapPan.x, y: e.clientY - mapPan.y } }
-  const onMapMouseMove = (e) => { if (!isPanning || !panStart.current) return; setMapPan({ x: e.clientX - panStart.current.x, y: e.clientY - panStart.current.y }) }
-  const onMapMouseUp = () => { setIsPanning(false); panStart.current = null }
-  const onMapWheel = (e) => { e.preventDefault(); setMapZoom(z => Math.min(4, Math.max(0.5, z - e.deltaY * 0.001))) }
 
   if (error) {
     return (
@@ -310,6 +475,7 @@ function ResultsPage({ data, onBack, loading, error, downloadFile, forecastDate,
     )
   }
 
+  // ── Loading screen — NEW: full animated ocean background ──
   if (loading) {
     const isQuick = runMode === 'quick'
     const steps = isQuick
@@ -317,10 +483,42 @@ function ResultsPage({ data, onBack, loading, error, downloadFile, forecastDate,
       : ['Downloading latest ERA5 data', 'Downloading latest CMEMS wave data', 'Training gradient boosting model', 'Generating forecast & KML']
     return (
       <div className="rp-root rp-loading">
+        {/* ── Animated ocean background ── */}
+        <div className="rp-loading-ocean">
+          {[...Array(8)].map((_, i) => (
+            <div key={i} className="rp-orb" style={{
+              '--delay': `${i * 0.7}s`,
+              '--size':  `${120 + i * 40}px`,
+              '--x':     `${10 + i * 11}%`,
+              '--dur':   `${6 + i * 1.2}s`,
+            }} />
+          ))}
+          <div className="rp-loading-grid" />
+          <div className="rp-radar">
+            <div className="rp-radar-ring rp-radar-r1" />
+            <div className="rp-radar-ring rp-radar-r2" />
+            <div className="rp-radar-ring rp-radar-r3" />
+            <div className="rp-radar-sweep" />
+            <div className="rp-radar-center" />
+          </div>
+          <div className="rp-loading-waves">
+            {[...Array(4)].map((_, i) => (
+              <div key={i} className="rp-loading-wave-strip" style={{ '--wi': i }} />
+            ))}
+          </div>
+          {[...Array(12)].map((_, i) => (
+            <div key={i} className="rp-particle" style={{
+              '--px': `${5 + i * 8}%`,
+              '--pd': `${i * 0.4}s`,
+              '--pf': `${4 + (i % 4)}s`,
+            }} />
+          ))}
+        </div>
+
         <div className="rp-loading-inner">
-          <div className="rp-loading-wave">
-            {[...Array(5)].map((_, i) => (
-              <div key={i} className="rp-loading-bar" style={{ animationDelay: `${i * 0.12}s` }} />
+          <div className="rp-loading-wave-bars">
+            {[...Array(7)].map((_, i) => (
+              <div key={i} className="rp-loading-bar" style={{ animationDelay: `${i * 0.1}s` }} />
             ))}
           </div>
           <div className={`rp-loading-mode-badge ${isQuick ? 'quick' : 'full'}`}>
@@ -358,8 +556,13 @@ function ResultsPage({ data, onBack, loading, error, downloadFile, forecastDate,
     : kmlOutputs.filter(o => o.filename?.toLowerCase().includes('wow') || o.filename?.toLowerCase().includes('forecast'))
   const recentKmls = kmlOutputs.filter(o => !currentKmlsFinal.includes(o))
 
-  const wowKml = currentKmlsFinal.find(o => o.filename?.toLowerCase().includes('wow') || o.filename?.toLowerCase().includes('risk')) || currentKmlsFinal[0]
-  const forecastOnlyKml = currentKmlsFinal.find(o => o.filename?.toLowerCase().includes('forecast') && !o.filename?.toLowerCase().includes('wow'))
+  const wowKml = currentKmlsFinal.find(o =>
+    o.filename?.toLowerCase().includes('wow') || o.filename?.toLowerCase().includes('risk')
+  ) || currentKmlsFinal[0]
+
+  const forecastOnlyKml = currentKmlsFinal.find(o =>
+    o.filename?.toLowerCase().includes('forecast') && !o.filename?.toLowerCase().includes('wow')
+  )
 
   const TABLE_NAMES = [
     { title: 'Train / Test Split Metrics', desc: 'R², MAE and RMSE for the gradient boosting model' },
@@ -369,39 +572,47 @@ function ResultsPage({ data, onBack, loading, error, downloadFile, forecastDate,
   const filteredHtmlOutputs = htmlOutputs.filter((_, i) => i < TABLE_NAMES.length)
 
   const DATASET_FILES = [
-    { name: 'predicted_30days.csv',                label: '30-Day Env Forecast',     desc: 'Full 30-day predicted environmental conditions + event scores' },
-    { name: 'spike_summary.csv',                   label: 'Risk Spike Summary',       desc: 'High-risk event days with wave height, wind speed and drivers' },
-    { name: 'env_conditions.json',                 label: 'Env Conditions (JSON)',    desc: 'Seasonal mean environmental conditions for the forecast date' },
-    { name: 'final_training_dataset.csv',          label: 'Training Dataset',         desc: 'Merged ERA5 + CMEMS + shoreline dataset' },
-    { name: 'final_era5_cmems_daily_features.csv', label: 'ERA5 + CMEMS Features',   desc: 'Full historical daily environmental features' },
+    { name: 'predicted_30days.csv',                label: '30-Day Env Forecast',   desc: 'Full 30-day predicted environmental conditions + event scores' },
+    { name: 'spike_summary.csv',                   label: 'Risk Spike Summary',     desc: 'High-risk event days with wave height, wind speed and drivers' },
+    { name: 'env_conditions.json',                 label: 'Env Conditions (JSON)',  desc: 'Seasonal mean environmental conditions for the forecast date' },
+    { name: 'final_training_dataset.csv',          label: 'Training Dataset',       desc: 'Merged ERA5 + CMEMS + shoreline dataset' },
+    { name: 'final_era5_cmems_daily_features.csv', label: 'ERA5 + CMEMS Features', desc: 'Full historical daily environmental features' },
   ]
 
   const tabs = [
-    { id: 'charts',   label: 'Visualizations',   icon: <BarChart2 size={15} />, count: chartOutputs.length },
-    { id: 'kml',      label: 'KML Maps',          icon: <Map size={15} />,       count: kmlOutputs.length },
-    { id: 'metrics',  label: 'Model Metrics',     icon: <CheckCircle size={15} />, count: null },
-    { id: 'details',  label: 'Analysis Tables',   icon: <FileText size={15} />,  count: filteredHtmlOutputs.length },
-    { id: 'datasets', label: 'Data Downloads',    icon: <Download size={15} />,  count: DATASET_FILES.length },
+    { id: 'charts',   label: 'Visualizations',  icon: <BarChart2 size={15} />,    count: chartOutputs.length },
+    { id: 'kml',      label: 'KML Maps',         icon: <Map size={15} />,          count: kmlOutputs.length },
+    { id: 'metrics',  label: 'Model Metrics',    icon: <CheckCircle size={15} />,  count: null },
+    { id: 'details',  label: 'Analysis Tables',  icon: <FileText size={15} />,     count: filteredHtmlOutputs.length },
+    { id: 'datasets', label: 'Data Downloads',   icon: <Download size={15} />,     count: DATASET_FILES.length },
   ]
 
   return (
     <div className="rp-root">
       {lightbox && <Lightbox src={lightbox} onClose={() => setLightbox(null)} />}
 
-      <div className="rp-header">
-        <button className="pp-back" onClick={onBack}>← Back to Dashboard</button>
-        <div className="rp-header-content">
-          <div className="rp-header-left">
-            <div className="rp-success-badge"><CheckCircle size={18} /> Forecast Complete</div>
-            <h1 className="rp-title">Shoreline Forecast Results</h1>
-            <p className="rp-subtitle">
-              Target date: <strong>{forecastDate || '—'}</strong> &nbsp;·&nbsp; Generated on {new Date(data.generatedAt).toLocaleString()}
-            </p>
+      {/* ── NEW: Results wave banner replacing plain rp-header title ── */}
+      <div className="rp-results-banner">
+        <ResultsWaveCanvas />
+        <div className="rp-results-banner-content">
+          <div className="rp-results-banner-tag">
+            <CheckCircle size={14} /> ANALYSIS COMPLETE
           </div>
+          <h1 className="rp-results-banner-title">Shoreline Forecast Results</h1>
+          <p className="rp-results-banner-sub">
+            Target: <strong>{forecastDate || '—'}</strong> &nbsp;·&nbsp; Generated {new Date(data.generatedAt).toLocaleString()}
+          </p>
+        </div>
+        <div className="rp-results-banner-actions">
+          <button className="pp-back rp-back-btn" onClick={onBack}>← Dashboard</button>
           <button className="rp-run-again" onClick={onBack}>
             <RefreshCw size={16} /> New Forecast
           </button>
         </div>
+      </div>
+
+      {/* Metric strip */}
+      <div className="rp-header">
         <MetricStrip text={allText} />
       </div>
 
@@ -415,6 +626,7 @@ function ResultsPage({ data, onBack, loading, error, downloadFile, forecastDate,
       </div>
 
       <div className="rp-body">
+
         {activeTab === 'charts' && (
           <div className="rp-charts-section">
             {chartOutputs.length === 0
@@ -435,7 +647,8 @@ function ResultsPage({ data, onBack, loading, error, downloadFile, forecastDate,
               : <>
                   <p className="rp-kml-intro">
                     KML files contain georeferenced shoreline data with risk zones, hotspot pins and erosion bands.
-                    Download any file and open in <strong>Google Earth Pro</strong> for full satellite imagery.
+                    The interactive preview below uses live satellite imagery.
+                    Download any file and open in <strong>Google Earth Pro</strong> for full 3D terrain.
                   </p>
 
                   {currentKmlsFinal.length > 0 && (
@@ -444,74 +657,9 @@ function ResultsPage({ data, onBack, loading, error, downloadFile, forecastDate,
                         <span className="rp-kml-section-dot current" /> This Forecast Run — {forecastDate}
                       </div>
 
+                      {/* WOW KML — single card, header rendered by KmlViewer */}
                       {wowKml && (
-                        <div className="rp-wow-map-card">
-                          <div className="rp-wow-map-header">
-                            <div className="rp-wow-map-title">
-                              <Map size={16} />
-                              <span>WOW Risk Map — Interactive Preview</span>
-                              <span className="rp-kml-badge risk">RISK ZONES</span>
-                            </div>
-                            <div className="rp-wow-map-controls">
-                              <button onClick={() => setMapZoom(z => Math.min(4, z + 0.3))} className="rp-zoom-btn" title="Zoom in">+</button>
-                              <span className="rp-zoom-label">{Math.round(mapZoom * 100)}%</span>
-                              <button onClick={() => setMapZoom(z => Math.max(0.5, z - 0.3))} className="rp-zoom-btn" title="Zoom out">−</button>
-                              <button onClick={() => { setMapZoom(1); setMapPan({ x: 0, y: 0 }) }} className="rp-zoom-btn reset" title="Reset">⊙</button>
-                              <button className="rp-kml-dl-btn" onClick={() => downloadFile(wowKml.filename)}>
-                                <Download size={13} /> Download KML
-                              </button>
-                            </div>
-                          </div>
-
-                          <div
-                            ref={mapRef}
-                            className="rp-wow-map-viewport"
-                            onMouseDown={onMapMouseDown}
-                            onMouseMove={onMapMouseMove}
-                            onMouseUp={onMapMouseUp}
-                            onMouseLeave={onMapMouseUp}
-                            onWheel={onMapWheel}
-                            style={{ cursor: isPanning ? 'grabbing' : 'grab' }}
-                          >
-                            <div className="rp-wow-map-scene" style={{
-                              transform: `translate(${mapPan.x}px, ${mapPan.y}px) scale(${mapZoom})`,
-                              transformOrigin: 'center center',
-                            }}>
-                              <div className="rp-wow-bg" />
-                              <div className="rp-wow-ocean" />
-                              <div className="rp-wow-land" />
-                              <div className="rp-wow-beach" />
-                              <div className="rp-wow-road" />
-                              <div className="rp-wow-line white-line" />
-                              <div className="rp-wow-line red-line" />
-                              <div className="rp-wow-risk-band" />
-                              {[
-                                { top: '22%', left: '46%', label: 'Hotspot #1: HIGH', val: '-20.59 m' },
-                                { top: '29%', left: '48%', label: 'Hotspot #2: HIGH', val: '-20.21 m' },
-                                { top: '40%', left: '50%', label: 'Hotspot #3: HIGH', val: '-19.77 m' },
-                                { top: '33%', left: '44%', label: 'Hotspot #4: HIGH', val: '-19.01 m' },
-                                { top: '48%', left: '52%', label: 'Hotspot #5: HIGH', val: '-18.96 m' },
-                                { top: '36%', left: '49%', label: 'Hotspot #6: HIGH', val: '-18.93 m' },
-                              ].map((h, i) => (
-                                <div key={i} className="rp-wow-hotspot" style={{ top: h.top, left: h.left }}>
-                                  <div className="rp-wow-pin" />
-                                  <div className="rp-wow-pin-label">{h.label} ({h.val})</div>
-                                </div>
-                              ))}
-                              <div className="rp-wow-legend">
-                                <div><span className="rp-leg-line white" /> Current Shoreline (Reference)</div>
-                                <div><span className="rp-leg-line red" /> Forecast Shoreline</div>
-                                <div><span className="rp-leg-band" /> HIGH Risk Zone</div>
-                                <div><span className="rp-wow-pin-tiny" /> Erosion Hotspot</div>
-                              </div>
-                              <div className="rp-wow-compass">N ↑</div>
-                              <div className="rp-wow-watermark">SL Coastal Forecasting</div>
-                            </div>
-                          </div>
-                          <div className="rp-wow-map-hint">
-                            🖱 Scroll to zoom · Click and drag to pan · Download for full Google Earth experience
-                          </div>
-                        </div>
+                        <KmlViewer file={wowKml} onDownload={downloadFile} />
                       )}
 
                       {forecastOnlyKml && (
@@ -598,12 +746,13 @@ function ResultsPage({ data, onBack, loading, error, downloadFile, forecastDate,
             </div>
           </div>
         )}
+
       </div>
     </div>
   )
 }
 
-// Main Dashboard Component
+// ── MAIN DASHBOARD ──
 export default function STDashboard() {
   const [page, setPage]             = useState(PAGES.LANDING)
   const [results, setResults]       = useState(null)
@@ -611,11 +760,12 @@ export default function STDashboard() {
   const [error, setError]           = useState('')
   const [riskData, setRiskData]     = useState(null)
   const [forecastDate, setForecastDate] = useState('')
-  const [runMode, setRunMode] = useState('full')
+  const [runMode, setRunMode]       = useState('full')
 
   useEffect(() => {
     const loadRiskData = async () => {
       try {
+        // ✅ Preserved: shortterm API path
         const res = await fetch(`${API_BASE}/api/shortterm/latest-risk-data`)
         if (res.ok) setRiskData(await res.json())
       } catch (_) { /* ignore */ }
@@ -632,6 +782,7 @@ export default function STDashboard() {
     setRunMode(mode || 'full')
     setPage(PAGES.RESULTS)
     try {
+      // ✅ Preserved: shortterm API path
       const res = await fetch(`${API_BASE}/api/shortterm/run`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -644,6 +795,7 @@ export default function STDashboard() {
       const data = await res.json()
       setResults(data)
       try {
+        // ✅ Preserved: shortterm API path
         const r = await fetch(`${API_BASE}/api/shortterm/latest-risk-data`)
         if (r.ok) setRiskData(await r.json())
       } catch (_) { /* ignore */ }
@@ -655,6 +807,7 @@ export default function STDashboard() {
   }, [])
 
   const handleDownloadFile = useCallback((filename) => {
+    // ✅ Preserved: shortterm download path
     window.open(`${API_BASE}/api/shortterm/download/${encodeURIComponent(filename)}`, '_blank')
   }, [])
 
