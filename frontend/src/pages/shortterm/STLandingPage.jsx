@@ -436,20 +436,32 @@ function SpikeChart({ days }) {
             if (!isSpike) return null
             return (
               <g key={i} filter="url(#stGlowRed)">
-                <circle cx={xScale(i)} cy={yR(scores[i])} r="14" fill="rgba(248,113,113,0.08)" stroke="rgba(248,113,113,0.35)" strokeWidth="1.5" />
-                <circle cx={xScale(i)} cy={yR(scores[i])} r="5.5" fill={RED} stroke="rgba(6,20,60,0.95)" strokeWidth="2" />
-                <line x1={xScale(i)} y1={PAD.t + 4} x2={xScale(i)} y2={yR(scores[i]) - 16} stroke="rgba(248,113,113,0.3)" strokeWidth="1" strokeDasharray="3 2" />
-                <text x={xScale(i)} y={yR(scores[i]) - 20} fontSize="9" fill={RED} textAnchor="middle" fontWeight="bold" fontFamily="'IBM Plex Mono', monospace">⚡ Day {d.day ?? i + 1}</text>
+                <circle cx={xScale(i)} cy={yR(scores[i])} r="14"
+                  fill="rgba(248,113,113,0.08)" stroke="rgba(248,113,113,0.35)" strokeWidth="1.5" />
+                <circle cx={xScale(i)} cy={yR(scores[i])} r="5.5" fill={RED}
+                  stroke="rgba(6,20,60,0.95)" strokeWidth="2" />
+                <line x1={xScale(i)} y1={PAD.t + 4} x2={xScale(i)} y2={yR(scores[i]) - 16}
+                  stroke="rgba(248,113,113,0.3)" strokeWidth="1" strokeDasharray="3 2" />
+                <text x={xScale(i)} y={yR(scores[i]) - 20} fontSize="9" fill={RED}
+                  textAnchor="middle" fontWeight="bold" fontFamily="'IBM Plex Mono', monospace">
+                  ⚡ Day {d.day ?? i + 1}
+                </text>
               </g>
             )
           })}
 
           {days.map((d, i) => (
-            <rect key={i} x={xScale(i) - (CW / n) * 0.5} y={PAD.t} width={CW / n} height={CH} fill="transparent" onMouseEnter={() => setTooltip({ d, i })} />
+            <rect key={i}
+              x={xScale(i) - (CW / n) * 0.5} y={PAD.t}
+              width={CW / n} height={CH}
+              fill="transparent"
+              onMouseEnter={() => setTooltip({ d, i })}
+            />
           ))}
         </g>
 
-        <rect x={PAD.l} y={PAD.t} width={CW} height={CH} fill="none" stroke="rgba(96,165,250,0.15)" strokeWidth="1" rx="2" />
+        <rect x={PAD.l} y={PAD.t} width={CW} height={CH}
+          fill="none" stroke="rgba(96,165,250,0.15)" strokeWidth="1" rx="2" />
 
         {tooltip && (() => {
           const { d, i } = tooltip
@@ -457,11 +469,20 @@ function SpikeChart({ days }) {
           const ty = Math.max(yL(waves[i]) - 76, PAD.t + 4)
           return (
             <g>
-              <line x1={xScale(i)} y1={PAD.t} x2={xScale(i)} y2={PAD.t + CH} stroke="rgba(56,189,248,0.3)" strokeWidth="1.5" strokeDasharray="4 3" />
-              <rect x={tx - 80} y={ty} width="160" height="68" rx="10" fill="rgba(6,20,60,0.97)" stroke="rgba(56,189,248,0.4)" strokeWidth="1.5" style={{ filter: 'drop-shadow(0 6px 20px rgba(6,20,60,0.6))' }} />
-              <text x={tx} y={ty + 18} fontSize="11" fill={BLUE} textAnchor="middle" fontWeight="bold" fontFamily="'IBM Plex Mono', monospace">Day {d.day ?? i + 1}{d.date ? ` · ${d.date}` : ''}</text>
-              <text x={tx} y={ty + 36} fontSize="10.5" fill="#93c5fd" textAnchor="middle" fontFamily="'IBM Plex Mono', monospace">Wave: {Number(d.waveHeight ?? 0).toFixed(2)}m  Wind: {Number(d.windSpeed ?? 0).toFixed(2)}m/s</text>
-              <text x={tx} y={ty + 54} fontSize="10.5" fill={ORANGE} textAnchor="middle" fontFamily="'IBM Plex Mono', monospace">Score: {Number(d.eventScore ?? 0).toFixed(2)}{d.isSpike ? '  ⚡ SPIKE' : ''}</text>
+              <line x1={xScale(i)} y1={PAD.t} x2={xScale(i)} y2={PAD.t + CH}
+                stroke="rgba(56,189,248,0.3)" strokeWidth="1.5" strokeDasharray="4 3" />
+              <rect x={tx - 80} y={ty} width="160" height="68" rx="10"
+                fill="rgba(6,20,60,0.97)" stroke="rgba(56,189,248,0.4)" strokeWidth="1.5"
+                style={{ filter: 'drop-shadow(0 6px 20px rgba(6,20,60,0.6))' }} />
+              <text x={tx} y={ty + 18} fontSize="11" fill={BLUE} textAnchor="middle" fontWeight="bold" fontFamily="'IBM Plex Mono', monospace">
+                Day {d.day ?? i + 1}{d.date ? ` · ${d.date}` : ''}
+              </text>
+              <text x={tx} y={ty + 36} fontSize="10.5" fill="#93c5fd" textAnchor="middle" fontFamily="'IBM Plex Mono', monospace">
+                Wave: {Number(d.waveHeight ?? 0).toFixed(2)}m  Wind: {Number(d.windSpeed ?? 0).toFixed(2)}m/s
+              </text>
+              <text x={tx} y={ty + 54} fontSize="10.5" fill={ORANGE} textAnchor="middle" fontFamily="'IBM Plex Mono', monospace">
+                Score: {Number(d.eventScore ?? 0).toFixed(2)}{d.isSpike ? '  ⚡ SPIKE' : ''}
+              </text>
             </g>
           )
         })()}
