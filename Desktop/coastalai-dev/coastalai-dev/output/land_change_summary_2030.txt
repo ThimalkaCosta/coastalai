@@ -1,0 +1,8 @@
+Land Change Analysis: 2025-07-30 -> 2030
+Model: Ensemble
+==================================================
+Total Land Loss:  987.31 m2 (0.0987 ha)
+Total Land Gain:  2,525.72 m2 (0.2526 ha)
+Net Change:       1,538.41 m2 GAIN (0.1538 ha)
+Erosion Segments: 23/49
+Accretion Segments: 26/49
