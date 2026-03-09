@@ -2712,3 +2712,75 @@
 
   .rp-results-banner-title { font-size: 22px; }
 }
+
+/* ══════════════════════════════════════════════════
+   NEW UI ADDITIONS — 2×2 Charts Grid + Transect History Card
+   Add these rules at the END of shortterm.css
+   ══════════════════════════════════════════════════ */
+
+/* 2×2 fixed grid for Visualizations tab */
+.rp-charts-grid-2x2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 22px;
+}
+
+@media (max-width: 960px) {
+  .rp-charts-grid-2x2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Transect history card — 3 images side by side inside the card */
+.rp-transect-grid {
+  display: flex;
+  gap: 0;
+  padding: 16px;
+  background: var(--bg2);
+}
+
+.rp-transect-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 0 8px;
+  border-right: 1px solid var(--border);
+}
+
+.rp-transect-item:last-child {
+  border-right: none;
+}
+
+.rp-transect-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 8px;
+  cursor: zoom-in;
+  transition: transform 0.25s, box-shadow 0.25s;
+  box-shadow: var(--shadow-sm);
+}
+
+.rp-transect-img:hover {
+  transform: scale(1.03);
+  box-shadow: var(--shadow);
+}
+
+.rp-transect-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--navy);
+  letter-spacing: 0.05em;
+}
+
+.rp-transect-sub {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text3);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-top: -4px;
+}
