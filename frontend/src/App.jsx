@@ -21,6 +21,7 @@ import UserManagementPage from './pages/UserManagementPage'
 import UnauthorizedPage from './pages/UnauthorizedPage'
 import ShortTermForecastPage from './pages/ShortTermForecastPage'
 import LongTermForecastPage from './pages/LongTermForecastPage'
+import MorphLandingPage from './pages/morphological/MorphLandingPage'
 import MorphOverviewPage from './pages/morphological/MorphOverviewPage'
 import MorphErosionPage from './pages/morphological/MorphErosionPage'
 import MorphVulnerabilityPage from './pages/morphological/MorphVulnerabilityPage'
@@ -141,7 +142,8 @@ function App() {
           <MorphDataProvider>
             <AnimatePresence mode="wait">
               <Routes>
-                <Route path="/morphological" element={<ProtectedRoute><MorphOverviewPage /></ProtectedRoute>} />
+                <Route path="/morphological" element={<ProtectedRoute><MorphLandingPage /></ProtectedRoute>} />
+                <Route path="/morphological/overview" element={<ProtectedRoute><MorphOverviewPage /></ProtectedRoute>} />
                 <Route path="/morphological/erosion" element={<ProtectedRoute><MorphErosionPage /></ProtectedRoute>} />
                 <Route path="/morphological/vulnerability" element={<ProtectedRoute><MorphVulnerabilityPage /></ProtectedRoute>} />
                 <Route path="/morphological/shoreline" element={<ProtectedRoute><MorphShorelinePage /></ProtectedRoute>} />

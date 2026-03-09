@@ -248,3 +248,136 @@
 :focus-visible {
   @apply outline-2 outline-offset-2 outline-ocean-500;
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   Morphological Landing Page — full viewport immersive theme
+   Applied via useEffect: document.body.classList.add('morph-landing-active')
+   ═══════════════════════════════════════════════════════════════ */
+
+/* 1. Full-viewport coastal background (fixed = stays still, covers navbar + sidebar) */
+body.morph-landing-active {
+  background-image: url('/Coastal_thima.png') !important;
+  background-size: cover !important;
+  background-position: center 30% !important;
+  background-attachment: fixed !important;
+  background-color: #040c28 !important;
+}
+
+/* 2. Page wrapper — transparent so body background shows through */
+body.morph-landing-active .mt-forecast-wrapper {
+  background: transparent !important;
+}
+
+/* 3. Navbar — dark glass instead of white */
+body.morph-landing-active nav > div,
+body.morph-landing-active nav .max-w-\[1500px\] {
+  background: rgba(4, 12, 40, 0.55) !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  backdrop-filter: blur(24px) saturate(1.5) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(1.5) !important;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.35) !important;
+}
+
+/* Navbar link text */
+body.morph-landing-active nav a {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+body.morph-landing-active nav a:hover {
+  color: #ffffff !important;
+  background: rgba(255,255,255,0.08) !important;
+}
+/* Active nav link */
+body.morph-landing-active nav a[class*="text-ocean"] {
+  color: #60a5fa !important;
+  background: rgba(96, 165, 250, 0.12) !important;
+}
+/* CoastalAI brand text in navbar */
+body.morph-landing-active nav span[class*="text-ocean"] {
+  color: #60a5fa !important;
+}
+body.morph-landing-active nav span[class*="text-coastal"] {
+  color: rgba(255,255,255,0.9) !important;
+}
+
+/* 4. Morph Sidebar desktop — dark glass */
+body.morph-landing-active aside > div {
+  background: rgba(4, 12, 40, 0.60) !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  backdrop-filter: blur(24px) saturate(1.5) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(1.5) !important;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.4) !important;
+}
+
+/* Sidebar text: all dimmed coastal colours → white tones */
+body.morph-landing-active aside * {
+  --tw-text-opacity: 1;
+  border-color: rgba(255,255,255,0.08) !important;
+}
+body.morph-landing-active aside p,
+body.morph-landing-active aside span {
+  color: rgba(255, 255, 255, 0.65);
+}
+body.morph-landing-active aside a {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+body.morph-landing-active aside a:hover {
+  background: rgba(255,255,255,0.08) !important;
+  color: rgba(255,255,255,0.95) !important;
+}
+/* Active sidebar link */
+body.morph-landing-active aside a[class*="text-ocean"] {
+  color: #93c5fd !important;
+  background: rgba(96,165,250,0.15) !important;
+}
+/* Sidebar icon containers */
+body.morph-landing-active aside [class*="bg-coastal"] {
+  background: rgba(255,255,255,0.10) !important;
+}
+body.morph-landing-active aside [class*="bg-ocean"] {
+  background: rgba(96,165,250,0.18) !important;
+}
+/* Sidebar dividers */
+body.morph-landing-active aside [class*="via-coastal"] {
+  background-image: linear-gradient(to right, transparent, rgba(255,255,255,0.15), transparent) !important;
+}
+/* Sidebar user section bottom card */
+body.morph-landing-active aside [class*="from-coastal"] {
+  background: rgba(255,255,255,0.06) !important;
+}
+/* MENU label + other dim text */
+body.morph-landing-active aside [class*="text-coastal-400"],
+body.morph-landing-active aside [class*="text-coastal-500"],
+body.morph-landing-active aside [class*="text-coastal-600"] {
+  color: rgba(255,255,255,0.5) !important;
+}
+body.morph-landing-active aside [class*="text-coastal-900"],
+body.morph-landing-active aside [class*="text-coastal-800"] {
+  color: rgba(255,255,255,0.9) !important;
+}
+/* Sign out button */
+body.morph-landing-active aside button {
+  color: rgba(255,255,255,0.6) !important;
+}
+body.morph-landing-active aside button:hover {
+  background: rgba(239,68,68,0.15) !important;
+  color: rgb(252,165,165) !important;
+}
+
+/* 4. Active nav indicator bar (the left blue stripe) stays visible */
+body.morph-landing-active aside [class*="from-ocean-500"] {
+  background: linear-gradient(to bottom, #60a5fa, #818cf8) !important;
+}
+
+/* 5. Role badge chips in sidebar — keep readable */
+body.morph-landing-active aside [class*="bg-violet"] {
+  background: rgba(139,92,246,0.25) !important;
+  color: #c4b5fd !important;
+}
+body.morph-landing-active aside [class*="bg-blue"] {
+  background: rgba(59,130,246,0.25) !important;
+  color: #93c5fd !important;
+}
+body.morph-landing-active aside [class*="bg-emerald"] {
+  background: rgba(16,185,129,0.25) !important;
+  color: #6ee7b7 !important;
+}

@@ -12,6 +12,7 @@ import {
   X,
   Sparkles,
   Play,
+  Layers,
 } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 
@@ -23,6 +24,7 @@ const ROLE_BADGE = {
 
 const navigation = [
   { name: 'Dashboard', href: '/morphological', icon: BarChart2 },
+  { name: 'Overview', href: '/morphological/overview', icon: Layers },
   { name: 'Erosion Analysis', href: '/morphological/erosion', icon: Activity },
   { name: 'Vulnerability', href: '/morphological/vulnerability', icon: Mountain },
   { name: 'Shoreline', href: '/morphological/shoreline', icon: Waves },

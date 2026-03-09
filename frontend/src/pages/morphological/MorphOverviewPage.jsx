@@ -53,20 +53,23 @@ export default function MorphOverviewPage() {
   const { hmm, cvi, bmsi, shoreline, setback, dataRange } = results
 
   return (
-    <div className="mt-forecast-wrapper"><div className="mt-root">
-      <header className="mt-header">
-        <div className="mt-header-top">
+    <div className="mt-forecast-wrapper"><div className="mt-root mt-root-overview">
+      {/* Hero Background Section */}
+      <div className="mt-hero">
+        <div className="mt-hero-bg" style={{ backgroundImage: 'url(/Coastal_thima.png)' }} />
+        <div className="mt-hero-overlay" />
+        <div className="mt-hero-content">
           <div>
-            <h1 className="mt-title">Overview</h1>
-            <p className="mt-subtitle">Summary of all morphological analysis results</p>
+            <h1 className="mt-hero-title">Overview</h1>
+            <p className="mt-hero-subtitle">Summary of all morphological analysis results</p>
           </div>
-          <button className="mt-run-btn" onClick={runAnalysis} disabled={loading}>
+          <button className="mt-run-btn mt-run-btn-hero" onClick={runAnalysis} disabled={loading}>
             {loading ? <Loader2 size={16} className="mt-spin" /> : <Play size={16} />}
             {loading ? 'Running…' : 'Re-run Analysis'}
           </button>
         </div>
-        {error && <div className="mt-error"><AlertTriangle size={16} /> {error}</div>}
-      </header>
+      </div>
+      {error && <div className="mt-error"><AlertTriangle size={16} /> {error}</div>}
 
       <div className="mt-section">
         <div className="mt-cards-grid">

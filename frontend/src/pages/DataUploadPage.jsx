@@ -84,6 +84,9 @@ export default function DataUploadPage() {
     runAnalysis,
     analysisRunning,
     analysisStatus,
+    analysisComplete,
+    setAnalysisComplete,
+    progressStep,
     backendAvailable,
     clearAnalysis,
     error: contextError,
@@ -91,11 +94,7 @@ export default function DataUploadPage() {
 
   const navigate = useNavigate()
   const [showSuccess, setShowSuccess] = useState(false)
-  const [analysisComplete, setAnalysisComplete] = useState(false)
   const [localError, setLocalError] = useState(null)
-
-  // Simulated step progress while the analysis is running
-  const [progressStep, setProgressStep] = useState(0)
 
   const handleUpload = async (sectionId, file) => {
     try {
@@ -114,8 +113,6 @@ export default function DataUploadPage() {
   // ── Execute Analysis via Backend API ──
   const handleExecuteAnalysis = async () => {
     setLocalError(null)
-    setAnalysisComplete(false)
-    setProgressStep(0)
 
     if (!backendAvailable) {
       setLocalError(
@@ -124,19 +121,9 @@ export default function DataUploadPage() {
       return
     }
 
-    // Advance the fake progress indicator while notebook runs
-    const stepInterval = setInterval(() => {
-      setProgressStep((prev) => Math.min(prev + 1, PROGRESS_STEPS.length - 1))
-    }, 18_000) // advance every 18 s (9 steps × ~18s ≈ ~2.5 min typical run)
-
     try {
-      const result = await runAnalysis()
-      clearInterval(stepInterval)
-      if (result) {
-        setAnalysisComplete(true)
-      }
+      await runAnalysis()
     } catch (err) {
-      clearInterval(stepInterval)
       setLocalError(err.message || 'Analysis execution failed')
     }
   }

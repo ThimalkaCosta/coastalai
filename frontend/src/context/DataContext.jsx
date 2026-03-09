@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useCallback, useEffect } from 'react'
+import { createContext, useContext, useState, useCallback, useEffect, useRef } from 'react'
 import Papa from 'papaparse'
 import api from '../api'
 
@@ -142,6 +142,11 @@ export function DataProvider({ children }) {
   const [analysisStatus, setAnalysisStatus] = useState(null) // string message
   const [backendAvailable, setBackendAvailable] = useState(null) // null = unknown
 
+  // Progress tracking (persists across navigation)
+  const [progressStep, setProgressStep] = useState(0)
+  const [analysisComplete, setAnalysisComplete] = useState(false)
+  const progressIntervalRef = useRef(null)
+
   // ── Check backend availability on mount ──
   useEffect(() => {
     api.health().then(setBackendAvailable)
@@ -205,22 +210,37 @@ export function DataProvider({ children }) {
     }
 
     setAnalysisRunning(true)
+    setAnalysisComplete(false)
+    setProgressStep(0)
     setAnalysisStatus('Uploading files to server…')
     setError(null)
+
+    // Advance progress step every 18s (9 steps × ~18s ≈ ~2.5 min typical)
+    if (progressIntervalRef.current) clearInterval(progressIntervalRef.current)
+    progressIntervalRef.current = setInterval(() => {
+      setProgressStep((prev) => Math.min(prev + 1, 8)) // 0-8 for 9 steps
+    }, 18_000)
 
     try {
       setAnalysisStatus('Executing analysis notebook – this may take several minutes…')
       const analysisData = await api.analyze(filesToUse)
+
+      clearInterval(progressIntervalRef.current)
+      progressIntervalRef.current = null
+      setProgressStep(8) // mark all steps done
 
       setAnalysisStatus('Processing results…')
       const normalised = normaliseAnalysisData(analysisData)
       setData(normalised)
       setDataLoaded(true)
       setAnalysisStatus('Analysis complete!')
+      setAnalysisComplete(true)
 
       console.log('✓ Dynamic analysis completed successfully')
       return analysisData
     } catch (err) {
+      clearInterval(progressIntervalRef.current)
+      progressIntervalRef.current = null
       console.error('Analysis failed:', err)
       setError(`Analysis failed: ${err.message}`)
       setAnalysisStatus(null)
@@ -369,6 +389,9 @@ export function DataProvider({ children }) {
     runAnalysis,
     analysisRunning,
     analysisStatus,
+    analysisComplete,
+    setAnalysisComplete,
+    progressStep,
     backendAvailable,
   }
 
