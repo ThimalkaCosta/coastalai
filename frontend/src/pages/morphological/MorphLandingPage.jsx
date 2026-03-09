@@ -149,16 +149,17 @@ export default function MorphLandingPage() {
 
   return (
     <div className="mt-forecast-wrapper">
+      {/* Fixed viewport background — shows through navbar & sidebar glass */}
+      <div className="ml-fullscreen-bg" style={{ backgroundImage: 'url(/Coastal_thima.png)' }} />
+      <div className="ml-fullscreen-overlay" />
+      <div className="ml-fullscreen-grid" />
+
       <div className="ml-page">
 
         {/* ══════════════════════════════════════════════
             HERO
         ══════════════════════════════════════════════ */}
         <div className="ml-hero">
-          {/* Background layers scoped to hero */}
-          <div className="ml-hero-bg" style={{ backgroundImage: 'url(/Coastal_thima.png)' }} />
-          <div className="ml-hero-overlay" />
-          <div className="ml-hero-grid" />
           <div className="ml-hero-body">
             {/* eyebrow badge */}
             <motion.div
@@ -240,6 +241,9 @@ export default function MorphLandingPage() {
             <ChevronRight size={22} style={{ transform: 'rotate(90deg)' }} />
           </motion.div>
         </div>
+
+        {/* White container for everything below the hero */}
+        <div className="ml-below-hero">
 
         {/* ══════════════════════════════════════════════
             SECTION HEADER
@@ -378,6 +382,8 @@ export default function MorphLandingPage() {
             </div>
           </div>
         </motion.div>
+
+        </div>{/* end ml-below-hero */}
 
       </div>
     </div>

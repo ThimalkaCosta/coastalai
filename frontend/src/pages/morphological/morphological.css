@@ -552,14 +552,13 @@
   z-index: 1;
   max-width: 1440px;
   margin: 0 auto;
-  background: #ffffff;
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   Hero background layers (scoped to hero only)
+   Fixed viewport background (bleeds behind navbar & sidebar)
    ═══════════════════════════════════════════════════════════════ */
-.ml-hero-bg {
-  position: absolute;
+.ml-fullscreen-bg {
+  position: fixed;
   inset: 0;
   z-index: 0;
   background-size: cover;
@@ -569,25 +568,25 @@
   transition: transform 12s ease;
   pointer-events: none;
 }
-.ml-hero:hover .ml-hero-bg {
+.mt-forecast-wrapper:hover .ml-fullscreen-bg {
   transform: scale(1.0);
 }
 
-.ml-hero-overlay {
-  position: absolute;
+.ml-fullscreen-overlay {
+  position: fixed;
   inset: 0;
   z-index: 0;
   background: linear-gradient(
     135deg,
-    rgba(4, 12, 40, 0.92) 0%,
-    rgba(8, 22, 64, 0.78) 40%,
-    rgba(4, 12, 40, 0.55) 100%
+    rgba(4, 12, 40, 0.82) 0%,
+    rgba(8, 22, 64, 0.65) 40%,
+    rgba(4, 12, 40, 0.45) 100%
   );
   pointer-events: none;
 }
 
-.ml-hero-grid {
-  position: absolute;
+.ml-fullscreen-grid {
+  position: fixed;
   inset: 0;
   z-index: 0;
   background-image:
@@ -597,7 +596,7 @@
   pointer-events: none;
 }
 
-/* ── Hero (now uses scoped bg) ── */
+/* ── Hero ── */
 .ml-hero {
   position: relative;
   min-height: 620px;
@@ -746,6 +745,13 @@
   transform: translateX(-50%);
   z-index: 3;
   color: rgba(255,255,255,0.35);
+}
+
+/* ── White container for sections below hero ── */
+.ml-below-hero {
+  background: #ffffff;
+  position: relative;
+  z-index: 1;
 }
 
 /* ── Section intro ── */
