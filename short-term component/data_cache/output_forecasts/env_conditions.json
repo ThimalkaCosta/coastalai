@@ -1,0 +1,58 @@
+[
+  {
+    "variable": "wind_speed",
+    "mean": 0.9831,
+    "std": 0.6176,
+    "unit": "m/s",
+    "label": "Wind Speed"
+  },
+  {
+    "variable": "fg10",
+    "mean": 4.0433,
+    "std": 0.6122,
+    "unit": "m/s",
+    "label": "Wind Gust"
+  },
+  {
+    "variable": "msl",
+    "mean": 101099.0252,
+    "std": 141.9786,
+    "unit": "Pa",
+    "label": "Sea Level Pressure"
+  },
+  {
+    "variable": "tp",
+    "mean": 0.0002,
+    "std": 0.0002,
+    "unit": "m/day",
+    "label": "Total Precipitation"
+  },
+  {
+    "variable": "vhm0",
+    "mean": 0.7188,
+    "std": 0.109,
+    "unit": "m",
+    "label": "Sig. Wave Height"
+  },
+  {
+    "variable": "vtpk",
+    "mean": 13.4675,
+    "std": 1.7797,
+    "unit": "s",
+    "label": "Wave Peak Period"
+  },
+  {
+    "variable": "vmdr",
+    "mean": 193.3045,
+    "std": 11.6909,
+    "unit": "\u00b0",
+    "label": "Wave Direction"
+  },
+  {
+    "variable": "wave_energy",
+    "mean": 0.5284,
+    "std": 0.1708,
+    "unit": "m\u00b2",
+    "label": "Wave Energy Proxy"
+  }
+]

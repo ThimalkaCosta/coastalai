@@ -213,5 +213,5 @@ frontend/node_modules/
 # Short-term component artifacts
 short-term component/node_modules/
 short-term component/.venv/
-short-term component/data_cache/
+#short-term component/data_cache/
 
