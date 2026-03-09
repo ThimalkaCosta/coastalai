@@ -1283,7 +1283,7 @@
       "UcurrMean": 0.17480720579624176,
       "CumCurrent": 5.244215965270996,
       "Erosion_Label": 0,
-      "HMM_State": 4
+      "HMM_State": 1
     },
     {
       "monsoon_year": 2000,
@@ -1298,7 +1298,7 @@
       "UcurrMean": 0.1305227428674698,
       "CumCurrent": 4.046205043792725,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2000,
@@ -1313,7 +1313,7 @@
       "UcurrMean": 0.20804330706596375,
       "CumCurrent": 6.241299152374268,
       "Erosion_Label": 0,
-      "HMM_State": 2
+      "HMM_State": 1
     },
     {
       "monsoon_year": 2000,
@@ -1328,7 +1328,7 @@
       "UcurrMean": 0.1777348816394806,
       "CumCurrent": 5.509781360626221,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2000,
@@ -1343,7 +1343,7 @@
       "UcurrMean": 0.1837507039308548,
       "CumCurrent": 5.696271896362305,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2000,
@@ -1358,7 +1358,7 @@
       "UcurrMean": 0.22240033745765686,
       "CumCurrent": 6.6720099449157715,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2000,
@@ -1373,7 +1373,7 @@
       "UcurrMean": 0.12505900859832764,
       "CumCurrent": 3.8768293857574463,
       "Erosion_Label": 0,
-      "HMM_State": 6
+      "HMM_State": 3
     },
     {
       "monsoon_year": 2000,
@@ -1388,7 +1388,7 @@
       "UcurrMean": 0.2161572128534317,
       "CumCurrent": 6.484716415405273,
       "Erosion_Label": 0,
-      "HMM_State": 5
+      "HMM_State": 3
     },
     {
       "monsoon_year": 2000,
@@ -1403,7 +1403,7 @@
       "UcurrMean": 0.1471870094537735,
       "CumCurrent": 4.5627970695495605,
       "Erosion_Label": 0,
-      "HMM_State": 0
+      "HMM_State": 4
     },
     {
       "monsoon_year": 2000,
@@ -1418,7 +1418,7 @@
       "UcurrMean": 0.11268392950296402,
       "CumCurrent": 3.493201732635498,
       "Erosion_Label": 0,
-      "HMM_State": 4
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2000,
@@ -1448,7 +1448,7 @@
       "UcurrMean": 0.09836956858634949,
       "CumCurrent": 3.0494565963745117,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2001,
@@ -1463,7 +1463,7 @@
       "UcurrMean": 0.11444254219532013,
       "CumCurrent": 3.4332761764526367,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 1
     },
     {
       "monsoon_year": 2001,
@@ -1478,7 +1478,7 @@
       "UcurrMean": 0.1952388882637024,
       "CumCurrent": 6.05240535736084,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2001,
@@ -1493,7 +1493,7 @@
       "UcurrMean": 0.19995230436325073,
       "CumCurrent": 5.998569011688232,
       "Erosion_Label": 0,
-      "HMM_State": 2
+      "HMM_State": 1
     },
     {
       "monsoon_year": 2001,
@@ -1508,7 +1508,7 @@
       "UcurrMean": 0.17559894919395447,
       "CumCurrent": 5.443567276000977,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2001,
@@ -1523,7 +1523,7 @@
       "UcurrMean": 0.14570960402488708,
       "CumCurrent": 4.516997814178467,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2001,
@@ -1538,7 +1538,7 @@
       "UcurrMean": 0.14989227056503296,
       "CumCurrent": 4.496767997741699,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2001,
@@ -1553,7 +1553,7 @@
       "UcurrMean": 0.10400370508432388,
       "CumCurrent": 3.2241148948669434,
       "Erosion_Label": 0,
-      "HMM_State": 6
+      "HMM_State": 3
     },
     {
       "monsoon_year": 2001,
@@ -1568,7 +1568,7 @@
       "UcurrMean": 0.14253336191177368,
       "CumCurrent": 4.2760009765625,
       "Erosion_Label": 0,
-      "HMM_State": 6
+      "HMM_State": 3
     },
     {
       "monsoon_year": 2001,
@@ -1583,7 +1583,7 @@
       "UcurrMean": 0.12970121204853058,
       "CumCurrent": 4.020737648010254,
       "Erosion_Label": 0,
-      "HMM_State": 1
+      "HMM_State": 4
     },
     {
       "monsoon_year": 2001,
@@ -1598,7 +1598,7 @@
       "UcurrMean": 0.15839621424674988,
       "CumCurrent": 4.910282611846924,
       "Erosion_Label": 0,
-      "HMM_State": 4
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2001,
@@ -1628,7 +1628,7 @@
       "UcurrMean": 0.09952589869499207,
       "CumCurrent": 3.0853028297424316,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2002,
@@ -1643,7 +1643,7 @@
       "UcurrMean": 0.11274514347314835,
       "CumCurrent": 3.382354259490967,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 1
     },
     {
       "monsoon_year": 2002,
@@ -1658,7 +1658,7 @@
       "UcurrMean": 0.16908623278141022,
       "CumCurrent": 5.241672992706299,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2002,
@@ -1673,7 +1673,7 @@
       "UcurrMean": 0.18939067423343658,
       "CumCurrent": 5.68172025680542,
       "Erosion_Label": 0,
-      "HMM_State": 2
+      "HMM_State": 1
     },
     {
       "monsoon_year": 2002,
@@ -1688,7 +1688,7 @@
       "UcurrMean": 0.17910543084144592,
       "CumCurrent": 5.5522685050964355,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2002,
@@ -1703,7 +1703,7 @@
       "UcurrMean": 0.145533949136734,
       "CumCurrent": 4.511552333831787,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2002,
@@ -1718,7 +1718,7 @@
       "UcurrMean": 0.10913444310426712,
       "CumCurrent": 3.274033308029175,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2002,
@@ -1733,7 +1733,7 @@
       "UcurrMean": 0.1223360076546669,
       "CumCurrent": 3.7924163341522217,
       "Erosion_Label": 0,
-      "HMM_State": 6
+      "HMM_State": 3
     },
     {
       "monsoon_year": 2002,
@@ -1748,7 +1748,7 @@
       "UcurrMean": 0.1552366316318512,
       "CumCurrent": 4.657098770141602,
       "Erosion_Label": 0,
-      "HMM_State": 6
+      "HMM_State": 3
     },
     {
       "monsoon_year": 2002,
@@ -1763,7 +1763,7 @@
       "UcurrMean": 0.1556101143360138,
       "CumCurrent": 4.82391357421875,
       "Erosion_Label": 0,
-      "HMM_State": 1
+      "HMM_State": 4
     },
     {
       "monsoon_year": 2002,
@@ -1778,7 +1778,7 @@
       "UcurrMean": 0.11076837033033371,
       "CumCurrent": 3.433819532394409,
       "Erosion_Label": 0,
-      "HMM_State": 4
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2002,
@@ -1808,7 +1808,7 @@
       "UcurrMean": 0.11124660819768906,
       "CumCurrent": 3.4486448764801025,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2003,
@@ -1823,7 +1823,7 @@
       "UcurrMean": 0.14134001731872559,
       "CumCurrent": 4.240200519561768,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 1
     },
     {
       "monsoon_year": 2003,
@@ -1838,7 +1838,7 @@
       "UcurrMean": 0.16643252968788147,
       "CumCurrent": 5.1594085693359375,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2003,
@@ -1853,7 +1853,7 @@
       "UcurrMean": 0.17791298031806946,
       "CumCurrent": 5.3373894691467285,
       "Erosion_Label": 0,
-      "HMM_State": 2
+      "HMM_State": 1
     },
     {
       "monsoon_year": 2003,
@@ -1868,7 +1868,7 @@
       "UcurrMean": 0.1423218548297882,
       "CumCurrent": 4.411977291107178,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2003,
@@ -1883,7 +1883,7 @@
       "UcurrMean": 0.15591275691986084,
       "CumCurrent": 4.8332953453063965,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2003,
@@ -1898,7 +1898,7 @@
       "UcurrMean": 0.10454773902893066,
       "CumCurrent": 3.13643217086792,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2003,
@@ -1913,7 +1913,7 @@
       "UcurrMean": 0.13651734590530396,
       "CumCurrent": 4.232037544250488,
       "Erosion_Label": 0,
-      "HMM_State": 6
+      "HMM_State": 3
     },
     {
       "monsoon_year": 2003,
@@ -1928,7 +1928,7 @@
       "UcurrMean": 0.16715407371520996,
       "CumCurrent": 5.014622211456299,
       "Erosion_Label": 0,
-      "HMM_State": 6
+      "HMM_State": 3
     },
     {
       "monsoon_year": 2003,
@@ -1943,7 +1943,7 @@
       "UcurrMean": 0.10955504328012466,
       "CumCurrent": 3.3962063789367676,
       "Erosion_Label": 0,
-      "HMM_State": 1
+      "HMM_State": 4
     },
     {
       "monsoon_year": 2003,
@@ -1958,7 +1958,7 @@
       "UcurrMean": 0.1487359255552292,
       "CumCurrent": 4.610813617706299,
       "Erosion_Label": 0,
-      "HMM_State": 4
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2003,
@@ -1988,7 +1988,7 @@
       "UcurrMean": 0.11682053655385971,
       "CumCurrent": 3.621436595916748,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2004,
@@ -2003,7 +2003,7 @@
       "UcurrMean": 0.12009762227535248,
       "CumCurrent": 3.602928638458252,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 1
     },
     {
       "monsoon_year": 2004,
@@ -2018,7 +2018,7 @@
       "UcurrMean": 0.16361916065216064,
       "CumCurrent": 5.0721940994262695,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2004,
@@ -2033,7 +2033,7 @@
       "UcurrMean": 0.2338104397058487,
       "CumCurrent": 7.014313220977783,
       "Erosion_Label": 0,
-      "HMM_State": 2
+      "HMM_State": 1
     },
     {
       "monsoon_year": 2004,
@@ -2048,7 +2048,7 @@
       "UcurrMean": 0.20950886607170105,
       "CumCurrent": 6.49477481842041,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2004,
@@ -2063,7 +2063,7 @@
       "UcurrMean": 0.12832510471343994,
       "CumCurrent": 3.9780783653259277,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2004,
@@ -2078,7 +2078,7 @@
       "UcurrMean": 0.20804272592067719,
       "CumCurrent": 6.241281986236572,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2004,
@@ -2093,7 +2093,7 @@
       "UcurrMean": 0.1493491679430008,
       "CumCurrent": 4.629824161529541,
       "Erosion_Label": 0,
-      "HMM_State": 6
+      "HMM_State": 3
     },
     {
       "monsoon_year": 2004,
@@ -2108,7 +2108,7 @@
       "UcurrMean": 0.12137802690267563,
       "CumCurrent": 3.641340732574463,
       "Erosion_Label": 0,
-      "HMM_State": 6
+      "HMM_State": 3
     },
     {
       "monsoon_year": 2004,
@@ -2123,7 +2123,7 @@
       "UcurrMean": 0.1261468380689621,
       "CumCurrent": 3.9105517864227295,
       "Erosion_Label": 0,
-      "HMM_State": 1
+      "HMM_State": 4
     },
     {
       "monsoon_year": 2004,
@@ -2138,7 +2138,7 @@
       "UcurrMean": 0.12602072954177856,
       "CumCurrent": 3.906642436981201,
       "Erosion_Label": 0,
-      "HMM_State": 4
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2004,
@@ -2168,7 +2168,7 @@
       "UcurrMean": 0.09350982308387756,
       "CumCurrent": 2.8988044261932373,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2005,
@@ -2183,7 +2183,7 @@
       "UcurrMean": 0.1202181875705719,
       "CumCurrent": 3.6065456867218018,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 1
     },
     {
       "monsoon_year": 2005,
@@ -2198,7 +2198,7 @@
       "UcurrMean": 0.11949856579303741,
       "CumCurrent": 3.704455614089966,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2005,
@@ -2213,7 +2213,7 @@
       "UcurrMean": 0.16572457551956177,
       "CumCurrent": 4.971737384796143,
       "Erosion_Label": 0,
-      "HMM_State": 2
+      "HMM_State": 1
     },
     {
       "monsoon_year": 2005,
@@ -2228,7 +2228,7 @@
       "UcurrMean": 0.19441258907318115,
       "CumCurrent": 6.026790142059326,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2005,
@@ -2243,7 +2243,7 @@
       "UcurrMean": 0.1441376507282257,
       "CumCurrent": 4.46826696395874,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2005,
@@ -2258,7 +2258,7 @@
       "UcurrMean": 0.17862094938755035,
       "CumCurrent": 5.358628273010254,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2005,
@@ -2273,7 +2273,7 @@
       "UcurrMean": 0.11242876201868057,
       "CumCurrent": 3.4852917194366455,
       "Erosion_Label": 0,
-      "HMM_State": 6
+      "HMM_State": 3
     },
     {
       "monsoon_year": 2005,
@@ -2288,7 +2288,7 @@
       "UcurrMean": 0.19218620657920837,
       "CumCurrent": 5.7655863761901855,
       "Erosion_Label": 0,
-      "HMM_State": 6
+      "HMM_State": 3
     },
     {
       "monsoon_year": 2005,
@@ -2303,7 +2303,7 @@
       "UcurrMean": 0.20386213064193726,
       "CumCurrent": 6.31972599029541,
       "Erosion_Label": 0,
-      "HMM_State": 1
+      "HMM_State": 4
     },
     {
       "monsoon_year": 2005,
@@ -2318,7 +2318,7 @@
       "UcurrMean": 0.13283976912498474,
       "CumCurrent": 4.118032932281494,
       "Erosion_Label": 0,
-      "HMM_State": 4
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2005,
@@ -2348,7 +2348,7 @@
       "UcurrMean": 0.14283712208271027,
       "CumCurrent": 4.427950859069824,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2006,
@@ -2363,7 +2363,7 @@
       "UcurrMean": 0.1040884256362915,
       "CumCurrent": 3.122652769088745,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 1
     },
     {
       "monsoon_year": 2006,
@@ -2378,7 +2378,7 @@
       "UcurrMean": 0.1325770616531372,
       "CumCurrent": 4.109889030456543,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2006,
@@ -2393,7 +2393,7 @@
       "UcurrMean": 0.13727305829524994,
       "CumCurrent": 4.118191719055176,
       "Erosion_Label": 0,
-      "HMM_State": 2
+      "HMM_State": 1
     },
     {
       "monsoon_year": 2006,
@@ -2408,7 +2408,7 @@
       "UcurrMean": 0.2554946839809418,
       "CumCurrent": 7.920334815979004,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2006,
@@ -2423,7 +2423,7 @@
       "UcurrMean": 0.15403659641742706,
       "CumCurrent": 4.775134563446045,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2006,
@@ -2438,7 +2438,7 @@
       "UcurrMean": 0.12946654856204987,
       "CumCurrent": 3.8839962482452393,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2006,
@@ -2453,7 +2453,7 @@
       "UcurrMean": 0.20443633198738098,
       "CumCurrent": 6.337526321411133,
       "Erosion_Label": 0,
-      "HMM_State": 6
+      "HMM_State": 3
     },
     {
       "monsoon_year": 2006,
@@ -2468,7 +2468,7 @@
       "UcurrMean": 0.14732971787452698,
       "CumCurrent": 4.419891357421875,
       "Erosion_Label": 0,
-      "HMM_State": 6
+      "HMM_State": 3
     },
     {
       "monsoon_year": 2006,
@@ -2483,7 +2483,7 @@
       "UcurrMean": 0.11603758484125137,
       "CumCurrent": 3.597165107727051,
       "Erosion_Label": 0,
-      "HMM_State": 1
+      "HMM_State": 4
     },
     {
       "monsoon_year": 2006,
@@ -2498,7 +2498,7 @@
       "UcurrMean": 0.10151062905788422,
       "CumCurrent": 3.146829605102539,
       "Erosion_Label": 0,
-      "HMM_State": 4
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2006,
@@ -2528,7 +2528,7 @@
       "UcurrMean": 0.10877649486064911,
       "CumCurrent": 3.3720712661743164,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2007,
@@ -2543,7 +2543,7 @@
       "UcurrMean": 0.11485762894153595,
       "CumCurrent": 3.4457287788391113,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 1
     },
     {
       "monsoon_year": 2007,
@@ -2558,7 +2558,7 @@
       "UcurrMean": 0.13792148232460022,
       "CumCurrent": 4.275566101074219,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2007,
@@ -2573,7 +2573,7 @@
       "UcurrMean": 0.16114719212055206,
       "CumCurrent": 4.834415912628174,
       "Erosion_Label": 0,
-      "HMM_State": 2
+      "HMM_State": 1
     },
     {
       "monsoon_year": 2007,
@@ -2588,7 +2588,7 @@
       "UcurrMean": 0.21819326281547546,
       "CumCurrent": 6.763991355895996,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2007,
@@ -2603,7 +2603,7 @@
       "UcurrMean": 0.10958224534988403,
       "CumCurrent": 3.39704966545105,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2007,
@@ -2618,7 +2618,7 @@
       "UcurrMean": 0.1669713854789734,
       "CumCurrent": 5.009141445159912,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2007,
@@ -2633,7 +2633,7 @@
       "UcurrMean": 0.12465129047632217,
       "CumCurrent": 3.864190101623535,
       "Erosion_Label": 0,
-      "HMM_State": 6
+      "HMM_State": 3
     },
     {
       "monsoon_year": 2007,
@@ -2648,7 +2648,7 @@
       "UcurrMean": 0.17132481932640076,
       "CumCurrent": 5.139744758605957,
       "Erosion_Label": 0,
-      "HMM_State": 6
+      "HMM_State": 3
     },
     {
       "monsoon_year": 2007,
@@ -2663,7 +2663,7 @@
       "UcurrMean": 0.13915260136127472,
       "CumCurrent": 4.313730716705322,
       "Erosion_Label": 0,
-      "HMM_State": 1
+      "HMM_State": 4
     },
     {
       "monsoon_year": 2007,
@@ -2678,7 +2678,7 @@
       "UcurrMean": 0.13383902609348297,
       "CumCurrent": 4.149009704589844,
       "Erosion_Label": 0,
-      "HMM_State": 4
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2007,
@@ -2708,7 +2708,7 @@
       "UcurrMean": 0.10194788128137589,
       "CumCurrent": 3.1603844165802,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2008,
@@ -2723,7 +2723,7 @@
       "UcurrMean": 0.1394818127155304,
       "CumCurrent": 4.184454441070557,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 1
     },
     {
       "monsoon_year": 2008,
@@ -2738,7 +2738,7 @@
       "UcurrMean": 0.1592712104320526,
       "CumCurrent": 4.937407493591309,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2008,
@@ -2753,7 +2753,7 @@
       "UcurrMean": 0.19136124849319458,
       "CumCurrent": 5.740837574005127,
       "Erosion_Label": 0,
-      "HMM_State": 2
+      "HMM_State": 1
     },
     {
       "monsoon_year": 2008,
@@ -2768,7 +2768,7 @@
       "UcurrMean": 0.13280019164085388,
       "CumCurrent": 4.1168060302734375,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2008,
@@ -2783,7 +2783,7 @@
       "UcurrMean": 0.10517335683107376,
       "CumCurrent": 3.260374069213867,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2008,
@@ -2798,7 +2798,7 @@
       "UcurrMean": 0.10415522009134293,
       "CumCurrent": 3.1246566772460938,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2008,
@@ -2813,7 +2813,7 @@
       "UcurrMean": 0.09844265878200531,
       "CumCurrent": 3.051722526550293,
       "Erosion_Label": 0,
-      "HMM_State": 6
+      "HMM_State": 3
     },
     {
       "monsoon_year": 2008,
@@ -2828,7 +2828,7 @@
       "UcurrMean": 0.17002257704734802,
       "CumCurrent": 5.100677490234375,
       "Erosion_Label": 0,
-      "HMM_State": 6
+      "HMM_State": 3
     },
     {
       "monsoon_year": 2008,
@@ -2843,7 +2843,7 @@
       "UcurrMean": 0.1732138991355896,
       "CumCurrent": 5.369630813598633,
       "Erosion_Label": 0,
-      "HMM_State": 1
+      "HMM_State": 4
     },
     {
       "monsoon_year": 2008,
@@ -2858,7 +2858,7 @@
       "UcurrMean": 0.14598503708839417,
       "CumCurrent": 4.525536060333252,
       "Erosion_Label": 0,
-      "HMM_State": 4
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2008,
@@ -2888,7 +2888,7 @@
       "UcurrMean": 0.09799930453300476,
       "CumCurrent": 3.037978410720825,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2009,
@@ -2903,7 +2903,7 @@
       "UcurrMean": 0.12752944231033325,
       "CumCurrent": 3.825883150100708,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 1
     },
     {
       "monsoon_year": 2009,
@@ -2918,7 +2918,7 @@
       "UcurrMean": 0.14976805448532104,
       "CumCurrent": 4.642809867858887,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2009,
@@ -2933,7 +2933,7 @@
       "UcurrMean": 0.15450352430343628,
       "CumCurrent": 4.635105609893799,
       "Erosion_Label": 0,
-      "HMM_State": 2
+      "HMM_State": 1
     },
     {
       "monsoon_year": 2009,
@@ -2948,7 +2948,7 @@
       "UcurrMean": 0.1788034737110138,
       "CumCurrent": 5.54290771484375,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2009,
@@ -2963,7 +2963,7 @@
       "UcurrMean": 0.17385634779930115,
       "CumCurrent": 5.389546871185303,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2009,
@@ -2978,7 +2978,7 @@
       "UcurrMean": 0.16830246150493622,
       "CumCurrent": 5.049073696136475,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2009,
@@ -2993,7 +2993,7 @@
       "UcurrMean": 0.1666432023048401,
       "CumCurrent": 5.1659393310546875,
       "Erosion_Label": 0,
-      "HMM_State": 6
+      "HMM_State": 3
     },
     {
       "monsoon_year": 2009,
@@ -3008,7 +3008,7 @@
       "UcurrMean": 0.16672489047050476,
       "CumCurrent": 5.001746654510498,
       "Erosion_Label": 0,
-      "HMM_State": 6
+      "HMM_State": 3
     },
     {
       "monsoon_year": 2009,
@@ -3023,7 +3023,7 @@
       "UcurrMean": 0.16742561757564545,
       "CumCurrent": 5.190194129943848,
       "Erosion_Label": 0,
-      "HMM_State": 1
+      "HMM_State": 4
     },
     {
       "monsoon_year": 2009,
@@ -3038,7 +3038,7 @@
       "UcurrMean": 0.15390288829803467,
       "CumCurrent": 4.770989418029785,
       "Erosion_Label": 0,
-      "HMM_State": 4
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2009,
@@ -3068,7 +3068,7 @@
       "UcurrMean": 0.13278982043266296,
       "CumCurrent": 4.116484642028809,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2010,
@@ -3083,7 +3083,7 @@
       "UcurrMean": 0.1215970441699028,
       "CumCurrent": 3.647911310195923,
       "Erosion_Label": 1,
-      "HMM_State": 3
+      "HMM_State": 1
     },
     {
       "monsoon_year": 2010,
@@ -3098,7 +3098,7 @@
       "UcurrMean": 0.15309256315231323,
       "CumCurrent": 4.7458696365356445,
       "Erosion_Label": 1,
-      "HMM_State": 3
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2010,
@@ -3113,7 +3113,7 @@
       "UcurrMean": 0.16788889467716217,
       "CumCurrent": 5.0366668701171875,
       "Erosion_Label": 1,
-      "HMM_State": 2
+      "HMM_State": 1
     },
     {
       "monsoon_year": 2010,
@@ -3128,7 +3128,7 @@
       "UcurrMean": 0.20316416025161743,
       "CumCurrent": 6.298089027404785,
       "Erosion_Label": 1,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2010,
@@ -3143,7 +3143,7 @@
       "UcurrMean": 0.16755014657974243,
       "CumCurrent": 5.19405460357666,
       "Erosion_Label": 1,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2010,
@@ -3158,7 +3158,7 @@
       "UcurrMean": 0.12598825991153717,
       "CumCurrent": 3.7796475887298584,
       "Erosion_Label": 1,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2010,
@@ -3173,7 +3173,7 @@
       "UcurrMean": 0.20877544581890106,
       "CumCurrent": 6.472038745880127,
       "Erosion_Label": 1,
-      "HMM_State": 6
+      "HMM_State": 3
     },
     {
       "monsoon_year": 2010,
@@ -3188,7 +3188,7 @@
       "UcurrMean": 0.2655060589313507,
       "CumCurrent": 7.965181827545166,
       "Erosion_Label": 1,
-      "HMM_State": 5
+      "HMM_State": 3
     },
     {
       "monsoon_year": 2010,
@@ -3203,7 +3203,7 @@
       "UcurrMean": 0.20284943282604218,
       "CumCurrent": 6.288332462310791,
       "Erosion_Label": 1,
-      "HMM_State": 0
+      "HMM_State": 4
     },
     {
       "monsoon_year": 2010,
@@ -3218,7 +3218,7 @@
       "UcurrMean": 0.1591675579547882,
       "CumCurrent": 4.934194087982178,
       "Erosion_Label": 1,
-      "HMM_State": 4
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2010,
@@ -3248,7 +3248,7 @@
       "UcurrMean": 0.14208754897117615,
       "CumCurrent": 4.404714107513428,
       "Erosion_Label": 1,
-      "HMM_State": 3
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2011,
@@ -3263,7 +3263,7 @@
       "UcurrMean": 0.12245379388332367,
       "CumCurrent": 3.6736137866973877,
       "Erosion_Label": 1,
-      "HMM_State": 3
+      "HMM_State": 1
     },
     {
       "monsoon_year": 2011,
@@ -3278,7 +3278,7 @@
       "UcurrMean": 0.1545265167951584,
       "CumCurrent": 4.7903218269348145,
       "Erosion_Label": 1,
-      "HMM_State": 3
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2011,
@@ -3293,7 +3293,7 @@
       "UcurrMean": 0.17985007166862488,
       "CumCurrent": 5.395502090454102,
       "Erosion_Label": 1,
-      "HMM_State": 2
+      "HMM_State": 1
     },
     {
       "monsoon_year": 2011,
@@ -3308,7 +3308,7 @@
       "UcurrMean": 0.16105996072292328,
       "CumCurrent": 4.99285888671875,
       "Erosion_Label": 1,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2011,
@@ -3323,7 +3323,7 @@
       "UcurrMean": 0.11872018128633499,
       "CumCurrent": 3.680325508117676,
       "Erosion_Label": 1,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2011,
@@ -3338,7 +3338,7 @@
       "UcurrMean": 0.11475919187068939,
       "CumCurrent": 3.4427757263183594,
       "Erosion_Label": 1,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2011,
@@ -3353,7 +3353,7 @@
       "UcurrMean": 0.12494850158691406,
       "CumCurrent": 3.873403549194336,
       "Erosion_Label": 1,
-      "HMM_State": 6
+      "HMM_State": 3
     },
     {
       "monsoon_year": 2011,
@@ -3368,7 +3368,7 @@
       "UcurrMean": 0.15393780171871185,
       "CumCurrent": 4.618134021759033,
       "Erosion_Label": 1,
-      "HMM_State": 6
+      "HMM_State": 3
     },
     {
       "monsoon_year": 2011,
@@ -3383,7 +3383,7 @@
       "UcurrMean": 0.12754403054714203,
       "CumCurrent": 3.9538650512695312,
       "Erosion_Label": 1,
-      "HMM_State": 1
+      "HMM_State": 4
     },
     {
       "monsoon_year": 2011,
@@ -3398,7 +3398,7 @@
       "UcurrMean": 0.14576540887355804,
       "CumCurrent": 4.518727779388428,
       "Erosion_Label": 1,
-      "HMM_State": 4
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2011,
@@ -3428,7 +3428,7 @@
       "UcurrMean": 0.11136806756258011,
       "CumCurrent": 3.4524099826812744,
       "Erosion_Label": 1,
-      "HMM_State": 3
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2012,
@@ -3443,7 +3443,7 @@
       "UcurrMean": 0.08738306164741516,
       "CumCurrent": 2.6214919090270996,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 1
     },
     {
       "monsoon_year": 2012,
@@ -3458,7 +3458,7 @@
       "UcurrMean": 0.16516534984111786,
       "CumCurrent": 5.120125770568848,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2012,
@@ -3473,7 +3473,7 @@
       "UcurrMean": 0.12381046265363693,
       "CumCurrent": 3.7143139839172363,
       "Erosion_Label": 0,
-      "HMM_State": 2
+      "HMM_State": 1
     },
     {
       "monsoon_year": 2012,
@@ -3488,7 +3488,7 @@
       "UcurrMean": 0.11833790689706802,
       "CumCurrent": 3.6684751510620117,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2012,
@@ -3503,7 +3503,7 @@
       "UcurrMean": 0.13140667974948883,
       "CumCurrent": 4.073606967926025,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2012,
@@ -3518,7 +3518,7 @@
       "UcurrMean": 0.1078302189707756,
       "CumCurrent": 3.2349066734313965,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2012,
@@ -3533,7 +3533,7 @@
       "UcurrMean": 0.1654469072818756,
       "CumCurrent": 5.128854274749756,
       "Erosion_Label": 0,
-      "HMM_State": 6
+      "HMM_State": 3
     },
     {
       "monsoon_year": 2012,
@@ -3548,7 +3548,7 @@
       "UcurrMean": 0.1805105209350586,
       "CumCurrent": 5.415315628051758,
       "Erosion_Label": 0,
-      "HMM_State": 6
+      "HMM_State": 3
     },
     {
       "monsoon_year": 2012,
@@ -3563,7 +3563,7 @@
       "UcurrMean": 0.17612048983573914,
       "CumCurrent": 5.45973539352417,
       "Erosion_Label": 0,
-      "HMM_State": 1
+      "HMM_State": 4
     },
     {
       "monsoon_year": 2012,
@@ -3578,7 +3578,7 @@
       "UcurrMean": 0.14138153195381165,
       "CumCurrent": 4.382827281951904,
       "Erosion_Label": 0,
-      "HMM_State": 4
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2012,
@@ -3608,7 +3608,7 @@
       "UcurrMean": 0.12056964635848999,
       "CumCurrent": 3.737658977508545,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2013,
@@ -3623,7 +3623,7 @@
       "UcurrMean": 0.10385794192552567,
       "CumCurrent": 3.1157381534576416,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 1
     },
     {
       "monsoon_year": 2013,
@@ -3638,7 +3638,7 @@
       "UcurrMean": 0.17647011578083038,
       "CumCurrent": 5.470573425292969,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2013,
@@ -3653,7 +3653,7 @@
       "UcurrMean": 0.15953443944454193,
       "CumCurrent": 4.7860331535339355,
       "Erosion_Label": 0,
-      "HMM_State": 2
+      "HMM_State": 1
     },
     {
       "monsoon_year": 2013,
@@ -3668,7 +3668,7 @@
       "UcurrMean": 0.19592314958572388,
       "CumCurrent": 6.073617458343506,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2013,
@@ -3683,7 +3683,7 @@
       "UcurrMean": 0.23121705651283264,
       "CumCurrent": 7.167728900909424,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2013,
@@ -3698,7 +3698,7 @@
       "UcurrMean": 0.17465582489967346,
       "CumCurrent": 5.2396745681762695,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2013,
@@ -3713,7 +3713,7 @@
       "UcurrMean": 0.12652800977230072,
       "CumCurrent": 3.922368288040161,
       "Erosion_Label": 0,
-      "HMM_State": 6
+      "HMM_State": 3
     },
     {
       "monsoon_year": 2013,
@@ -3728,7 +3728,7 @@
       "UcurrMean": 0.22021561861038208,
       "CumCurrent": 6.606468677520752,
       "Erosion_Label": 0,
-      "HMM_State": 6
+      "HMM_State": 3
     },
     {
       "monsoon_year": 2013,
@@ -3743,7 +3743,7 @@
       "UcurrMean": 0.20866519212722778,
       "CumCurrent": 6.468620777130127,
       "Erosion_Label": 0,
-      "HMM_State": 1
+      "HMM_State": 4
     },
     {
       "monsoon_year": 2013,
@@ -3758,7 +3758,7 @@
       "UcurrMean": 0.14480775594711304,
       "CumCurrent": 4.489040374755859,
       "Erosion_Label": 0,
-      "HMM_State": 4
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2013,
@@ -3788,7 +3788,7 @@
       "UcurrMean": 0.13624095916748047,
       "CumCurrent": 4.2234697341918945,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2014,
@@ -3803,7 +3803,7 @@
       "UcurrMean": 0.10109248757362366,
       "CumCurrent": 3.0327746868133545,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 1
     },
     {
       "monsoon_year": 2014,
@@ -3818,7 +3818,7 @@
       "UcurrMean": 0.13467536866664886,
       "CumCurrent": 4.174936294555664,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2014,
@@ -3833,7 +3833,7 @@
       "UcurrMean": 0.19092777371406555,
       "CumCurrent": 5.727833271026611,
       "Erosion_Label": 0,
-      "HMM_State": 2
+      "HMM_State": 1
     },
     {
       "monsoon_year": 2014,
@@ -3848,7 +3848,7 @@
       "UcurrMean": 0.2337745875120163,
       "CumCurrent": 7.247012138366699,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2014,
@@ -3863,7 +3863,7 @@
       "UcurrMean": 0.13814657926559448,
       "CumCurrent": 4.282544136047363,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2014,
@@ -3878,7 +3878,7 @@
       "UcurrMean": 0.10859598219394684,
       "CumCurrent": 3.2578794956207275,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2014,
@@ -3893,7 +3893,7 @@
       "UcurrMean": 0.15897874534130096,
       "CumCurrent": 4.928340911865234,
       "Erosion_Label": 0,
-      "HMM_State": 6
+      "HMM_State": 3
     },
     {
       "monsoon_year": 2014,
@@ -3908,7 +3908,7 @@
       "UcurrMean": 0.16927514970302582,
       "CumCurrent": 5.078254699707031,
       "Erosion_Label": 0,
-      "HMM_State": 6
+      "HMM_State": 3
     },
     {
       "monsoon_year": 2014,
@@ -3923,7 +3923,7 @@
       "UcurrMean": 0.18407733738422394,
       "CumCurrent": 5.706397533416748,
       "Erosion_Label": 0,
-      "HMM_State": 1
+      "HMM_State": 4
     },
     {
       "monsoon_year": 2014,
@@ -3938,7 +3938,7 @@
       "UcurrMean": 0.11883462965488434,
       "CumCurrent": 3.683873414993286,
       "Erosion_Label": 0,
-      "HMM_State": 4
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2014,
@@ -3968,7 +3968,7 @@
       "UcurrMean": 0.10060412436723709,
       "CumCurrent": 3.118727922439575,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2015,
@@ -3983,7 +3983,7 @@
       "UcurrMean": 0.09540364146232605,
       "CumCurrent": 2.8621091842651367,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 1
     },
     {
       "monsoon_year": 2015,
@@ -3998,7 +3998,7 @@
       "UcurrMean": 0.12009434401988983,
       "CumCurrent": 3.7229247093200684,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2015,
@@ -4013,7 +4013,7 @@
       "UcurrMean": 0.13292306661605835,
       "CumCurrent": 3.987691879272461,
       "Erosion_Label": 0,
-      "HMM_State": 2
+      "HMM_State": 1
     },
     {
       "monsoon_year": 2015,
@@ -4028,7 +4028,7 @@
       "UcurrMean": 0.21490611135959625,
       "CumCurrent": 6.6620893478393555,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2015,
@@ -4043,7 +4043,7 @@
       "UcurrMean": 0.20233884453773499,
       "CumCurrent": 6.2725043296813965,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2015,
@@ -4058,7 +4058,7 @@
       "UcurrMean": 0.14287066459655762,
       "CumCurrent": 4.2861199378967285,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2015,
@@ -4073,7 +4073,7 @@
       "UcurrMean": 0.11719411611557007,
       "CumCurrent": 3.6330175399780273,
       "Erosion_Label": 0,
-      "HMM_State": 6
+      "HMM_State": 3
     },
     {
       "monsoon_year": 2015,
@@ -4088,7 +4088,7 @@
       "UcurrMean": 0.11885099112987518,
       "CumCurrent": 3.5655298233032227,
       "Erosion_Label": 0,
-      "HMM_State": 6
+      "HMM_State": 3
     },
     {
       "monsoon_year": 2015,
@@ -4103,7 +4103,7 @@
       "UcurrMean": 0.16462825238704681,
       "CumCurrent": 5.103476047515869,
       "Erosion_Label": 0,
-      "HMM_State": 1
+      "HMM_State": 4
     },
     {
       "monsoon_year": 2015,
@@ -4118,7 +4118,7 @@
       "UcurrMean": 0.1099507287144661,
       "CumCurrent": 3.4084725379943848,
       "Erosion_Label": 0,
-      "HMM_State": 4
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2015,
@@ -4148,7 +4148,7 @@
       "UcurrMean": 0.11889984458684921,
       "CumCurrent": 3.6858952045440674,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2016,
@@ -4163,7 +4163,7 @@
       "UcurrMean": 0.10999441146850586,
       "CumCurrent": 3.299832344055176,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 1
     },
     {
       "monsoon_year": 2016,
@@ -4178,7 +4178,7 @@
       "UcurrMean": 0.14757375419139862,
       "CumCurrent": 4.574786186218262,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2016,
@@ -4193,7 +4193,7 @@
       "UcurrMean": 0.1334575116634369,
       "CumCurrent": 4.003725528717041,
       "Erosion_Label": 0,
-      "HMM_State": 2
+      "HMM_State": 1
     },
     {
       "monsoon_year": 2016,
@@ -4208,7 +4208,7 @@
       "UcurrMean": 0.136513352394104,
       "CumCurrent": 4.231914043426514,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2016,
@@ -4223,7 +4223,7 @@
       "UcurrMean": 0.23614376783370972,
       "CumCurrent": 7.3204569816589355,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2016,
@@ -4238,7 +4238,7 @@
       "UcurrMean": 0.16177795827388763,
       "CumCurrent": 4.853338718414307,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2016,
@@ -4253,7 +4253,7 @@
       "UcurrMean": 0.15764442086219788,
       "CumCurrent": 4.886977195739746,
       "Erosion_Label": 0,
-      "HMM_State": 6
+      "HMM_State": 3
     },
     {
       "monsoon_year": 2016,
@@ -4268,7 +4268,7 @@
       "UcurrMean": 0.16509109735488892,
       "CumCurrent": 4.952733039855957,
       "Erosion_Label": 0,
-      "HMM_State": 6
+      "HMM_State": 3
     },
     {
       "monsoon_year": 2016,
@@ -4283,7 +4283,7 @@
       "UcurrMean": 0.18527522683143616,
       "CumCurrent": 5.743532180786133,
       "Erosion_Label": 0,
-      "HMM_State": 1
+      "HMM_State": 4
     },
     {
       "monsoon_year": 2016,
@@ -4298,7 +4298,7 @@
       "UcurrMean": 0.12893061339855194,
       "CumCurrent": 3.9968488216400146,
       "Erosion_Label": 0,
-      "HMM_State": 4
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2016,
@@ -4328,7 +4328,7 @@
       "UcurrMean": 0.1335318237543106,
       "CumCurrent": 4.139486312866211,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2017,
@@ -4343,7 +4343,7 @@
       "UcurrMean": 0.1224987581372261,
       "CumCurrent": 3.6749627590179443,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 1
     },
     {
       "monsoon_year": 2017,
@@ -4358,7 +4358,7 @@
       "UcurrMean": 0.17471791803836823,
       "CumCurrent": 5.416255474090576,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2017,
@@ -4373,7 +4373,7 @@
       "UcurrMean": 0.19912882149219513,
       "CumCurrent": 5.973864555358887,
       "Erosion_Label": 0,
-      "HMM_State": 2
+      "HMM_State": 1
     },
     {
       "monsoon_year": 2017,
@@ -4388,7 +4388,7 @@
       "UcurrMean": 0.22397039830684662,
       "CumCurrent": 6.943082332611084,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2017,
@@ -4403,7 +4403,7 @@
       "UcurrMean": 0.1702812761068344,
       "CumCurrent": 5.278719425201416,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2017,
@@ -4418,7 +4418,7 @@
       "UcurrMean": 0.1252785623073578,
       "CumCurrent": 3.758356809616089,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2017,
@@ -4433,7 +4433,7 @@
       "UcurrMean": 0.14626796543598175,
       "CumCurrent": 4.53430700302124,
       "Erosion_Label": 0,
-      "HMM_State": 6
+      "HMM_State": 3
     },
     {
       "monsoon_year": 2017,
@@ -4448,7 +4448,7 @@
       "UcurrMean": 0.20866207778453827,
       "CumCurrent": 6.259862422943115,
       "Erosion_Label": 0,
-      "HMM_State": 5
+      "HMM_State": 3
     },
     {
       "monsoon_year": 2017,
@@ -4463,7 +4463,7 @@
       "UcurrMean": 0.1784432828426361,
       "CumCurrent": 5.531741619110107,
       "Erosion_Label": 0,
-      "HMM_State": 0
+      "HMM_State": 4
     },
     {
       "monsoon_year": 2017,
@@ -4478,7 +4478,7 @@
       "UcurrMean": 0.14026519656181335,
       "CumCurrent": 4.348221302032471,
       "Erosion_Label": 0,
-      "HMM_State": 4
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2017,
@@ -4508,7 +4508,7 @@
       "UcurrMean": 0.13524040579795837,
       "CumCurrent": 4.192452430725098,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2018,
@@ -4523,7 +4523,7 @@
       "UcurrMean": 0.089978888630867,
       "CumCurrent": 2.699366569519043,
       "Erosion_Label": 1,
-      "HMM_State": 3
+      "HMM_State": 1
     },
     {
       "monsoon_year": 2018,
@@ -4538,7 +4538,7 @@
       "UcurrMean": 0.13504944741725922,
       "CumCurrent": 4.186532974243164,
       "Erosion_Label": 1,
-      "HMM_State": 3
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2018,
@@ -4553,7 +4553,7 @@
       "UcurrMean": 0.19940415024757385,
       "CumCurrent": 5.982124328613281,
       "Erosion_Label": 1,
-      "HMM_State": 2
+      "HMM_State": 1
     },
     {
       "monsoon_year": 2018,
@@ -4568,7 +4568,7 @@
       "UcurrMean": 0.19932009279727936,
       "CumCurrent": 6.178922653198242,
       "Erosion_Label": 1,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2018,
@@ -4583,7 +4583,7 @@
       "UcurrMean": 0.21136049926280975,
       "CumCurrent": 6.552175521850586,
       "Erosion_Label": 1,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2018,
@@ -4598,7 +4598,7 @@
       "UcurrMean": 0.11286082118749619,
       "CumCurrent": 3.385824680328369,
       "Erosion_Label": 1,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2018,
@@ -4613,7 +4613,7 @@
       "UcurrMean": 0.14533117413520813,
       "CumCurrent": 4.505266189575195,
       "Erosion_Label": 1,
-      "HMM_State": 6
+      "HMM_State": 3
     },
     {
       "monsoon_year": 2018,
@@ -4628,7 +4628,7 @@
       "UcurrMean": 0.12317756563425064,
       "CumCurrent": 3.695327043533325,
       "Erosion_Label": 1,
-      "HMM_State": 6
+      "HMM_State": 3
     },
     {
       "monsoon_year": 2018,
@@ -4643,7 +4643,7 @@
       "UcurrMean": 0.13952948153018951,
       "CumCurrent": 4.325413703918457,
       "Erosion_Label": 1,
-      "HMM_State": 1
+      "HMM_State": 4
     },
     {
       "monsoon_year": 2018,
@@ -4658,7 +4658,7 @@
       "UcurrMean": 0.16174691915512085,
       "CumCurrent": 5.014154434204102,
       "Erosion_Label": 1,
-      "HMM_State": 4
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2018,
@@ -4688,7 +4688,7 @@
       "UcurrMean": 0.08997489511966705,
       "CumCurrent": 2.78922176361084,
       "Erosion_Label": 1,
-      "HMM_State": 3
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2019,
@@ -4703,7 +4703,7 @@
       "UcurrMean": 0.1032259538769722,
       "CumCurrent": 3.096778631210327,
       "Erosion_Label": 1,
-      "HMM_State": 3
+      "HMM_State": 1
     },
     {
       "monsoon_year": 2019,
@@ -4718,7 +4718,7 @@
       "UcurrMean": 0.09512163698673248,
       "CumCurrent": 2.948770761489868,
       "Erosion_Label": 1,
-      "HMM_State": 3
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2019,
@@ -4733,7 +4733,7 @@
       "UcurrMean": 0.18082550168037415,
       "CumCurrent": 5.424765110015869,
       "Erosion_Label": 1,
-      "HMM_State": 2
+      "HMM_State": 1
     },
     {
       "monsoon_year": 2019,
@@ -4748,7 +4748,7 @@
       "UcurrMean": 0.12751232087612152,
       "CumCurrent": 3.9528818130493164,
       "Erosion_Label": 1,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2019,
@@ -4763,7 +4763,7 @@
       "UcurrMean": 0.1332043707370758,
       "CumCurrent": 4.129335403442383,
       "Erosion_Label": 1,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2019,
@@ -4778,7 +4778,7 @@
       "UcurrMean": 0.1202951967716217,
       "CumCurrent": 3.608855962753296,
       "Erosion_Label": 1,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2019,
@@ -4793,7 +4793,7 @@
       "UcurrMean": 0.19554808735847473,
       "CumCurrent": 6.061990737915039,
       "Erosion_Label": 1,
-      "HMM_State": 6
+      "HMM_State": 3
     },
     {
       "monsoon_year": 2019,
@@ -4808,7 +4808,7 @@
       "UcurrMean": 0.17164374887943268,
       "CumCurrent": 5.149312496185303,
       "Erosion_Label": 1,
-      "HMM_State": 6
+      "HMM_State": 3
     },
     {
       "monsoon_year": 2019,
@@ -4823,7 +4823,7 @@
       "UcurrMean": 0.1610594242811203,
       "CumCurrent": 4.992842197418213,
       "Erosion_Label": 1,
-      "HMM_State": 1
+      "HMM_State": 4
     },
     {
       "monsoon_year": 2019,
@@ -4838,7 +4838,7 @@
       "UcurrMean": 0.18460054695606232,
       "CumCurrent": 5.722617149353027,
       "Erosion_Label": 1,
-      "HMM_State": 4
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2019,
@@ -4868,7 +4868,7 @@
       "UcurrMean": 0.10411767661571503,
       "CumCurrent": 3.2276480197906494,
       "Erosion_Label": 1,
-      "HMM_State": 3
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2020,
@@ -4883,7 +4883,7 @@
       "UcurrMean": 0.09484068304300308,
       "CumCurrent": 2.8452205657958984,
       "Erosion_Label": 1,
-      "HMM_State": 3
+      "HMM_State": 1
     },
     {
       "monsoon_year": 2020,
@@ -4898,7 +4898,7 @@
       "UcurrMean": 0.11106252670288086,
       "CumCurrent": 3.4429383277893066,
       "Erosion_Label": 1,
-      "HMM_State": 3
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2020,
@@ -4913,7 +4913,7 @@
       "UcurrMean": 0.14023558795452118,
       "CumCurrent": 4.207067489624023,
       "Erosion_Label": 1,
-      "HMM_State": 2
+      "HMM_State": 1
     },
     {
       "monsoon_year": 2020,
@@ -4928,7 +4928,7 @@
       "UcurrMean": 0.1587388664484024,
       "CumCurrent": 4.920904636383057,
       "Erosion_Label": 1,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2020,
@@ -4943,7 +4943,7 @@
       "UcurrMean": 0.11783237755298615,
       "CumCurrent": 3.652803659439087,
       "Erosion_Label": 1,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2020,
@@ -4958,7 +4958,7 @@
       "UcurrMean": 0.09481821209192276,
       "CumCurrent": 2.844546318054199,
       "Erosion_Label": 1,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2020,
@@ -4973,7 +4973,7 @@
       "UcurrMean": 0.16723506152629852,
       "CumCurrent": 5.184287071228027,
       "Erosion_Label": 1,
-      "HMM_State": 6
+      "HMM_State": 3
     },
     {
       "monsoon_year": 2020,
@@ -4988,7 +4988,7 @@
       "UcurrMean": 0.1689503788948059,
       "CumCurrent": 5.068511486053467,
       "Erosion_Label": 1,
-      "HMM_State": 6
+      "HMM_State": 3
     },
     {
       "monsoon_year": 2020,
@@ -5003,7 +5003,7 @@
       "UcurrMean": 0.13404850661754608,
       "CumCurrent": 4.155503749847412,
       "Erosion_Label": 1,
-      "HMM_State": 1
+      "HMM_State": 4
     },
     {
       "monsoon_year": 2020,
@@ -5018,7 +5018,7 @@
       "UcurrMean": 0.14084334671497345,
       "CumCurrent": 4.366143703460693,
       "Erosion_Label": 1,
-      "HMM_State": 4
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2020,
@@ -5048,7 +5048,7 @@
       "UcurrMean": 0.11891847103834152,
       "CumCurrent": 3.6864726543426514,
       "Erosion_Label": 1,
-      "HMM_State": 3
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2021,
@@ -5063,7 +5063,7 @@
       "UcurrMean": 0.13878805935382843,
       "CumCurrent": 4.163641929626465,
       "Erosion_Label": 1,
-      "HMM_State": 3
+      "HMM_State": 1
     },
     {
       "monsoon_year": 2021,
@@ -5078,7 +5078,7 @@
       "UcurrMean": 0.1610010415315628,
       "CumCurrent": 4.991032123565674,
       "Erosion_Label": 1,
-      "HMM_State": 3
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2021,
@@ -5093,7 +5093,7 @@
       "UcurrMean": 0.1061994880437851,
       "CumCurrent": 3.1859846115112305,
       "Erosion_Label": 1,
-      "HMM_State": 2
+      "HMM_State": 1
     },
     {
       "monsoon_year": 2021,
@@ -5108,7 +5108,7 @@
       "UcurrMean": 0.13706974685192108,
       "CumCurrent": 4.249162197113037,
       "Erosion_Label": 1,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2021,
@@ -5123,7 +5123,7 @@
       "UcurrMean": 0.1554749310016632,
       "CumCurrent": 4.819722652435303,
       "Erosion_Label": 1,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2021,
@@ -5138,7 +5138,7 @@
       "UcurrMean": 0.10504497587680817,
       "CumCurrent": 3.1513493061065674,
       "Erosion_Label": 1,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2021,
@@ -5153,7 +5153,7 @@
       "UcurrMean": 0.1762077957391739,
       "CumCurrent": 5.462441444396973,
       "Erosion_Label": 1,
-      "HMM_State": 6
+      "HMM_State": 3
     },
     {
       "monsoon_year": 2021,
@@ -5168,7 +5168,7 @@
       "UcurrMean": 0.2711048424243927,
       "CumCurrent": 8.133145332336426,
       "Erosion_Label": 1,
-      "HMM_State": 5
+      "HMM_State": 3
     },
     {
       "monsoon_year": 2021,
@@ -5183,7 +5183,7 @@
       "UcurrMean": 0.13929186761379242,
       "CumCurrent": 4.318048000335693,
       "Erosion_Label": 1,
-      "HMM_State": 0
+      "HMM_State": 4
     },
     {
       "monsoon_year": 2021,
@@ -5198,7 +5198,7 @@
       "UcurrMean": 0.12499619275331497,
       "CumCurrent": 3.8748819828033447,
       "Erosion_Label": 1,
-      "HMM_State": 4
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2021,
@@ -5228,7 +5228,7 @@
       "UcurrMean": 0.13020628690719604,
       "CumCurrent": 4.036395072937012,
       "Erosion_Label": 1,
-      "HMM_State": 3
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2022,
@@ -5243,7 +5243,7 @@
       "UcurrMean": 0.12438406050205231,
       "CumCurrent": 3.7315218448638916,
       "Erosion_Label": 1,
-      "HMM_State": 3
+      "HMM_State": 1
     },
     {
       "monsoon_year": 2022,
@@ -5258,7 +5258,7 @@
       "UcurrMean": 0.1877346634864807,
       "CumCurrent": 5.819774627685547,
       "Erosion_Label": 1,
-      "HMM_State": 3
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2022,
@@ -5273,7 +5273,7 @@
       "UcurrMean": 0.16771505773067474,
       "CumCurrent": 5.03145170211792,
       "Erosion_Label": 1,
-      "HMM_State": 2
+      "HMM_State": 1
     },
     {
       "monsoon_year": 2022,
@@ -5288,7 +5288,7 @@
       "UcurrMean": 0.19277121126651764,
       "CumCurrent": 5.975907325744629,
       "Erosion_Label": 1,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2022,
@@ -5303,7 +5303,7 @@
       "UcurrMean": 0.18308842182159424,
       "CumCurrent": 5.675741195678711,
       "Erosion_Label": 1,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2022,
@@ -5318,7 +5318,7 @@
       "UcurrMean": 0.10564909130334854,
       "CumCurrent": 3.1694726943969727,
       "Erosion_Label": 1,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2022,
@@ -5333,7 +5333,7 @@
       "UcurrMean": 0.1262514740228653,
       "CumCurrent": 3.9137954711914062,
       "Erosion_Label": 1,
-      "HMM_State": 6
+      "HMM_State": 3
     },
     {
       "monsoon_year": 2022,
@@ -5348,7 +5348,7 @@
       "UcurrMean": 0.22447006404399872,
       "CumCurrent": 6.73410177230835,
       "Erosion_Label": 1,
-      "HMM_State": 5
+      "HMM_State": 3
     },
     {
       "monsoon_year": 2022,
@@ -5363,7 +5363,7 @@
       "UcurrMean": 0.15173257887363434,
       "CumCurrent": 4.703710079193115,
       "Erosion_Label": 1,
-      "HMM_State": 0
+      "HMM_State": 4
     },
     {
       "monsoon_year": 2022,
@@ -5378,7 +5378,7 @@
       "UcurrMean": 0.1157422587275505,
       "CumCurrent": 3.58801007270813,
       "Erosion_Label": 1,
-      "HMM_State": 4
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2022,
@@ -5408,7 +5408,7 @@
       "UcurrMean": 0.11995339393615723,
       "CumCurrent": 3.718555212020874,
       "Erosion_Label": 1,
-      "HMM_State": 3
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2023,
@@ -5423,7 +5423,7 @@
       "UcurrMean": 0.12231568247079849,
       "CumCurrent": 3.6694705486297607,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 1
     },
     {
       "monsoon_year": 2023,
@@ -5438,7 +5438,7 @@
       "UcurrMean": 0.1305057555437088,
       "CumCurrent": 4.045678615570068,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2023,
@@ -5453,7 +5453,7 @@
       "UcurrMean": 0.1042623519897461,
       "CumCurrent": 3.127870559692383,
       "Erosion_Label": 0,
-      "HMM_State": 2
+      "HMM_State": 1
     },
     {
       "monsoon_year": 2023,
@@ -5468,7 +5468,7 @@
       "UcurrMean": 0.19144748151302338,
       "CumCurrent": 5.934872150421143,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2023,
@@ -5483,7 +5483,7 @@
       "UcurrMean": 0.0873139351606369,
       "CumCurrent": 2.7067320346832275,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2023,
@@ -5498,7 +5498,7 @@
       "UcurrMean": 0.12117058783769608,
       "CumCurrent": 3.635117530822754,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2023,
@@ -5513,7 +5513,7 @@
       "UcurrMean": 0.1354561746120453,
       "CumCurrent": 4.199141502380371,
       "Erosion_Label": 0,
-      "HMM_State": 6
+      "HMM_State": 3
     },
     {
       "monsoon_year": 2023,
@@ -5528,7 +5528,7 @@
       "UcurrMean": 0.12033166736364365,
       "CumCurrent": 3.609950065612793,
       "Erosion_Label": 0,
-      "HMM_State": 6
+      "HMM_State": 3
     },
     {
       "monsoon_year": 2023,
@@ -5543,7 +5543,7 @@
       "UcurrMean": 0.14096538722515106,
       "CumCurrent": 4.369926929473877,
       "Erosion_Label": 0,
-      "HMM_State": 1
+      "HMM_State": 4
     },
     {
       "monsoon_year": 2023,
@@ -5558,7 +5558,7 @@
       "UcurrMean": 0.12514135241508484,
       "CumCurrent": 3.8793818950653076,
       "Erosion_Label": 0,
-      "HMM_State": 4
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2023,
@@ -5588,7 +5588,7 @@
       "UcurrMean": 0.12008197605609894,
       "CumCurrent": 3.722541332244873,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2024,
@@ -5603,7 +5603,7 @@
       "UcurrMean": 0.12057948112487793,
       "CumCurrent": 3.617384433746338,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 1
     },
     {
       "monsoon_year": 2024,
@@ -5618,7 +5618,7 @@
       "UcurrMean": 0.1653507500886917,
       "CumCurrent": 5.12587308883667,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2024,
@@ -5633,7 +5633,7 @@
       "UcurrMean": 0.12488626688718796,
       "CumCurrent": 3.7465879917144775,
       "Erosion_Label": 0,
-      "HMM_State": 2
+      "HMM_State": 1
     },
     {
       "monsoon_year": 2024,
@@ -5648,7 +5648,7 @@
       "UcurrMean": 0.2643771767616272,
       "CumCurrent": 8.19569206237793,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2024,
@@ -5663,7 +5663,7 @@
       "UcurrMean": 0.15979577600955963,
       "CumCurrent": 4.95366907119751,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2024,
@@ -5678,7 +5678,7 @@
       "UcurrMean": 0.11408340185880661,
       "CumCurrent": 3.422502040863037,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 2
     },
     {
       "monsoon_year": 2024,
@@ -5693,7 +5693,7 @@
       "UcurrMean": 0.11951881647109985,
       "CumCurrent": 3.7050833702087402,
       "Erosion_Label": 0,
-      "HMM_State": 6
+      "HMM_State": 3
     },
     {
       "monsoon_year": 2024,
@@ -5708,7 +5708,7 @@
       "UcurrMean": 0.2758169174194336,
       "CumCurrent": 8.274507522583008,
       "Erosion_Label": 0,
-      "HMM_State": 5
+      "HMM_State": 3
     },
     {
       "monsoon_year": 2024,
@@ -5723,7 +5723,7 @@
       "UcurrMean": 0.16103579103946686,
       "CumCurrent": 4.992109298706055,
       "Erosion_Label": 0,
-      "HMM_State": 0
+      "HMM_State": 4
     },
     {
       "monsoon_year": 2024,
@@ -5738,7 +5738,7 @@
       "UcurrMean": 0.15346838533878326,
       "CumCurrent": 4.757519721984863,
       "Erosion_Label": 0,
-      "HMM_State": 4
+      "HMM_State": 0
     },
     {
       "monsoon_year": 2024,
@@ -5768,7 +5768,7 @@
       "UcurrMean": 0.1133166030049324,
       "CumCurrent": 3.51281476020813,
       "Erosion_Label": 0,
-      "HMM_State": 3
+      "HMM_State": 0
     }
   ],
   "scatter": [
@@ -6086,219 +6086,219 @@
   "pca": {
     "data": [
       {
-        "PC1": 2.809311306567101,
-        "PC2": -1.9215846409800557,
-        "PC3": -0.786937207281861,
+        "PC1": 2.8093113065671034,
+        "PC2": -1.9215846409800572,
+        "PC3": -0.7869372072818609,
         "year": 2000,
         "Erosion_Label": 0
       },
       {
-        "PC1": 0.8245730644197495,
-        "PC2": -1.9719345352231334,
-        "PC3": 0.5817032337622706,
+        "PC1": 0.8245730644197494,
+        "PC2": -1.9719345352231348,
+        "PC3": 0.5817032337622708,
         "year": 2001,
         "Erosion_Label": 0
       },
       {
-        "PC1": -0.8053190365285513,
-        "PC2": -1.6896683882428307,
+        "PC1": -0.8053190365285516,
+        "PC2": -1.6896683882428327,
         "PC3": 0.9110881804949825,
         "year": 2002,
         "Erosion_Label": 0
       },
       {
-        "PC1": -1.2635191930627903,
-        "PC2": -0.7077428407650738,
-        "PC3": -0.7566061222090099,
+        "PC1": -1.2635191930627905,
+        "PC2": -0.7077428407650741,
+        "PC3": -0.7566061222090102,
         "year": 2003,
         "Erosion_Label": 0
       },
       {
-        "PC1": 0.7400881065530176,
-        "PC2": -0.9369038667353066,
-        "PC3": -0.9784794675371803,
+        "PC1": 0.740088106553018,
+        "PC2": -0.9369038667353079,
+        "PC3": -0.9784794675371791,
         "year": 2004,
         "Erosion_Label": 0
       },
       {
-        "PC1": 0.7991075485870692,
-        "PC2": -0.08729567742708634,
-        "PC3": -0.8202652823266477,
+        "PC1": 0.7991075485870693,
+        "PC2": -0.08729567742708771,
+        "PC3": -0.8202652823266469,
         "year": 2005,
         "Erosion_Label": 0
       },
       {
-        "PC1": -3.14500485517711,
-        "PC2": 0.0924078976321388,
-        "PC3": -1.2677316747834548,
+        "PC1": -3.1450048551771097,
+        "PC2": 0.09240789763213854,
+        "PC3": -1.2677316747834553,
         "year": 2006,
         "Erosion_Label": 0
       },
       {
-        "PC1": -1.6386198130895573,
-        "PC2": 0.41442799704108596,
-        "PC3": -0.3838529645555097,
+        "PC1": -1.6386198130895577,
+        "PC2": 0.41442799704108657,
+        "PC3": -0.3838529645555101,
         "year": 2007,
         "Erosion_Label": 0
       },
       {
-        "PC1": -3.364583755760339,
-        "PC2": 0.6947976148382663,
-        "PC3": -0.6388368902466994,
+        "PC1": -3.3645837557603397,
+        "PC2": 0.6947976148382666,
+        "PC3": -0.6388368902466993,
         "year": 2008,
         "Erosion_Label": 0
       },
       {
-        "PC1": 0.21405691453493866,
-        "PC2": 0.35645313393740014,
+        "PC1": 0.21405691453493914,
+        "PC2": 0.35645313393739997,
         "PC3": -1.1236112959623028,
         "year": 2009,
         "Erosion_Label": 0
       },
       {
-        "PC1": 2.326096200557589,
-        "PC2": 0.9643994542931781,
-        "PC3": -2.5239139560544417,
+        "PC1": 2.3260962005575907,
+        "PC2": 0.9643994542931783,
+        "PC3": -2.523913956054442,
         "year": 2010,
         "Erosion_Label": 1
       },
       {
-        "PC1": -2.3559702929240025,
-        "PC2": -0.6982227970738978,
-        "PC3": -0.5108927796473967,
+        "PC1": -2.3559702929240034,
+        "PC2": -0.6982227970738987,
+        "PC3": -0.5108927796473971,
         "year": 2011,
         "Erosion_Label": 1
       },
       {
-        "PC1": -1.8163410463953147,
-        "PC2": 1.0528006299686266,
-        "PC3": 0.09730986818590998,
+        "PC1": -1.8163410463953156,
+        "PC2": 1.0528006299686274,
+        "PC3": 0.09730986818591027,
         "year": 2012,
         "Erosion_Label": 0
       },
       {
-        "PC1": 3.235509305802818,
-        "PC2": 1.081444306708857,
-        "PC3": -1.0792696004204503,
+        "PC1": 3.2355093058028195,
+        "PC2": 1.081444306708858,
+        "PC3": -1.079269600420451,
         "year": 2013,
         "Erosion_Label": 0
       },
       {
-        "PC1": 0.8468013208671862,
-        "PC2": -0.5968361138847544,
-        "PC3": 0.44242466376219797,
+        "PC1": 0.8468013208671863,
+        "PC2": -0.5968361138847534,
+        "PC3": 0.4424246637621965,
         "year": 2014,
         "Erosion_Label": 0
       },
       {
-        "PC1": -2.51664568663245,
-        "PC2": -0.08859433899034726,
-        "PC3": 0.10637797962929152,
+        "PC1": -2.5166456866324505,
+        "PC2": -0.08859433899034706,
+        "PC3": 0.10637797962929127,
         "year": 2015,
         "Erosion_Label": 0
       },
       {
-        "PC1": 2.3645527843326724,
-        "PC2": -2.0887642261101624,
-        "PC3": 0.2699018710151267,
+        "PC1": 2.364552784332673,
+        "PC2": -2.0887642261101638,
+        "PC3": 0.2699018710151265,
         "year": 2016,
         "Erosion_Label": 0
       },
       {
-        "PC1": 3.074061280933605,
-        "PC2": 1.388705515769063,
-        "PC3": 0.18235755663071632,
+        "PC1": 3.0740612809336065,
+        "PC2": 1.3887055157690646,
+        "PC3": 0.18235755663071604,
         "year": 2017,
         "Erosion_Label": 0
       },
       {
-        "PC1": 0.15465007815322457,
-        "PC2": -0.9061916416963997,
+        "PC1": 0.15465007815322487,
+        "PC2": -0.9061916416964003,
         "PC3": 0.5886808338418239,
         "year": 2018,
         "Erosion_Label": 1
       },
       {
-        "PC1": -0.6676871542352203,
-        "PC2": 2.0394939137716745,
-        "PC3": 2.147047559321336,
+        "PC1": -0.6676871542352221,
+        "PC2": 2.0394939137716763,
+        "PC3": 2.1470475593213356,
         "year": 2019,
         "Erosion_Label": 1
       },
       {
-        "PC1": -1.088019509156202,
-        "PC2": -1.2856243197519053,
+        "PC1": -1.0880195091562028,
+        "PC2": -1.2856243197519064,
         "PC3": 2.558646693789447,
         "year": 2020,
         "Erosion_Label": 1
       },
       {
-        "PC1": 1.5279319412015777,
-        "PC2": 0.7693859724906487,
-        "PC3": 0.7968341337329888,
+        "PC1": 1.527931941201578,
+        "PC2": 0.7693859724906494,
+        "PC3": 0.7968341337329893,
         "year": 2021,
         "Erosion_Label": 1
       },
       {
         "PC1": 3.040847202627388,
-        "PC2": 1.3090999154146412,
-        "PC3": 1.7417546770878045,
+        "PC2": 1.3090999154146425,
+        "PC3": 1.741754677087806,
         "year": 2022,
         "Erosion_Label": 1
       },
       {
-        "PC1": -4.466415574763531,
-        "PC2": 0.7288282596280243,
-        "PC3": -0.08584042459525276,
+        "PC1": -4.466415574763534,
+        "PC2": 0.7288282596280252,
+        "PC3": -0.08584042459525258,
         "year": 2023,
         "Erosion_Label": 0
       },
       {
-        "PC1": 1.1705388625871351,
-        "PC2": 2.0871187753873475,
-        "PC3": 0.5321104143663112,
+        "PC1": 1.1705388625871347,
+        "PC2": 2.0871187753873497,
+        "PC3": 0.5321104143663105,
         "year": 2024,
         "Erosion_Label": 0
       }
     ],
     "variance": [
       0.521423066201511,
-      0.16351061910820971,
-      0.1377615101036618
+      0.16351061910820977,
+      0.13776151010366183
     ],
     "loadings": [
       [
-        0.20127760697908953,
-        0.4181228214124475,
-        0.3171740152578611,
+        0.2012776069790895,
+        0.41812282141244755,
+        0.317174015257861,
         0.3608527238854337,
         0.26652357159276874,
-        0.31610679332081354,
+        0.3161067933208136,
         0.26829598559743384,
-        0.3948310245099358,
-        0.393718165762182
+        0.39483102450993585,
+        0.39371816576218205
       ],
       [
-        0.5044258482765687,
-        -0.2525046004999985,
-        -0.31758760322022817,
+        0.5044258482765686,
+        -0.25250460049999846,
+        -0.3175876032202281,
         -0.32988246109812874,
-        0.13027874214451665,
-        -0.29032148300528376,
-        0.5626378155621525,
-        0.1633597808421748,
-        0.1661469915796689
+        0.13027874214451685,
+        -0.290321483005284,
+        0.5626378155621526,
+        0.16335978084217465,
+        0.16614699157966886
       ],
       [
-        0.5273849777986033,
-        0.14289776992175465,
+        0.5273849777986035,
+        0.1428977699217547,
         0.45993227832021827,
-        0.2701909029640313,
-        -0.125536807438836,
-        -0.32178967778672307,
-        0.09483906756352406,
-        -0.3788794599869013,
-        -0.38085733177937975
+        0.27019090296403114,
+        -0.1255368074388361,
+        -0.32178967778672296,
+        0.09483906756352387,
+        -0.378879459986901,
+        -0.38085733177937964
       ]
     ],
     "features": [
@@ -6603,15 +6603,15 @@
     "hmm": {
       "fpr": [
         0.0,
-        0.013888888888888888,
+        0.25,
         1.0
       ],
       "tpr": [
         0.0,
-        0.03571428571428571,
+        0.25,
         1.0
       ],
-      "auc": 0.5109126984126985
+      "auc": 0.5
     },
     "rf": {
       "fpr": [
@@ -6819,26 +6819,24 @@
         0.0,
         0.0,
         0.0,
-        0.0,
-        0.013888888888888888,
-        0.032407407407407406,
+        0.009259259259259259,
+        0.027777777777777776,
         0.037037037037037035,
         0.05555555555555555,
         0.05555555555555555,
-        0.06018518518518518,
-        0.06018518518518518,
-        0.06481481481481481,
+        0.05555555555555555,
+        0.05555555555555555,
         0.06481481481481481,
         0.07407407407407407,
         0.07407407407407407,
         0.08333333333333333,
         0.08333333333333333,
-        0.09259259259259259,
-        0.09259259259259259,
-        0.09722222222222222,
-        0.09722222222222222,
+        0.08333333333333333,
         0.10185185185185185,
         0.10185185185185185,
+        0.10648148148148148,
+        0.10648148148148148,
+        0.10648148148148148,
         0.1111111111111111,
         0.1111111111111111,
         0.1111111111111111,
@@ -6846,13 +6844,14 @@
         0.1111111111111111,
         0.1111111111111111,
         0.1111111111111111,
+        0.11574074074074074,
         0.125,
         0.1388888888888889,
-        0.14814814814814814,
+        0.1527777777777778,
         0.16666666666666666,
         0.17592592592592593,
-        0.19907407407407407,
-        0.2175925925925926,
+        0.19444444444444445,
+        0.21296296296296297,
         0.22685185185185186,
         0.24537037037037038,
         0.2777777777777778,
@@ -6860,9 +6859,9 @@
         0.32407407407407407,
         0.3333333333333333,
         0.37962962962962965,
-        0.3888888888888889,
-        0.4074074074074074,
-        0.41203703703703703,
+        0.39814814814814814,
+        0.4166666666666667,
+        0.42592592592592593,
         0.4444444444444444,
         0.4444444444444444,
         0.4444444444444444,
@@ -6870,43 +6869,47 @@
         0.4444444444444444,
         0.4583333333333333,
         0.4722222222222222,
-        0.48148148148148145,
-        0.5092592592592593,
-        0.5509259259259259,
+        0.5046296296296297,
+        0.5138888888888888,
+        0.5324074074074074,
+        0.5416666666666666,
         0.5555555555555556,
         0.5740740740740741,
         0.5879629629629629,
         0.5972222222222222,
         0.6111111111111112,
+        0.6157407407407407,
+        0.6157407407407407,
+        0.625,
+        0.625,
         0.6296296296296297,
-        0.6296296296296297,
-        0.6342592592592593,
         0.6481481481481481,
-        0.6481481481481481,
+        0.6527777777777778,
+        0.6620370370370371,
         0.6666666666666666,
         0.6666666666666666,
         0.6666666666666666,
         0.6666666666666666,
         0.6666666666666666,
-        0.6666666666666666,
-        0.6712962962962963,
-        0.6851851851851852,
+        0.6805555555555556,
         0.6898148148148148,
-        0.7037037037037037,
-        0.7268518518518519,
+        0.7129629629629629,
+        0.7314814814814815,
         0.7453703703703703,
         0.75,
         0.7638888888888888,
         0.7685185185185185,
         0.7870370370370371,
         0.8055555555555556,
-        0.8333333333333334,
-        0.8472222222222222,
+        0.8101851851851852,
+        0.8564814814814815,
         0.8611111111111112,
+        0.8935185185185185,
         0.8981481481481481,
-        0.9259259259259259,
+        0.9166666666666666,
         0.9305555555555556,
-        0.9444444444444444,
+        0.9583333333333334,
+        0.9629629629629629,
         0.9768518518518519,
         1.0,
         1.0
@@ -6915,8 +6918,7 @@
         0.0,
         0.011904761904761904,
         0.047619047619047616,
-        0.05952380952380952,
-        0.08333333333333333,
+        0.07142857142857142,
         0.09523809523809523,
         0.13095238095238096,
         0.14285714285714285,
@@ -6924,19 +6926,18 @@
         0.14285714285714285,
         0.14285714285714285,
         0.14285714285714285,
+        0.2261904761904762,
+        0.25,
+        0.2857142857142857,
         0.2857142857142857,
         0.2857142857142857,
         0.30952380952380953,
         0.30952380952380953,
         0.3333333333333333,
-        0.3333333333333333,
-        0.34523809523809523,
-        0.34523809523809523,
         0.35714285714285715,
         0.35714285714285715,
         0.38095238095238093,
         0.38095238095238093,
-        0.39285714285714285,
         0.39285714285714285,
         0.42857142857142855,
         0.42857142857142855,
@@ -6945,6 +6946,7 @@
         0.5119047619047619,
         0.5357142857142857,
         0.5476190476190477,
+        0.5714285714285714,
         0.5714285714285714,
         0.5714285714285714,
         0.5714285714285714,
@@ -6979,11 +6981,14 @@
         0.7142857142857143,
         0.7142857142857143,
         0.7142857142857143,
-        0.7261904761904762,
-        0.7261904761904762,
-        0.7261904761904762,
+        0.7142857142857143,
         0.7380952380952381,
         0.7380952380952381,
+        0.7619047619047619,
+        0.7619047619047619,
+        0.7619047619047619,
+        0.7619047619047619,
+        0.7619047619047619,
         0.7619047619047619,
         0.7976190476190477,
         0.8095238095238095,
@@ -7009,9 +7014,10 @@
         0.8571428571428571,
         0.8571428571428571,
         0.8571428571428571,
+        0.8571428571428571,
         1.0
       ],
-      "auc": 0.6634149029982362
+      "auc": 0.6635802469135803
     }
   },
   "models": {
@@ -7200,47 +7206,47 @@
       "featureImportance": [
         {
           "Feature": "Hm0_max_annual",
-          "Importance": 0.31924155354499817
+          "Importance": 0.3203934133052826
         },
         {
           "Feature": "UcurrMax_annual",
-          "Importance": 0.2988359034061432
+          "Importance": 0.2974443733692169
         },
         {
           "Feature": "WindMax_annual",
-          "Importance": 0.1950993537902832
+          "Importance": 0.19572576880455017
         },
         {
           "Feature": "CumWaveEnergy",
-          "Importance": 0.03515990450978279
+          "Importance": 0.035220351070165634
         },
         {
           "Feature": "UcurrMean",
-          "Importance": 0.030607454478740692
+          "Importance": 0.030656499788165092
         },
         {
           "Feature": "CumCurrent",
-          "Importance": 0.030336802825331688
+          "Importance": 0.030422938987612724
         },
         {
           "Feature": "WindMax",
-          "Importance": 0.029180563986301422
+          "Importance": 0.0292345117777586
         },
         {
           "Feature": "Hm0_max",
-          "Importance": 0.02060181275010109
+          "Importance": 0.02064410224556923
         },
         {
           "Feature": "UcurrMax",
-          "Importance": 0.019728071987628937
+          "Importance": 0.019016778096556664
         },
         {
           "Feature": "Hm0_mean",
-          "Importance": 0.01576831005513668
+          "Importance": 0.015795938670635223
         },
         {
           "Feature": "StormDays_wave",
-          "Importance": 0.005440228618681431
+          "Importance": 0.0054453653283417225
         },
         {
           "Feature": "WindMean",
@@ -7274,47 +7280,47 @@
       "shapValues": [
         {
           "Feature": "Hm0_max_annual",
-          "Mean_SHAP": 1.0724434852600098
+          "Mean_SHAP": 1.0719892978668213
         },
         {
           "Feature": "UcurrMax_annual",
-          "Mean_SHAP": 0.5903158783912659
+          "Mean_SHAP": 0.5918229222297668
         },
         {
           "Feature": "WindMax_annual",
-          "Mean_SHAP": 0.38769516348838806
+          "Mean_SHAP": 0.3875611424446106
         },
         {
           "Feature": "UcurrMax",
-          "Mean_SHAP": 0.005948108155280352
+          "Mean_SHAP": 0.0058832974173128605
         },
         {
           "Feature": "Hm0_max",
-          "Mean_SHAP": 0.0039492710493505
+          "Mean_SHAP": 0.00394991971552372
         },
         {
           "Feature": "UcurrMean",
-          "Mean_SHAP": 0.0033562176395207644
+          "Mean_SHAP": 0.0033562767785042524
         },
         {
           "Feature": "WindMax",
-          "Mean_SHAP": 0.002494107000529766
+          "Mean_SHAP": 0.002494444139301777
         },
         {
           "Feature": "CumCurrent",
-          "Mean_SHAP": 0.0021410926710814238
+          "Mean_SHAP": 0.0021424100268632174
         },
         {
           "Feature": "CumWaveEnergy",
-          "Mean_SHAP": 0.0016057438915595412
+          "Mean_SHAP": 0.0016056826571002603
         },
         {
           "Feature": "Hm0_mean",
-          "Mean_SHAP": 0.0013803669717162848
+          "Mean_SHAP": 0.0013803185429424047
         },
         {
           "Feature": "StormDays_wave",
-          "Mean_SHAP": 0.0004648460017051548
+          "Mean_SHAP": 0.00046483383630402386
         },
         {
           "Feature": "WindMean",
@@ -7350,7 +7356,7 @@
         "cvAccuracy": 0.6333,
         "cvStd": 0,
         "f1Score": 0.6154,
-        "auc": 0.6634,
+        "auc": 0.6636,
         "precision": 0.6667,
         "recall": 0.5714,
         "nEstimators": 200,
@@ -7409,7 +7415,7 @@
           "upper": 0.338,
           "nSplits": 14,
           "condition": "\u2265",
-          "importance": 0.019700000062584877,
+          "importance": 0.01899999938905239,
           "unit": "m/s"
         },
         "UcurrMean": {
@@ -7418,7 +7424,7 @@
           "upper": 0.141,
           "nSplits": 5,
           "condition": "\u2264",
-          "importance": 0.03060000017285347,
+          "importance": 0.030700000002980232,
           "unit": "m/s"
         },
         "CumCurrent": {
@@ -7427,7 +7433,7 @@
           "upper": 4.934,
           "nSplits": 3,
           "condition": "\u2264",
-          "importance": 0.030300000682473183,
+          "importance": 0.030400000512599945,
           "unit": "m/s"
         }
       }
@@ -7436,143 +7442,131 @@
       "stateDistribution": [
         {
           "state": "State 0",
-          "count": 6,
-          "percentage": 2.0,
-          "erosionRate": 50.0
+          "count": 75,
+          "percentage": 25.0,
+          "erosionRate": 28.0
         },
         {
           "state": "State 1",
-          "count": 19,
-          "percentage": 6.3,
-          "erosionRate": 21.1
+          "count": 50,
+          "percentage": 16.7,
+          "erosionRate": 28.0
         },
         {
           "state": "State 2",
-          "count": 25,
-          "percentage": 8.3,
+          "count": 75,
+          "percentage": 25.0,
           "erosionRate": 28.0
         },
         {
           "state": "State 3",
-          "count": 149,
-          "percentage": 49.7,
-          "erosionRate": 28.2
+          "count": 50,
+          "percentage": 16.7,
+          "erosionRate": 28.0
         },
         {
           "state": "State 4",
-          "count": 51,
-          "percentage": 17.0,
-          "erosionRate": 27.5
-        },
-        {
-          "state": "State 5",
-          "count": 6,
-          "percentage": 2.0,
-          "erosionRate": 50.0
-        },
-        {
-          "state": "State 6",
-          "count": 44,
-          "percentage": 14.7,
-          "erosionRate": 25.0
+          "count": 50,
+          "percentage": 16.7,
+          "erosionRate": 28.0
         }
       ],
       "stateMeans": {
         "normal": {
-          "Hm0_max": 1.83,
-          "Hm0_mean": 1.193,
-          "CumWaveEnergy": 4917.669,
-          "StormDays_wave": 13.752,
-          "WindMax": 4.629,
-          "WindMean": 4.629,
-          "WindStressMean": 0.039,
-          "UcurrMax": 0.31,
-          "UcurrMean": 0.148,
-          "CumCurrent": 4.496,
-          "month": 6.388,
-          "Season_NE_Monsoon": 0.17,
-          "Season_NE_Peak": 0.235,
-          "Season_Pre_Monsoon": 0.255,
-          "Season_SW_Monsoon": 0.34,
-          "Hm0_max_annual": 2.82,
-          "WindMax_annual": 6.506,
-          "UcurrMax_annual": 0.467
+          "Hm0_max": 1.916,
+          "Hm0_mean": 1.253,
+          "CumWaveEnergy": 5360.005,
+          "StormDays_wave": 15.378,
+          "WindMax": 4.79,
+          "WindMean": 4.79,
+          "WindStressMean": 0.04,
+          "UcurrMax": 0.322,
+          "UcurrMean": 0.153,
+          "CumCurrent": 4.625,
+          "month": 7.667,
+          "Season_NE_Monsoon": 0.222,
+          "Season_NE_Peak": 0.222,
+          "Season_Pre_Monsoon": 0.111,
+          "Season_SW_Monsoon": 0.444,
+          "Hm0_max_annual": 2.825,
+          "WindMax_annual": 6.51,
+          "UcurrMax_annual": 0.469
         },
         "highRisk": {
-          "Hm0_max": 1.99,
-          "Hm0_mean": 0.906,
-          "CumWaveEnergy": 2641.143,
-          "StormDays_wave": 2.5,
-          "WindMax": 4.243,
-          "WindMean": 4.243,
-          "WindStressMean": 0.045,
-          "UcurrMax": 0.361,
-          "UcurrMean": 0.163,
-          "CumCurrent": 5.066,
-          "month": 12.0,
+          "Hm0_max": 1.586,
+          "Hm0_mean": 0.989,
+          "CumWaveEnergy": 3408.54,
+          "StormDays_wave": 7.973,
+          "WindMax": 4.115,
+          "WindMean": 4.115,
+          "WindStressMean": 0.039,
+          "UcurrMax": 0.28,
+          "UcurrMean": 0.134,
+          "CumCurrent": 4.156,
+          "month": 3.0,
           "Season_NE_Monsoon": 0.0,
-          "Season_NE_Peak": 1.0,
-          "Season_Pre_Monsoon": 0.0,
+          "Season_NE_Peak": 0.333,
+          "Season_Pre_Monsoon": 0.667,
           "Season_SW_Monsoon": 0.0,
-          "Hm0_max_annual": 3.057,
-          "WindMax_annual": 6.702,
-          "UcurrMax_annual": 0.574
+          "Hm0_max_annual": 2.825,
+          "WindMax_annual": 6.51,
+          "UcurrMax_annual": 0.469
         }
       },
       "stateCentroids": {
         "State_0": {
-          "Hm0_max": 1.99,
-          "Hm0_mean": 0.906,
-          "CumWaveEnergy": 2641.143,
-          "StormDays_wave": 2.5,
-          "WindMax": 4.243,
-          "WindMean": 4.243,
-          "WindStressMean": 0.045,
-          "UcurrMax": 0.361,
-          "UcurrMean": 0.163,
-          "CumCurrent": 5.066,
-          "month": 12.0,
+          "Hm0_max": 1.586,
+          "Hm0_mean": 0.988,
+          "CumWaveEnergy": 3406.865,
+          "StormDays_wave": 7.941,
+          "WindMax": 4.115,
+          "WindMean": 4.115,
+          "WindStressMean": 0.039,
+          "UcurrMax": 0.28,
+          "UcurrMean": 0.134,
+          "CumCurrent": 4.156,
+          "month": 2.999,
           "Season_NE_Monsoon": 0.0,
-          "Season_NE_Peak": 1.0,
-          "Season_Pre_Monsoon": 0.0,
+          "Season_NE_Peak": 0.333,
+          "Season_Pre_Monsoon": 0.667,
           "Season_SW_Monsoon": 0.0,
-          "Hm0_max_annual": 3.057,
-          "WindMax_annual": 6.702,
-          "UcurrMax_annual": 0.574
+          "Hm0_max_annual": 2.825,
+          "WindMax_annual": 6.51,
+          "UcurrMax_annual": 0.469
         },
         "State_1": {
-          "Hm0_max": 1.246,
-          "Hm0_mean": 0.786,
-          "CumWaveEnergy": 2068.761,
-          "StormDays_wave": 0.0,
-          "WindMax": 3.899,
-          "WindMean": 3.899,
+          "Hm0_max": 1.945,
+          "Hm0_mean": 1.346,
+          "CumWaveEnergy": 6050.866,
+          "StormDays_wave": 19.321,
+          "WindMax": 4.849,
+          "WindMean": 4.849,
           "WindStressMean": 0.039,
-          "UcurrMax": 0.372,
-          "UcurrMean": 0.155,
-          "CumCurrent": 4.801,
-          "month": 12.0,
+          "UcurrMax": 0.288,
+          "UcurrMean": 0.141,
+          "CumCurrent": 4.235,
+          "month": 5.0,
           "Season_NE_Monsoon": 0.0,
-          "Season_NE_Peak": 1.0,
-          "Season_Pre_Monsoon": 0.0,
-          "Season_SW_Monsoon": -0.0,
-          "Hm0_max_annual": 2.752,
-          "WindMax_annual": 6.449,
-          "UcurrMax_annual": 0.436
+          "Season_NE_Peak": -0.0,
+          "Season_Pre_Monsoon": 0.5,
+          "Season_SW_Monsoon": 0.5,
+          "Hm0_max_annual": 2.825,
+          "WindMax_annual": 6.51,
+          "UcurrMax_annual": 0.469
         },
         "State_2": {
-          "Hm0_max": 2.378,
-          "Hm0_mean": 1.758,
-          "CumWaveEnergy": 9053.509,
-          "StormDays_wave": 38.4,
-          "WindMax": 6.23,
-          "WindMean": 6.23,
-          "WindStressMean": 0.043,
-          "UcurrMax": 0.31,
-          "UcurrMean": 0.165,
-          "CumCurrent": 4.956,
-          "month": 6.0,
-          "Season_NE_Monsoon": -0.0,
+          "Hm0_max": 2.388,
+          "Hm0_mean": 1.65,
+          "CumWaveEnergy": 8431.697,
+          "StormDays_wave": 30.773,
+          "WindMax": 5.876,
+          "WindMean": 5.876,
+          "WindStressMean": 0.041,
+          "UcurrMax": 0.312,
+          "UcurrMean": 0.159,
+          "CumCurrent": 4.869,
+          "month": 8.0,
+          "Season_NE_Monsoon": 0.0,
           "Season_NE_Peak": 0.0,
           "Season_Pre_Monsoon": 0.0,
           "Season_SW_Monsoon": 1.0,
@@ -7581,91 +7575,51 @@
           "UcurrMax_annual": 0.469
         },
         "State_3": {
-          "Hm0_max": 2.05,
-          "Hm0_mean": 1.352,
-          "CumWaveEnergy": 6117.707,
-          "StormDays_wave": 19.53,
-          "WindMax": 4.971,
-          "WindMean": 4.971,
+          "Hm0_max": 1.841,
+          "Hm0_mean": 1.053,
+          "CumWaveEnergy": 3506.41,
+          "StormDays_wave": 3.46,
+          "WindMax": 4.287,
+          "WindMean": 4.287,
           "WindStressMean": 0.039,
-          "UcurrMax": 0.293,
-          "UcurrMean": 0.143,
-          "CumCurrent": 4.386,
-          "month": 6.013,
-          "Season_NE_Monsoon": 0.0,
-          "Season_NE_Peak": 0.0,
-          "Season_Pre_Monsoon": 0.497,
-          "Season_SW_Monsoon": 0.503,
-          "Hm0_max_annual": 2.827,
-          "WindMax_annual": 6.509,
+          "UcurrMax": 0.374,
+          "UcurrMean": 0.162,
+          "CumCurrent": 4.934,
+          "month": 10.5,
+          "Season_NE_Monsoon": 1.0,
+          "Season_NE_Peak": -0.0,
+          "Season_Pre_Monsoon": -0.0,
+          "Season_SW_Monsoon": 0.0,
+          "Hm0_max_annual": 2.825,
+          "WindMax_annual": 6.51,
           "UcurrMax_annual": 0.469
         },
         "State_4": {
-          "Hm0_max": 1.125,
-          "Hm0_mean": 0.739,
-          "CumWaveEnergy": 1829.252,
-          "StormDays_wave": 0.0,
-          "WindMax": 3.455,
-          "WindMean": 3.455,
-          "WindStressMean": 0.037,
-          "UcurrMax": 0.274,
-          "UcurrMean": 0.137,
-          "CumCurrent": 4.052,
-          "month": 1.549,
-          "Season_NE_Monsoon": -0.0,
-          "Season_NE_Peak": 0.98,
-          "Season_Pre_Monsoon": 0.02,
-          "Season_SW_Monsoon": -0.0,
-          "Hm0_max_annual": 2.821,
-          "WindMax_annual": 6.514,
-          "UcurrMax_annual": 0.468
-        },
-        "State_5": {
-          "Hm0_max": 1.962,
-          "Hm0_mean": 0.99,
-          "CumWaveEnergy": 2906.78,
-          "StormDays_wave": 2.333,
-          "WindMax": 4.378,
-          "WindMean": 4.378,
+          "Hm0_max": 1.253,
+          "Hm0_mean": 0.764,
+          "CumWaveEnergy": 1915.998,
+          "StormDays_wave": 0.3,
+          "WindMax": 3.606,
+          "WindMean": 3.606,
           "WindStressMean": 0.038,
-          "UcurrMax": 0.565,
-          "UcurrMean": 0.244,
-          "CumCurrent": 7.309,
-          "month": 11.0,
-          "Season_NE_Monsoon": 1.0,
-          "Season_NE_Peak": 0.0,
-          "Season_Pre_Monsoon": 0.0,
+          "UcurrMax": 0.317,
+          "UcurrMean": 0.146,
+          "CumCurrent": 4.34,
+          "month": 7.0,
+          "Season_NE_Monsoon": 0.0,
+          "Season_NE_Peak": 1.0,
+          "Season_Pre_Monsoon": -0.0,
           "Season_SW_Monsoon": 0.0,
-          "Hm0_max_annual": 3.057,
-          "WindMax_annual": 6.702,
-          "UcurrMax_annual": 0.574
-        },
-        "State_6": {
-          "Hm0_max": 1.824,
-          "Hm0_mean": 1.062,
-          "CumWaveEnergy": 3588.178,
-          "StormDays_wave": 3.614,
-          "WindMax": 4.274,
-          "WindMean": 4.274,
-          "WindStressMean": 0.039,
-          "UcurrMax": 0.348,
-          "UcurrMean": 0.151,
-          "CumCurrent": 4.61,
-          "month": 10.432,
-          "Season_NE_Monsoon": 1.0,
-          "Season_NE_Peak": 0.0,
-          "Season_Pre_Monsoon": 0.0,
-          "Season_SW_Monsoon": 0.0,
-          "Hm0_max_annual": 2.794,
-          "WindMax_annual": 6.484,
-          "UcurrMax_annual": 0.455
+          "Hm0_max_annual": 2.825,
+          "WindMax_annual": 6.51,
+          "UcurrMax_annual": 0.469
         }
       },
       "componentSelection": [
         {
           "nComponents": 2,
-          "bic": 444321.6,
-          "aic": 442906.7
+          "bic": -1092027.7,
+          "aic": -1093442.6
         },
         {
           "nComponents": 3,
@@ -7674,111 +7628,81 @@
         },
         {
           "nComponents": 4,
-          "bic": -3450345.6,
-          "aic": -3453204.9
+          "bic": -3551166.6,
+          "aic": -3554025.9
         },
         {
           "nComponents": 5,
-          "bic": -4309257.7,
-          "aic": -4312850.4
+          "bic": -6057267.6,
+          "aic": -6060860.3
         },
         {
           "nComponents": 6,
-          "bic": -4077808.5,
-          "aic": -4082141.9
+          "bic": -4611575.2,
+          "aic": -4615908.6
         },
         {
           "nComponents": 7,
-          "bic": -4477495.5,
-          "aic": -4482577.1
+          "bic": -3487304.5,
+          "aic": -3492386.1
         }
       ],
       "transitionMatrix": [
         {
           "from": "S0",
           "S0": 0.0,
-          "S1": 0.0,
+          "S1": 0.662,
           "S2": 0.0,
           "S3": 0.0,
-          "S4": 1.0,
-          "S5": 0.0,
-          "S6": 0.0
+          "S4": 0.338
         },
         {
           "from": "S1",
-          "S0": 0.0,
-          "S1": 0.0,
-          "S2": 0.0,
+          "S0": 0.499,
+          "S1": 0.0013,
+          "S2": 0.4997,
           "S3": 0.0,
-          "S4": 1.0,
-          "S5": 0.0,
-          "S6": 0.0
+          "S4": 0.0
         },
         {
           "from": "S2",
           "S0": 0.0,
           "S1": 0.0,
-          "S2": 0.0,
-          "S3": 1.0,
-          "S4": 0.0,
-          "S5": 0.0,
-          "S6": 0.0
+          "S2": 0.6667,
+          "S3": 0.3333,
+          "S4": 0.0
         },
         {
           "from": "S3",
           "S0": 0.0,
           "S1": 0.0,
-          "S2": 0.1689,
-          "S3": 0.6622,
-          "S4": 0.0,
-          "S5": 0.0,
-          "S6": 0.1689
+          "S2": 0.0,
+          "S3": 0.5,
+          "S4": 0.5
         },
         {
           "from": "S4",
-          "S0": 0.0,
-          "S1": 0.0,
-          "S2": 0.0,
-          "S3": 0.5098,
-          "S4": 0.4902,
-          "S5": 0.0,
-          "S6": 0.0
-        },
-        {
-          "from": "S5",
           "S0": 1.0,
           "S1": 0.0,
           "S2": 0.0,
           "S3": 0.0,
-          "S4": 0.0,
-          "S5": 0.0,
-          "S6": 0.0
-        },
-        {
-          "from": "S6",
-          "S0": 0.0,
-          "S1": 0.4318,
-          "S2": 0.0,
-          "S3": 0.0,
-          "S4": 0.0,
-          "S5": 0.1364,
-          "S6": 0.4318
+          "S4": 0.0
         }
       ],
       "regimeStability": {
         "count": 25,
-        "mean": 6.3,
-        "std": 0.5,
-        "min": 6,
-        "q25": 6,
-        "q50": 6,
-        "q75": 6,
+        "mean": 8.0,
+        "std": 0.0,
+        "min": 8,
+        "q25": 8,
+        "q50": 8,
+        "q75": 8,
         "max": 8
       },
       "finalStateDominance": [
         {
           "state": "State 0",
-          "value": 0.0
+          "value": 1.0
         },
         {
           "state": "State 1",
@@ -7790,91 +7714,83 @@
         },
         {
           "state": "State 3",
-          "value": 1.0
+          "value": 0.0
         },
         {
           "state": "State 4",
-          "value": 0.0
-        },
-        {
-          "state": "State 5",
-          "value": 0.0
-        },
-        {
-          "state": "State 6",
           "value": 0.0
         }
       ],
       "erosionState": 0,
       "metrics": {
-        "nStates": 7,
-        "accuracy": 0.72,
-        "logLikelihood": 7475.535,
-        "aic": -4482577.072,
-        "bic": -4477495.483,
+        "nStates": 5,
+        "accuracy": 0.61,
+        "logLikelihood": 10104.667,
+        "aic": -6060860.266,
+        "bic": -6057267.597,
         "converged": true,
         "silhouetteScore": 0
       },
       "thresholds": {
         "Hm0_max": {
-          "value": 1.877,
-          "direction": "\u2265",
-          "erosionValue": 1.99,
-          "normalValue": 1.764
+          "value": 1.721,
+          "direction": "\u2264",
+          "erosionValue": 1.586,
+          "normalValue": 1.857
         },
         "Hm0_mean": {
-          "value": 1.01,
+          "value": 1.096,
           "direction": "\u2264",
-          "erosionValue": 0.906,
-          "normalValue": 1.114
+          "erosionValue": 0.988,
+          "normalValue": 1.203
         },
         "CumWaveEnergy": {
-          "value": 3450.92,
+          "value": 4191.554,
           "direction": "\u2264",
-          "erosionValue": 2641.143,
-          "normalValue": 4260.698
+          "erosionValue": 3406.865,
+          "normalValue": 4976.243
         },
         "StormDays_wave": {
-          "value": 6.573,
+          "value": 10.702,
           "direction": "\u2264",
-          "erosionValue": 2.5,
-          "normalValue": 10.646
+          "erosionValue": 7.941,
+          "normalValue": 13.464
         },
         "WindMax": {
-          "value": 4.389,
+          "value": 4.385,
           "direction": "\u2264",
-          "erosionValue": 4.243,
-          "normalValue": 4.535
+          "erosionValue": 4.115,
+          "normalValue": 4.655
         },
         "WindMean": {
-          "value": 4.389,
+          "value": 4.385,
           "direction": "\u2264",
-          "erosionValue": 4.243,
-          "normalValue": 4.535
+          "erosionValue": 4.115,
+          "normalValue": 4.655
         },
         "WindStressMean": {
-          "value": 0.042,
-          "direction": "\u2265",
-          "erosionValue": 0.045,
+          "value": 0.039,
+          "direction": "\u2264",
+          "erosionValue": 0.039,
           "normalValue": 0.039
         },
         "UcurrMax": {
-          "value": 0.361,
-          "direction": "\u2265",
-          "erosionValue": 0.361,
-          "normalValue": 0.36
+          "value": 0.302,
+          "direction": "\u2264",
+          "erosionValue": 0.28,
+          "normalValue": 0.323
         },
         "UcurrMean": {
-          "value": 0.165,
+          "value": 0.143,
           "direction": "\u2264",
-          "erosionValue": 0.163,
-          "normalValue": 0.166
+          "erosionValue": 0.134,
+          "normalValue": 0.152
         },
         "CumCurrent": {
-          "value": 5.043,
-          "direction": "\u2265",
-          "erosionValue": 5.066,
-          "normalValue": 5.019
+          "value": 4.375,
+          "direction": "\u2264",
+          "erosionValue": 4.156,
+          "normalValue": 4.595
         }
       }
     }
@@ -7885,23 +7801,23 @@
       "Unit": "m",
       "Description": "Maximum significant wave height",
       "Direction": "\u2265",
-      "HMM_Threshold": 1.8771,
+      "HMM_Threshold": 1.7211,
       "RF_Threshold": 2.455,
       "XGB_Threshold": 1.93,
-      "Consensus_Threshold": 2.1265,
-      "Erosion_Threshold_Lower": 1.69,
+      "Consensus_Threshold": 2.0568,
+      "Erosion_Threshold_Lower": 1.6534,
       "Erosion_Threshold_Upper": 2.7075,
-      "Model_Consensus": "Strong"
+      "Model_Consensus": "Moderate"
     },
     {
       "Driver": "Hm0_mean",
       "Unit": "m",
       "Description": "Mean significant wave height",
       "Direction": "\u2265",
-      "HMM_Threshold": 1.0102,
+      "HMM_Threshold": 1.0959,
       "RF_Threshold": 0.7895,
       "XGB_Threshold": 1.0152,
-      "Consensus_Threshold": 0.9291,
+      "Consensus_Threshold": 0.9588,
       "Erosion_Threshold_Lower": 0.7397,
       "Erosion_Threshold_Upper": 1.3749,
       "Model_Consensus": "Moderate"
@@ -7911,10 +7827,10 @@
       "Unit": "m\u00b2\u00b7s",
       "Description": "Cumulative wave energy proxy",
       "Direction": "\u2265",
-      "HMM_Threshold": 3450.9203,
+      "HMM_Threshold": 4191.5537,
       "RF_Threshold": 4056.0627,
       "XGB_Threshold": 3224.1317,
-      "Consensus_Threshold": 3554.2707,
+      "Consensus_Threshold": 3689.2553,
       "Erosion_Threshold_Lower": 1857.0243,
       "Erosion_Threshold_Upper": 9437.9842,
       "Model_Consensus": "Moderate"
@@ -7924,11 +7840,11 @@
       "Unit": "days",
       "Description": "Storm wave days (Hm0 > 2 m)",
       "Direction": "\u2265",
-      "HMM_Threshold": 6.5731,
+      "HMM_Threshold": 10.7024,
       "RF_Threshold": 11.75,
       "XGB_Threshold": 5.0,
-      "Consensus_Threshold": 7.6625,
-      "Erosion_Threshold_Lower": 4.5365,
+      "Consensus_Threshold": 8.337,
+      "Erosion_Threshold_Lower": 5.0,
       "Erosion_Threshold_Upper": 25.75,
       "Model_Consensus": "Moderate"
     },
@@ -7937,10 +7853,10 @@
       "Unit": "m/s",
       "Description": "Maximum wind speed",
       "Direction": "\u2264",
-      "HMM_Threshold": 4.3889,
+      "HMM_Threshold": 4.3847,
       "RF_Threshold": 3.865,
       "XGB_Threshold": 3.96,
-      "Consensus_Threshold": 3.9498,
+      "Consensus_Threshold": 4.0158,
       "Erosion_Threshold_Lower": 3.015,
       "Erosion_Threshold_Upper": 4.91,
       "Model_Consensus": "Strong"
@@ -7950,23 +7866,23 @@
       "Unit": "m/s",
       "Description": "Maximum ocean current speed",
       "Direction": "\u2265",
-      "HMM_Threshold": 0.3607,
+      "HMM_Threshold": 0.3016,
       "RF_Threshold": 0.3297,
       "XGB_Threshold": 0.3313,
-      "Consensus_Threshold": 0.3325,
+      "Consensus_Threshold": 0.3247,
       "Erosion_Threshold_Lower": 0.2494,
       "Erosion_Threshold_Upper": 0.3788,
-      "Model_Consensus": "Strong"
+      "Model_Consensus": "Moderate"
     },
     {
       "Driver": "UcurrMean",
       "Unit": "m/s",
       "Description": "Mean ocean current speed",
       "Direction": "\u2264",
-      "HMM_Threshold": 0.1646,
+      "HMM_Threshold": 0.143,
       "RF_Threshold": 0.1592,
       "XGB_Threshold": 0.1403,
-      "Consensus_Threshold": 0.1489,
+      "Consensus_Threshold": 0.1469,
       "Erosion_Threshold_Lower": 0.1276,
       "Erosion_Threshold_Upper": 0.201,
       "Model_Consensus": "Strong"
@@ -7976,23 +7892,23 @@
       "Unit": "m",
       "Description": "Cumulative current transport",
       "Direction": "\u2264",
-      "HMM_Threshold": 5.0426,
+      "HMM_Threshold": 4.3753,
       "RF_Threshold": 3.6787,
       "XGB_Threshold": 4.9342,
-      "Consensus_Threshold": 4.4633,
+      "Consensus_Threshold": 4.4156,
       "Erosion_Threshold_Lower": 3.2301,
-      "Erosion_Threshold_Upper": 5.0543,
-      "Model_Consensus": "Moderate"
+      "Erosion_Threshold_Upper": 4.9342,
+      "Model_Consensus": "Strong"
     }
   ],
   "modelComparison": [
     {
       "Model": "HMM",
-      "Accuracy": 0.72,
-      "Precision": 0.5,
-      "Recall": 0.036,
-      "F1_Score": 0.067,
-      "ROC_AUC": 0.511
+      "Accuracy": 0.61,
+      "Precision": 0.28,
+      "Recall": 0.25,
+      "F1_Score": 0.264,
+      "ROC_AUC": 0.5
     },
     {
       "Model": "Random Forest",
@@ -8008,15 +7924,15 @@
       "Precision": 0.667,
       "Recall": 0.571,
       "F1_Score": 0.615,
-      "ROC_AUC": 0.663
+      "ROC_AUC": 0.664
     }
   ],
   "thresholdComparison": [
     {
       "Variable": "CumCurrent",
-      "HMM_Threshold": 5.0426,
-      "HMM_Range_Lower": 5.0308,
-      "HMM_Range_Upper": 5.0543,
+      "HMM_Threshold": 4.3753,
+      "HMM_Range_Lower": 4.2655,
+      "HMM_Range_Upper": 4.485,
       "RF_Threshold": 3.6787,
       "RF_Range_Lower": 3.2301,
       "RF_Range_Upper": 4.7335,
@@ -8026,9 +7942,9 @@
     },
     {
       "Variable": "CumWaveEnergy",
-      "HMM_Threshold": 3450.9203,
-      "HMM_Range_Lower": 3046.0315,
-      "HMM_Range_Upper": 3855.809,
+      "HMM_Threshold": 4191.5537,
+      "HMM_Range_Lower": 3799.2091,
+      "HMM_Range_Upper": 4583.8982,
       "RF_Threshold": 4056.0627,
       "RF_Range_Lower": 1857.0243,
       "RF_Range_Upper": 9437.9842,
@@ -8038,9 +7954,9 @@
     },
     {
       "Variable": "Hm0_max",
-      "HMM_Threshold": 1.8771,
-      "HMM_Range_Lower": 1.8207,
-      "HMM_Range_Upper": 1.9336,
+      "HMM_Threshold": 1.7211,
+      "HMM_Range_Lower": 1.6534,
+      "HMM_Range_Upper": 1.7889,
       "RF_Threshold": 2.455,
       "RF_Range_Lower": 2.1175,
       "RF_Range_Upper": 2.7075,
@@ -8050,9 +7966,9 @@
     },
     {
       "Variable": "Hm0_mean",
-      "HMM_Threshold": 1.0102,
-      "HMM_Range_Lower": 0.9581,
-      "HMM_Range_Upper": 1.0622,
+      "HMM_Threshold": 1.0959,
+      "HMM_Range_Lower": 1.0422,
+      "HMM_Range_Upper": 1.1496,
       "RF_Threshold": 0.7895,
       "RF_Range_Lower": 0.7397,
       "RF_Range_Upper": 1.3749,
@@ -8062,9 +7978,9 @@
     },
     {
       "Variable": "StormDays_wave",
-      "HMM_Threshold": 6.5731,
-      "HMM_Range_Lower": 4.5365,
-      "HMM_Range_Upper": 8.6096,
+      "HMM_Threshold": 10.7024,
+      "HMM_Range_Lower": 9.3218,
+      "HMM_Range_Upper": 12.0829,
       "RF_Threshold": 11.75,
       "RF_Range_Lower": 5.625,
       "RF_Range_Upper": 25.75,
@@ -8074,9 +7990,9 @@
     },
     {
       "Variable": "UcurrMax",
-      "HMM_Threshold": 0.3607,
-      "HMM_Range_Lower": 0.3606,
-      "HMM_Range_Upper": 0.3608,
+      "HMM_Threshold": 0.3016,
+      "HMM_Range_Lower": 0.291,
+      "HMM_Range_Upper": 0.3121,
       "RF_Threshold": 0.3297,
       "RF_Range_Lower": 0.2494,
       "RF_Range_Upper": 0.3788,
@@ -8086,9 +8002,9 @@
     },
     {
       "Variable": "UcurrMean",
-      "HMM_Threshold": 0.1646,
-      "HMM_Range_Lower": 0.164,
-      "HMM_Range_Upper": 0.1651,
+      "HMM_Threshold": 0.143,
+      "HMM_Range_Lower": 0.1385,
+      "HMM_Range_Upper": 0.1475,
       "RF_Threshold": 0.1592,
       "RF_Range_Lower": 0.1276,
       "RF_Range_Upper": 0.201,
@@ -8098,9 +8014,9 @@
     },
     {
       "Variable": "WindMax",
-      "HMM_Threshold": 4.3889,
-      "HMM_Range_Lower": 4.3161,
-      "HMM_Range_Upper": 4.4617,
+      "HMM_Threshold": 4.3847,
+      "HMM_Range_Lower": 4.2498,
+      "HMM_Range_Upper": 4.5196,
       "RF_Threshold": 3.865,
       "RF_Range_Lower": 3.015,
       "RF_Range_Upper": 4.91,
@@ -8131,8 +8047,8 @@
     },
     "variables": {
       "Hm0_max": {
-        "threshold": 1.8771,
-        "thresholdDirection": "\u2265",
+        "threshold": 1.7211,
+        "thresholdDirection": "\u2264",
         "historicalMean": 1.8332,
         "historicalStd": 0.6203,
         "historicalMin": 0.89,
@@ -8211,8 +8127,8 @@
             "avgForecast": 2.2669,
             "peakForecast": 2.6035,
             "minForecast": 1.4988,
-            "exceedanceMonths": 5,
-            "exceedancePct": 83.3,
+            "exceedanceMonths": 1,
+            "exceedancePct": 16.7,
             "trendPct": 23.7
           },
           "12": {
@@ -8263,7 +8179,7 @@
                 "date": "2025-10",
                 "month": 10,
                 "predicted": 2.1273,
-                "ci_lower": 1.4542,
+                "ci_lower": 1.4543,
                 "ci_upper": 2.8004
               },
               {
@@ -8357,7 +8273,7 @@
                 "date": "2025-10",
                 "month": 10,
                 "predicted": 2.1273,
-                "ci_lower": 1.4542,
+                "ci_lower": 1.4543,
                 "ci_upper": 2.8004
               },
               {
@@ -8441,8 +8357,8 @@
             "avgForecast": 1.9934,
             "peakForecast": 2.6035,
             "minForecast": 1.097,
-            "exceedanceMonths": 11,
-            "exceedancePct": 61.1,
+            "exceedanceMonths": 7,
+            "exceedancePct": 38.9,
             "trendPct": 8.7
           },
           "24": {
@@ -8493,7 +8409,7 @@
                 "date": "2025-10",
                 "month": 10,
                 "predicted": 2.1273,
-                "ci_lower": 1.4542,
+                "ci_lower": 1.4543,
                 "ci_upper": 2.8004
               },
               {
@@ -8626,13 +8542,13 @@
         }
       },
       "UcurrMax": {
-        "threshold": 0.3607,
-        "thresholdDirection": "\u2265",
+        "threshold": 0.3016,
+        "thresholdDirection": "\u2264",
         "historicalMean": 0.3112,
         "historicalStd": 0.0794,
         "historicalMin": 0.1512,
         "historicalMax": 0.6869,
-        "riskLevel": "Low",
+        "riskLevel": "Medium",
         "model": {
           "order": [
             0,
@@ -8706,8 +8622,8 @@
             "avgForecast": 0.2957,
             "peakForecast": 0.3356,
             "minForecast": 0.2496,
-            "exceedanceMonths": 0,
-            "exceedancePct": 0.0,
+            "exceedanceMonths": 3,
+            "exceedancePct": 50.0,
             "trendPct": -5.0
           },
           "12": {
@@ -8800,8 +8716,8 @@
             "avgForecast": 0.3153,
             "peakForecast": 0.4266,
             "minForecast": 0.2496,
-            "exceedanceMonths": 2,
-            "exceedancePct": 16.7,
+            "exceedanceMonths": 5,
+            "exceedancePct": 41.7,
             "trendPct": 1.3
           },
           "18": {
@@ -8936,8 +8852,8 @@
             "avgForecast": 0.3087,
             "peakForecast": 0.4266,
             "minForecast": 0.2468,
-            "exceedanceMonths": 2,
-            "exceedancePct": 11.1,
+            "exceedanceMonths": 8,
+            "exceedancePct": 44.4,
             "trendPct": -0.8
           },
           "24": {
@@ -9114,14 +9030,14 @@
             "avgForecast": 0.3152,
             "peakForecast": 0.4639,
             "minForecast": 0.2468,
-            "exceedanceMonths": 4,
-            "exceedancePct": 16.7,
+            "exceedanceMonths": 11,
+            "exceedancePct": 45.8,
             "trendPct": 1.3
           }
         }
       },
       "WindMax": {
-        "threshold": 4.3889,
+        "threshold": 4.3847,
         "thresholdDirection": "\u2264",
         "historicalMean": 4.6215,
         "historicalStd": 1.2961,
@@ -9616,13 +9532,13 @@
         }
       },
       "CumCurrent": {
-        "threshold": 5.0426,
-        "thresholdDirection": "\u2265",
+        "threshold": 4.3753,
+        "thresholdDirection": "\u2264",
         "historicalMean": 4.5079,
         "historicalStd": 1.1241,
         "historicalMin": 2.6215,
         "historicalMax": 8.2745,
-        "riskLevel": "Low",
+        "riskLevel": "Medium",
         "model": {
           "order": [
             0,
@@ -9696,8 +9612,8 @@
             "avgForecast": 4.4826,
             "peakForecast": 5.8465,
             "minForecast": 3.4425,
-            "exceedanceMonths": 1,
-            "exceedancePct": 16.7,
+            "exceedanceMonths": 2,
+            "exceedancePct": 33.3,
             "trendPct": -0.6
           },
           "12": {
@@ -9790,8 +9706,8 @@
             "avgForecast": 4.4761,
             "peakForecast": 5.8465,
             "minForecast": 3.4425,
-            "exceedanceMonths": 2,
-            "exceedancePct": 16.7,
+            "exceedanceMonths": 5,
+            "exceedancePct": 41.7,
             "trendPct": -0.7
           },
           "18": {
@@ -9926,8 +9842,8 @@
             "avgForecast": 4.4783,
             "peakForecast": 5.8465,
             "minForecast": 3.4425,
-            "exceedanceMonths": 3,
-            "exceedancePct": 16.7,
+            "exceedanceMonths": 7,
+            "exceedancePct": 38.9,
             "trendPct": -0.7
           },
           "24": {
@@ -10104,14 +10020,14 @@
             "avgForecast": 4.4761,
             "peakForecast": 5.8465,
             "minForecast": 3.4425,
-            "exceedanceMonths": 4,
-            "exceedancePct": 16.7,
+            "exceedanceMonths": 10,
+            "exceedancePct": 41.7,
             "trendPct": -0.7
           }
         }
       },
       "StormDays_wave": {
-        "threshold": 6.5731,
+        "threshold": 10.7024,
         "thresholdDirection": "\u2264",
         "historicalMean": 13.5267,
         "historicalStd": 23.1992,
@@ -10191,8 +10107,8 @@
             "avgForecast": 25.5163,
             "peakForecast": 48.7825,
             "minForecast": 0.0349,
-            "exceedanceMonths": 1,
-            "exceedancePct": 16.7,
+            "exceedanceMonths": 2,
+            "exceedancePct": 33.3,
             "trendPct": 88.6
           },
           "12": {
@@ -10285,8 +10201,8 @@
             "avgForecast": 13.7444,
             "peakForecast": 48.7825,
             "minForecast": -0.0033,
-            "exceedanceMonths": 6,
-            "exceedancePct": 50.0,
+            "exceedanceMonths": 7,
+            "exceedancePct": 58.3,
             "trendPct": 1.6
           },
           "18": {
@@ -10421,8 +10337,8 @@
             "avgForecast": 17.6676,
             "peakForecast": 48.7825,
             "minForecast": -0.0033,
-            "exceedanceMonths": 7,
-            "exceedancePct": 38.9,
+            "exceedanceMonths": 9,
+            "exceedancePct": 50.0,
             "trendPct": 30.6
           },
           "24": {
@@ -10599,8 +10515,8 @@
             "avgForecast": 13.7438,
             "peakForecast": 48.7825,
             "minForecast": -0.0034,
-            "exceedanceMonths": 12,
-            "exceedancePct": 50.0,
+            "exceedanceMonths": 14,
+            "exceedancePct": 58.3,
             "trendPct": 1.6
           }
         }
