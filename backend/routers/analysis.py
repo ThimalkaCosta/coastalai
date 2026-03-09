@@ -4,8 +4,10 @@ Analysis router – file upload + notebook execution endpoints.
 from __future__ import annotations
 
 import json
+import os
 import shutil
 import traceback
+import uuid
 from pathlib import Path
 
 from fastapi import APIRouter, File, HTTPException, UploadFile
@@ -41,8 +43,17 @@ async def analyze(
             ("current", current),
         ]:
             dest = UPLOAD_DIR / upload.filename
-            with open(dest, "wb") as f:
-                shutil.copyfileobj(upload.file, f)
+            content = await upload.read()
+            # On Windows, remove existing file first to avoid lock conflicts
+            if dest.exists():
+                try:
+                    os.remove(dest)
+                except OSError:
+                    # File is locked; use a unique name instead
+                    stem = dest.stem
+                    suffix = dest.suffix
+                    dest = UPLOAD_DIR / f"{stem}_{uuid.uuid4().hex[:8]}{suffix}"
+            dest.write_bytes(content)
             saved_paths[label] = str(dest)
     except Exception as exc:
         raise HTTPException(status_code=500, detail=f"File save error: {exc}")
@@ -105,9 +116,16 @@ async def upload_files(
     ]:
         if upload is not None:
             dest = UPLOAD_DIR / upload.filename
-            with open(dest, "wb") as f:
-                shutil.copyfileobj(upload.file, f)
-            saved[label] = {"filename": upload.filename, "size": dest.stat().st_size}
+            content = await upload.read()
+            if dest.exists():
+                try:
+                    os.remove(dest)
+                except OSError:
+                    stem = dest.stem
+                    suffix = dest.suffix
+                    dest = UPLOAD_DIR / f"{stem}_{uuid.uuid4().hex[:8]}{suffix}"
+            dest.write_bytes(content)
+            saved[label] = {"filename": dest.name, "size": dest.stat().st_size}
     return {"uploaded": saved}
 
 

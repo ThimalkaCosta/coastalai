@@ -118,7 +118,7 @@ export default function LandingPage() {
             }}
           />
           {/* Dark gradient overlay for text readability */}
-          <div className="absolute inset-0 bg-gradient-to-br from-slate-900/85 via-slate-900/60 to-ocean-900/50" />
+          <div className="absolute inset-0 bg-gradient-to-br from-slate-900/45 via-slate-900/22 to-ocean-900/15" />
           {/* Subtle grid pattern */}
           <div className="absolute inset-0" style={{
             backgroundImage: 'linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px)',
@@ -183,14 +183,14 @@ export default function LandingPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5 }}
-                className="grid grid-cols-2 sm:grid-cols-4 gap-6 mt-12 pt-8 border-t border-white/10"
+                className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-12"
               >
                 {stats.map((stat, index) => (
-                  <div key={index} className="group">
+                  <div key={index} className="group px-5 py-4 bg-white/8 backdrop-blur-md rounded-2xl ring-1 ring-white/12 hover:bg-white/14 hover:ring-white/22 transition-all duration-200">
                     <div className="text-2xl font-display font-bold text-white group-hover:text-cyan-300 transition-colors">
                       {stat.value}
                     </div>
-                    <div className="text-sm text-white/45 font-medium">{stat.label}</div>
+                    <div className="text-xs text-white/50 font-medium mt-0.5">{stat.label}</div>
                   </div>
                 ))}
               </motion.div>
