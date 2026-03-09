@@ -5,6 +5,11 @@ import { Download, RefreshCw, AlertTriangle, Map, BarChart2, FileText, CheckCirc
 import STLandingPage from './STLandingPage'
 import STParametersPage from './STParametersPage'
 
+// ── Static transect history images ──
+import transect0  from '../../assets/transect_0.png'
+import transect50 from '../../assets/transect_50.png'
+import transect99 from '../../assets/transect_99.png'
+
 // ✅ Preserved: friend's API base using VITE_API_URL + shortterm paths
 const API_BASE = (import.meta.env.VITE_API_URL || 'http://localhost:8000').replace(/\/api\/?$/, '').replace(/\/$/, '')
 
@@ -324,6 +329,40 @@ function ChartCard({ output, idx, onExpand }) {
   return null
 }
 
+// ── TransectHistoryCard — static card showing 3 transect history plots ──
+function TransectHistoryCard({ onExpand }) {
+  const transects = [
+    { img: transect0,  label: 'Transect 0',  sub: 'Northern end' },
+    { img: transect50, label: 'Transect 50', sub: 'Mid-shore' },
+    { img: transect99, label: 'Transect 99', sub: 'Southern end' },
+  ]
+
+  return (
+    <div className="rp-chart-card">
+      <div className="rp-chart-card-header">
+        <div>
+          <div className="rp-chart-card-title">Historical Shoreline Movement — Key Transects</div>
+          <div className="rp-chart-card-desc">Observed shoreline position change 2010–2026 at three representative cross-shore transects</div>
+        </div>
+      </div>
+      <div className="rp-transect-grid">
+        {transects.map(({ img, label, sub }) => (
+          <div key={label} className="rp-transect-item">
+            <img
+              src={img}
+              alt={label}
+              className="rp-transect-img"
+              onClick={() => onExpand(img)}
+            />
+            <div className="rp-transect-label">{label}</div>
+            <div className="rp-transect-sub">{sub}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 function LogCell({ text, idx }) {
   const [open, setOpen] = useState(idx === 0)
   const lines = text.trim().split('\n')
@@ -591,7 +630,7 @@ function ResultsPage({ data, onBack, loading, error, downloadFile, forecastDate,
     <div className="rp-root">
       {lightbox && <Lightbox src={lightbox} onClose={() => setLightbox(null)} />}
 
-      {/* ── NEW: Results wave banner replacing plain rp-header title ── */}
+      {/* ── Results wave banner ── */}
       <div className="rp-results-banner">
         <ResultsWaveCanvas />
         <div className="rp-results-banner-content">
@@ -631,11 +670,28 @@ function ResultsPage({ data, onBack, loading, error, downloadFile, forecastDate,
           <div className="rp-charts-section">
             {chartOutputs.length === 0
               ? <div className="rp-empty">No visualizations generated.</div>
-              : <div className="rp-charts-grid">
-                  {chartOutputs.map((output, idx) => (
-                    <ChartCard key={idx} output={output} idx={idx} onExpand={setLightbox} />
+              : (
+                <div className="rp-charts-grid-2x2">
+                  {/* Row 1: Shoreline Forecast Summary + Transect History */}
+                  {chartOutputs[2] && (
+                    <ChartCard output={chartOutputs[2]} idx={2} onExpand={setLightbox} />
+                  )}
+                  <TransectHistoryCard onExpand={setLightbox} />
+
+                  {/* Row 2: Correlation Matrix + Diagnostic Plots */}
+                  {chartOutputs[0] && (
+                    <ChartCard output={chartOutputs[0]} idx={0} onExpand={setLightbox} />
+                  )}
+                  {chartOutputs[1] && (
+                    <ChartCard output={chartOutputs[1]} idx={1} onExpand={setLightbox} />
+                  )}
+
+                  {/* Any extra charts beyond index 2 */}
+                  {chartOutputs.slice(3).map((output, i) => (
+                    <ChartCard key={i + 3} output={output} idx={i + 3} onExpand={setLightbox} />
                   ))}
                 </div>
+              )
             }
           </div>
         )}
@@ -657,7 +713,6 @@ function ResultsPage({ data, onBack, loading, error, downloadFile, forecastDate,
                         <span className="rp-kml-section-dot current" /> This Forecast Run — {forecastDate}
                       </div>
 
-                      {/* WOW KML — single card, header rendered by KmlViewer */}
                       {wowKml && (
                         <KmlViewer file={wowKml} onDownload={downloadFile} />
                       )}
