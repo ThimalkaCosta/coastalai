@@ -331,7 +331,7 @@
     }
   ],
   "modelComparison": {
-    "vecmRmse": null,
+    "vecmRmse": 3.5622,
     "trendRmse": 2.8545,
     "selectedModel": "Linear Trend",
     "adfResults": [
