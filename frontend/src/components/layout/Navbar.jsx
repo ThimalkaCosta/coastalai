@@ -9,7 +9,9 @@ import {
   TrendingUp,
   Activity,
   Mountain,
+  Users,
 } from 'lucide-react'
+import { useAuth } from '../../context/AuthContext'
 
 const headerNavigation = [
   { name: 'Home', href: '/', icon: Home },
@@ -20,14 +22,22 @@ const headerNavigation = [
 ]
 
 /* Paths belonging to each top-level section (for active-tab highlighting) */
-const METEOROLOGICAL_PATHS = ['/dashboard', '/upload', '/analysis', '/threshold', '/models', '/admin']
+const METEOROLOGICAL_PATHS = ['/dashboard', '/upload', '/analysis', '/threshold', '/models']
 const MORPHOLOGICAL_PATHS = ['/morphological']
 const SHORTTERM_PATHS = ['/short-term']
 const LONGTERM_PATHS = ['/long-term']
+const USERS_PATHS = ['/admin/users']
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const location = useLocation()
+  const { userRole } = useAuth()
+
+  const showUsersLink = userRole === 'Manager' || userRole === 'Head Office'
+
+  const navItems = showUsersLink
+    ? [...headerNavigation, { name: 'Users', href: '/admin/users', icon: Users }]
+    : headerNavigation
 
   const isActive = (href) => {
     if (href === '/') return location.pathname === '/'
@@ -35,6 +45,7 @@ export default function Navbar() {
     if (href === '/morphological') return MORPHOLOGICAL_PATHS.some((p) => location.pathname.startsWith(p))
     if (href === '/short-term') return SHORTTERM_PATHS.some((p) => location.pathname.startsWith(p))
     if (href === '/long-term') return LONGTERM_PATHS.some((p) => location.pathname.startsWith(p))
+    if (href === '/admin/users') return USERS_PATHS.some((p) => location.pathname.startsWith(p))
     return location.pathname === href
   }
 
@@ -54,7 +65,7 @@ export default function Navbar() {
 
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center gap-0.5 xl:gap-1">
-              {headerNavigation.map((item) => (
+              {navItems.map((item) => (
                 <Link
                   key={item.href}
                   to={item.href}
@@ -100,7 +111,7 @@ export default function Navbar() {
             className="lg:hidden bg-white/95 backdrop-blur-xl border-t border-coastal-100/50 rounded-b-xl sm:rounded-b-2xl overflow-hidden mt-1 shadow-glass"
           >
             <div className="px-4 py-4 space-y-1">
-              {headerNavigation.map((item) => (
+              {navItems.map((item) => (
                 <Link
                   key={item.href}
                   to={item.href}
