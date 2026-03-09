@@ -216,6 +216,7 @@ def run_forecast(req: RunRequest):
                 "DATA_DIR": str(DATA_DIR),
             },
             kernel_name="python3",
+            cwd=str(PROJECT_ROOT),
         )
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Notebook execution failed: {e}")
