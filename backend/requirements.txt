@@ -18,3 +18,8 @@ statsmodels>=0.14.0
 scipy>=1.11.0
 firebase-admin==6.4.0
 aiofiles==23.2.1
+cdsapi
+copernicusmarine
+h5netcdf
+python-dateutil
+tqdm

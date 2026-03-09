@@ -1,6 +1,6 @@
-// STLandingPage.jsx — Adapted from friend's LandingPage for integration
+// STLandingPage.jsx — Integrated + UI improvements merged
 import { useEffect, useRef, useState } from 'react'
-import { ChevronDown, AlertTriangle, TrendingDown, Wind, Waves, MapPin, Database, Clock, Activity } from 'lucide-react'
+import { ChevronDown, AlertTriangle, TrendingDown, Wind, Waves, MapPin, Database, Clock, Activity, ExternalLink } from 'lucide-react'
 
 export default function STLandingPage({ apiBase, onNavigateToParams, loading, riskData }) {
   const [scrollY, setScrollY] = useState(0)
@@ -65,6 +65,7 @@ export default function STLandingPage({ apiBase, onNavigateToParams, loading, ri
   useEffect(() => {
     const fetchStats = async () => {
       try {
+        // ✅ Preserved: shortterm API path
         const res = await fetch(`${apiBase}/api/shortterm/latest-stats`)
         if (res.ok) setStats(await res.json())
       } catch (_) { /* ignore */ }
@@ -247,7 +248,7 @@ export default function STLandingPage({ apiBase, onNavigateToParams, loading, ri
             )}
           </div>
 
-          {/* Downloads */}
+          {/* Downloads — ✅ Preserved: shortterm download paths */}
           <div className="lp-download-section">
             <div className="lp-download-card">
               <div className="lp-download-card-left">
@@ -279,32 +280,81 @@ export default function STLandingPage({ apiBase, onNavigateToParams, loading, ri
             </div>
           </div>
 
-          {/* Data status */}
+          {/* ── DATA SOURCES — dark themed eye-catching cards (NEW UI) ── */}
           <div className="lp-status-section">
             <h3 className="lp-subsection-title"><Database size={15} /> Data Sources &amp; Coverage</h3>
-            <div className="lp-status-grid">
-              <StatusCard icon={<Clock size={18} />} title="Weather Data (ERA5)" rows={[
-                ['Last Updated', stats?.era5Updated || 'N/A'],
-                ['Coverage', 'Global 1990–Present'],
-                ['Resolution', '0.25° × 0.25° grid'],
-              ]} />
-              <StatusCard icon={<Waves size={18} />} title="Wave Data (CMEMS)" rows={[
-                ['Last Updated', stats?.cmemsUpdated || 'N/A'],
-                ['Coverage', 'Global waves/currents'],
-                ['Resolution', '0.1° × 0.1° grid'],
-              ]} />
-              <StatusCard icon={<MapPin size={18} />} title="Study Area" rows={[
-                ['Latitude',  stats?.latitude  || '6.35°N – 6.42°N'],
-                ['Longitude', stats?.longitude || '79.97°E – 80.02°E'],
-                ['Region',    stats?.region    || 'SW Sri Lanka Coast'],
-              ]} />
-              <StatusCard icon={<TrendingDown size={18} />} title="Shoreline Data" rows={[
-                ['KML Records', stats?.kmlFilesCount ?? '0'],
-                ['Time Span',   '2010–Present'],
-                ['Transects',   stats?.transectCount ?? '100'],
-              ]} />
+            <div className="lp-datasrc-grid">
+
+              <a href="https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels-timeseries?tab=overview" target="_blank" rel="noopener noreferrer" className="lp-datasrc-card lp-datasrc-era5">
+                <div className="lp-datasrc-bg" />
+                <div className="lp-datasrc-top">
+                  <div className="lp-datasrc-icon">🌤️</div>
+                  <ExternalLink size={14} className="lp-datasrc-link-icon" />
+                </div>
+                <div className="lp-datasrc-name">ERA5 Reanalysis</div>
+                <div className="lp-datasrc-sub">ECMWF Climate Data Store</div>
+                <div className="lp-datasrc-rows">
+                  <div className="lp-datasrc-row"><span>Updated</span><span>{stats?.era5Updated || 'N/A'}</span></div>
+                  <div className="lp-datasrc-row"><span>Coverage</span><span>1940–Present</span></div>
+                  <div className="lp-datasrc-row"><span>Resolution</span><span>0.25° × 0.25°</span></div>
+                  <div className="lp-datasrc-row"><span>Variables</span><span>Wind, Pressure, Rain</span></div>
+                </div>
+                <div className="lp-datasrc-badge">Weather Data</div>
+              </a>
+
+              <a href="https://data.marine.copernicus.eu/product/GLOBAL_ANALYSISFORECAST_WAV_001_027/download?dataset=cmems_mod_glo_wav_anfc_0.083deg_PT3H-i_202411" target="_blank" rel="noopener noreferrer" className="lp-datasrc-card lp-datasrc-cmems">
+                <div className="lp-datasrc-bg" />
+                <div className="lp-datasrc-top">
+                  <div className="lp-datasrc-icon">🌊</div>
+                  <ExternalLink size={14} className="lp-datasrc-link-icon" />
+                </div>
+                <div className="lp-datasrc-name">CMEMS Wave Model</div>
+                <div className="lp-datasrc-sub">Copernicus Marine Service</div>
+                <div className="lp-datasrc-rows">
+                  <div className="lp-datasrc-row"><span>Updated</span><span>{stats?.cmemsUpdated || 'N/A'}</span></div>
+                  <div className="lp-datasrc-row"><span>Coverage</span><span>Global Ocean</span></div>
+                  <div className="lp-datasrc-row"><span>Resolution</span><span>0.1° × 0.1°</span></div>
+                  <div className="lp-datasrc-row"><span>Variables</span><span>Wave Ht, Period, Dir</span></div>
+                </div>
+                <div className="lp-datasrc-badge">Wave Data</div>
+              </a>
+
+              <div className="lp-datasrc-card lp-datasrc-area">
+                <div className="lp-datasrc-bg" />
+                <div className="lp-datasrc-top">
+                  <div className="lp-datasrc-icon">📍</div>
+                </div>
+                <div className="lp-datasrc-name">Study Area</div>
+                <div className="lp-datasrc-sub">SW Sri Lanka Coastline</div>
+                <div className="lp-datasrc-rows">
+                  <div className="lp-datasrc-row"><span>Latitude</span><span>{stats?.latitude || '6.35°N – 6.42°N'}</span></div>
+                  <div className="lp-datasrc-row"><span>Longitude</span><span>{stats?.longitude || '79.97°E – 80.02°E'}</span></div>
+                  <div className="lp-datasrc-row"><span>Region</span><span>{stats?.region || 'SW Sri Lanka'}</span></div>
+                  <div className="lp-datasrc-row"><span>Transects</span><span>{stats?.transectCount ?? '100'} cross-shore</span></div>
+                </div>
+                <div className="lp-datasrc-badge">AOI</div>
+              </div>
+
+              <a href="https://earth.google.com/web/" target="_blank" rel="noopener noreferrer" className="lp-datasrc-card lp-datasrc-kml">
+                <div className="lp-datasrc-bg" />
+                <div className="lp-datasrc-top">
+                  <div className="lp-datasrc-icon">🗺️</div>
+                  <ExternalLink size={14} className="lp-datasrc-link-icon" />
+                </div>
+                <div className="lp-datasrc-name">Shoreline KML Data</div>
+                <div className="lp-datasrc-sub">Google Earth Pro</div>
+                <div className="lp-datasrc-rows">
+                  <div className="lp-datasrc-row"><span>KML Files</span><span>{stats?.kmlFilesCount ?? '0'} records</span></div>
+                  <div className="lp-datasrc-row"><span>Time Span</span><span>2010–Present</span></div>
+                  <div className="lp-datasrc-row"><span>Format</span><span>KML / Google Earth</span></div>
+                  <div className="lp-datasrc-row"><span>Source</span><span>Manually digitised</span></div>
+                </div>
+                <div className="lp-datasrc-badge">Shoreline Data</div>
+              </a>
+
             </div>
           </div>
+
         </div>
       </section>
 
@@ -318,20 +368,7 @@ export default function STLandingPage({ apiBase, onNavigateToParams, loading, ri
   )
 }
 
-function StatusCard({ icon, title, rows }) {
-  return (
-    <div className="lp-status-card">
-      <div className="lp-status-card-hdr">{icon}<span>{title}</span></div>
-      {rows.map(([k, v], i) => (
-        <div className="lp-status-row" key={i}>
-          <span className="lp-status-key">{k}</span>
-          <span className="lp-status-val">{v}</span>
-        </div>
-      ))}
-    </div>
-  )
-}
-
+// ── SpikeChart — deep ocean, glowing lines, vivid red multi-ring spike dots ──
 function SpikeChart({ days }) {
   const [tooltip, setTooltip] = useState(null)
   const W = 960, H = 320
@@ -369,6 +406,7 @@ function SpikeChart({ days }) {
 
   const BLUE   = '#38bdf8', TEAL = '#2dd4bf', ORANGE = '#fb923c', RED = '#f87171'
   const GRID   = 'rgba(96,165,250,0.12)', AXIS = '#7dd3fc', AXIS_R = '#fcd34d'
+  const MONO   = "'IBM Plex Mono', monospace"
 
   const waveAreaPoints = `${PAD.l},${PAD.t + CH} ${polyline(waves, yL)} ${xScale(n - 1)},${PAD.t + CH}`
 
@@ -377,8 +415,7 @@ function SpikeChart({ days }) {
       <svg viewBox={`0 0 ${W} ${H}`} className="lp-chart-svg lp-chart-dark" onMouseLeave={() => setTooltip(null)}>
         <defs>
           <linearGradient id="stChartBg" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#061428" />
-            <stop offset="100%" stopColor="#0a1e3d" />
+            <stop offset="0%" stopColor="#061428" /><stop offset="100%" stopColor="#0a1e3d" />
           </linearGradient>
           <linearGradient id="stWaveGrad" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.35" />
@@ -390,7 +427,7 @@ function SpikeChart({ days }) {
             <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
           </filter>
           <filter id="stGlowRed" x="-20%" y="-20%" width="140%" height="140%">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur" />
+            <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur" />
             <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
           </filter>
           <clipPath id="stChartClip">
@@ -409,16 +446,18 @@ function SpikeChart({ days }) {
           ) : null
         ))}
         {leftTicks.map((v, i) => (
-          <text key={i} x={PAD.l - 8} y={yL(v) + 4} fontSize="10" fill={AXIS} textAnchor="end" fontFamily="'IBM Plex Mono', monospace">{v.toFixed(1)}</text>
+          <text key={i} x={PAD.l - 8} y={yL(v) + 4} fontSize="10" fill={AXIS} textAnchor="end" fontFamily={MONO}>{v.toFixed(1)}</text>
         ))}
         {rightTicks.map((v, i) => (
-          <text key={i} x={W - PAD.r + 8} y={yR(v) + 4} fontSize="10" fill={AXIS_R} textAnchor="start" fontFamily="'IBM Plex Mono', monospace">{v.toFixed(1)}</text>
+          <text key={i} x={W - PAD.r + 8} y={yR(v) + 4} fontSize="10" fill={AXIS_R} textAnchor="start" fontFamily={MONO}>{v.toFixed(1)}</text>
         ))}
-        <text x={14} y={PAD.t + CH / 2} fontSize="9" fill={AXIS} textAnchor="middle" transform={`rotate(-90, 14, ${PAD.t + CH / 2})`} fontFamily="'IBM Plex Mono', monospace" letterSpacing="0.08em">Wave / Wind</text>
-        <text x={W - 12} y={PAD.t + CH / 2} fontSize="9" fill={AXIS_R} textAnchor="middle" transform={`rotate(90, ${W - 12}, ${PAD.t + CH / 2})`} fontFamily="'IBM Plex Mono', monospace" letterSpacing="0.08em">Event Score</text>
+        <text x={14} y={PAD.t + CH / 2} fontSize="9" fill={AXIS} textAnchor="middle"
+          transform={`rotate(-90, 14, ${PAD.t + CH / 2})`} fontFamily={MONO} letterSpacing="0.08em">Wave / Wind</text>
+        <text x={W - 12} y={PAD.t + CH / 2} fontSize="9" fill={AXIS_R} textAnchor="middle"
+          transform={`rotate(90, ${W - 12}, ${PAD.t + CH / 2})`} fontFamily={MONO} letterSpacing="0.08em">Event Score</text>
         {days.map((d, i) => (
           (i === 0 || (i + 1) % 5 === 0 || i === n - 1) ? (
-            <text key={i} x={xScale(i)} y={H - 8} fontSize="10" fill={AXIS} textAnchor="middle" fontFamily="'IBM Plex Mono', monospace">Day {d.day ?? i + 1}</text>
+            <text key={i} x={xScale(i)} y={H - 8} fontSize="10" fill={AXIS} textAnchor="middle" fontFamily={MONO}>Day {d.day ?? i + 1}</text>
           ) : null
         ))}
 
@@ -426,24 +465,40 @@ function SpikeChart({ days }) {
           <polygon points={waveAreaPoints} fill="url(#stWaveGrad)" />
           <polyline points={polyline(winds, yL)} fill="none" stroke={TEAL} strokeWidth="2" strokeDasharray="6 4" strokeOpacity="0.75" filter="url(#stGlowBlue)" />
           <polyline points={polyline(waves, yL)} fill="none" stroke={BLUE} strokeWidth="2.5" filter="url(#stGlowBlue)" />
+
+          {/* Wave dots on all data points */}
           {days.map((d, i) => (
-            <circle key={i} cx={xScale(i)} cy={yL(waves[i])} r="3.5" fill={BLUE} stroke="rgba(6,20,60,0.9)" strokeWidth="1.5" filter="url(#stGlowBlue)" />
+            <circle key={i} cx={xScale(i)} cy={yL(waves[i])} r="3.5"
+              fill={BLUE} stroke="rgba(6,20,60,0.9)" strokeWidth="1.5" filter="url(#stGlowBlue)" />
           ))}
+
           <polyline points={polyline(scores, yR)} fill="none" stroke={ORANGE} strokeWidth="2.2" strokeDasharray="8 4" filter="url(#stGlowBlue)" />
 
+          {/* ── VIVID RED MULTI-RING PULSE DOTS on spike events ── */}
           {days.map((d, i) => {
             const isSpike = d.isSpike === true || d.isSpike === 'true' || d.isSpike === 1
             if (!isSpike) return null
+            const cx = xScale(i)
+            const cy = yR(scores[i])
             return (
-              <g key={i} filter="url(#stGlowRed)">
-                <circle cx={xScale(i)} cy={yR(scores[i])} r="14"
-                  fill="rgba(248,113,113,0.08)" stroke="rgba(248,113,113,0.35)" strokeWidth="1.5" />
-                <circle cx={xScale(i)} cy={yR(scores[i])} r="5.5" fill={RED}
-                  stroke="rgba(6,20,60,0.95)" strokeWidth="2" />
-                <line x1={xScale(i)} y1={PAD.t + 4} x2={xScale(i)} y2={yR(scores[i]) - 16}
-                  stroke="rgba(248,113,113,0.3)" strokeWidth="1" strokeDasharray="3 2" />
-                <text x={xScale(i)} y={yR(scores[i]) - 20} fontSize="9" fill={RED}
-                  textAnchor="middle" fontWeight="bold" fontFamily="'IBM Plex Mono', monospace">
+              <g key={i}>
+                {/* Drop line from top */}
+                <line x1={cx} y1={PAD.t + 4} x2={cx} y2={cy - 20}
+                  stroke="rgba(248,113,113,0.35)" strokeWidth="1" strokeDasharray="3 2" />
+                {/* Outer pulse ring */}
+                <circle cx={cx} cy={cy} r="16"
+                  fill="rgba(248,113,113,0.06)" stroke="rgba(248,113,113,0.3)" strokeWidth="1.5" />
+                {/* Mid ring */}
+                <circle cx={cx} cy={cy} r="10"
+                  fill="rgba(248,113,113,0.12)" stroke="rgba(248,113,113,0.5)" strokeWidth="1" />
+                {/* Core vivid red dot */}
+                <circle cx={cx} cy={cy} r="6.5"
+                  fill={RED} stroke="rgba(6,20,60,0.95)" strokeWidth="2.5" filter="url(#stGlowRed)" />
+                {/* White inner dot */}
+                <circle cx={cx} cy={cy} r="2" fill="white" opacity="0.9" />
+                {/* Label */}
+                <text x={cx} y={cy - 24} fontSize="9" fill={RED}
+                  textAnchor="middle" fontWeight="bold" fontFamily={MONO}>
                   ⚡ Day {d.day ?? i + 1}
                 </text>
               </g>
@@ -474,13 +529,13 @@ function SpikeChart({ days }) {
               <rect x={tx - 80} y={ty} width="160" height="68" rx="10"
                 fill="rgba(6,20,60,0.97)" stroke="rgba(56,189,248,0.4)" strokeWidth="1.5"
                 style={{ filter: 'drop-shadow(0 6px 20px rgba(6,20,60,0.6))' }} />
-              <text x={tx} y={ty + 18} fontSize="11" fill={BLUE} textAnchor="middle" fontWeight="bold" fontFamily="'IBM Plex Mono', monospace">
+              <text x={tx} y={ty + 18} fontSize="11" fill={BLUE} textAnchor="middle" fontWeight="bold" fontFamily={MONO}>
                 Day {d.day ?? i + 1}{d.date ? ` · ${d.date}` : ''}
               </text>
-              <text x={tx} y={ty + 36} fontSize="10.5" fill="#93c5fd" textAnchor="middle" fontFamily="'IBM Plex Mono', monospace">
+              <text x={tx} y={ty + 36} fontSize="10.5" fill="#93c5fd" textAnchor="middle" fontFamily={MONO}>
                 Wave: {Number(d.waveHeight ?? 0).toFixed(2)}m  Wind: {Number(d.windSpeed ?? 0).toFixed(2)}m/s
               </text>
-              <text x={tx} y={ty + 54} fontSize="10.5" fill={ORANGE} textAnchor="middle" fontFamily="'IBM Plex Mono', monospace">
+              <text x={tx} y={ty + 54} fontSize="10.5" fill={ORANGE} textAnchor="middle" fontFamily={MONO}>
                 Score: {Number(d.eventScore ?? 0).toFixed(2)}{d.isSpike ? '  ⚡ SPIKE' : ''}
               </text>
             </g>
