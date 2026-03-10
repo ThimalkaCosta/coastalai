@@ -1,6 +1,15 @@
-import { Activity, Loader2 } from 'lucide-react'
+import { Activity, Loader2, TrendingUp } from 'lucide-react'
+import {
+  LineChart, Line, XAxis, YAxis, CartesianGrid,
+  Tooltip, ResponsiveContainer,
+} from 'recharts'
 import { useMorphData } from '../../context/MorphDataContext'
 import './morphological.css'
+
+const ENV_CHART_COLORS = [
+  '#2563eb', '#16a34a', '#dc2626', '#9333ea',
+  '#ea580c', '#0891b2', '#d946ef', '#ca8a04', '#64748b',
+]
 
 export default function MorphErosionPage() {
   const { results, initialLoad, pct } = useMorphData()
@@ -126,6 +135,36 @@ export default function MorphErosionPage() {
             </table>
           </div>
         </div>
+        {/* Environmental variable time-series charts */}
+        {results.environmentalTimeSeries && results.environmentalTimeSeries.length > 0 && (
+          <div className="mt-panel">
+            <h3 className="mt-panel-title"><TrendingUp size={16} /> Environmental Variables Over Time</h3>
+            <div className="mt-charts-grid">
+              {results.environmentalVariables.map((varName, idx) => (
+                <div key={varName} className="mt-chart-card">
+                  <h4 className="mt-chart-title">{varName}</h4>
+                  <ResponsiveContainer width="100%" height={250}>
+                    <LineChart data={results.environmentalTimeSeries} margin={{ top: 10, right: 20, left: 10, bottom: 5 }}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                      <XAxis dataKey="Date" stroke="#94a3b8" fontSize={11} tickLine={false}
+                        interval={23} angle={-30} textAnchor="end" height={50} />
+                      <YAxis stroke="#94a3b8" fontSize={11} tickLine={false} axisLine={false}
+                        tickFormatter={v => Number(v).toPrecision(3)} />
+                      <Tooltip
+                        contentStyle={{ borderRadius: 8, border: '1px solid #e2e8f0', fontSize: 13 }}
+                        formatter={v => [Number(v).toFixed(6), varName]}
+                        labelFormatter={d => `Date: ${d}`}
+                      />
+                      <Line type="monotone" dataKey={varName}
+                        stroke={ENV_CHART_COLORS[idx % ENV_CHART_COLORS.length]}
+                        strokeWidth={1.5} dot={false} name={varName} />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div></div>
   )

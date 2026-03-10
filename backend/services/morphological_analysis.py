@@ -114,6 +114,11 @@ def run_morphological_analysis(dataset_path: Path) -> dict:
         "totalRows": int(len(merged_df)),
     }
 
+    # Monthly environmental time-series for frontend charts
+    ts_df = merged_df.copy()
+    ts_df["Date"] = ts_df["Date"].dt.strftime("%Y-%m")
+    results["environmentalTimeSeries"] = ts_df.round(6).to_dict("records")
+
     # ── 2. Load events & extract 12-month cycles ────────────────────
     events_df = pd.read_excel(dataset_path / "events.xlsx")
     events_df[["start_date", "end_date"]] = events_df["Period"].str.split(
