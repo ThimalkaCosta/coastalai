@@ -117,7 +117,11 @@ def run_morphological_analysis(dataset_path: Path) -> dict:
     # Monthly environmental time-series for frontend charts
     ts_df = merged_df.copy()
     ts_df["Date"] = ts_df["Date"].dt.strftime("%Y-%m")
-    results["environmentalTimeSeries"] = ts_df.round(6).to_dict("records")
+    results["environmentalTimeSeries"] = [
+        {k: (float(v) if isinstance(v, (int, float, np.floating)) else v)
+         for k, v in row.items()}
+        for row in ts_df.to_dict("records")
+    ]
 
     # ── 2. Load events & extract 12-month cycles ────────────────────
     events_df = pd.read_excel(dataset_path / "events.xlsx")
@@ -190,12 +194,14 @@ def run_morphological_analysis(dataset_path: Path) -> dict:
     if len(current_cycle) > 0:
         latest_vals = current_cycle.iloc[-1].values
         for i, col in enumerate(feature_cols):
+            cv = float(latest_vals[i])
+            tv = float(threshold_real[i])
             comparison_data.append(
                 {
                     "variable": col,
-                    "currentValue": round(float(latest_vals[i]), 4),
-                    "thresholdValue": round(float(threshold_real[i]), 4),
-                    "gap": round(float(threshold_real[i] - latest_vals[i]), 4),
+                    "currentValue": float(f'{cv:.4g}'),
+                    "thresholdValue": float(f'{tv:.4g}'),
+                    "gap": float(f'{(tv - cv):.4g}'),
                 }
             )
 
@@ -205,7 +211,7 @@ def run_morphological_analysis(dataset_path: Path) -> dict:
     for i in range(hmm.n_components):
         entry = {"state": f"State_{i}", "isErosion": i == erosion_state}
         for j, col in enumerate(feature_cols):
-            entry[col] = round(float(state_means_real[i][j]), 4)
+            entry[col] = float(f'{float(state_means_real[i][j]):.4g}')
         state_means_data.append(entry)
 
     results["hmm"] = {
