@@ -1,0 +1,52 @@
+[
+  {
+    "Driver":"Hm0_max",
+    "Unit":"m",
+    "GMM_Threshold":1.628,
+    "RF_Threshold":1.805,
+    "Erosion_Threshold_Lower":1.628,
+    "Erosion_Threshold_Upper":1.805,
+    "Model_Consensus":"High",
+    "Physical_Interpretation":"Wave energy exceeds sediment resistance"
+  },
+  {
+    "Driver":"UcurrMax",
+    "Unit":"m\/s",
+    "GMM_Threshold":0.287,
+    "RF_Threshold":0.248,
+    "Erosion_Threshold_Lower":0.248,
+    "Erosion_Threshold_Upper":0.287,
+    "Model_Consensus":"Low",
+    "Physical_Interpretation":"Offshore sediment transport intensifies"
+  },
+  {
+    "Driver":"WindMax",
+    "Unit":"m\/s",
+    "GMM_Threshold":4.032,
+    "RF_Threshold":4.413,
+    "Erosion_Threshold_Lower":4.032,
+    "Erosion_Threshold_Upper":4.413,
+    "Model_Consensus":"Medium",
+    "Physical_Interpretation":"Wave generation and surge enhancement"
+  },
+  {
+    "Driver":"CumCurrent",
+    "Unit":"m\/day",
+    "GMM_Threshold":4.079,
+    "RF_Threshold":5.319,
+    "Erosion_Threshold_Lower":4.079,
+    "Erosion_Threshold_Upper":5.319,
+    "Model_Consensus":"Low",
+    "Physical_Interpretation":"Sustained sediment flux offshore"
+  },
+  {
+    "Driver":"StormDays_wave",
+    "Unit":"days",
+    "GMM_Threshold":7.392,
+    "RF_Threshold":9.5,
+    "Erosion_Threshold_Lower":7.392,
+    "Erosion_Threshold_Upper":9.5,
+    "Model_Consensus":"Medium",
+    "Physical_Interpretation":"Prolonged high-energy exposure"
+  }
+]
