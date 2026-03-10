@@ -77,7 +77,7 @@ export default function LandingPage() {
     { value: data.summary?.erosionRate ? `${data.summary.erosionRate}%` : '--', label: 'Erosion Rate' },
     { value: data.summary?.analysisYearRange || '--', label: 'Years of Data' },
     { value: data.summary?.totalTransects?.toString() || '--', label: 'Transects Analyzed' },
-    { value: '3', label: 'ML Models' },
+    { value: '10', label: 'ML Models' },
   ]
   
   // Get threshold values from data
