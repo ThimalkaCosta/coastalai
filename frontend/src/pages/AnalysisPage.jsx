@@ -18,9 +18,6 @@ import {
 import PageTransition from '../components/common/PageTransition'
 import StatCard from '../components/common/StatCard'
 import TimeSeriesChart from '../components/charts/TimeSeriesChart'
-import BoxplotComparisonChart from '../components/charts/BoxplotComparisonChart'
-import ThresholdBarChart from '../components/charts/ThresholdBarChart'
-import YearlyShorelineTable from '../components/common/YearlyShorelineTable'
 import { useData } from '../context/DataContext'
 
 export default function AnalysisPage() {
@@ -35,7 +32,6 @@ export default function AnalysisPage() {
         erodingTransects: data.summary.erodingTransects,
         erosionRate: data.summary.erosionRate,
         meanNSM: data.summary.meanNSM,
-        criticalWaveHeight: data.models?.rf?.thresholds?.Hm0_max?.value || '--',
         totalYears: data.summary.totalYears,
         yearRange: data.summary.analysisYearRange,
       }
@@ -46,7 +42,6 @@ export default function AnalysisPage() {
         totalTransects: 0,
         erodingTransects: 0,
         meanNSM: 0,
-        criticalWaveHeight: '--',
       }
     }
 
@@ -59,7 +54,6 @@ export default function AnalysisPage() {
       erodingTransects: eroding,
       erosionRate: ((eroding / shoreline.length) * 100).toFixed(1),
       meanNSM: mean.toFixed(2),
-      criticalWaveHeight: data.models?.rf?.thresholds?.Hm0_max?.value || '--',
     }
   }, [data])
 
@@ -77,33 +71,17 @@ export default function AnalysisPage() {
     return []
   }, [data])
 
-  // Get scatter data from actual data
-  const scatterData = useMemo(() => {
-    if (data.scatter?.length) {
-      return data.scatter
-    }
-    return []
-  }, [data])
-
-  // Wave height bar chart data
-  const waveHeightData = useMemo(() => {
-    if (data.processed?.length) {
-      return data.processed.map(row => ({
-        year: row.monsoon_year,
-        value: row.Hm0_max,
-        erosion: row.Erosion_Label,
-      }))
-    }
-    return []
-  }, [data])
-
-  // Get threshold values
+  // Get threshold values from ensemble thresholds
   const thresholdValues = useMemo(() => {
-    if (data.models?.rf?.thresholds) {
+    if (data.thresholds?.length) {
+      const find = name => {
+        const t = data.thresholds.find(t => (t.feature || '').toLowerCase().includes(name.toLowerCase()))
+        return t?.thresholdAll ?? t?.thresholdHigh ?? '--'
+      }
       return {
-        waveHeight: data.models.rf.thresholds.Hm0_max?.value || '--',
-        currentSpeed: data.models.rf.thresholds.UcurrMax?.value || '--',
-        windSpeed: data.models.rf.thresholds.WindMax?.value || '--',
+        waveHeight: find('Hm0') !== '--' ? find('Hm0') : '--',
+        currentSpeed: find('Ucurr') !== '--' ? find('Ucurr') : '--',
+        windSpeed: find('Wind') !== '--' ? find('Wind') : '--',
       }
     }
     return { waveHeight: '--', currentSpeed: '--', windSpeed: '--' }
@@ -115,32 +93,32 @@ export default function AnalysisPage() {
       title: 'Random Forest',
       description: 'Feature importance and ensemble learning',
       icon: Brain,
-      accuracy: data.models?.rf?.metrics?.accuracy 
-        ? `${(data.models.rf.metrics.accuracy * 100).toFixed(1)}%` 
-        : '87.5%',
+      accuracy: data.rfModel?.oobScore
+        ? `${(data.rfModel.oobScore * 100).toFixed(1)}%`
+        : '--',
       link: '/models/random-forest',
       color: 'from-emerald-500 to-teal-500',
     },
     {
-      id: 'hmm',
-      title: 'HMM State Detection',
-      description: 'Hidden Markov sequential state detection',
+      id: 'forecast',
+      title: 'Forecast & SARIMA',
+      description: 'Monte Carlo erosion probability forecasts',
       icon: Target,
-      accuracy: data.models?.hmm?.metrics?.logLikelihood 
-        ? `${data.models.hmm.metrics.logLikelihood.toFixed(1)}` 
+      accuracy: data.forecastSkill?.brierSkillScore != null
+        ? `BSS ${data.forecastSkill.brierSkillScore.toFixed(2)}`
         : '--',
-      link: '/models/hmm',
+      link: '/forecast',
       color: 'from-violet-500 to-purple-500',
     },
     {
-      id: 'xgb',
-      title: 'XGBoost',
-      description: 'Gradient boosting with SHAP analysis',
+      id: 'hindcast',
+      title: 'Hindcast Validation',
+      description: 'Historical prediction accuracy assessment',
       icon: BarChart3,
-      accuracy: data.models?.xgb?.metrics?.accuracy 
-        ? `${(data.models.xgb.metrics.accuracy * 100).toFixed(1)}%` 
-        : '89.1%',
-      link: '/models/xgboost',
+      accuracy: data.hindcast?.metrics?.accuracy
+        ? `${(data.hindcast.metrics.accuracy * 100).toFixed(1)}%`
+        : '--',
+      link: '/forecast/hindcast',
       color: 'from-orange-500 to-amber-500',
     },
   ]
@@ -234,9 +212,9 @@ export default function AnalysisPage() {
                 delay={0.2}
               />
               <StatCard
-                title="Critical Wave Height"
-                value={`${stats.criticalWaveHeight}m`}
-                subtitle="Hm0 threshold"
+                title="Analysis Years"
+                value={stats.totalYears || '--'}
+                subtitle={stats.yearRange || ''}
                 icon={Waves}
                 delay={0.25}
               />
@@ -374,12 +352,6 @@ export default function AnalysisPage() {
                   </div>
                 </div>
 
-                {data.boxplotData && (
-                  <BoxplotComparisonChart
-                    data={data.boxplotData}
-                    title="Environmental Driver Comparison: Erosion vs Stable Years"
-                  />
-                )}
               </div>
             </motion.div>
           </div>
@@ -406,18 +378,9 @@ export default function AnalysisPage() {
                     { dataKey: 'Hm0_max', name: 'Wave Height (m)', color: '#3b82f6' },
                     { dataKey: 'UcurrMax', name: 'Current Speed (m/s)', color: '#8b5cf6' },
                   ]}
-                  threshold={thresholdValues.waveHeight}
-                  thresholdLabel={`Wave Threshold: ${thresholdValues.waveHeight}m`}
+                  threshold={thresholdValues.waveHeight !== '--' ? thresholdValues.waveHeight : undefined}
+                  thresholdLabel={thresholdValues.waveHeight !== '--' ? `Wave Threshold: ${thresholdValues.waveHeight}m` : ''}
                 />
-                {waveHeightData.length > 0 && (
-                  <ThresholdBarChart
-                    data={waveHeightData}
-                    title="Maximum Wave Height by Year"
-                    threshold={thresholdValues.waveHeight}
-                    thresholdLabel={`Erosion Threshold (${thresholdValues.waveHeight}m)`}
-                    unit="m"
-                  />
-                )}
               </div>
             </motion.div>
           </div>
@@ -434,12 +397,38 @@ export default function AnalysisPage() {
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
               <div className="flex items-center gap-3 mb-5">
                 <div className="w-1 h-7 rounded-full bg-gradient-to-b from-violet-500 to-violet-300" />
-                <h2 className="text-lg font-display font-bold text-coastal-900">Drivers Comparison</h2>
+                <h2 className="text-lg font-display font-bold text-coastal-900">Statistical Tests</h2>
               </div>
-              <BoxplotComparisonChart
-                data={data.boxplot}
-                title="Environmental Drivers: Erosion vs Stable Years"
-              />
+              {data.statisticalTests?.length > 0 ? (
+                <div className="card overflow-hidden">
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-sm">
+                      <thead>
+                        <tr className="bg-coastal-50/80 border-b-2 border-coastal-200">
+                          {Object.keys(data.statisticalTests[0] || {}).map(col => (
+                            <th key={col} className="py-3 px-3 text-center font-semibold text-coastal-600 uppercase tracking-wider text-xs">{col.replace(/_/g, ' ')}</th>
+                          ))}
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-gray-100">
+                        {data.statisticalTests.map((row, i) => (
+                          <tr key={i} className={i % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'}>
+                            {Object.values(row).map((val, j) => (
+                              <td key={j} className="py-2.5 px-3 text-center text-xs font-mono">
+                                {typeof val === 'number' ? val.toFixed(4) : String(val ?? '--')}
+                              </td>
+                            ))}
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              ) : (
+                <div className="card p-8 text-center text-coastal-500 text-sm">
+                  No statistical test results available. Run the analysis first.
+                </div>
+              )}
             </motion.div>
           </div>
         </section>
@@ -458,13 +447,36 @@ export default function AnalysisPage() {
                 <h2 className="text-lg font-display font-bold text-coastal-900">Yearly Data</h2>
               </div>
               <div className="card p-5">
-                <h3 className="font-display font-bold text-coastal-900 mb-2 text-sm">Annual Shoreline Statistics</h3>
+                <h3 className="font-display font-bold text-coastal-900 mb-2 text-sm">Processed Time Series Data</h3>
                 <p className="text-xs text-coastal-500 mb-5 leading-relaxed">
-                  Yearly aggregated statistics showing Net Shoreline Movement (NSM),
-                  End Point Rate (EPR), Linear Regression Rate (LRR), and Shoreline Change Envelope (SCE)
-                  metrics across all transects.
+                  Processed environmental time series data used in the analysis pipeline.
                 </p>
-                <YearlyShorelineTable data={data.yearlyShoreline} />
+                {data.timeSeries?.length > 0 ? (
+                  <div className="overflow-x-auto max-h-[400px]">
+                    <table className="w-full text-sm">
+                      <thead className="sticky top-0 bg-white z-10">
+                        <tr className="bg-coastal-50/80 border-b-2 border-coastal-200">
+                          {Object.keys(data.timeSeries[0] || {}).slice(0, 8).map(col => (
+                            <th key={col} className="py-3 px-3 text-center font-semibold text-coastal-600 uppercase tracking-wider text-xs whitespace-nowrap">{col.replace(/_/g, ' ')}</th>
+                          ))}
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-gray-100">
+                        {data.timeSeries.map((row, i) => (
+                          <tr key={i} className={i % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'}>
+                            {Object.values(row).slice(0, 8).map((val, j) => (
+                              <td key={j} className="py-2 px-3 text-center text-xs font-mono">
+                                {typeof val === 'number' ? val.toFixed(3) : String(val ?? '--')}
+                              </td>
+                            ))}
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                ) : (
+                  <p className="text-coastal-400 text-sm text-center py-8">No time series data available.</p>
+                )}
               </div>
             </motion.div>
           </div>

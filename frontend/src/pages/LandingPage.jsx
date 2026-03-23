@@ -92,10 +92,10 @@ export default function LandingPage() {
   }
   
   // Get model accuracy
-  const modelAccuracy = data.models?.rf?.metrics?.accuracy 
-    ? `${(data.models.rf.metrics.accuracy * 100).toFixed(1)}%` 
-    : (data.models?.xgb?.metrics?.accuracy 
-      ? `${(data.models.xgb.metrics.accuracy * 100).toFixed(1)}%`
+  const modelAccuracy = data.rfModel?.oobScore
+    ? `${(data.rfModel.oobScore * 100).toFixed(1)}%`
+    : (data.hindcast?.metrics?.accuracy
+      ? `${(data.hindcast.metrics.accuracy * 100).toFixed(1)}%`
       : '--')
   
   // Get erosion rate/NSM

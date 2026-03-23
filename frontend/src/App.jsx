@@ -9,10 +9,10 @@ import LandingPage from './pages/LandingPage'
 import DataUploadPage from './pages/DataUploadPage'
 import AnalysisPage from './pages/AnalysisPage'
 import RandomForestPage from './pages/RandomForestPage'
-import HMMPage from './pages/HMMPage'
-import XGBoostPage from './pages/XGBoostPage'
 import ThresholdPage from './pages/ThresholdPage'
-import ForecastThresholdPage from './pages/ForecastThresholdPage'
+import ForecastOverviewPage from './pages/ForecastOverviewPage'
+import RetreatVulnerabilityPage from './pages/RetreatVulnerabilityPage'
+import HindcastValidationPage from './pages/HindcastValidationPage'
 import HMMAnalysisPage from './pages/HMMAnalysisPage'
 import RegimeProfilesPage from './pages/RegimeProfilesPage'
 import SeasonalAnalysisPage from './pages/SeasonalAnalysisPage'
@@ -205,26 +205,26 @@ function App() {
               }
             />
             <Route
-              path="/models/hmm"
+              path="/forecast"
               element={
                 <ProtectedRoute>
-                  <HMMPage />
+                  <ForecastOverviewPage />
                 </ProtectedRoute>
               }
             />
             <Route
-              path="/models/xgboost"
+              path="/forecast/retreat"
               element={
                 <ProtectedRoute>
-                  <XGBoostPage />
+                  <RetreatVulnerabilityPage />
                 </ProtectedRoute>
               }
             />
             <Route
-              path="/forecast-thresholds"
+              path="/forecast/hindcast"
               element={
                 <ProtectedRoute>
-                  <ForecastThresholdPage />
+                  <HindcastValidationPage />
                 </ProtectedRoute>
               }
             />

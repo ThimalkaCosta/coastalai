@@ -217,12 +217,13 @@ def _inject_parameters(
 
 def _build_export_cell(results_json_path: str, frontend_data_path: str) -> str:
     """Return Python source for the final notebook cell that writes
-    analysis_results.json with every piece of data the frontend needs."""
+    analysis_results.json with every piece of data the frontend needs.
+    Updated for the new 4-method ensemble + advanced forecast notebook."""
     return f'''
 # =============================================================================
 # AUTO-GENERATED: Comprehensive JSON export for frontend
 # =============================================================================
-import json, os, base64, io, numpy as np
+import json, os, numpy as np, pandas as pd
 
 _RESULTS_PATH = r"{results_json_path}"
 _FRONTEND_PATH = r"{frontend_data_path}"
@@ -235,393 +236,276 @@ def _safe(v):
         return float(v)
     if isinstance(v, np.ndarray):
         return v.tolist()
+    if isinstance(v, pd.Timestamp):
+        return v.isoformat()
+    if isinstance(v, (pd.Series, pd.Index)):
+        return v.tolist()
     if hasattr(v, 'item'):
         return v.item()
     return v
 
-def _fig_to_b64(fig):
-    buf = io.BytesIO()
-    fig.savefig(buf, format="png", dpi=100, bbox_inches="tight")
-    buf.seek(0)
-    return base64.b64encode(buf.read()).decode()
-
 # ---- Build the results dict ----
 results = {{}}
 
-# 1. Summary
-results["summary"] = {{
-    "totalTransects": _safe(transect_stats.get("Total_Transects", 0)),
-    "erodingTransects": _safe(int(transect_stats.get("Pct_Eroding", 0) / 100 * transect_stats.get("Total_Transects", 0))),
-    "erosionRate": _safe(round(transect_stats.get("Pct_Eroding", 0), 1)),
-    "meanNSM": _safe(round(transect_stats.get("Mean_NSM", 0), 2)),
-    "medianNSM": _safe(round(transect_stats.get("Median_NSM", 0), 2)),
-    "totalYears": _safe(len(shoreline_annual)),
-    "erosionYears": _safe(int(shoreline_annual["Erosion_Binary"].sum())),
-    "analysisYearRange": f"{{int(shoreline_annual['year'].min())}}-{{int(shoreline_annual['year'].max())}}",
-    "beachState": beach_state,
-    "meanEPR": _safe(round(transect_stats.get("Mean_EPR", 0), 2)),
-    "meanLRR": _safe(round(transect_stats.get("Mean_LRR", 0), 2)),
-}}
-
-# 2. Yearly shoreline
-results["yearlyShoreline"] = yearly_shoreline_export
-
-# 3. Shoreline transects
-results["shoreline"] = shoreline_export
-
-# 4. Time series (monthly env + annual erosion labels)
-_ts_cols = [c for c in ['monsoon_year', 'Hm0_max', 'Hm0_mean', 'CumWaveEnergy', 'StormDays_wave',
-                         'WindMax', 'WindMean', 'WindStressMean', 'UcurrMax', 'UcurrMean',
-                         'CumCurrent', 'Erosion_Label', 'HMM_State'] if c in env_features_monthly.columns]
-results["timeSeries"] = env_features_monthly[_ts_cols].to_dict(orient='records')
-
-# 5. Scatter data (annual: wave height vs NSM)
-results["scatter"] = [
-    {{"Hm0_max": _safe(row["Hm0_max"]), "annual_NSM": _safe(row["annual_NSM"]),
-      "Erosion_Label": _safe(row["Erosion_Label"]), "year": _safe(int(row["monsoon_year"]))}}
-    for _, row in env_features.iterrows()
-]
-
-# 6. Correlation matrix
+# =====================================================================
+# 1. Summary statistics
+# =====================================================================
 try:
-    _corr_feats = [c for c in ['Hm0_max', 'Hm0_mean', 'CumWaveEnergy', 'StormDays_wave',
-                                'WindMax', 'WindMean', 'WindStressMean',
-                                'UcurrMax', 'UcurrMean', 'CumCurrent', 'Erosion_Label']
-                   if c in env_features.columns]
-    _cm = env_features[_corr_feats].corr()
-    results["correlation"] = {{
-        "features": _corr_feats,
-        "matrix": _cm.values.tolist(),
-    }}
-except Exception:
-    results["correlation"] = None
-
-# 7. PCA
-try:
-    results["pca"] = {{
-        "data": [{{"PC1": _safe(r["PC1"]), "PC2": _safe(r["PC2"]),
-                    "PC3": _safe(r.get("PC3", 0)),
-                    "year": _safe(int(r["monsoon_year"])),
-                    "Erosion_Label": _safe(r["Erosion_Label"])}}
-                  for _, r in env_features.iterrows()],
-        "variance": [_safe(v) for v in pca.explained_variance_ratio_],
-        "loadings": pca.components_.tolist(),
-        "features": pca_features,
-    }}
-except Exception:
-    results["pca"] = None
-
-# 8. Forcing regimes
-results["forcingRegimes"] = forcing_regimes_export
-
-# 9. Boxplot data
-results["boxplot"] = boxplot_export
-
-# 10. ROC data
-try:
-    results["roc"] = {{
-        "hmm": {{"fpr": fpr_hmm.tolist(), "tpr": tpr_hmm.tolist(), "auc": _safe(hmm_auc)}},
-        "rf":  {{"fpr": fpr_rf.tolist(),  "tpr": tpr_rf.tolist(),  "auc": _safe(rf_auc)}},
-        "xgb": {{"fpr": fpr_xgb.tolist(), "tpr": tpr_xgb.tolist(), "auc": _safe(xgb_auc)}},
-    }}
-except Exception:
-    results["roc"] = None
-
-# 11. Models
-# -- Random Forest --
-try:
-    # Export ALL thresholds (sorted by importance), not just top 5
-    _importance_order = feature_importance["Feature"].tolist()
-    _rf_thresh = {{}}
-    for feat in _importance_order:
-        if feat in rf_thresholds:
-            _rf_thresh[feat] = {{
-                "value": _safe(round(rf_thresholds[feat]["threshold"], 3)),
-                "lower": _safe(round(rf_thresholds[feat]["threshold_lower"], 3)),
-                "upper": _safe(round(rf_thresholds[feat]["threshold_upper"], 3)),
-                "nSplits": _safe(rf_thresholds[feat]["n_splits"]),
-                "condition": rf_thresholds[feat].get("direction", "\u2265"),
-                "unit": "m" if "Hm0" in feat else "m/s" if "curr" in feat.lower() or "Wind" in feat else "",
-            }}
-
-    # Model configuration from best estimator
-    _bp = rf_search.best_params_ if hasattr(rf_search, 'best_params_') else {{}}
-    _rf_config = {{
-        "nEstimators": _safe(rf_model.n_estimators),
-        "maxDepth": _safe(_bp.get("max_depth", None)),
-        "minSamplesSplit": _safe(_bp.get("min_samples_split", 2)),
-        "minSamplesLeaf": _safe(_bp.get("min_samples_leaf", 1)),
-        "maxFeatures": _safe(str(_bp.get("max_features", "sqrt"))),
-        "criterion": _safe(getattr(rf_model, "criterion", "gini")),
-        "classWeight": _safe(str(_bp.get("class_weight", "balanced"))),
-        "bootstrap": _safe(getattr(rf_model, "bootstrap", True)),
-        "cvFolds": _safe(int(n_splits)),
-        "randomState": 42,
-    }}
-
-    results["models"] = results.get("models", {{}})
-    results["models"]["rf"] = {{
-        "featureImportance": [{{"Feature": _safe(r["Feature"]), "Importance": _safe(r["Importance"])}}
-                              for _, r in feature_importance.iterrows()],
-        "metrics": {{
-            "accuracy": _safe(round(rf_accuracy, 4)),
-            "cvAccuracy": _safe(round(rf_search.best_score_, 4)),
-            "cvStd": 0,
-            "f1Score": _safe(round(rf_f1, 4)),
-            "oobScore": _safe(round(rf_model.oob_score_, 4)) if hasattr(rf_model, 'oob_score_') else 0,
-            "precision": _safe(round(precision_score(y_monthly, y_pred_rf, zero_division=0), 4)),
-            "recall": _safe(round(recall_score(y_monthly, y_pred_rf, zero_division=0), 4)),
-            "nEstimators": _safe(rf_model.n_estimators),
-            "rocAuc": _safe(round(rf_auc, 4)),
-        }},
-        "config": _rf_config,
-        "thresholds": _rf_thresh,
+    results["summary"] = {{
+        "totalTransects": _safe(transect_stats.get("Total_Transects", 0)),
+        "erodingTransects": _safe(int(transect_stats.get("Pct_Eroding", 0) / 100 * transect_stats.get("Total_Transects", 0))),
+        "erosionRate": _safe(round(transect_stats.get("Pct_Eroding", 0), 1)),
+        "meanNSM": _safe(round(transect_stats.get("Mean_NSM", 0), 2)),
+        "medianNSM": _safe(round(transect_stats.get("Median_NSM", 0), 2)),
+        "totalYears": _safe(len(analysis_df)),
+        "erosionYears": _safe(int(analysis_df["erosion_label"].sum())),
+        "erosionYearsList": [int(y) for y in sorted(all_erosion_years)],
+        "analysisYearRange": f"{{int(analysis_df['monsoon_year'].min())}}-{{int(analysis_df['monsoon_year'].max())}}",
+        "meanEPR": _safe(round(transect_stats.get("Mean_EPR", 0), 2)),
+        "significantFeatures": list(significant_features),
     }}
 except Exception as e:
-    print(f"RF export error: {{e}}")
+    print(f"Summary export error: {{e}}")
+    results["summary"] = {{}}
 
-# -- XGBoost --
+# =====================================================================
+# 2. Shoreline transect data
+# =====================================================================
 try:
-    _xgb_thresh = {{}}
-    for feat in xgb_thresholds:
-        _xgb_thresh[feat] = {{
-            "value": _safe(round(xgb_thresholds[feat]["threshold"], 3)),
-            "lower": _safe(round(xgb_thresholds[feat]["threshold_lower"], 3)),
-            "upper": _safe(round(xgb_thresholds[feat]["threshold_upper"], 3)),
-            "nSplits": _safe(xgb_thresholds[feat]["n_splits"]),
-            "condition": xgb_thresholds[feat].get("direction", "\u2265"),
-            "importance": _safe(round(xgb_thresholds[feat]["importance"], 4)),
-            "unit": "m" if "Hm0" in feat else "m/s" if "curr" in feat.lower() or "Wind" in feat else "",
-        }}
-
-    results["models"] = results.get("models", {{}})
-    results["models"]["xgb"] = {{
-        "featureImportance": [{{"Feature": _safe(r["Feature"]), "Importance": _safe(r["Importance"])}}
-                              for _, r in xgb_importance.iterrows()],
-        "shapValues": [{{"Feature": _safe(r["Feature"]), "Mean_SHAP": _safe(r["Mean_SHAP"])}}
-                       for _, r in shap_importance.iterrows()],
-        "metrics": {{
-            "accuracy": _safe(round(xgb_accuracy, 4)),
-            "cvAccuracy": _safe(round(xgb_search.best_score_, 4)),
-            "cvStd": 0,
-            "f1Score": _safe(round(xgb_f1, 4)),
-            "auc": _safe(round(xgb_auc, 4)),
-            "precision": _safe(round(precision_score(y_monthly, y_pred_xgb, zero_division=0), 4)),
-            "recall": _safe(round(recall_score(y_monthly, y_pred_xgb, zero_division=0), 4)),
-            "nEstimators": _safe(xgb_model.n_estimators),
-            "maxDepth": _safe(xgb_model.max_depth),
-            "learningRate": _safe(xgb_model.learning_rate),
-        }},
-        "thresholds": _xgb_thresh,
-    }}
+    results["shoreline"] = dsas_df[['id', 'EPR', 'NSM', 'SCE', 'epr_class', 'erosion_flag']].to_dict(orient='records')
 except Exception as e:
-    print(f"XGB export error: {{e}}")
+    print(f"Shoreline export error: {{e}}")
+    results["shoreline"] = []
 
-# -- HMM --
+# =====================================================================
+# 3. Annual analysis data (time series)
+# =====================================================================
 try:
-    # Export ALL feature thresholds with erosion/normal centroids
-    _hmm_thresh = {{}}
-    for feat in hmm_thresholds:
-        _hmm_thresh[feat] = {{
-            "value": _safe(round(hmm_thresholds[feat]['threshold'], 3)),
-            "direction": hmm_thresholds[feat]['direction'],
-            "erosionValue": _safe(round(hmm_thresholds[feat]['erosion_value'], 3)),
-            "normalValue": _safe(round(hmm_thresholds[feat]['normal_value'], 3)),
-        }}
-
-    _state_dist = []
-    _sc = env_features_monthly['HMM_State'].value_counts()
-    for st in sorted(_sc.index):
-        _er = env_features_monthly[env_features_monthly['HMM_State'] == st]['Erosion_Label'].mean()
-        _state_dist.append({{
-            "state": f"State {{st}}",
-            "count": _safe(int(_sc[st])),
-            "percentage": _safe(round(_sc[st] / len(env_features_monthly) * 100, 1)),
-            "erosionRate": _safe(round(_er * 100, 1)),
-        }})
-
-    # State centroids (all features, original scale)
-    _state_centroids = {{}}
-    try:
-        for i in range(n_states):
-            _row = state_means_df.loc[f'State_{{i}}']
-            _state_centroids[f"State_{{i}}"] = {{feat: _safe(round(float(_row[feat]), 3)) for feat in model_features if feat in _row.index}}
-    except Exception:
-        pass
-
-    # Component selection data (BIC/AIC for each n_components)
-    _component_selection = []
-    try:
-        for idx, n in enumerate(n_components_range):
-            _component_selection.append({{
-                "nComponents": _safe(int(n)),
-                "bic": _safe(round(float(bic_scores[idx]), 1)),
-                "aic": _safe(round(float(aic_scores[idx]), 1)),
-            }})
-    except Exception:
-        pass
-
-    # Transition matrix export
-    _transition_matrix = []
-    try:
-        for i in range(n_states):
-            row = {{}}
-            row["from"] = f"S{{i}}"
-            for j in range(n_states):
-                row[f"S{{j}}"] = _safe(round(float(transition_matrix[i][j]), 4))
-            _transition_matrix.append(row)
-    except Exception:
-        pass
-
-    # Regime stability data
-    _regime_stability = {{}}
-    try:
-        _regime_stability = {{
-            "count": _safe(int(len(regime_stability))),
-            "mean": _safe(round(float(regime_stability.mean()), 1)),
-            "std": _safe(round(float(regime_stability.std()), 1)),
-            "min": _safe(int(regime_stability.min())),
-            "q25": _safe(int(regime_stability.quantile(0.25))),
-            "q50": _safe(int(regime_stability.quantile(0.5))),
-            "q75": _safe(int(regime_stability.quantile(0.75))),
-            "max": _safe(int(regime_stability.max())),
-        }}
-    except Exception:
-        pass
-
-    # Final-state dominance
-    _final_state_dominance = []
-    try:
-        for state_idx in range(n_states):
-            pct = float(final_state_dist.get(state_idx, 0))
-            _final_state_dominance.append({{
-                "state": f"State {{state_idx}}",
-                "value": _safe(round(pct, 2)),
-            }})
-    except Exception:
-        pass
-
-    # State means for all features
-    _all_feats = [f for f in model_features if f in env_features_monthly.columns]
-    _normal_means = {{}}
-    _highRisk_means = {{}}
-    for feat in _all_feats:
-        try:
-            _normal_means[feat] = _safe(round(float(env_features_monthly[env_features_monthly['HMM_State'] != erosion_state][feat].mean()), 3))
-            _highRisk_means[feat] = _safe(round(float(env_features_monthly[env_features_monthly['HMM_State'] == erosion_state][feat].mean()), 3))
-        except Exception:
-            pass
-
-    results["models"] = results.get("models", {{}})
-    results["models"]["hmm"] = {{
-        "stateDistribution": _state_dist,
-        "stateMeans": {{
-            "normal": _normal_means,
-            "highRisk": _highRisk_means,
-        }},
-        "stateCentroids": _state_centroids,
-        "componentSelection": _component_selection,
-        "transitionMatrix": _transition_matrix,
-        "regimeStability": _regime_stability,
-        "finalStateDominance": _final_state_dominance,
-        "erosionState": _safe(int(erosion_state)),
-        "metrics": {{
-            "nStates": _safe(n_states),
-            "accuracy": _safe(round(hmm_accuracy, 4)),
-            "logLikelihood": _safe(round(float(hmm_model.score(X_scaled_monthly)), 3)),
-            "aic": _safe(round(float(hmm_aic), 3)),
-            "bic": _safe(round(float(hmm_bic), 3)),
-            "converged": bool(hmm_converged),
-            "silhouetteScore": 0,
-        }},
-        "thresholds": _hmm_thresh,
-    }}
+    ts_cols = [c for c in analysis_df.columns if c not in ['geometry']]
+    results["timeSeries"] = analysis_df[ts_cols].to_dict(orient='records')
 except Exception as e:
-    print(f"HMM export error: {{e}}")
+    print(f"TimeSeries export error: {{e}}")
+    results["timeSeries"] = []
 
-# 12. Thresholds — final consensus table + model comparison + per-variable comparison
+# =====================================================================
+# 4. Mann-Whitney statistical tests
+# =====================================================================
 try:
+    results["statisticalTests"] = mw_df.to_dict(orient='records')
+except Exception as e:
+    print(f"Statistical tests export error: {{e}}")
+    results["statisticalTests"] = []
+
+# =====================================================================
+# 5. Four-method ensemble thresholds
+# =====================================================================
+try:
+    threshold_export = []
+    for feat in significant_features:
+        t = individual_thresholds.get(feat, {{}})
+        e = ensemble_results.get(feat, {{}})
+        row = {{
+            "feature": feat,
+            "thresholdAll": _safe(t.get('threshold_all')),
+            "thresholdLow": _safe(t.get('threshold_low')),
+            "thresholdHigh": _safe(t.get('threshold_high')),
+            "pValue": _safe(t.get('p_value')),
+            "methods": {{}},
+        }}
+        for method_name in ['roc_youden', 'bayesian_logistic', 'change_point', 'mutual_info']:
+            if method_name in e:
+                m = e[method_name]
+                row["methods"][method_name] = {{
+                    "threshold": _safe(m.get('threshold')),
+                    "ci_lower": _safe(m.get('ci_lower')),
+                    "ci_upper": _safe(m.get('ci_upper')),
+                    "statistic": _safe(m.get('statistic', m.get('auc', m.get('mi')))),
+                    "pValue": _safe(m.get('p_value')),
+                    "significant": bool(m.get('significant', True)),
+                }}
+        threshold_export.append(row)
     results["thresholds"] = threshold_export
-except Exception:
-    results["thresholds"] = None
-
-try:
-    results["modelComparison"] = model_comparison.to_dict(orient="records")
-except Exception:
-    results["modelComparison"] = None
-
-try:
-    # Build per-variable threshold comparison with numeric values (not string ranges)
-    _thresh_comp = []
-    _all_drv = sorted(set(hmm_thresholds.keys()) & set(rf_thresholds.keys()) & set(xgb_thresholds.keys()))
-    for _drv in _all_drv:
-        _h = hmm_thresholds[_drv]
-        _r = rf_thresholds[_drv]
-        _x = xgb_thresholds[_drv]
-        _thresh_comp.append({{
-            "Variable": _drv,
-            "HMM_Threshold": _safe(round(_h["threshold"], 4)),
-            "HMM_Range_Lower": _safe(round(_h["threshold_lower"], 4)),
-            "HMM_Range_Upper": _safe(round(_h["threshold_upper"], 4)),
-            "RF_Threshold": _safe(round(_r["threshold"], 4)),
-            "RF_Range_Lower": _safe(round(_r["threshold_lower"], 4)),
-            "RF_Range_Upper": _safe(round(_r["threshold_upper"], 4)),
-            "XGB_Threshold": _safe(round(_x["threshold"], 4)),
-            "XGB_Range_Lower": _safe(round(_x["threshold_lower"], 4)),
-            "XGB_Range_Upper": _safe(round(_x["threshold_upper"], 4)),
-        }})
-    results["thresholdComparison"] = _thresh_comp
-except Exception:
-    results["thresholdComparison"] = None
-
-# 13. Meteorological Threshold Forecasts (SARIMA)
-try:
-    results["forecasts"] = {{
-        "metadata": forecast_metadata,
-        "variables": {{}},
-    }}
-    for _fvar in forecast_export:
-        _fdata = forecast_export[_fvar]
-        _var_export = {{
-            "threshold": _safe(_fdata["threshold"]),
-            "thresholdDirection": _fdata["thresholdDirection"],
-            "historicalMean": _safe(_fdata["historicalMean"]),
-            "historicalStd": _safe(_fdata["historicalStd"]),
-            "historicalMin": _safe(_fdata["historicalMin"]),
-            "historicalMax": _safe(_fdata["historicalMax"]),
-            "riskLevel": _fdata["riskLevel"],
-            "model": _fdata["model"],
-            "validation": _fdata.get("validation", {{}}),
-            "horizons": {{}},
-        }}
-        for _hkey, _hdata in _fdata["horizons"].items():
-            _var_export["horizons"][_hkey] = {{
-                "monthly": _hdata["monthly"],
-                "avgForecast": _safe(_hdata["avgForecast"]),
-                "peakForecast": _safe(_hdata["peakForecast"]),
-                "minForecast": _safe(_hdata["minForecast"]),
-                "exceedanceMonths": _safe(_hdata["exceedanceMonths"]),
-                "exceedancePct": _safe(_hdata["exceedancePct"]),
-                "trendPct": _safe(_hdata["trendPct"]),
-            }}
-        results["forecasts"]["variables"][_fvar] = _var_export
-    print(f"✓ Forecast data exported: {{len(forecast_export)}} variables")
 except Exception as e:
-    print(f"Forecast export error: {{e}}")
-    results["forecasts"] = None
+    print(f"Threshold export error: {{e}}")
+    results["thresholds"] = []
+
+# =====================================================================
+# 6. Random Forest model
+# =====================================================================
+try:
+    importances = pd.Series(rf.feature_importances_, index=significant_features).sort_values(ascending=False)
+    results["rfModel"] = {{
+        "featureImportance": [
+            {{"feature": feat, "importance": _safe(round(imp, 4))}}
+            for feat, imp in importances.items()
+        ],
+        "oobScore": _safe(round(rf.oob_score_, 4)) if hasattr(rf, 'oob_score_') else None,
+        "nEstimators": _safe(rf.n_estimators),
+    }}
+except Exception as e:
+    print(f"RF model export error: {{e}}")
+    results["rfModel"] = None
+
+# =====================================================================
+# 7. SARIMA diagnostics (AIC grid search)
+# =====================================================================
+try:
+    results["sarimaDiagnostics"] = sarima_diag_df.to_dict(orient='records')
+except Exception as e:
+    print(f"SARIMA diagnostics export error: {{e}}")
+    results["sarimaDiagnostics"] = []
+
+# =====================================================================
+# 8. SARIMA forecasts (monthly per variable)
+# =====================================================================
+try:
+    fc_export = {{}}
+    for var_name, fc_df_var in sarima_forecasts.items():
+        fc_export[var_name] = {{
+            "monthly": fc_df_var.to_dict(orient='records'),
+        }}
+    results["sarimaForecasts"] = fc_export
+except Exception as e:
+    print(f"SARIMA forecasts export error: {{e}}")
+    results["sarimaForecasts"] = {{}}
+
+# =====================================================================
+# 9. Hindcast validation
+# =====================================================================
+try:
+    if len(hc_df) > 0:
+        hits   = int(((hc_df['actual'] == 1) & (hc_df['predicted'] == 1)).sum())
+        misses = int(((hc_df['actual'] == 1) & (hc_df['predicted'] == 0)).sum())
+        false_alarms = int(((hc_df['actual'] == 0) & (hc_df['predicted'] == 1)).sum())
+        correct_rej  = int(((hc_df['actual'] == 0) & (hc_df['predicted'] == 0)).sum())
+        pod = hits / max(hits + misses, 1)
+        far = false_alarms / max(hits + false_alarms, 1)
+        csi = hits / max(hits + misses + false_alarms, 1)
+        accuracy = (hits + correct_rej) / len(hc_df)
+        results["hindcast"] = {{
+            "results": hc_df.to_dict(orient='records'),
+            "metrics": {{
+                "accuracy": _safe(round(accuracy, 4)),
+                "pod": _safe(round(pod, 4)),
+                "far": _safe(round(far, 4)),
+                "csi": _safe(round(csi, 4)),
+                "hits": hits,
+                "misses": misses,
+                "falseAlarms": false_alarms,
+                "correctRejections": correct_rej,
+                "totalYears": len(hc_df),
+            }},
+        }}
+    else:
+        results["hindcast"] = None
+except Exception as e:
+    print(f"Hindcast export error: {{e}}")
+    results["hindcast"] = None
+
+# =====================================================================
+# 10. Monte Carlo results
+# =====================================================================
+try:
+    results["monteCarlo"] = {{
+        "nSimulations": 2000,
+        "horizons": mc_df.to_dict(orient='records'),
+    }}
+except Exception as e:
+    print(f"Monte Carlo export error: {{e}}")
+    results["monteCarlo"] = None
+
+# =====================================================================
+# 11. Retreat predictions (actual meters)
+# =====================================================================
+try:
+    results["retreatPredictions"] = retreat_df.to_dict(orient='records')
+except Exception as e:
+    print(f"Retreat predictions export error: {{e}}")
+    results["retreatPredictions"] = []
+
+# =====================================================================
+# 12. Per-transect vulnerability scores
+# =====================================================================
+try:
+    vuln_cols = [c for c in dsas_scored.columns if c.startswith('risk_') or c.startswith('cat_')]
+    base_cols = ['id', 'EPR', 'NSM', 'epr_class', 'epr_vulnerability']
+    export_cols = [c for c in base_cols + vuln_cols if c in dsas_scored.columns]
+    results["transectVulnerability"] = {{
+        "data": dsas_scored[export_cols].to_dict(orient='records'),
+        "summary": {{}},
+    }}
+    for col in vuln_cols:
+        if col.startswith('cat_') and col in dsas_scored.columns:
+            h_name = col.replace('cat_', '')
+            dist = dsas_scored[col].value_counts().to_dict()
+            results["transectVulnerability"]["summary"][h_name] = {{
+                str(k): int(v) for k, v in dist.items()
+            }}
+except Exception as e:
+    print(f"Transect vulnerability export error: {{e}}")
+    results["transectVulnerability"] = None
+
+# =====================================================================
+# 13. Forecast skill scores
+# =====================================================================
+try:
+    base_rate_val = float(analysis_df['erosion_label'].mean())
+    if len(hc_df) > 0:
+        bs_fc = float(np.mean((hc_df['probability'].values - hc_df['actual'].values)**2))
+        bs_clim = float(np.mean((base_rate_val - hc_df['actual'].values)**2))
+        bss_val = 1 - bs_fc / bs_clim if bs_clim > 0 else 0
+        results["forecastSkill"] = {{
+            "baseRate": _safe(round(base_rate_val, 4)),
+            "brierScoreForecast": _safe(round(bs_fc, 4)),
+            "brierScoreClimatology": _safe(round(bs_clim, 4)),
+            "brierSkillScore": _safe(round(bss_val, 4)),
+            "skillful": bss_val > 0,
+        }}
+    else:
+        results["forecastSkill"] = None
+except Exception as e:
+    print(f"Forecast skill export error: {{e}}")
+    results["forecastSkill"] = None
+
+# =====================================================================
+# 14. Monthly risk timeline
+# =====================================================================
+try:
+    results["monthlyRisk"] = monthly_risk_df.to_dict(orient='records')
+except Exception as e:
+    print(f"Monthly risk export error: {{e}}")
+    results["monthlyRisk"] = []
+
+# =====================================================================
+# 15. Horizon features (aggregated annual per horizon)
+# =====================================================================
+try:
+    results["horizonFeatures"] = horizon_features.to_dict(orient='records')
+except Exception as e:
+    print(f"Horizon features export error: {{e}}")
+    results["horizonFeatures"] = []
+
+# =====================================================================
+# 16. Erosion predictions per horizon (RF probabilities)
+# =====================================================================
+try:
+    results["erosionPredictions"] = erosion_predictions
+except Exception as e:
+    print(f"Erosion predictions export error: {{e}}")
+    results["erosionPredictions"] = []
 
 # ---- Write JSON ----
 os.makedirs(os.path.dirname(_RESULTS_PATH), exist_ok=True)
 with open(_RESULTS_PATH, "w") as _f:
     json.dump(results, _f, indent=2, default=str)
 
-# Also copy to frontend public dir
 os.makedirs(_FRONTEND_PATH, exist_ok=True)
 with open(os.path.join(_FRONTEND_PATH, "analysis_results.json"), "w") as _f:
     json.dump(results, _f, indent=2, default=str)
 
 print(f"✓ Results exported to {{_RESULTS_PATH}}")
 print(f"✓ Results copied to {{_FRONTEND_PATH}}/analysis_results.json")
+
 '''
 
 

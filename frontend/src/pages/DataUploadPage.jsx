@@ -63,14 +63,15 @@ const uploadSections = [
 /* ── Execution progress steps (mirrors notebook.ipynb flow) ── */
 const PROGRESS_STEPS = [
   'Uploading files to server…',
-  'Loading & processing environmental data (NetCDF)…',
-  'Feature engineering & exploratory analysis…',
-  'Training HMM state detection model…',
+  'Loading shoreline & environmental data…',
+  'Feature engineering & annual aggregation…',
+  'Statistical analysis (Mann-Whitney / Cliff\'s δ)…',
+  'Computing 4-method ensemble thresholds…',
   'Training Random Forest classifier…',
-  'Training XGBoost & SHAP analysis…',
-  'Computing multi-model consensus thresholds…',
-  'Running SARIMA forecasts…',
-  'Processing & exporting results…',
+  'Running SARIMA forecasts (AIC grid search)…',
+  'Hindcast validation & Monte Carlo simulation…',
+  'Computing retreat predictions & vulnerability…',
+  'Exporting results to JSON…',
 ]
 
 export default function DataUploadPage() {

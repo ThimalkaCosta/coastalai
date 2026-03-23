@@ -6,7 +6,6 @@ import {
   BarChart3,
   GitBranch,
   Layers,
-  Zap,
   ChevronDown,
   Target,
   LayoutDashboard,
@@ -16,6 +15,8 @@ import {
   X,
   Sparkles,
   TrendingUp,
+  Shield,
+  MapPin,
 } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 
@@ -30,17 +31,17 @@ function getSidebarNavigation(role) {
     { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
     { name: 'Upload Data', href: '/upload', icon: Upload },
     { name: 'Analysis', href: '/analysis', icon: BarChart3 },
-    { name: 'Threshold', href: '/threshold', icon: Target },
-    { name: 'Forecast', href: '/forecast-thresholds', icon: TrendingUp },
+    { name: 'Thresholds', href: '/threshold', icon: Target },
     {
-      name: 'Models',
-      icon: Layers,
+      name: 'Forecast',
+      icon: TrendingUp,
       children: [
-        { name: 'Random Forest', href: '/models/random-forest', icon: GitBranch },
-        { name: 'HMM', href: '/models/hmm', icon: Layers },
-        { name: 'XGBoost', href: '/models/xgboost', icon: Zap },
+        { name: 'Overview', href: '/forecast', icon: TrendingUp },
+        { name: 'Retreat & Vulnerability', href: '/forecast/retreat', icon: MapPin },
+        { name: 'Hindcast Validation', href: '/forecast/hindcast', icon: Shield },
       ],
     },
+    { name: 'RF Model', href: '/models/random-forest', icon: GitBranch },
   ]
   if (role === 'Manager' || role === 'Head Office') {
     base.push({ name: 'Users', href: '/admin/users', icon: Users })
@@ -49,7 +50,7 @@ function getSidebarNavigation(role) {
 }
 
 export default function Sidebar() {
-  const [modelsOpen, setModelsOpen] = useState(false)
+  const [subMenuOpen, setSubMenuOpen] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const location = useLocation()
   const { currentUser, userRole, logout } = useAuth()
@@ -57,11 +58,11 @@ export default function Sidebar() {
   const navigation = getSidebarNavigation(userRole)
 
   const isActive = (href) => location.pathname === href
-  const isModelsActive = () => location.pathname.startsWith('/models')
+  const isForecastActive = () => location.pathname.startsWith('/forecast')
 
-  // Auto-expand models menu if on a model page
+  // Auto-expand forecast menu if on a forecast page
   useEffect(() => {
-    if (isModelsActive()) setModelsOpen(true)
+    if (isForecastActive()) setSubMenuOpen(true)
   }, [location.pathname])
 
   // Close mobile sidebar on route change
@@ -96,15 +97,15 @@ export default function Sidebar() {
           item.children ? (
             <div key={item.name}>
               <button
-                onClick={() => setModelsOpen(!modelsOpen)}
+                onClick={() => setSubMenuOpen(!subMenuOpen)}
                 className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 group ${
-                  isModelsActive()
+                  isForecastActive()
                     ? 'bg-gradient-to-r from-ocean-50 to-primary-50 text-ocean-700'
                     : 'text-coastal-600 hover:bg-coastal-50 hover:text-coastal-800'
                 }`}
               >
                 <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-200 ${
-                  isModelsActive()
+                  isForecastActive()
                     ? 'bg-ocean-500/10 text-ocean-600'
                     : 'bg-coastal-100 text-coastal-500 group-hover:bg-coastal-200 group-hover:text-coastal-700'
                 }`}>
@@ -113,13 +114,13 @@ export default function Sidebar() {
                 <span className="flex-1 text-left">{item.name}</span>
                 <ChevronDown
                   className={`w-4 h-4 text-coastal-400 transition-transform duration-200 ${
-                    modelsOpen ? 'rotate-180' : ''
+                    subMenuOpen ? 'rotate-180' : ''
                   }`}
                 />
               </button>
 
               <AnimatePresence>
-                {modelsOpen && (
+                {subMenuOpen && (
                   <motion.div
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: 'auto' }}

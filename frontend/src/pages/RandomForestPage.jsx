@@ -39,12 +39,12 @@ export default function RandomForestPage() {
 
   // Feature importance data from actual results
   const featureImportance = useMemo(() => {
-    return data.models?.rf?.featureImportance || []
+    return data.rfModel?.featureImportance || []
   }, [data])
 
   // Threshold values from actual results
   const thresholds = useMemo(() => {
-    return data.models?.rf?.thresholds || {}
+    return data.rfModel?.thresholds || {}
   }, [data])
 
   // All thresholds as array for table display - properly ordered by importance
@@ -72,12 +72,12 @@ export default function RandomForestPage() {
 
   // Model metrics from actual results
   const metrics = useMemo(() => {
-    return data.models?.rf?.metrics || {}
+    return data.rfModel?.metrics || {}
   }, [data])
 
   // Model configuration from actual results
   const config = useMemo(() => {
-    return data.models?.rf?.config || {}
+    return data.rfModel?.config || {}
   }, [data])
 
   const tabs = [
