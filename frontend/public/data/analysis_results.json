@@ -1,14 +1,120 @@
 {
   "cells": [
     {
+      "cellIndex": 3,
+      "outputs": [
+        {
+          "type": "text",
+          "content": "\u2713 Libraries loaded successfully\n"
+        }
+      ]
+    },
+    {
       "cellIndex": 4,
       "outputs": [
         {
+          "type": "text",
+          "content": "============================================================\nSHORELINE DATA SUMMARY (Transect-Based)\n============================================================\nShape: (187, 20)\nColumns: ['id', 'SCE', 'SCE_highest_unc', 'SCE_trend', 'SCE_closest_year', 'SCE_farthest_year', 'NSM', 'NSM_highest_unc', 'NSM_trend', 'EPR', 'EPR_unc', 'EPR_trend', 'LRR', 'LR2', 'LSE', 'LCI', 'WLR', 'WR2', 'WSE', 'WCI']\nYear range: 2010 \u2013 2024\n"
+        },
+        {
+          "type": "html",
+          "content": "<div>\n<style scoped>\n    .dataframe tbody tr th:only-of-type {\n        vertical-align: middle;\n    }\n\n    .dataframe tbody tr th {\n        vertical-align: top;\n    }\n\n    .dataframe thead th {\n        text-align: right;\n    }\n</style>\n<table border=\"1\" class=\"dataframe\">\n  <thead>\n    <tr style=\"text-align: right;\">\n      <th></th>\n      <th>id</th>\n      <th>SCE</th>\n      <th>SCE_highest_unc</th>\n      <th>SCE_trend</th>\n      <th>SCE_closest_year</th>\n      <th>SCE_farthest_year</th>\n      <th>NSM</th>\n      <th>NSM_highest_unc</th>\n      <th>NSM_trend</th>\n      <th>EPR</th>\n      <th>EPR_unc</th>\n      <th>EPR_trend</th>\n      <th>LRR</th>\n      <th>LR2</th>\n      <th>LSE</th>\n      <th>LCI</th>\n      <th>WLR</th>\n      <th>WR2</th>\n      <th>WSE</th>\n      <th>WCI</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <th>0</th>\n      <td>1</td>\n      <td>36.16</td>\n      <td>1</td>\n      <td>accreting</td>\n      <td>2023</td>\n      <td>2022</td>\n      <td>1.33</td>\n      <td>1</td>\n      <td>accreting</td>\n      <td>0.09</td>\n      <td>0.1</td>\n      <td>stable</td>\n      <td>0.51</td>\n      <td>0.08</td>\n      <td>7.10</td>\n      <td>1.09</td>\n      <td>0.51</td>\n      <td>0.08</td>\n      <td>7.10</td>\n      <td>1.09</td>\n    </tr>\n    <tr>\n      <th>1</th>\n      <td>2</td>\n      <td>25.38</td>\n      <td>1</td>\n      <td>accreting</td>\n      <td>2023</td>\n      <td>2022</td>\n      <td>-3.22</td>\n      <td>1</td>\n      <td>eroding</td>\n      <td>-0.22</td>\n      <td>0.1</td>\n      <td>eroding</td>\n      <td>-0.03</td>\n      <td>0.00</td>\n      <td>6.19</td>\n      <td>0.95</td>\n      <td>-0.03</td>\n      <td>0.00</td>\n      <td>6.19</td>\n      <td>0.95</td>\n    </tr>\n    <tr>\n      <th>2</th>\n      <td>3</td>\n      <td>24.11</td>\n      <td>1</td>\n      <td>accreting</td>\n      <td>2024</td>\n      <td>2018</td>\n      <td>-14.45</td>\n      <td>1</td>\n      <td>eroding</td>\n      <td>-1.00</td>\n      <td>0.1</td>\n      <td>eroding</td>\n      <td>-0.38</td>\n      <td>0.06</td>\n      <td>6.12</td>\n      <td>0.94</td>\n      <td>-0.38</td>\n      <td>0.06</td>\n      <td>6.12</td>\n      <td>0.94</td>\n    </tr>\n    <tr>\n      <th>3</th>\n      <td>4</td>\n      <td>43.20</td>\n      <td>1</td>\n      <td>accreting</td>\n      <td>2021</td>\n      <td>2011</td>\n      <td>0.11</td>\n      <td>1</td>\n      <td>stable</td>\n      <td>0.01</td>\n      <td>0.1</td>\n      <td>stable</td>\n      <td>-0.51</td>\n      <td>0.06</td>\n      <td>8.19</td>\n      <td>1.25</td>\n      <td>-0.51</td>\n      <td>0.06</td>\n      <td>8.19</td>\n      <td>1.25</td>\n    </tr>\n    <tr>\n      <th>4</th>\n      <td>5</td>\n      <td>36.91</td>\n      <td>1</td>\n      <td>accreting</td>\n      <td>2021</td>\n      <td>2011</td>\n      <td>5.48</td>\n      <td>1</td>\n      <td>accreting</td>\n      <td>0.38</td>\n      <td>0.1</td>\n      <td>accreting</td>\n      <td>-0.38</td>\n      <td>0.04</td>\n      <td>8.18</td>\n      <td>1.25</td>\n      <td>-0.38</td>\n      <td>0.04</td>\n      <td>8.18</td>\n      <td>1.25</td>\n    </tr>\n    <tr>\n      <th>5</th>\n      <td>6</td>\n      <td>39.38</td>\n      <td>1</td>\n      <td>accreting</td>\n      <td>2021</td>\n      <td>2011</td>\n      <td>5.57</td>\n      <td>1</td>\n      <td>accreting</td>\n      <td>0.38</td>\n      <td>0.1</td>\n      <td>accreting</td>\n      <td>-0.52</td>\n      <td>0.06</td>\n      <td>8.69</td>\n      <td>1.33</td>\n      <td>-0.52</td>\n      <td>0.06</td>\n      <td>8.69</td>\n      <td>1.33</td>\n    </tr>\n    <tr>\n      <th>6</th>\n      <td>7</td>\n      <td>39.03</td>\n      <td>1</td>\n      <td>accreting</td>\n      <td>2019</td>\n      <td>2011</td>\n      <td>1.91</td>\n      <td>1</td>\n      <td>accreting</td>\n      <td>0.13</td>\n      <td>0.1</td>\n      <td>accreting</td>\n      <td>-0.40</td>\n      <td>0.03</td>\n      <td>9.00</td>\n      <td>1.38</td>\n      <td>-0.40</td>\n      <td>0.03</td>\n      <td>9.00</td>\n      <td>1.38</td>\n    </tr>\n    <tr>\n      <th>7</th>\n      <td>8</td>\n      <td>40.18</td>\n      <td>1</td>\n      <td>accreting</td>\n      <td>2019</td>\n      <td>2011</td>\n      <td>2.77</td>\n      <td>1</td>\n      <td>accreting</td>\n      <td>0.19</td>\n      <td>0.1</td>\n      <td>accreting</td>\n      <td>-0.23</td>\n      <td>0.01</td>\n      <td>9.77</td>\n      <td>1.49</td>\n      <td>-0.23</td>\n      <td>0.01</td>\n      <td>9.77</td>\n      <td>1.49</td>\n    </tr>\n    <tr>\n      <th>8</th>\n      <td>9</td>\n      <td>45.26</td>\n      <td>1</td>\n      <td>accreting</td>\n      <td>2019</td>\n      <td>2022</td>\n      <td>0.59</td>\n      <td>1</td>\n      <td>stable</td>\n      <td>0.04</td>\n      <td>0.1</td>\n      <td>stable</td>\n      <td>-0.34</td>\n      <td>0.02</td>\n      <td>10.11</td>\n      <td>1.55</td>\n      <td>-0.34</td>\n      <td>0.02</td>\n      <td>10.11</td>\n      <td>1.55</td>\n    </tr>\n    <tr>\n      <th>9</th>\n      <td>10</td>\n      <td>51.55</td>\n      <td>1</td>\n      <td>accreting</td>\n      <td>2019</td>\n      <td>2022</td>\n      <td>12.07</td>\n      <td>1</td>\n      <td>accreting</td>\n      <td>0.83</td>\n      <td>0.1</td>\n      <td>accreting</td>\n      <td>-0.13</td>\n      <td>0.00</td>\n      <td>11.74</td>\n      <td>1.79</td>\n      <td>-0.13</td>\n      <td>0.00</td>\n      <td>11.74</td>\n      <td>1.79</td>\n    </tr>\n  </tbody>\n</table>\n</div>"
+        },
+        {
+          "type": "text",
+          "content": "\nWave: ['VHM0', 'VHM0_SW1', 'VHM0_SW2', 'VHM0_WW', 'VMDR', 'VMDR_SW1', 'VMDR_SW2', 'VMDR_WW', 'VPED', 'VSDX', 'VSDY', 'VTM01_SW1', 'VTM01_SW2', 'VTM01_WW', 'VTM02', 'VTM10', 'VTPK'] | time 42601 steps\n\nWind: ['eastward_stress', 'eastward_stress_bias', 'eastward_stress_sdd', 'eastward_wind', 'eastward_wind_bias', 'eastward_wind_sdd', 'northward_stress', 'northward_stress_bias', 'northward_stress_sdd', 'northward_wind', 'northward_wind_bias', 'northward_wind_sdd', 'number_of_observations', 'wind_speed', 'wind_speed_bias', 'wind_speed_sdd', 'wind_stress_magnitude', 'wind_stress_magnitude_bias', 'wind_stress_magnitude_sdd'] | time 175 steps\n\nCurrent: ['bottomT', 'mlotst', 'siconc', 'sithick', 'so', 'thetao', 'uo', 'usi', 'vo', 'vsi', 'zos'] | time 175 steps\n"
+        }
+      ]
+    },
+    {
+      "cellIndex": 6,
+      "outputs": [
+        {
+          "type": "text",
+          "content": "============================================================\nFIVE-CLASS DISTRIBUTION (Annual)\n============================================================\nChange_Class\naccreted_high    9\nstable           2\neroded_high      2\n\nErosion years (NSM < -1.0): 2 / 13\nMean NSM across transects: 16.32 m\nEroding transects: 10.7%\n"
+        }
+      ]
+    },
+    {
+      "cellIndex": 8,
+      "outputs": [
+        {
+          "type": "text",
+          "content": "============================================================\nEROSION EVENT YEARS\n============================================================\n  2017: 2 eroding transects (HIGH severity)\n  2024: 4 eroding transects (HIGH severity)\n\nTotal erosion years: 2\nNon-erosion years: 11\n"
+        }
+      ]
+    },
+    {
+      "cellIndex": 10,
+      "outputs": [
+        {
+          "type": "text",
+          "content": "Wind monthly: (175, 9)\nWind annual: (15, 8)\nStorm wind threshold: 10.0 m/s\n"
+        }
+      ]
+    },
+    {
+      "cellIndex": 11,
+      "outputs": [
+        {
+          "type": "text",
+          "content": "Wave monthly: (0, 13)"
+        },
+        {
+          "type": "text",
+          "content": "\nWave annual: (0, 11)\nStorm wave threshold: 2.0 m\n"
+        }
+      ]
+    },
+    {
+      "cellIndex": 12,
+      "outputs": [
+        {
+          "type": "text",
+          "content": "Current monthly: (175, 9)\nCurrent annual: (15, 8)\n"
+        }
+      ]
+    },
+    {
+      "cellIndex": 13,
+      "outputs": [
+        {
+          "type": "text",
+          "content": "============================================================\nMERGED ANNUAL FORCING MATRIX\n============================================================\nShape: (15, 25)\nYears: 2009 \u2013 2023\n\nFeatures (25):\n  \u2022 monsoon_year\n  \u2022 Hm0_max_annual\n  \u2022 Hm0_p90\n  \u2022 Hm0_mean_annual\n  \u2022 Hm0_std_annual\n  \u2022 Tp_max_annual\n  \u2022 Tp_mean_annual\n  \u2022 stokesdrift_max_annual\n  \u2022 stokesdrift_mean_annual\n  \u2022 cumwave_energy_annual\n  \u2022 storm_days_wave_total\n  \u2022 wind_max_annual\n  \u2022 wind_p90\n  \u2022 wind_mean_annual\n  \u2022 wind_std_annual\n  \u2022 eastwind_mean_annual\n  \u2022 northwind_mean_annual\n  \u2022 storm_days_wind_total\n  \u2022 ucurr_max_annual\n  \u2022 ucurr_p90\n  \u2022 ucurr_mean_annual\n  \u2022 ucurr_std_annual\n  \u2022 zos_max_annual\n  \u2022 zos_mean_annual\n  \u2022 cum_current_annual\n"
+        },
+        {
+          "type": "html",
+          "content": "<div>\n<style scoped>\n    .dataframe tbody tr th:only-of-type {\n        vertical-align: middle;\n    }\n\n    .dataframe tbody tr th {\n        vertical-align: top;\n    }\n\n    .dataframe thead th {\n        text-align: right;\n    }\n</style>\n<table border=\"1\" class=\"dataframe\">\n  <thead>\n    <tr style=\"text-align: right;\">\n      <th></th>\n      <th>monsoon_year</th>\n      <th>Hm0_max_annual</th>\n      <th>Hm0_p90</th>\n      <th>Hm0_mean_annual</th>\n      <th>Hm0_std_annual</th>\n      <th>Tp_max_annual</th>\n      <th>Tp_mean_annual</th>\n      <th>stokesdrift_max_annual</th>\n      <th>stokesdrift_mean_annual</th>\n      <th>cumwave_energy_annual</th>\n      <th>...</th>\n      <th>eastwind_mean_annual</th>\n      <th>northwind_mean_annual</th>\n      <th>storm_days_wind_total</th>\n      <th>ucurr_max_annual</th>\n      <th>ucurr_p90</th>\n      <th>ucurr_mean_annual</th>\n      <th>ucurr_std_annual</th>\n      <th>zos_max_annual</th>\n      <th>zos_mean_annual</th>\n      <th>cum_current_annual</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <th>0</th>\n      <td>2009</td>\n      <td>NaN</td>\n      <td>NaN</td>\n      <td>NaN</td>\n      <td>NaN</td>\n      <td>NaN</td>\n      <td>NaN</td>\n      <td>NaN</td>\n      <td>NaN</td>\n      <td>NaN</td>\n      <td>...</td>\n      <td>1.746250</td>\n      <td>0.218750</td>\n      <td>0</td>\n      <td>0.417729</td>\n      <td>0.348812</td>\n      <td>0.241482</td>\n      <td>0.102690</td>\n      <td>0.523087</td>\n      <td>0.444311</td>\n      <td>1.931858</td>\n    </tr>\n    <tr>\n      <th>1</th>\n      <td>2010</td>\n      <td>NaN</td>\n      <td>NaN</td>\n      <td>NaN</td>\n      <td>NaN</td>\n      <td>NaN</td>\n      <td>NaN</td>\n      <td>NaN</td>\n      <td>NaN</td>\n      <td>NaN</td>\n      <td>...</td>\n      <td>3.222500</td>\n      <td>-0.487500</td>\n      <td>0</td>\n      <td>0.337974</td>\n      <td>0.257771</td>\n      <td>0.160405</td>\n      <td>0.087209</td>\n      <td>0.578631</td>\n      <td>0.467391</td>\n      <td>1.924863</td>\n    </tr>\n    <tr>\n      <th>2</th>\n      <td>2011</td>\n      <td>NaN</td>\n      <td>NaN</td>\n      <td>NaN</td>\n      <td>NaN</td>\n      <td>NaN</td>\n      <td>NaN</td>\n      <td>NaN</td>\n      <td>NaN</td>\n      <td>NaN</td>\n      <td>...</td>\n      <td>2.668333</td>\n      <td>0.223333</td>\n      <td>0</td>\n      <td>0.383896</td>\n      <td>0.307926</td>\n      <td>0.213665</td>\n      <td>0.095790</td>\n      <td>0.549944</td>\n      <td>0.448648</td>\n      <td>2.563978</td>\n    </tr>\n    <tr>\n      <th>3</th>\n      <td>2012</td>\n      <td>NaN</td>\n      <td>NaN</td>\n      <td>NaN</td>\n      <td>NaN</td>\n      <td>NaN</td>\n      <td>NaN</td>\n      <td>NaN</td>\n      <td>NaN</td>\n      <td>NaN</td>\n      <td>...</td>\n      <td>2.400000</td>\n      <td>0.385000</td>\n      <td>0</td>\n      <td>0.524217</td>\n      <td>0.298409</td>\n      <td>0.203220</td>\n      <td>0.127275</td>\n      <td>0.555742</td>\n      <td>0.472503</td>\n      <td>2.438637</td>\n    </tr>\n    <tr>\n      <th>4</th>\n      <td>2013</td>\n      <td>NaN</td>\n      <td>NaN</td>\n      <td>NaN</td>\n      <td>NaN</td>\n      <td>NaN</td>\n      <td>NaN</td>\n      <td>NaN</td>\n      <td>NaN</td>\n      <td>NaN</td>\n      <td>...</td>\n      <td>2.829167</td>\n      <td>0.052500</td>\n      <td>0</td>\n      <td>0.419063</td>\n      <td>0.387674</td>\n      <td>0.254862</td>\n      <td>0.119697</td>\n      <td>0.541704</td>\n      <td>0.451038</td>\n      <td>3.058341</td>\n    </tr>\n  </tbody>\n</table>\n<p>5 rows \u00d7 25 columns</p>\n</div>"
+        }
+      ]
+    },
+    {
+      "cellIndex": 16,
+      "outputs": [
+        {
+          "type": "text",
+          "content": "============================================================\nANALYSIS DATASET\n============================================================\nShape: (12, 30)\nYears: 2010 \u2013 2023\nErosion years: 1 / 12\nBase rate: 8.33%\n"
+        },
+        {
+          "type": "text",
+          "content": "' monsoon_year  annual_NSM  erosion_label  Change_Class\\n         2010   11.260000              0 accreted_high\\n         2011   28.241000              0 accreted_high\\n         2012    6.750000              0 accreted_high\\n         2014   -0.870000              0        stable\\n         2016    0.522000              0        stable\\n         2017   -5.150000              1   eroded_high\\n         2018   13.135000              0 accreted_high\\n         2019    5.165000              0 accreted_high\\n         2020    7.979333              0 accreted_high\\n         2021   15.008667              0 accreted_high\\n         2022   18.553333              0 accreted_high\\n         2023   20.000465              0 accreted_high'"
+        }
+      ]
+    },
+    {
+      "cellIndex": 18,
+      "outputs": [
+        {
           "type": "error",
-          "ename": "SyntaxError",
-          "evalue": "invalid syntax (1322994597.py, line 35)",
+          "ename": "KeyError",
+          "evalue": "'p_value'",
           "traceback": [
-            "  \u001b[36mCell\u001b[39m\u001b[36m \u001b[39m\u001b[32mIn[1]\u001b[39m\u001b[32m, line 35\u001b[39m\n\u001b[31m    \u001b[39m\u001b[31m</VSCode.Cell>\u001b[39m\n    ^\n\u001b[31mSyntaxError\u001b[39m\u001b[31m:\u001b[39m invalid syntax\n"
+            "\u001b[31m---------------------------------------------------------------------------\u001b[39m",
+            "\u001b[31mKeyError\u001b[39m                                  Traceback (most recent call last)",
+            "\u001b[32m~\\AppData\\Local\\Temp\\ipykernel_8772\\616255364.py\u001b[39m in \u001b[36m?\u001b[39m\u001b[34m()\u001b[39m\n\u001b[32m     51\u001b[39m         \u001b[33m'effect_size'\u001b[39m:      cd_mag,\n\u001b[32m     52\u001b[39m         \u001b[33m'significant'\u001b[39m:      pval < \u001b[32m0.05\u001b[39m\n\u001b[32m     53\u001b[39m     })\n\u001b[32m     54\u001b[39m \n\u001b[32m---> \u001b[39m\u001b[32m55\u001b[39m mw_df = pd.DataFrame(mw_results).sort_values(\u001b[33m'p_value'\u001b[39m)\n\u001b[32m     56\u001b[39m \n\u001b[32m     57\u001b[39m \u001b[38;5;66;03m# Select significant features; fallback to top-5 by p-value\u001b[39;00m\n\u001b[32m     58\u001b[39m significant_features = mw_df[mw_df[\u001b[33m'significant'\u001b[39m]][\u001b[33m'feature'\u001b[39m].tolist()\n",
+            "\u001b[32mD:\\Kanjana\\Coastal_Research\\.venv\\Lib\\site-packages\\pandas\\core\\frame.py\u001b[39m in \u001b[36m?\u001b[39m\u001b[34m(self, by, axis, ascending, inplace, kind, na_position, ignore_index, key)\u001b[39m\n\u001b[32m   8343\u001b[39m             )\n\u001b[32m   8344\u001b[39m         \u001b[38;5;28;01melif\u001b[39;00m by:\n\u001b[32m   8345\u001b[39m             \u001b[38;5;66;03m# len(by) == 1\u001b[39;00m\n\u001b[32m   8346\u001b[39m \n\u001b[32m-> \u001b[39m\u001b[32m8347\u001b[39m             k = self._get_label_or_level_values(by[\u001b[32m0\u001b[39m], axis=axis)\n\u001b[32m   8348\u001b[39m \n\u001b[32m   8349\u001b[39m             \u001b[38;5;66;03m# need to rewrap column in Series to apply key function\u001b[39;00m\n\u001b[32m   8350\u001b[39m             \u001b[38;5;28;01mif\u001b[39;00m key \u001b[38;5;28;01mis\u001b[39;00m \u001b[38;5;28;01mnot\u001b[39;00m \u001b[38;5;28;01mNone\u001b[39;00m:\n",
+            "\u001b[32mD:\\Kanjana\\Coastal_Research\\.venv\\Lib\\site-packages\\pandas\\core\\generic.py\u001b[39m in \u001b[36m?\u001b[39m\u001b[34m(self, key, axis)\u001b[39m\n\u001b[32m   1772\u001b[39m             values = self.xs(key, axis=first_other_axes)._values\n\u001b[32m   1773\u001b[39m         \u001b[38;5;28;01melif\u001b[39;00m self._is_level_reference(key, axis=axis):\n\u001b[32m   1774\u001b[39m             values = self.axes[axis].get_level_values(key)._values\n\u001b[32m   1775\u001b[39m         \u001b[38;5;28;01melse\u001b[39;00m:\n\u001b[32m-> \u001b[39m\u001b[32m1776\u001b[39m             \u001b[38;5;28;01mraise\u001b[39;00m KeyError(key)\n\u001b[32m   1777\u001b[39m \n\u001b[32m   1778\u001b[39m         \u001b[38;5;66;03m# Check for duplicates\u001b[39;00m\n\u001b[32m   1779\u001b[39m         \u001b[38;5;28;01mif\u001b[39;00m values.ndim > \u001b[32m1\u001b[39m:\n",
+            "\u001b[31mKeyError\u001b[39m: 'p_value'"
           ]
         }
       ]
