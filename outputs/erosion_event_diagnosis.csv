@@ -1,0 +1,2 @@
+year,cum_current_annual_val,cum_current_annual_exceed,ucurr_mean_annual_val,ucurr_mean_annual_exceed,zos_max_annual_val,zos_max_annual_exceed,zos_mean_annual_val,zos_mean_annual_exceed,ucurr_p90_val,ucurr_p90_exceed,total_exceedances,confidence
+2017,3.126,True,0.261,True,0.553,False,0.459,False,0.364,True,3,HIGH

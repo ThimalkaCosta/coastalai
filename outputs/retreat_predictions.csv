@@ -1,0 +1,5 @@
+horizon,target_date,erosion_probability,erosion_prob,expected_epr,retreat_m,mean_retreat,retreat_low_95,retreat_high_95,action_level,risk_category
+H6,2024-08,0.019,0.019,1.268,0.634,0.634,0.61,0.644,STANDARD OPERATIONS,LOW
+H12,2025-02,0.016,0.016,1.273,1.273,1.273,1.219,1.289,STANDARD OPERATIONS,LOW
+H18,2025-08,0.016,0.016,1.273,1.909,1.909,1.829,1.933,STANDARD OPERATIONS,LOW
+H24,2026-02,0.016,0.016,1.273,2.545,2.545,2.438,2.578,STANDARD OPERATIONS,LOW
