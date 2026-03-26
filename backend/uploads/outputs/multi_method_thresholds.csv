@@ -1,6 +1,16 @@
-feature,thresh_ROC,thresh_BayesLogistic,thresh_ProfileLR,thresh_MutualInfo,CONSENSUS,agreement,AUC,perm_p,percentile
-Tp_max_annual,22.71,22.3461,23.030000686645508,23.030000686645508,23.030000686645508,100%,0.804,0.0238,73.3
-ucurr_p90,inf,0.3981,0.4025999903678894,0.4025999903678894,0.4025999903678894,75%,0.214,0.9722,60.0
-storm_months_wave,6.0,5.4573,5.5,5.5,5.5,100%,0.688,0.1466,40.0
-storm_days_wave_total,179.0,159.9031,222.0,222.0,222.0,50%,0.696,0.1158,80.0
-cumwave_energy_annual,55423.1367,59631.3086,54770.22265625,54770.22265625,54770.22265625,100%,0.696,0.1114,20.0
+feature,method,threshold,ci_lower,ci_upper
+cum_current_annual,ROC/Youden,inf,,
+cum_current_annual,Bayesian Logistic,2.5342,2.3788,2.7267
+cum_current_annual,Change-Point,2.586899995803833,2.586899995803833,2.586899995803833
+cum_current_annual,Mutual Info,2.586899995803833,2.4153,2.5869
+cum_current_annual,CONSENSUS,2.586899995803833,,
+ucurr_mean_annual,ROC/Youden,inf,,
+ucurr_mean_annual,Bayesian Logistic,0.2118,0.1994,0.2276
+ucurr_mean_annual,Change-Point,0.21559999883174896,0.21559999883174896,0.21559999883174896
+ucurr_mean_annual,Mutual Info,0.21559999883174896,0.2013,0.2156
+ucurr_mean_annual,CONSENSUS,0.21559999883174896,,
+wind_p90,ROC/Youden,inf,5.87,
+wind_p90,Bayesian Logistic,5.7852,5.6263,5.9534
+wind_p90,Change-Point,6.014500141143799,5.572999954223633,6.014500141143799
+wind_p90,Mutual Info,6.014500141143799,5.573,6.0145
+wind_p90,CONSENSUS,6.014500141143799,,

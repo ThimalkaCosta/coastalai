@@ -1614,19 +1614,20 @@ env_monthly = env_monthly.merge(current_monthly, on=['monsoon_year', 'year_month
                                  how='outer')
 env_monthly = env_monthly.sort_values('year_month').reset_index(drop=True)
 
-# Use the 'time' columns to create proper datetime index
-datetime_found = False
+# Build datetime index — coalesce from all time columns, fall back to year_month Period
+env_monthly['datetime'] = pd.NaT
 for tc in ['time_wave', 'time_wind', 'time']:
     if tc in env_monthly.columns:
-        env_monthly['datetime'] = pd.to_datetime(env_monthly[tc])
-        datetime_found = True
-        break
+        env_monthly['datetime'] = env_monthly['datetime'].fillna(
+            pd.to_datetime(env_monthly[tc], errors='coerce'))
 
-if not datetime_found:
-    # Fallback: convert year_month Period to Timestamp
-    env_monthly['datetime'] = env_monthly['year_month'].apply(
+# Fill remaining NaT from year_month Period (always present as merge key)
+nat_mask = env_monthly['datetime'].isna()
+if nat_mask.any():
+    env_monthly.loc[nat_mask, 'datetime'] = env_monthly.loc[nat_mask, 'year_month'].apply(
         lambda p: p.to_timestamp() if hasattr(p, 'to_timestamp') else pd.Timestamp(str(p)))
 
+env_monthly = env_monthly.dropna(subset=['datetime'])
 env_monthly = env_monthly.set_index('datetime').sort_index()
 env_monthly = env_monthly[~env_monthly.index.duplicated(keep='first')]
 
@@ -1645,15 +1646,12 @@ forcing_vars_monthly = {}
 for var_name, col in SARIMA_VARS.items():
     if col in env_monthly.columns:
         s = env_monthly[col].copy()
+        s = s[s.index.notna()]
+        s = s[~s.index.duplicated(keep='first')]
         try:
             s = s.asfreq('MS')
-        except Exception:
-            s.index = pd.DatetimeIndex(s.index)
-            s = s[~s.index.duplicated(keep='first')]
-            try:
-                s = s.asfreq('MS')
-            except Exception:
-                pass
+        except ValueError:
+            s = s.resample('MS').first()
         s = s.interpolate(method='linear').ffill().bfill()
         forcing_vars_monthly[var_name] = s
 
@@ -1912,7 +1910,13 @@ for test_yr in test_years:
     for var_name, series in forcing_vars_monthly.items():
         s = series.copy()
         s.index = pd.to_datetime(s.index)
-        s = s.sort_index().asfreq('MS').interpolate(method='linear')
+        s = s[s.index.notna()]
+        s = s[~s.index.duplicated(keep='first')]
+        s = s.sort_index()
+        try:
+            s = s.asfreq('MS').interpolate(method='linear')
+        except ValueError:
+            s = s.resample('MS').first().interpolate(method='linear')
         s_train = s[s.index <= cutoff]
         if len(s_train) < 36:
             valid = False
