@@ -100,6 +100,10 @@ export function DataProvider({ children }) {
         if (!response.ok) {
           throw new Error('Analysis results not found. Please upload data and run the analysis.')
         }
+        const contentType = response.headers.get('content-type') || ''
+        if (!contentType.includes('application/json')) {
+          throw new Error('Analysis results not found. Please upload data and run the analysis.')
+        }
         analysisData = await response.json()
       }
 
