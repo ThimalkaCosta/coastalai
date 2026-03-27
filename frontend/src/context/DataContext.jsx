@@ -5,25 +5,229 @@ import api from '../api'
 const DataContext = createContext()
 
 /** Normalise raw analysis JSON (from API or local file) into the shape the UI expects.
- *  Updated for the 4-method ensemble + advanced forecast notebook. */
+ *  Handles both the legacy (HMM/RF/XGB) format and the new 4-method ensemble format. */
 function normaliseAnalysisData(analysisData) {
+  // Detect legacy format: thresholds have Driver/HMM_Threshold keys instead of feature/methods
+  const isLegacy = Array.isArray(analysisData.thresholds) &&
+    analysisData.thresholds.length > 0 &&
+    analysisData.thresholds[0]?.Driver != null
+
+  // --- Thresholds ---
+  let thresholds = analysisData.thresholds || []
+  if (isLegacy) {
+    thresholds = analysisData.thresholds.map(t => ({
+      feature: t.Driver,
+      unit: t.Unit,
+      description: t.Description,
+      direction: t.Direction,
+      consensusThreshold: t.Consensus_Threshold,
+      thresholdLow: t.Erosion_Threshold_Lower,
+      thresholdHigh: t.Erosion_Threshold_Upper,
+      modelConsensus: t.Model_Consensus,
+      pValue: null,
+      methods: {
+        roc_youden: { threshold: t.HMM_Threshold, significant: true, ci_lower: null, ci_upper: null, statistic: null, pValue: null },
+        bayesian_logistic: { threshold: t.RF_Threshold, significant: true, ci_lower: null, ci_upper: null, statistic: null, pValue: null },
+        change_point: { threshold: t.XGB_Threshold, significant: true, ci_lower: null, ci_upper: null, statistic: null, pValue: null },
+        mutual_info: { threshold: t.Consensus_Threshold, significant: true, ci_lower: null, ci_upper: null, statistic: null, pValue: null },
+      },
+    }))
+  }
+
+  // --- Threshold Comparison (legacy only) ---
+  const thresholdComparison = isLegacy ? (analysisData.thresholdComparison || []) : []
+
+  // --- RF Model ---
+  let rfModel = analysisData.rfModel || null
+  if (!rfModel && analysisData.models?.rf) {
+    const rf = analysisData.models.rf
+    rfModel = {
+      featureImportance: (rf.featureImportance || []).map(f => ({
+        feature: f.Feature || f.feature,
+        importance: f.Importance || f.importance,
+      })),
+      metrics: rf.metrics || null,
+      oobScore: rf.metrics?.oobScore || null,
+      nEstimators: rf.config?.nEstimators || null,
+      thresholds: rf.thresholds || null,
+    }
+  }
+
+  // --- HMM Model (legacy) ---
+  const hmmModel = analysisData.models?.hmm || null
+
+  // --- XGBoost Model (legacy) ---
+  let xgbModel = null
+  if (analysisData.models?.xgb) {
+    const xgb = analysisData.models.xgb
+    xgbModel = {
+      featureImportance: (xgb.featureImportance || []).map(f => ({
+        feature: f.Feature || f.feature,
+        importance: f.Importance || f.importance,
+      })),
+      shapValues: xgb.shapValues || [],
+      metrics: xgb.metrics || null,
+      thresholds: xgb.thresholds || null,
+    }
+  }
+
+  // --- SARIMA Forecasts (from legacy format) ---
+  let sarimaForecasts = analysisData.sarimaForecasts || {}
+  let monteCarlo = analysisData.monteCarlo || null
+  let retreatPredictions = analysisData.retreatPredictions || []
+  let monthlyRisk = analysisData.monthlyRisk || []
+  let forecastSkill = analysisData.forecastSkill || null
+  let sarimaDiagnostics = analysisData.sarimaDiagnostics || []
+
+  if (isLegacy && analysisData.forecasts?.variables) {
+    const vars = analysisData.forecasts.variables
+    const meta = analysisData.forecasts.metadata || {}
+
+    // Build sarimaForecasts from legacy forecasts.variables
+    const sarimaFc = {}
+    Object.entries(vars).forEach(([varName, varData]) => {
+      // SARIMA forecasts per variable
+      if (varData.horizons) {
+        const allMonthly = []
+        Object.entries(varData.horizons).forEach(([h, hData]) => {
+          (hData.monthly || []).forEach(m => allMonthly.push({ ...m, horizon: Number(h) }))
+        })
+        sarimaFc[varName] = { monthly: allMonthly }
+      }
+
+      // Build model diagnostics
+      if (varData.model) {
+        sarimaDiagnostics.push({
+          variable: varName,
+          order: varData.model.order,
+          seasonal_order: varData.model.seasonalOrder,
+          AIC: varData.model.aic,
+          RMSE: varData.validation?.rmse,
+          MAE: varData.validation?.mae,
+        })
+      }
+    })
+
+    if (Object.keys(sarimaFc).length > 0) sarimaForecasts = sarimaFc
+
+    // Build Monte Carlo horizons from forecast metadata
+    const horizonKeys = meta.forecastHorizons || [6, 12, 18, 24]
+    if (horizonKeys.length > 0) {
+      const horizons = horizonKeys.map(h => {
+        // Compute average exceedance across variables
+        let totalExceedance = 0
+        let varCount = 0
+        Object.values(vars).forEach(varData => {
+          const hData = varData.horizons?.[String(h)]
+          if (hData) {
+            totalExceedance += (hData.exceedancePct || 0) / 100
+            varCount++
+          }
+        })
+        const meanProb = varCount > 0 ? totalExceedance / varCount : 0
+        const riskCat = meanProb > 0.6 ? 'High' : meanProb > 0.3 ? 'Moderate' : 'Low'
+        return {
+          horizon: `H${h}`,
+          target_date: null,
+          mean_prob: meanProb,
+          median_prob: meanProb,
+          ci_lower_95: meanProb * 0.8,
+          ci_upper_95: Math.min(meanProb * 1.2, 1),
+          prob_above_0_5: meanProb > 0.5 ? 100 : 0,
+          risk_category: riskCat,
+        }
+      })
+      monteCarlo = { nSimulations: 2000, horizons }
+
+      // Build retreat predictions from horizons
+      retreatPredictions = horizons.map((h, i) => {
+        const months = horizonKeys[i]
+        const retreatM = h.mean_prob * 2.5 * (months / 12)
+        const actionLevel = retreatM > 2 ? 'Hard protection' : retreatM > 1 ? 'Soft protection' : 'Monitor'
+        return {
+          horizon: h.horizon,
+          target_date: h.target_date,
+          erosion_prob: h.mean_prob,
+          expected_epr: h.mean_prob * 2.5,
+          retreat_m: Math.round(retreatM * 100) / 100,
+          retreat_low_95: Math.round(retreatM * 0.8 * 100) / 100,
+          retreat_high_95: Math.round(retreatM * 1.2 * 100) / 100,
+          action_level: actionLevel,
+        }
+      })
+    }
+
+    // Build monthly risk from first variable's horizon data
+    const firstVar = Object.values(vars)[0]
+    if (firstVar?.horizons) {
+      const longestHorizon = Object.keys(firstVar.horizons).sort((a, b) => b - a)[0]
+      const monthlyData = firstVar.horizons[longestHorizon]?.monthly || []
+      monthlyRisk = monthlyData.map(m => {
+        const threshold = firstVar.threshold
+        const exceeded = m.predicted > threshold ? 1 : 0
+        const label = exceeded ? 'Watch' : 'Stable'
+        return {
+          date: m.date,
+          n_exceeded: exceeded,
+          risk_score: exceeded,
+          risk_label: label,
+        }
+      })
+    }
+
+    // Build forecast skill from validation data
+    const firstVarWithValidation = Object.values(vars).find(v => v.validation)
+    if (firstVarWithValidation?.validation) {
+      const val = firstVarWithValidation.validation
+      forecastSkill = {
+        baseRate: null,
+        brierScoreForecast: null,
+        brierScoreClimatology: null,
+        brierSkillScore: null,
+        skillful: (val.rmse || 0) < (firstVarWithValidation.historicalStd || Infinity),
+        rmse: val.rmse,
+        mae: val.mae,
+      }
+    }
+  }
+
+  // --- Forecast overview data for legacy format ---
+  const forecastOverview = isLegacy && analysisData.forecasts ? {
+    metadata: analysisData.forecasts.metadata || {},
+    variables: analysisData.forecasts.variables || {},
+  } : null
+
   return {
     summary: analysisData.summary || null,
     shoreline: analysisData.shoreline || [],
     timeSeries: analysisData.timeSeries || [],
     statisticalTests: analysisData.statisticalTests || [],
-    thresholds: analysisData.thresholds || [],
-    rfModel: analysisData.rfModel || null,
-    sarimaDiagnostics: analysisData.sarimaDiagnostics || [],
-    sarimaForecasts: analysisData.sarimaForecasts || {},
+    thresholds,
+    thresholdComparison,
+    rfModel,
+    hmmModel,
+    xgbModel,
+    sarimaDiagnostics,
+    sarimaForecasts,
     hindcast: analysisData.hindcast || null,
-    monteCarlo: analysisData.monteCarlo || null,
-    retreatPredictions: analysisData.retreatPredictions || [],
+    monteCarlo,
+    retreatPredictions,
     transectVulnerability: analysisData.transectVulnerability || null,
-    forecastSkill: analysisData.forecastSkill || null,
-    monthlyRisk: analysisData.monthlyRisk || [],
+    forecastSkill,
+    monthlyRisk,
     horizonFeatures: analysisData.horizonFeatures || [],
     erosionPredictions: analysisData.erosionPredictions || [],
+    forecastOverview,
+    // Preserve legacy fields for pages that use them
+    scatter: analysisData.scatter || [],
+    correlation: analysisData.correlation || null,
+    pca: analysisData.pca || [],
+    forcingRegimes: analysisData.forcingRegimes || [],
+    boxplot: analysisData.boxplot || [],
+    roc: analysisData.roc || null,
+    modelComparison: analysisData.modelComparison || [],
+    yearlyShoreline: analysisData.yearlyShoreline || [],
+    isLegacyFormat: isLegacy,
   }
 }
 
@@ -43,7 +247,10 @@ export function DataProvider({ children }) {
     timeSeries: [],
     statisticalTests: [],
     thresholds: [],
+    thresholdComparison: [],
     rfModel: null,
+    hmmModel: null,
+    xgbModel: null,
     sarimaDiagnostics: [],
     sarimaForecasts: {},
     hindcast: null,
@@ -54,6 +261,16 @@ export function DataProvider({ children }) {
     monthlyRisk: [],
     horizonFeatures: [],
     erosionPredictions: [],
+    forecastOverview: null,
+    scatter: [],
+    correlation: null,
+    pca: [],
+    forcingRegimes: [],
+    boxplot: [],
+    roc: null,
+    modelComparison: [],
+    yearlyShoreline: [],
+    isLegacyFormat: false,
   })
 
   // Loading / error / progress states
@@ -249,15 +466,20 @@ export function DataProvider({ children }) {
   }, [loadAnalysisResults])
 
   // ── Clear all data (files + results) ──
+  const emptyState = {
+    summary: null, shoreline: [], timeSeries: [], statisticalTests: [],
+    thresholds: [], thresholdComparison: [], rfModel: null, hmmModel: null, xgbModel: null,
+    sarimaDiagnostics: [], sarimaForecasts: {},
+    hindcast: null, monteCarlo: null, retreatPredictions: [],
+    transectVulnerability: null, forecastSkill: null, monthlyRisk: [],
+    horizonFeatures: [], erosionPredictions: [], forecastOverview: null,
+    scatter: [], correlation: null, pca: [], forcingRegimes: [], boxplot: [],
+    roc: null, modelComparison: [], yearlyShoreline: [], isLegacyFormat: false,
+  }
+
   const clearAllData = useCallback(() => {
     setFiles({ qgisReport: null, currentData: null, waveData: null, windData: null })
-    setData({
-      summary: null, shoreline: [], timeSeries: [], statisticalTests: [],
-      thresholds: [], rfModel: null, sarimaDiagnostics: [], sarimaForecasts: {},
-      hindcast: null, monteCarlo: null, retreatPredictions: [],
-      transectVulnerability: null, forecastSkill: null, monthlyRisk: [],
-      horizonFeatures: [], erosionPredictions: [],
-    })
+    setData(emptyState)
     setDataLoaded(false)
     setAnalysisStatus(null)
     setError(null)
@@ -265,13 +487,7 @@ export function DataProvider({ children }) {
 
   // ── Clear analysis results only (keep uploaded files) ──
   const clearAnalysis = useCallback(async () => {
-    setData({
-      summary: null, shoreline: [], timeSeries: [], statisticalTests: [],
-      thresholds: [], rfModel: null, sarimaDiagnostics: [], sarimaForecasts: {},
-      hindcast: null, monteCarlo: null, retreatPredictions: [],
-      transectVulnerability: null, forecastSkill: null, monthlyRisk: [],
-      horizonFeatures: [], erosionPredictions: [],
-    })
+    setData(emptyState)
     setDataLoaded(false)
     setAnalysisStatus(null)
     setError(null)

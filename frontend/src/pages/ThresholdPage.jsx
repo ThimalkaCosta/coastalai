@@ -19,10 +19,10 @@ import StatCard from '../components/common/StatCard'
 import { useData } from '../context/DataContext'
 
 const METHOD_LABELS = {
-  roc_youden: { name: 'ROC / Youden', color: 'violet' },
-  bayesian_logistic: { name: 'Bayesian Logistic', color: 'blue' },
-  change_point: { name: 'Profile-Likelihood', color: 'emerald' },
-  mutual_info: { name: 'Mutual Information', color: 'amber' },
+  roc_youden: { name: 'ROC / Youden', legacyName: 'HMM', color: 'violet' },
+  bayesian_logistic: { name: 'Bayesian Logistic', legacyName: 'Random Forest', color: 'blue' },
+  change_point: { name: 'Profile-Likelihood', legacyName: 'XGBoost', color: 'emerald' },
+  mutual_info: { name: 'Mutual Information', legacyName: 'Consensus', color: 'amber' },
 }
 
 const getDriverIcon = (driver) => {
@@ -45,10 +45,14 @@ export default function ThresholdPage() {
 
   const thresholdData = useMemo(() => data?.thresholds || [], [data])
   const statisticalTests = useMemo(() => data?.statisticalTests || [], [data])
+  const thresholdComparison = useMemo(() => data?.thresholdComparison || [], [data])
+  const isLegacy = data?.isLegacyFormat
   const hasData = thresholdData.length > 0
 
   const stats = useMemo(() => {
-    const significant = thresholdData.filter(t => t.pValue != null && t.pValue < 0.05)
+    const significant = isLegacy
+      ? thresholdData.filter(t => t.modelConsensus === 'Strong')
+      : thresholdData.filter(t => t.pValue != null && t.pValue < 0.05)
     const methodCounts = {}
     thresholdData.forEach(t => {
       Object.keys(t.methods || {}).forEach(m => {
@@ -63,7 +67,7 @@ export default function ThresholdPage() {
         ? (thresholdData.reduce((s, t) => s + Object.keys(t.methods || {}).length, 0) / thresholdData.length).toFixed(1)
         : 0,
     }
-  }, [thresholdData])
+  }, [thresholdData, isLegacy])
 
   return (
     <PageTransition>
@@ -75,12 +79,13 @@ export default function ThresholdPage() {
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-3xl">
                 <div className="page-badge bg-blue-50 text-blue-600 border-blue-100 mb-4">
                   <Target className="w-3.5 h-3.5" />
-                  4-Method Ensemble Analysis
+                  {isLegacy ? '3-Model Ensemble Analysis' : '4-Method Ensemble Analysis'}
                 </div>
                 <h1 className="section-title mb-3">Erosion Threshold Detection</h1>
                 <p className="section-subtitle">
-                  Ensemble thresholds derived from ROC/Youden, Bayesian Logistic Regression,
-                  Profile-Likelihood Change-Point, and Mutual Information methods.
+                  {isLegacy
+                    ? 'Ensemble thresholds derived from HMM, Random Forest, and XGBoost models with consensus scoring.'
+                    : 'Ensemble thresholds derived from ROC/Youden, Bayesian Logistic Regression, Profile-Likelihood Change-Point, and Mutual Information methods.'}
                 </p>
               </motion.div>
               {hasData && (
@@ -141,8 +146,8 @@ export default function ThresholdPage() {
                       <thead>
                         <tr className="bg-coastal-50/80 border-b-2 border-coastal-200">
                           <th className="py-3.5 px-4 text-left font-semibold text-coastal-600 uppercase tracking-wider text-xs">Feature</th>
-                          {Object.entries(METHOD_LABELS).map(([key, { name, color }]) => (
-                            <th key={key} className={`py-3.5 px-3 text-center font-semibold text-${color}-600 uppercase tracking-wider text-xs`}>{name}</th>
+                          {Object.entries(METHOD_LABELS).map(([key, { name, legacyName, color }]) => (
+                            <th key={key} className={`py-3.5 px-3 text-center font-semibold text-${color}-600 uppercase tracking-wider text-xs`}>{isLegacy ? legacyName : name}</th>
                           ))}
                           <th className="py-3.5 px-3 text-center font-semibold text-coastal-600 uppercase tracking-wider text-xs">Consensus Range</th>
                           <th className="py-3.5 px-3 text-center font-semibold text-coastal-600 uppercase tracking-wider text-xs">p-value</th>
@@ -215,17 +220,18 @@ export default function ThresholdPage() {
                         Method Details for: <span className="text-blue-600">{thresholdData[expandedFeature].feature}</span>
                       </h4>
                       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
-                        {Object.entries(METHOD_LABELS).map(([key, { name, color }]) => {
+                        {Object.entries(METHOD_LABELS).map(([key, { name, legacyName, color }]) => {
                           const m = thresholdData[expandedFeature].methods?.[key]
+                          const displayName = isLegacy ? legacyName : name
                           if (!m) return (
                             <div key={key} className="p-3 rounded-xl bg-white border border-gray-200 opacity-50">
-                              <div className="text-xs font-semibold text-gray-400 mb-1">{name}</div>
+                              <div className="text-xs font-semibold text-gray-400 mb-1">{displayName}</div>
                               <p className="text-xs text-gray-400">Not available</p>
                             </div>
                           )
                           return (
                             <div key={key} className={`p-3 rounded-xl bg-white border border-${color}-200 shadow-sm`}>
-                              <div className={`text-xs font-semibold text-${color}-600 mb-2`}>{name}</div>
+                              <div className={`text-xs font-semibold text-${color}-600 mb-2`}>{displayName}</div>
                               <div className="space-y-1 text-xs">
                                 <div className="flex justify-between"><span className="text-gray-500">Threshold</span><span className="font-mono font-semibold">{fmt(m.threshold)}</span></div>
                                 <div className="flex justify-between"><span className="text-gray-500">95% CI</span><span className="font-mono">[{fmt(m.ci_lower)}, {fmt(m.ci_upper)}]</span></div>
@@ -324,6 +330,68 @@ export default function ThresholdPage() {
                 </div>
               </div>
             </section>
+
+            {/* Threshold Comparison Table (legacy) */}
+            {thresholdComparison.length > 0 && (
+              <section className="pb-8">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                  <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45 }} className="card overflow-hidden">
+                    <div className="bg-gradient-to-r from-purple-600 to-indigo-600 px-5 py-3">
+                      <h3 className="font-display font-bold text-white text-base flex items-center gap-2">
+                        <Target className="w-4 h-4" />
+                        Multi-Model Threshold Comparison (with Confidence Ranges)
+                      </h3>
+                    </div>
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-sm">
+                        <thead>
+                          <tr className="bg-coastal-50/80 border-b-2 border-coastal-200">
+                            <th className="py-3 px-4 text-left font-semibold text-coastal-600 uppercase tracking-wider text-xs">Variable</th>
+                            <th className="py-3 px-3 text-center font-semibold text-violet-600 uppercase tracking-wider text-xs">HMM Threshold</th>
+                            <th className="py-3 px-3 text-center font-semibold text-violet-500 uppercase tracking-wider text-xs">HMM Range</th>
+                            <th className="py-3 px-3 text-center font-semibold text-blue-600 uppercase tracking-wider text-xs">RF Threshold</th>
+                            <th className="py-3 px-3 text-center font-semibold text-blue-500 uppercase tracking-wider text-xs">RF Range</th>
+                            <th className="py-3 px-3 text-center font-semibold text-emerald-600 uppercase tracking-wider text-xs">XGB Threshold</th>
+                            <th className="py-3 px-3 text-center font-semibold text-emerald-500 uppercase tracking-wider text-xs">XGB Range</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-gray-100">
+                          {thresholdComparison.map((row, i) => (
+                            <tr key={i} className={`hover:bg-purple-50/60 transition-colors ${i % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'}`}>
+                              <td className="py-2.5 px-4 font-semibold text-xs text-gray-900">{row.Variable}</td>
+                              <td className="py-2.5 px-3 text-center">
+                                <span className="inline-flex px-2 py-0.5 rounded-lg bg-violet-100 text-violet-700 font-semibold font-mono text-xs">
+                                  {fmt(row.HMM_Threshold)}
+                                </span>
+                              </td>
+                              <td className="py-2.5 px-3 text-center text-xs font-mono text-gray-500">
+                                [{fmt(row.HMM_Range_Lower)} – {fmt(row.HMM_Range_Upper)}]
+                              </td>
+                              <td className="py-2.5 px-3 text-center">
+                                <span className="inline-flex px-2 py-0.5 rounded-lg bg-blue-100 text-blue-700 font-semibold font-mono text-xs">
+                                  {fmt(row.RF_Threshold)}
+                                </span>
+                              </td>
+                              <td className="py-2.5 px-3 text-center text-xs font-mono text-gray-500">
+                                [{fmt(row.RF_Range_Lower)} – {fmt(row.RF_Range_Upper)}]
+                              </td>
+                              <td className="py-2.5 px-3 text-center">
+                                <span className="inline-flex px-2 py-0.5 rounded-lg bg-emerald-100 text-emerald-700 font-semibold font-mono text-xs">
+                                  {fmt(row.XGB_Threshold)}
+                                </span>
+                              </td>
+                              <td className="py-2.5 px-3 text-center text-xs font-mono text-gray-500">
+                                [{fmt(row.XGB_Range_Lower)} – {fmt(row.XGB_Range_Upper)}]
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </motion.div>
+                </div>
+              </section>
+            )}
           </>
         )}
       </div>

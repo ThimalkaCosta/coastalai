@@ -10,6 +10,7 @@ import DataUploadPage from './pages/DataUploadPage'
 import AnalysisPage from './pages/AnalysisPage'
 import RandomForestPage from './pages/RandomForestPage'
 import ThresholdPage from './pages/ThresholdPage'
+import DecisionSupportPage from './pages/DecisionSupportPage'
 import ForecastOverviewPage from './pages/ForecastOverviewPage'
 import RetreatVulnerabilityPage from './pages/RetreatVulnerabilityPage'
 import HindcastValidationPage from './pages/HindcastValidationPage'
@@ -193,6 +194,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <ThresholdPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/decision-support"
+              element={
+                <ProtectedRoute>
+                  <DecisionSupportPage />
                 </ProtectedRoute>
               }
             />

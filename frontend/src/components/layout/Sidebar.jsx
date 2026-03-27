@@ -17,6 +17,7 @@ import {
   TrendingUp,
   Shield,
   MapPin,
+  ShieldAlert,
 } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 
@@ -32,6 +33,7 @@ function getSidebarNavigation(role) {
     { name: 'Upload Data', href: '/upload', icon: Upload },
     { name: 'Analysis', href: '/analysis', icon: BarChart3 },
     { name: 'Thresholds', href: '/threshold', icon: Target },
+    { name: 'Decision Support', href: '/decision-support', icon: ShieldAlert },
     {
       name: 'Forecast',
       icon: TrendingUp,
