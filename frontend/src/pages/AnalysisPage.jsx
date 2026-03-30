@@ -14,18 +14,32 @@ import {
   BarChart3,
   Target,
   Brain,
+  Calendar,
 } from 'lucide-react'
+import {
+  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip,
+  ResponsiveContainer, Legend, ReferenceLine,
+} from 'recharts'
 import PageTransition from '../components/common/PageTransition'
 import StatCard from '../components/common/StatCard'
-import TimeSeriesChart from '../components/charts/TimeSeriesChart'
 import { useData } from '../context/DataContext'
+
+// 7 main meteorological variables with display config
+const METEO_VARS = [
+  { key: 'VHM0_max', label: 'Max Wave Height', unit: 'm', color: '#3b82f6', icon: Waves },
+  { key: 'VTPK_max', label: 'Max Wave Period', unit: 's', color: '#6366f1', icon: Waves },
+  { key: 'WindSpeed_max', label: 'Max Wind Speed', unit: 'm/s', color: '#8b5cf6', icon: Wind },
+  { key: 'CurrentMag_max', label: 'Max Current Speed', unit: 'm/s', color: '#06b6d4', icon: Droplets },
+  { key: 'CumWaveEnergy', label: 'Cum. Wave Energy', unit: 'J/m', color: '#14b8a6', icon: Activity },
+  { key: 'StormDays_wave', label: 'Storm Wave Days', unit: 'days', color: '#f59e0b', icon: Activity },
+  { key: 'StormDays_wind', label: 'Storm Wind Days', unit: 'days', color: '#ef4444', icon: Wind },
+]
 
 export default function AnalysisPage() {
   const { data, loading, dataLoaded } = useData()
+  const [selectedVars, setSelectedVars] = useState(['VHM0_max', 'WindSpeed_max', 'CurrentMag_max'])
 
-  // Calculate statistics from actual data
   const stats = useMemo(() => {
-    // Use summary from analysis results if available
     if (data.summary) {
       return {
         totalTransects: data.summary.totalTransects,
@@ -34,58 +48,47 @@ export default function AnalysisPage() {
         meanNSM: data.summary.meanNSM,
         totalYears: data.summary.totalYears,
         yearRange: data.summary.analysisYearRange,
+        erosionYears: data.summary.erosionYears,
+        erosionYearsList: data.summary.erosionYearsList || [],
       }
     }
-
-    if (!data.shoreline?.length) {
-      return {
-        totalTransects: 0,
-        erodingTransects: 0,
-        meanNSM: 0,
-      }
-    }
-
-    const shoreline = data.shoreline
-    const eroding = shoreline.filter(d => d.Erosion_Binary === 1 || d.NSM < 0).length
-    const mean = shoreline.reduce((sum, d) => sum + (d.NSM || 0), 0) / shoreline.length
-
-    return {
-      totalTransects: shoreline.length,
-      erodingTransects: eroding,
-      erosionRate: ((eroding / shoreline.length) * 100).toFixed(1),
-      meanNSM: mean.toFixed(2),
-    }
+    return { totalTransects: 0, erodingTransects: 0, meanNSM: 0, erosionRate: 0 }
   }, [data])
 
-  // Get time series data from actual processed data
+  // Build time series from analysis_df rows
   const timeSeriesData = useMemo(() => {
-    if (data.processed?.length) {
-      return data.processed.map(row => ({
-        year: row.monsoon_year,
-        Hm0_max: row.Hm0_max,
-        WindMax: row.WindMax,
-        UcurrMax: row.UcurrMax,
-        Erosion_Label: row.Erosion_Label,
-      }))
-    }
-    return []
+    if (!data.timeSeries?.length) return []
+    return data.timeSeries.map(row => {
+      const out = { year: row.monsoon_year }
+      METEO_VARS.forEach(v => { out[v.key] = row[v.key] ?? null })
+      out.erosion_label = row.erosion_label ?? row.Erosion_Label ?? 0
+      return out
+    })
   }, [data])
 
-  // Get threshold values from ensemble thresholds
-  const thresholdValues = useMemo(() => {
+  // Threshold values from ensemble thresholds (all 7)
+  const thresholdMap = useMemo(() => {
+    const map = {}
     if (data.thresholds?.length) {
-      const find = name => {
-        const t = data.thresholds.find(t => (t.feature || '').toLowerCase().includes(name.toLowerCase()))
-        return t?.thresholdAll ?? t?.thresholdHigh ?? '--'
-      }
-      return {
-        waveHeight: find('Hm0') !== '--' ? find('Hm0') : '--',
-        currentSpeed: find('Ucurr') !== '--' ? find('Ucurr') : '--',
-        windSpeed: find('Wind') !== '--' ? find('Wind') : '--',
-      }
+      data.thresholds.forEach(t => {
+        const feat = t.feature || ''
+        map[feat] = t.consensusThreshold ?? t.thresholdAll ?? t.thresholdHigh ?? null
+      })
     }
-    return { waveHeight: '--', currentSpeed: '--', windSpeed: '--' }
+    return map
   }, [data])
+
+  // Available vars in the data
+  const availableVars = useMemo(() => {
+    if (!timeSeriesData.length) return METEO_VARS
+    return METEO_VARS.filter(v => timeSeriesData.some(r => r[v.key] != null))
+  }, [timeSeriesData])
+
+  const toggleVar = (key) => {
+    setSelectedVars(prev =>
+      prev.includes(key) ? prev.filter(k => k !== key) : [...prev, key]
+    )
+  }
 
   const modelCards = [
     {
@@ -93,21 +96,17 @@ export default function AnalysisPage() {
       title: 'Random Forest',
       description: 'Feature importance and ensemble learning',
       icon: Brain,
-      accuracy: data.rfModel?.oobScore
-        ? `${(data.rfModel.oobScore * 100).toFixed(1)}%`
-        : '--',
+      accuracy: data.rfModel?.oobScore ? `${(data.rfModel.oobScore * 100).toFixed(1)}%` : '--',
       link: '/models/random-forest',
       color: 'from-emerald-500 to-teal-500',
     },
     {
       id: 'forecast',
-      title: 'Forecast & SARIMA',
-      description: 'Monte Carlo erosion probability forecasts',
+      title: 'SARIMA Forecasting',
+      description: 'Threshold forecasting for 7 meteorological variables',
       icon: Target,
-      accuracy: data.forecastSkill?.brierSkillScore != null
-        ? `BSS ${data.forecastSkill.brierSkillScore.toFixed(2)}`
-        : '--',
-      link: '/forecast',
+      accuracy: data.forecasts?.metadata?.nVariables ? `${data.forecasts.metadata.nVariables} vars` : '--',
+      link: '/forecast/thresholds',
       color: 'from-violet-500 to-purple-500',
     },
     {
@@ -115,9 +114,7 @@ export default function AnalysisPage() {
       title: 'Hindcast Validation',
       description: 'Historical prediction accuracy assessment',
       icon: BarChart3,
-      accuracy: data.hindcast?.metrics?.accuracy
-        ? `${(data.hindcast.metrics.accuracy * 100).toFixed(1)}%`
-        : '--',
+      accuracy: data.hindcast?.metrics?.accuracy ? `${(data.hindcast.metrics.accuracy * 100).toFixed(1)}%` : '--',
       link: '/forecast/hindcast',
       color: 'from-orange-500 to-amber-500',
     },
@@ -136,7 +133,7 @@ export default function AnalysisPage() {
     )
   }
 
-  if (!dataLoaded && !data.processed?.length) {
+  if (!dataLoaded && !data.timeSeries?.length) {
     return (
       <PageTransition>
         <div className="min-h-screen flex items-center justify-center">
@@ -270,8 +267,7 @@ export default function AnalysisPage() {
           </div>
         </section>
 
-        {/* ── SECTION DIVIDER HELPER ── */}
-        {/* Overview Section */}
+        {/* Overview & Key Findings */}
         <section className="pb-8" id="overview">
           <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 xl:px-8">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}>
@@ -301,13 +297,15 @@ export default function AnalysisPage() {
                     <div className="p-3.5 bg-ocean-50/80 rounded-lg border border-ocean-200/60 ring-1 ring-ocean-100/50">
                       <div className="flex items-start gap-2.5">
                         <div className="w-7 h-7 rounded-lg bg-ocean-100 flex items-center justify-center flex-shrink-0">
-                          <Waves className="w-3.5 h-3.5 text-ocean-600" />
+                          <Calendar className="w-3.5 h-3.5 text-ocean-600" />
                         </div>
                         <div>
-                          <h4 className="font-semibold text-ocean-800 text-sm mb-0.5">Primary Driver</h4>
+                          <h4 className="font-semibold text-ocean-800 text-sm mb-0.5">Erosion Years</h4>
                           <p className="text-xs text-ocean-700 leading-relaxed">
-                            Maximum wave height (Hm0_max) identified as the strongest
-                            predictor of erosion events across all models.
+                            {stats.erosionYears ?? '--'} erosion years detected
+                            {stats.erosionYearsList?.length > 0 && (
+                              <span className="block mt-1 font-mono">{stats.erosionYearsList.join(', ')}</span>
+                            )}
                           </p>
                         </div>
                       </div>
@@ -315,43 +313,33 @@ export default function AnalysisPage() {
                   </div>
                 </div>
 
-                {/* Detected Thresholds */}
+                {/* All 7 Detected Thresholds */}
                 <div className="card p-5">
-                  <h3 className="font-display font-bold text-coastal-900 mb-4 text-sm">Detected Erosion Thresholds</h3>
-                  <div className="grid sm:grid-cols-3 gap-3">
-                    <div className="p-3.5 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-lg ring-1 ring-blue-100/50">
-                      <div className="flex items-center gap-2 mb-2">
-                        <div className="w-7 h-7 rounded-lg bg-blue-100 flex items-center justify-center">
-                          <Waves className="w-3.5 h-3.5 text-blue-600" />
+                  <h3 className="font-display font-bold text-coastal-900 mb-4 text-sm">
+                    Detected Erosion Thresholds ({availableVars.length} Meteorological Variables)
+                  </h3>
+                  <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                    {availableVars.map(v => {
+                      const thVal = thresholdMap[v.key]
+                      const Icon = v.icon
+                      return (
+                        <div key={v.key} className="p-3.5 bg-gradient-to-br from-white to-coastal-50 rounded-lg ring-1 ring-coastal-200/60">
+                          <div className="flex items-center gap-2 mb-2">
+                            <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ backgroundColor: v.color + '20' }}>
+                              <Icon className="w-3.5 h-3.5" style={{ color: v.color }} />
+                            </div>
+                            <span className="text-xs font-semibold text-coastal-700">{v.label}</span>
+                          </div>
+                          <p className="text-xl font-display font-bold text-coastal-900">
+                            {thVal != null ? `≥ ${typeof thVal === 'number' ? thVal.toFixed(2) : thVal}` : '--'}
+                            <span className="text-sm font-normal text-coastal-500 ml-1">{v.unit}</span>
+                          </p>
+                          <p className="text-[11px] text-coastal-500 mt-1 font-medium font-mono">{v.key}</p>
                         </div>
-                        <span className="text-xs font-semibold text-blue-800">Wave Height</span>
-                      </div>
-                      <p className="text-xl font-display font-bold text-blue-900">≥ {thresholdValues.waveHeight}m</p>
-                      <p className="text-[11px] text-blue-600 mt-1 font-medium">Hm0_max threshold</p>
-                    </div>
-                    <div className="p-3.5 bg-gradient-to-br from-violet-50 to-purple-50 rounded-lg ring-1 ring-violet-100/50">
-                      <div className="flex items-center gap-2 mb-2">
-                        <div className="w-7 h-7 rounded-lg bg-violet-100 flex items-center justify-center">
-                          <Droplets className="w-3.5 h-3.5 text-violet-600" />
-                        </div>
-                        <span className="text-xs font-semibold text-violet-800">Current Speed</span>
-                      </div>
-                      <p className="text-xl font-display font-bold text-violet-900">≥ {thresholdValues.currentSpeed}m/s</p>
-                      <p className="text-[11px] text-violet-600 mt-1 font-medium">UcurrMax threshold</p>
-                    </div>
-                    <div className="p-3.5 bg-gradient-to-br from-orange-50 to-amber-50 rounded-lg ring-1 ring-orange-100/50">
-                      <div className="flex items-center gap-2 mb-2">
-                        <div className="w-7 h-7 rounded-lg bg-orange-100 flex items-center justify-center">
-                          <Wind className="w-3.5 h-3.5 text-orange-600" />
-                        </div>
-                        <span className="text-xs font-semibold text-orange-800">Wind Speed</span>
-                      </div>
-                      <p className="text-xl font-display font-bold text-orange-900">≥ {thresholdValues.windSpeed}m/s</p>
-                      <p className="text-[11px] text-orange-600 mt-1 font-medium">WindMax threshold</p>
-                    </div>
+                      )
+                    })}
                   </div>
                 </div>
-
               </div>
             </motion.div>
           </div>
@@ -362,26 +350,98 @@ export default function AnalysisPage() {
           <div className="border-t border-coastal-200/60" />
         </div>
 
-        {/* Time Series Section */}
+        {/* Meteorological Time Series */}
         <section className="pb-8" id="timeseries">
           <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 xl:px-8">
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
               <div className="flex items-center gap-3 mb-5">
                 <div className="w-1 h-7 rounded-full bg-gradient-to-b from-blue-500 to-blue-300" />
-                <h2 className="text-lg font-display font-bold text-coastal-900">Time Series</h2>
+                <h2 className="text-lg font-display font-bold text-coastal-900">
+                  Meteorological Time Series
+                </h2>
               </div>
-              <div className="space-y-4">
-                <TimeSeriesChart
-                  data={timeSeriesData}
-                  title={`Environmental Variables Over Time (${stats.yearRange || '2000-2024'})`}
-                  lines={[
-                    { dataKey: 'Hm0_max', name: 'Wave Height (m)', color: '#3b82f6' },
-                    { dataKey: 'UcurrMax', name: 'Current Speed (m/s)', color: '#8b5cf6' },
-                  ]}
-                  threshold={thresholdValues.waveHeight !== '--' ? thresholdValues.waveHeight : undefined}
-                  thresholdLabel={thresholdValues.waveHeight !== '--' ? `Wave Threshold: ${thresholdValues.waveHeight}m` : ''}
-                />
+
+              {/* Variable Toggle */}
+              <div className="card p-4 mb-4">
+                <p className="text-xs text-coastal-500 mb-2 font-medium">Select variables to display:</p>
+                <div className="flex flex-wrap gap-2">
+                  {availableVars.map(v => (
+                    <button
+                      key={v.key}
+                      onClick={() => toggleVar(v.key)}
+                      className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all border ${
+                        selectedVars.includes(v.key)
+                          ? 'text-white shadow-sm'
+                          : 'bg-white text-coastal-600 border-coastal-200 hover:border-coastal-300'
+                      }`}
+                      style={selectedVars.includes(v.key) ? { backgroundColor: v.color, borderColor: v.color } : {}}
+                    >
+                      {v.label}
+                    </button>
+                  ))}
+                </div>
               </div>
+
+              {/* Chart */}
+              {timeSeriesData.length > 0 ? (
+                <div className="card p-5">
+                  <h3 className="font-display font-bold text-coastal-900 mb-1 text-sm">
+                    Environmental Variables Over Time ({stats.yearRange || ''})
+                  </h3>
+                  <p className="text-xs text-coastal-500 mb-4">
+                    Shaded years indicate detected erosion events. Dashed lines show ensemble thresholds.
+                  </p>
+                  <ResponsiveContainer width="100%" height={380}>
+                    <LineChart data={timeSeriesData} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                      <XAxis dataKey="year" tick={{ fontSize: 11 }} />
+                      <YAxis tick={{ fontSize: 11 }} />
+                      <Tooltip
+                        contentStyle={{ fontSize: 12, borderRadius: 8, border: '1px solid #e5e7eb' }}
+                        labelFormatter={v => `Year ${v}`}
+                      />
+                      <Legend wrapperStyle={{ fontSize: 11 }} />
+                      {selectedVars.map(key => {
+                        const v = METEO_VARS.find(m => m.key === key)
+                        if (!v) return null
+                        return (
+                          <Line
+                            key={key}
+                            type="monotone"
+                            dataKey={key}
+                            name={`${v.label} (${v.unit})`}
+                            stroke={v.color}
+                            strokeWidth={2}
+                            dot={{ r: 3 }}
+                            activeDot={{ r: 5 }}
+                            connectNulls
+                          />
+                        )
+                      })}
+                      {/* Threshold reference lines for selected vars */}
+                      {selectedVars.map(key => {
+                        const thVal = thresholdMap[key]
+                        const v = METEO_VARS.find(m => m.key === key)
+                        if (thVal == null || !v) return null
+                        return (
+                          <ReferenceLine
+                            key={`th-${key}`}
+                            y={thVal}
+                            stroke={v.color}
+                            strokeDasharray="6 4"
+                            strokeWidth={1.5}
+                            label={{ value: `${v.label} threshold`, fontSize: 10, fill: v.color }}
+                          />
+                        )
+                      })}
+                    </LineChart>
+                  </ResponsiveContainer>
+                </div>
+              ) : (
+                <div className="card p-8 text-center text-coastal-500 text-sm">
+                  No time series data available. Run the analysis first.
+                </div>
+              )}
             </motion.div>
           </div>
         </section>
@@ -391,8 +451,8 @@ export default function AnalysisPage() {
           <div className="border-t border-coastal-200/60" />
         </div>
 
-        {/* Drivers Comparison Section */}
-        <section className="pb-8" id="drivers">
+        {/* Statistical Tests */}
+        <section className="pb-8" id="statistical-tests">
           <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 xl:px-8">
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
               <div className="flex items-center gap-3 mb-5">
@@ -438,37 +498,52 @@ export default function AnalysisPage() {
           <div className="border-t border-coastal-200/60" />
         </div>
 
-        {/* Yearly Data Section */}
-        <section className="pb-20" id="yearly">
+        {/* Annual Data Table */}
+        <section className="pb-20" id="annual-data">
           <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 xl:px-8">
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
               <div className="flex items-center gap-3 mb-5">
                 <div className="w-1 h-7 rounded-full bg-gradient-to-b from-emerald-500 to-emerald-300" />
-                <h2 className="text-lg font-display font-bold text-coastal-900">Yearly Data</h2>
+                <h2 className="text-lg font-display font-bold text-coastal-900">Annual Data</h2>
               </div>
               <div className="card p-5">
-                <h3 className="font-display font-bold text-coastal-900 mb-2 text-sm">Processed Time Series Data</h3>
+                <h3 className="font-display font-bold text-coastal-900 mb-2 text-sm">
+                  Processed Annual Features ({timeSeriesData.length} years)
+                </h3>
                 <p className="text-xs text-coastal-500 mb-5 leading-relaxed">
-                  Processed environmental time series data used in the analysis pipeline.
+                  Annual meteorological features and erosion labels used in the analysis pipeline.
                 </p>
-                {data.timeSeries?.length > 0 ? (
-                  <div className="overflow-x-auto max-h-[400px]">
+                {timeSeriesData.length > 0 ? (
+                  <div className="overflow-x-auto max-h-[450px]">
                     <table className="w-full text-sm">
                       <thead className="sticky top-0 bg-white z-10">
                         <tr className="bg-coastal-50/80 border-b-2 border-coastal-200">
-                          {Object.keys(data.timeSeries[0] || {}).slice(0, 8).map(col => (
-                            <th key={col} className="py-3 px-3 text-center font-semibold text-coastal-600 uppercase tracking-wider text-xs whitespace-nowrap">{col.replace(/_/g, ' ')}</th>
+                          <th className="py-3 px-3 text-center font-semibold text-coastal-600 uppercase tracking-wider text-xs whitespace-nowrap">Year</th>
+                          {METEO_VARS.map(v => (
+                            <th key={v.key} className="py-3 px-3 text-center font-semibold text-coastal-600 uppercase tracking-wider text-xs whitespace-nowrap">
+                              {v.label}
+                              <span className="block text-[10px] font-normal text-coastal-400">({v.unit})</span>
+                            </th>
                           ))}
+                          <th className="py-3 px-3 text-center font-semibold text-coastal-600 uppercase tracking-wider text-xs whitespace-nowrap">Erosion</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-gray-100">
-                        {data.timeSeries.map((row, i) => (
-                          <tr key={i} className={i % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'}>
-                            {Object.values(row).slice(0, 8).map((val, j) => (
-                              <td key={j} className="py-2 px-3 text-center text-xs font-mono">
-                                {typeof val === 'number' ? val.toFixed(3) : String(val ?? '--')}
+                        {timeSeriesData.map((row, i) => (
+                          <tr key={i} className={row.erosion_label === 1 ? 'bg-red-50/60' : i % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'}>
+                            <td className="py-2 px-3 text-center text-xs font-semibold text-coastal-800">{row.year}</td>
+                            {METEO_VARS.map(v => (
+                              <td key={v.key} className="py-2 px-3 text-center text-xs font-mono">
+                                {row[v.key] != null ? Number(row[v.key]).toFixed(3) : '--'}
                               </td>
                             ))}
+                            <td className="py-2 px-3 text-center">
+                              {row.erosion_label === 1 ? (
+                                <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-red-100 text-red-700">Erosion</span>
+                              ) : (
+                                <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-green-100 text-green-700">Stable</span>
+                              )}
+                            </td>
                           </tr>
                         ))}
                       </tbody>

@@ -1,0 +1,5 @@
+horizon,target_date,mean_prob,median_prob,ci_lower_95,ci_upper_95,prob_above_0.5,risk_category
+H6,2024-08,0.814,0.83,0.429,1.0,0.924,HIGH
+H12,2025-02,0.921,0.983,0.661,1.0,0.994,HIGH
+H18,2025-08,0.921,0.981,0.69,1.0,0.996,HIGH
+H24,2026-02,0.922,0.981,0.69,1.0,0.996,HIGH

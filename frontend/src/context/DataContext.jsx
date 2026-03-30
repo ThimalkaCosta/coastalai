@@ -197,6 +197,93 @@ function normaliseAnalysisData(analysisData) {
     variables: analysisData.forecasts.variables || {},
   } : null
 
+  // --- Build forecasts for ForecastThresholdPage ---
+  // Prefer the rich 'forecasts' structure (from export cell 8b),
+  // fall back to building from sarimaForecasts + sarimaDiagnostics + thresholds
+  let forecasts = null
+  if (analysisData.forecasts?.variables && Object.keys(analysisData.forecasts.variables).length > 0) {
+    forecasts = analysisData.forecasts
+  } else if (Object.keys(sarimaForecasts).length > 0) {
+    // Build forecasts from flat sarimaForecasts data
+    const builtVars = {}
+    const horizonLens = [6, 12, 18, 24]
+    const thresholdMap = {}
+    ;(analysisData.thresholds || []).forEach(t => {
+      thresholdMap[t.feature] = t.thresholdAll ?? t.threshold ?? null
+    })
+
+    Object.entries(sarimaForecasts).forEach(([varName, varData]) => {
+      const allMonthly = varData.monthly || []
+      const diagRow = sarimaDiagnostics.find(d => d.variable === varName) || {}
+      const thresh = thresholdMap[varName] ?? null
+      // Compute historical mean from timeSeries if available
+      const tsCol = analysisData.timeSeries || []
+      const histVals = tsCol.map(r => r[varName]).filter(v => v != null && !isNaN(v))
+      const histMean = histVals.length > 0 ? histVals.reduce((a, b) => a + b, 0) / histVals.length : 0
+
+      const horizons = {}
+      horizonLens.forEach(h => {
+        const hMonthly = allMonthly.slice(0, h).map(m => ({
+          date: typeof m.date === 'string' ? m.date.slice(0, 7) : m.date,
+          predicted: m.forecast ?? m.predicted,
+          ci_lower: m.lower_95 ?? m.ci_lower,
+          ci_upper: m.upper_95 ?? m.ci_upper,
+        }))
+        const preds = hMonthly.map(m => m.predicted).filter(v => v != null)
+        const avg = preds.length > 0 ? preds.reduce((a, b) => a + b, 0) / preds.length : 0
+        const peak = preds.length > 0 ? Math.max(...preds) : 0
+        const excPct = thresh != null && preds.length > 0
+          ? (preds.filter(v => v >= thresh).length / preds.length) * 100
+          : 0
+        const trend = histMean !== 0 ? ((avg - histMean) / histMean) * 100 : 0
+        horizons[String(h)] = { monthly: hMonthly, avgForecast: avg, peakForecast: peak, exceedancePct: excPct, trendPct: trend }
+      })
+
+      let orderArr = diagRow.order
+      if (typeof orderArr === 'string') try { orderArr = JSON.parse(orderArr.replace(/\(/g, '[').replace(/\)/g, ']')) } catch { orderArr = [0, 0, 0] }
+      let sOrderArr = diagRow.seasonal_order || diagRow.seasonalOrder
+      if (typeof sOrderArr === 'string') try { sOrderArr = JSON.parse(sOrderArr.replace(/\(/g, '[').replace(/\)/g, ']')) } catch { sOrderArr = [0, 0, 0, 12] }
+
+      const exc24 = horizons['24']?.exceedancePct || 0
+      const risk = exc24 > 50 ? 'High' : exc24 > 20 ? 'Medium' : 'Low'
+
+      builtVars[varName] = {
+        threshold: thresh,
+        historicalMean: histMean,
+        riskLevel: risk,
+        model: {
+          order: Array.isArray(orderArr) ? orderArr : [0, 0, 0],
+          seasonalOrder: Array.isArray(sOrderArr) ? sOrderArr : [0, 0, 0, 12],
+          aic: diagRow.AIC || diagRow.aic || 0,
+          mae: diagRow.MAE || diagRow.mae || 0,
+          rmse: diagRow.RMSE || diagRow.rmse || 0,
+        },
+        validation: {
+          mae: diagRow.MAE || diagRow.mae || 0,
+          rmse: diagRow.RMSE || diagRow.rmse || 0,
+          mape: diagRow.MAPE || diagRow.mape || 0,
+          correlation: 0,
+          holdoutMonths: 24,
+        },
+        horizons,
+      }
+    })
+
+    const riskLevels = Object.values(builtVars).map(v => v.riskLevel)
+    const overall = riskLevels.includes('High') ? 'High' : riskLevels.includes('Medium') ? 'Medium' : 'Low'
+
+    forecasts = {
+      metadata: {
+        totalMonths: 0,
+        dataRange: '',
+        forecastHorizons: horizonLens,
+        overallRisk: overall,
+        nVariables: Object.keys(builtVars).length,
+      },
+      variables: builtVars,
+    }
+  }
+
   return {
     summary: analysisData.summary || null,
     shoreline: analysisData.shoreline || [],
@@ -218,6 +305,7 @@ function normaliseAnalysisData(analysisData) {
     horizonFeatures: analysisData.horizonFeatures || [],
     erosionPredictions: analysisData.erosionPredictions || [],
     forecastOverview,
+    forecasts,
     // Preserve legacy fields for pages that use them
     scatter: analysisData.scatter || [],
     correlation: analysisData.correlation || null,
@@ -262,6 +350,7 @@ export function DataProvider({ children }) {
     horizonFeatures: [],
     erosionPredictions: [],
     forecastOverview: null,
+    forecasts: null,
     scatter: [],
     correlation: null,
     pca: [],
@@ -472,7 +561,7 @@ export function DataProvider({ children }) {
     sarimaDiagnostics: [], sarimaForecasts: {},
     hindcast: null, monteCarlo: null, retreatPredictions: [],
     transectVulnerability: null, forecastSkill: null, monthlyRisk: [],
-    horizonFeatures: [], erosionPredictions: [], forecastOverview: null,
+    horizonFeatures: [], erosionPredictions: [], forecastOverview: null, forecasts: null,
     scatter: [], correlation: null, pca: [], forcingRegimes: [], boxplot: [],
     roc: null, modelComparison: [], yearlyShoreline: [], isLegacyFormat: false,
   }

@@ -39,6 +39,7 @@ function getSidebarNavigation(role) {
       icon: TrendingUp,
       children: [
         { name: 'Overview', href: '/forecast', icon: TrendingUp },
+        { name: 'SARIMA Forecasting', href: '/forecast/thresholds', icon: Target },
         { name: 'Retreat & Vulnerability', href: '/forecast/retreat', icon: MapPin },
         { name: 'Hindcast Validation', href: '/forecast/hindcast', icon: Shield },
       ],

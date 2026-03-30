@@ -12,6 +12,7 @@ import RandomForestPage from './pages/RandomForestPage'
 import ThresholdPage from './pages/ThresholdPage'
 import DecisionSupportPage from './pages/DecisionSupportPage'
 import ForecastOverviewPage from './pages/ForecastOverviewPage'
+import ForecastThresholdPage from './pages/ForecastThresholdPage'
 import RetreatVulnerabilityPage from './pages/RetreatVulnerabilityPage'
 import HindcastValidationPage from './pages/HindcastValidationPage'
 import HMMAnalysisPage from './pages/HMMAnalysisPage'
@@ -218,6 +219,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <ForecastOverviewPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/forecast/thresholds"
+              element={
+                <ProtectedRoute>
+                  <ForecastThresholdPage />
                 </ProtectedRoute>
               }
             />

@@ -230,18 +230,22 @@ _FRONTEND_PATH = r"{frontend_data_path}"
 
 def _safe(v):
     """Make a value JSON-serialisable."""
+    import math
+    if isinstance(v, float) and (math.isnan(v) or math.isinf(v)):
+        return None
     if isinstance(v, (np.integer,)):
         return int(v)
     if isinstance(v, (np.floating,)):
-        return float(v)
+        f = float(v)
+        return None if (math.isnan(f) or math.isinf(f)) else f
     if isinstance(v, np.ndarray):
-        return v.tolist()
+        return [_safe(x) for x in v.tolist()]
     if isinstance(v, pd.Timestamp):
         return v.isoformat()
     if isinstance(v, (pd.Series, pd.Index)):
-        return v.tolist()
+        return [_safe(x) for x in v.tolist()]
     if hasattr(v, 'item'):
-        return v.item()
+        return _safe(v.item())
     return v
 
 # ---- Build the results dict ----
@@ -356,7 +360,7 @@ except Exception as e:
     results["sarimaDiagnostics"] = []
 
 # =====================================================================
-# 8. SARIMA forecasts (monthly per variable)
+# 8. SARIMA forecasts (monthly per variable) + rich forecasts structure
 # =====================================================================
 try:
     fc_export = {{}}
@@ -368,6 +372,153 @@ try:
 except Exception as e:
     print(f"SARIMA forecasts export error: {{e}}")
     results["sarimaForecasts"] = {{}}
+
+# =====================================================================
+# 8b. Rich forecasts structure for frontend ForecastThresholdPage
+# =====================================================================
+try:
+    _horizons_list = [6, 12, 18, 24]
+    _forecast_vars = {{}}
+
+    for var_name, fc_df_var in sarima_forecasts.items():
+        fc_monthly = fc_df_var.copy()
+        fc_monthly['date'] = pd.to_datetime(fc_monthly['date'])
+
+        # Historical mean from forcing_vars_monthly
+        hist_mean = float(forcing_vars_monthly[var_name].mean()) if var_name in forcing_vars_monthly else 0.0
+        hist_std  = float(forcing_vars_monthly[var_name].std())  if var_name in forcing_vars_monthly else 1.0
+
+        # Threshold from individual_thresholds
+        thresh = None
+        if var_name in individual_thresholds:
+            thresh = _safe(individual_thresholds[var_name].get('threshold_all'))
+        elif var_name in ensemble_results:
+            for m in ['roc_youden', 'bayesian_logistic', 'change_point', 'mutual_info']:
+                if m in ensemble_results[var_name] and 'threshold' in ensemble_results[var_name][m]:
+                    thresh = _safe(ensemble_results[var_name][m]['threshold'])
+                    break
+
+        # Model info from sarima_diag_df
+        model_info = {{}}
+        diag_row = sarima_diag_df[sarima_diag_df['variable'] == var_name]
+        if len(diag_row) > 0:
+            row = diag_row.iloc[0]
+            try:
+                order_val = eval(row['order']) if isinstance(row['order'], str) else row['order']
+                seasonal_val = eval(row['seasonal_order']) if isinstance(row['seasonal_order'], str) else row['seasonal_order']
+            except Exception:
+                order_val = [0, 0, 0]
+                seasonal_val = [0, 0, 0, 12]
+            model_info = {{
+                "order": list(order_val) if hasattr(order_val, '__iter__') else [0, 0, 0],
+                "seasonalOrder": list(seasonal_val) if hasattr(seasonal_val, '__iter__') else [0, 0, 0, 12],
+                "aic": _safe(row.get('AIC', 0)),
+                "mae": _safe(row.get('MAE', 0)),
+                "rmse": _safe(row.get('RMSE', 0)),
+            }}
+
+        # Validation info
+        validation = {{}}
+        if len(diag_row) > 0:
+            row = diag_row.iloc[0]
+            # Compute correlation from hold-out if available
+            corr_val = 0.0
+            if var_name in sarima_models and var_name in forcing_vars_monthly:
+                s = forcing_vars_monthly[var_name].dropna()
+                n_ho = min(24, len(s) // 4)
+                s_test = s[-n_ho:]
+                try:
+                    val_mdl = sarima_models[var_name]
+                    val_pred = val_mdl.get_prediction(start=len(s) - n_ho, end=len(s) - 1).predicted_mean.values
+                    if len(val_pred) == len(s_test):
+                        corr_val = float(np.corrcoef(s_test.values, val_pred)[0, 1])
+                except Exception:
+                    corr_val = 0.0
+            validation = {{
+                "mae": _safe(row.get('MAE', 0)),
+                "rmse": _safe(row.get('RMSE', 0)),
+                "mape": _safe(row.get('MAPE', 0)),
+                "correlation": _safe(round(corr_val, 4)),
+                "holdoutMonths": 24,
+            }}
+
+        # Build per-horizon data
+        horizons_data = {{}}
+        for h in _horizons_list:
+            h_monthly = fc_monthly.head(h).copy()
+            h_records = []
+            for _, r in h_monthly.iterrows():
+                h_records.append({{
+                    "date": r['date'].strftime('%Y-%m'),
+                    "predicted": _safe(r['forecast']),
+                    "ci_lower": _safe(r['lower_95']),
+                    "ci_upper": _safe(r['upper_95']),
+                }})
+
+            avg_fc = float(h_monthly['forecast'].mean()) if len(h_monthly) > 0 else 0.0
+            peak_fc = float(h_monthly['forecast'].max()) if len(h_monthly) > 0 else 0.0
+            exceed_pct = 0.0
+            if thresh is not None and len(h_monthly) > 0:
+                exceed_pct = float((h_monthly['forecast'] >= thresh).sum() / len(h_monthly) * 100)
+            trend_pct = ((avg_fc - hist_mean) / hist_mean * 100) if hist_mean != 0 else 0.0
+
+            horizons_data[str(h)] = {{
+                "monthly": h_records,
+                "avgForecast": _safe(round(avg_fc, 4)),
+                "peakForecast": _safe(round(peak_fc, 4)),
+                "exceedancePct": _safe(round(exceed_pct, 1)),
+                "trendPct": _safe(round(trend_pct, 1)),
+            }}
+
+        # Risk level
+        risk = 'Low'
+        if thresh is not None:
+            exc_24 = horizons_data.get('24', {{}}).get('exceedancePct', 0)
+            if exc_24 > 50:
+                risk = 'High'
+            elif exc_24 > 20:
+                risk = 'Medium'
+
+        _forecast_vars[var_name] = {{
+            "threshold": _safe(thresh),
+            "historicalMean": _safe(round(hist_mean, 4)),
+            "historicalStd": _safe(round(hist_std, 4)),
+            "riskLevel": risk,
+            "model": model_info,
+            "validation": validation,
+            "horizons": horizons_data,
+        }}
+
+    # Overall risk
+    risk_levels = [v.get('riskLevel', 'Low') for v in _forecast_vars.values()]
+    if 'High' in risk_levels:
+        overall = 'High'
+    elif 'Medium' in risk_levels:
+        overall = 'Medium'
+    else:
+        overall = 'Low'
+
+    # Data range
+    data_range = ''
+    total_months = 0
+    if forcing_vars_monthly:
+        first_s = list(forcing_vars_monthly.values())[0]
+        total_months = len(first_s)
+        data_range = f"{{first_s.index.min().strftime('%Y-%m')}} to {{first_s.index.max().strftime('%Y-%m')}}"
+
+    results["forecasts"] = {{
+        "metadata": {{
+            "totalMonths": total_months,
+            "dataRange": data_range,
+            "forecastHorizons": _horizons_list,
+            "overallRisk": overall,
+            "nVariables": len(_forecast_vars),
+        }},
+        "variables": _forecast_vars,
+    }}
+except Exception as e:
+    print(f"Rich forecasts export error: {{e}}")
+    results["forecasts"] = {{"metadata": {{}}, "variables": {{}}}}
 
 # =====================================================================
 # 9. Hindcast validation
@@ -494,7 +645,20 @@ except Exception as e:
     print(f"Erosion predictions export error: {{e}}")
     results["erosionPredictions"] = []
 
-# ---- Write JSON ----
+# ---- Sanitise & Write JSON ----
+import math as _math
+
+def _sanitise(obj):
+    if isinstance(obj, dict):
+        return {{k: _sanitise(v) for k, v in obj.items()}}
+    if isinstance(obj, list):
+        return [_sanitise(v) for v in obj]
+    if isinstance(obj, float) and (_math.isnan(obj) or _math.isinf(obj)):
+        return None
+    return obj
+
+results = _sanitise(results)
+
 os.makedirs(os.path.dirname(_RESULTS_PATH), exist_ok=True)
 with open(_RESULTS_PATH, "w") as _f:
     json.dump(results, _f, indent=2, default=str)

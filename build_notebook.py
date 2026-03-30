@@ -1496,8 +1496,7 @@ master_df = pd.DataFrame(master_rows)
 print("=== MASTER THRESHOLD TABLE ===")
 print(master_df.to_string(index=False))
 
-master_df.to_csv('./outputs/erosion_thresholds_master.csv', index=False)
-print("\\n✓ Saved to ./outputs/erosion_thresholds_master.csv")
+print("\\n✓ Master threshold table ready (exported via JSON)")
 """)
 
 # =====================================================================
@@ -1535,7 +1534,7 @@ for yr in sorted(all_erosion_years):
 event_df = pd.DataFrame(event_rows)
 print(event_df.to_string(index=False))
 
-event_df.to_csv('./outputs/erosion_event_diagnosis.csv', index=False)
+# CSV export removed — data flows to frontend via JSON
 
 # Multi-method per-feature export
 multi_method_rows = []
@@ -1558,8 +1557,7 @@ for feat in significant_features:
         'ci_lower': np.nan, 'ci_upper': np.nan,
     })
 
-pd.DataFrame(multi_method_rows).to_csv('./outputs/multi_method_thresholds.csv', index=False)
-print("\\n✓ Saved diagnosis and multi-method thresholds")
+print("\\n✓ Diagnosis and multi-method thresholds ready (exported via JSON)")
 """)
 
 # =====================================================================
@@ -1631,9 +1629,10 @@ env_monthly = env_monthly.dropna(subset=['datetime'])
 env_monthly = env_monthly.set_index('datetime').sort_index()
 env_monthly = env_monthly[~env_monthly.index.duplicated(keep='first')]
 
-# Define SARIMA variables and their column mapping
+# Define SARIMA variables and their column mapping (7 main erosion drivers)
 SARIMA_VARS = {
     'VHM0_max':       'VHM0_max',
+    'VTPK_max':       'VTPK_max',
     'WindSpeed_max':   'WindSpeed_max',
     'CurrentMag_max':  'CurrentMag_max',
     'CumWaveEnergy':   'CumWaveEnergy',
@@ -1809,8 +1808,7 @@ for var_name, series in forcing_vars_monthly.items():
     print(f"✓ {var_name}: SARIMA{best_order}×{best_seasonal}  AIC={best_aic:.1f}  RMSE={rmse:.4f}")
 
 sarima_diag_df = pd.DataFrame(diag_rows)
-sarima_diag_df.to_csv('./outputs/sarima_model_diagnostics.csv', index=False)
-print(f"\\n✓ Diagnostics saved. {len(sarima_forecasts)} variables forecasted.")
+print(f"\\n✓ Diagnostics ready. {len(sarima_forecasts)} variables forecasted (exported via JSON).")
 """)
 
 # =====================================================================
@@ -2026,7 +2024,7 @@ if len(hc_df) > 0:
     plt.tight_layout()
     plt.savefig('./figures/hindcast_validation.png', dpi=150)
     plt.show()
-    hc_df.to_csv('./outputs/hindcast_validation.csv', index=False)
+    # CSV export removed — data flows to frontend via JSON
 else:
     print("Insufficient data for hindcast validation.")
 """)
@@ -2098,7 +2096,7 @@ for h_name, h_date in horizons.items():
           f"→ {'HIGH' if prob > 0.6 else 'MODERATE' if prob > 0.4 else 'LOW'}")
 
 horizon_features = pd.DataFrame(horizon_features_list)
-horizon_features.to_csv('./outputs/erosion_forecast_features.csv', index=False)
+# CSV export removed — data flows to frontend via JSON
 """)
 
 # =====================================================================
@@ -2184,7 +2182,7 @@ mc_df = pd.DataFrame(mc_summary)
 print("\\n=== MONTE CARLO UNCERTAINTY-AWARE PREDICTIONS ===")
 print(f"Simulations per horizon: {n_simulations}")
 print(mc_df.to_string(index=False))
-mc_df.to_csv('./outputs/erosion_forecast_horizons.csv', index=False)
+# CSV export removed — data flows to frontend via JSON
 """)
 
 # =====================================================================
@@ -2255,7 +2253,7 @@ for _, mc_row in mc_df.iterrows():
 retreat_df = pd.DataFrame(retreat_rows)
 print("\\n=== SHORELINE RETREAT PREDICTIONS ===")
 print(retreat_df.to_string(index=False))
-retreat_df.to_csv('./outputs/retreat_predictions.csv', index=False)
+# CSV export removed — data flows to frontend via JSON
 """)
 
 # =====================================================================
@@ -2335,7 +2333,7 @@ plt.tight_layout()
 plt.savefig('./figures/transect_vulnerability.png', dpi=150, bbox_inches='tight')
 plt.show()
 
-dsas_scored.to_csv('./outputs/transect_vulnerability_scores.csv', index=False)
+# CSV export removed — data flows to frontend via JSON
 """)
 
 # =====================================================================
@@ -2464,7 +2462,7 @@ if len(monthly_risk_df) > 0:
     monthly_risk_df = monthly_risk_df.sort_values('date')
     print("=== MONTH-BY-MONTH RISK TIMELINE ===")
     print(monthly_risk_df.to_string(index=False))
-    monthly_risk_df.to_csv('./outputs/erosion_forecast_monthly.csv', index=False)
+    # CSV export removed — data flows to frontend via JSON
 else:
     print("No monthly risk data generated.")
     monthly_risk_df = pd.DataFrame(columns=['date', 'n_exceeded', 'risk_score', 'risk_label'])
@@ -2569,36 +2567,30 @@ plt.show()
 """)
 
 # =====================================================================
-# Cell 48  – Section 7.9: Save all outputs
+# Cell 48  – Section 7.9: Analysis Summary
 # =====================================================================
 code("""\
 # =============================================================================
-# Section 7.9 — Save all outputs (comprehensive)
+# Section 7.9 — Analysis Summary
 # =============================================================================
-
-# Save analysis dataset
-analysis_df.to_csv('./outputs/processed_annual_features.csv', index=False)
-
-# Save thresholds
-master_df.to_csv('./outputs/erosion_thresholds_master.csv', index=False)
-dsas_scored.to_csv('./outputs/transect_vulnerability_scores.csv', index=False)
-sarima_diag_df.to_csv('./outputs/sarima_model_diagnostics.csv', index=False)
+# NOTE: All outputs are exported to the frontend via analysis_results.json
+# No CSV files are written — the backend export cell handles JSON serialisation.
 
 print("=" * 60)
-print("  ALL OUTPUTS SAVED SUCCESSFULLY")
+print("  ANALYSIS COMPLETE — ALL DATA EXPORTED TO FRONTEND")
 print("=" * 60)
-print("\\n--- Threshold Outputs ---")
-print("  ./outputs/multi_method_thresholds.csv")
-print("  ./outputs/erosion_thresholds_master.csv")
-print("  ./outputs/erosion_event_diagnosis.csv")
-print("\\n--- Forecast Outputs ---")
-print("  ./outputs/sarima_model_diagnostics.csv    (AIC grid search, residual tests)")
-print("  ./outputs/hindcast_validation.csv          (temporal cross-validation)")
-print("  ./outputs/erosion_forecast_horizons.csv    (MC probability at 4 horizons)")
-print("  ./outputs/erosion_forecast_monthly.csv     (month-by-month risk timeline)")
-print("  ./outputs/erosion_forecast_features.csv    (aggregated features + risk)")
-print("  ./outputs/retreat_predictions.csv          (shoreline retreat in METERS)")
-print("  ./outputs/transect_vulnerability_scores.csv(per-transect risk scores)")
+
+print("\\n--- Data Available in Frontend ---")
+print("  • Master threshold table (per factor)")
+print("  • Per-event erosion diagnosis")
+print("  • Multi-method threshold comparison")
+print("  • SARIMA model diagnostics & forecasts")
+print("  • Hindcast validation results")
+print("  • Monte Carlo erosion probability")
+print("  • Monthly risk timeline")
+print("  • Shoreline retreat predictions")
+print("  • Per-transect vulnerability scores")
+print("  • Processed annual features")
 
 print("\\n" + "=" * 60)
 print("  PREDICTION SUMMARY")

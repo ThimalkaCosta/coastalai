@@ -1997,13 +1997,13 @@
       "feature": "cum_current_annual",
       "thresholdAll": 2.5869340896606445,
       "thresholdLow": 2.5341642455649853,
-      "thresholdHigh": null,
+      "thresholdHigh": Infinity,
       "pValue": 0.0091,
       "methods": {
         "roc_youden": {
-          "threshold": null,
-          "ci_lower": null,
-          "ci_upper": null,
+          "threshold": Infinity,
+          "ci_lower": NaN,
+          "ci_upper": NaN,
           "statistic": 0.0,
           "pValue": 1.0,
           "significant": false
@@ -2038,13 +2038,13 @@
       "feature": "ucurr_mean_annual",
       "thresholdAll": 0.2155778408050537,
       "thresholdLow": 0.21179769947390817,
-      "thresholdHigh": null,
+      "thresholdHigh": Infinity,
       "pValue": 0.0091,
       "methods": {
         "roc_youden": {
-          "threshold": null,
-          "ci_lower": null,
-          "ci_upper": null,
+          "threshold": Infinity,
+          "ci_lower": NaN,
+          "ci_upper": NaN,
           "statistic": 0.0,
           "pValue": 1.0,
           "significant": false
@@ -2079,13 +2079,13 @@
       "feature": "wind_p90",
       "thresholdAll": 6.014500141143799,
       "thresholdLow": 5.78522398686941,
-      "thresholdHigh": null,
+      "thresholdHigh": Infinity,
       "pValue": 0.0416,
       "methods": {
         "roc_youden": {
-          "threshold": null,
+          "threshold": Infinity,
           "ci_lower": 5.869999885559082,
-          "ci_upper": null,
+          "ci_upper": NaN,
           "statistic": 0.07407407407407408,
           "pValue": 0.991,
           "significant": false

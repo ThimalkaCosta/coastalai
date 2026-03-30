@@ -23,9 +23,9 @@ import PageTransition from '../components/common/PageTransition'
 import Tabs from '../components/common/Tabs'
 import { useData } from '../context/DataContext'
 
-// ── Variable display config ──
+// ── Variable display config (7 main erosion drivers) ──
 const VARIABLE_META = {
-  Hm0_max: {
+  VHM0_max: {
     label: 'Max Wave Height',
     shortLabel: 'Wave Height',
     unit: 'm',
@@ -36,11 +36,37 @@ const VARIABLE_META = {
     border: 'border-blue-200',
     text: 'text-blue-700',
     badge: 'bg-blue-100 text-blue-700',
-    description: 'Maximum significant wave height – primary erosion driver',
+    description: 'Maximum significant wave height (Hm0) – primary erosion driver',
   },
-  UcurrMax: {
+  VTPK_max: {
+    label: 'Max Peak Wave Period',
+    shortLabel: 'Wave Period',
+    unit: 's',
+    icon: Waves,
+    color: '#6366f1',
+    gradient: 'from-indigo-500 to-blue-500',
+    bg: 'bg-indigo-50',
+    border: 'border-indigo-200',
+    text: 'text-indigo-700',
+    badge: 'bg-indigo-100 text-indigo-700',
+    description: 'Maximum peak wave period – long-period swells increase shore impact',
+  },
+  WindSpeed_max: {
+    label: 'Max Wind Speed',
+    shortLabel: 'Wind Speed',
+    unit: 'm/s',
+    icon: Wind,
+    color: '#8b5cf6',
+    gradient: 'from-violet-500 to-purple-500',
+    bg: 'bg-violet-50',
+    border: 'border-violet-200',
+    text: 'text-violet-700',
+    badge: 'bg-violet-100 text-violet-700',
+    description: 'Maximum wind speed – wave generation and storm surge',
+  },
+  CurrentMag_max: {
     label: 'Max Current Speed',
-    shortLabel: 'Current',
+    shortLabel: 'Current Speed',
     unit: 'm/s',
     icon: Droplets,
     color: '#06b6d4',
@@ -51,35 +77,22 @@ const VARIABLE_META = {
     badge: 'bg-cyan-100 text-cyan-700',
     description: 'Maximum ocean current velocity – offshore sediment transport',
   },
-  WindMax: {
-    label: 'Max Wind Speed',
-    shortLabel: 'Wind',
-    unit: 'm/s',
-    icon: Wind,
-    color: '#8b5cf6',
-    gradient: 'from-violet-500 to-purple-500',
-    bg: 'bg-violet-50',
-    border: 'border-violet-200',
-    text: 'text-violet-700',
-    badge: 'bg-violet-100 text-violet-700',
-    description: 'Maximum wind speed – wave generation and surge',
-  },
-  CumCurrent: {
-    label: 'Cumulative Current',
-    shortLabel: 'Cum. Current',
-    unit: 'm/day',
-    icon: Droplets,
+  CumWaveEnergy: {
+    label: 'Cumulative Wave Energy',
+    shortLabel: 'Cum. Energy',
+    unit: 'J/m',
+    icon: Activity,
     color: '#14b8a6',
     gradient: 'from-teal-500 to-emerald-500',
     bg: 'bg-teal-50',
     border: 'border-teal-200',
     text: 'text-teal-700',
     badge: 'bg-teal-100 text-teal-700',
-    description: 'Cumulative current transport – sustained sediment flux',
+    description: 'Cumulative wave energy flux – sustained shore energy input',
   },
   StormDays_wave: {
     label: 'Storm Wave Days',
-    shortLabel: 'Storm Days',
+    shortLabel: 'Storm Waves',
     unit: 'days',
     icon: Activity,
     color: '#f59e0b',
@@ -88,7 +101,20 @@ const VARIABLE_META = {
     border: 'border-amber-200',
     text: 'text-amber-700',
     badge: 'bg-amber-100 text-amber-700',
-    description: 'Number of storm-wave days – prolonged high-energy exposure',
+    description: 'Days with storm-level wave conditions – prolonged high-energy exposure',
+  },
+  StormDays_wind: {
+    label: 'Storm Wind Days',
+    shortLabel: 'Storm Winds',
+    unit: 'days',
+    icon: Wind,
+    color: '#ef4444',
+    gradient: 'from-red-500 to-rose-500',
+    bg: 'bg-red-50',
+    border: 'border-red-200',
+    text: 'text-red-700',
+    badge: 'bg-red-100 text-red-700',
+    description: 'Days with storm-level wind conditions – sustained wind-driven erosion',
   },
 }
 
@@ -226,7 +252,7 @@ export default function ForecastThresholdPage() {
                 Meteorological Threshold Forecasting
               </h1>
               <p className="section-subtitle">
-                SARIMA-based forecasting of 5 key erosion drivers using {metadata.totalMonths || '~300'} months
+                SARIMA-based forecasting of 7 key erosion drivers using {metadata.totalMonths || '~300'} months
                 of historical data ({metadata.dataRange || '2000–2024'}). Select a forecast horizon to view
                 predicted threshold exceedance and risk for each variable.
               </p>
@@ -293,7 +319,7 @@ export default function ForecastThresholdPage() {
             {/* Summary Cards */}
             <section className="pb-8">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                   {summaryCards.map((card, idx) => {
                     const Icon = card.icon
                     const exceeds = card.threshold && card.avgForecast >= card.threshold
