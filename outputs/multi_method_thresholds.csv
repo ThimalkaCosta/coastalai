@@ -1,26 +1,16 @@
 feature,method,threshold,ci_lower,ci_upper
-cum_current_annual,ROC/Youden,3.1261,3.1261,3.1261
-cum_current_annual,Bayesian Logistic,2.7638,2.6498,2.8544
-cum_current_annual,Change-Point,2.7202000617980957,1.9361000061035156,2.7202000617980957
-cum_current_annual,Mutual Info,2.9781999588012695,2.5465,2.9782
-cum_current_annual,CONSENSUS,2.7202000617980957,,
-ucurr_mean_annual,ROC/Youden,0.2605,0.2605,0.2605
-ucurr_mean_annual,Bayesian Logistic,0.2308,0.2216,0.238
-ucurr_mean_annual,Change-Point,0.22669999301433563,0.16699999570846558,0.22669999301433563
-ucurr_mean_annual,Mutual Info,0.24819999933242798,0.2122,0.2482
-ucurr_mean_annual,CONSENSUS,0.22669999301433563,,
-zos_max_annual,ROC/Youden,0.553,0.553,
-zos_max_annual,Bayesian Logistic,0.568,0.5581,0.5813
-zos_max_annual,Change-Point,0.5530999898910522,0.5530999898910522,0.6229000091552734
-zos_max_annual,Mutual Info,0.5530999898910522,0.5531,0.5531
-zos_max_annual,CONSENSUS,0.5530999898910522,,
-zos_mean_annual,ROC/Youden,0.4586,0.4586,
-zos_mean_annual,Bayesian Logistic,0.4693,0.4635,0.4752
-zos_mean_annual,Change-Point,0.45899999141693115,0.45899999141693115,0.5105999708175659
-zos_mean_annual,Mutual Info,0.45899999141693115,0.459,0.459
-zos_mean_annual,CONSENSUS,0.45899999141693115,,
-ucurr_p90,ROC/Youden,0.364,0.364,0.364
-ucurr_p90,Bayesian Logistic,0.3415,0.3272,0.3592
-ucurr_p90,Change-Point,0.34130001068115234,0.26930001378059387,0.385699987411499
-ucurr_p90,Mutual Info,0.34130001068115234,0.3032,0.3661
-ucurr_p90,CONSENSUS,0.34130001068115234,,
+cum_current_annual,ROC/Youden,inf,,
+cum_current_annual,Bayesian Logistic,2.5342,2.3788,2.7267
+cum_current_annual,Change-Point,2.586899995803833,2.586899995803833,2.586899995803833
+cum_current_annual,Mutual Info,2.586899995803833,2.4153,2.5869
+cum_current_annual,CONSENSUS,2.586899995803833,,
+ucurr_mean_annual,ROC/Youden,inf,,
+ucurr_mean_annual,Bayesian Logistic,0.2118,0.1994,0.2276
+ucurr_mean_annual,Change-Point,0.21559999883174896,0.21559999883174896,0.21559999883174896
+ucurr_mean_annual,Mutual Info,0.21559999883174896,0.2013,0.2156
+ucurr_mean_annual,CONSENSUS,0.21559999883174896,,
+wind_p90,ROC/Youden,inf,5.87,
+wind_p90,Bayesian Logistic,5.7852,5.6263,5.9534
+wind_p90,Change-Point,6.014500141143799,5.572999954223633,6.014500141143799
+wind_p90,Mutual Info,6.014500141143799,5.573,6.0145
+wind_p90,CONSENSUS,6.014500141143799,,

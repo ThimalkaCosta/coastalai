@@ -554,15 +554,16 @@ except Exception as e:
     results["hindcast"] = None
 
 # =====================================================================
-# 10. Monte Carlo results
+# 10. Erosion probability results (analytical, replacing Monte Carlo)
 # =====================================================================
 try:
     results["monteCarlo"] = {{
-        "nSimulations": 2000,
+        "nSimulations": 0,
+        "method": "analytical",
         "horizons": mc_df.to_dict(orient='records'),
     }}
 except Exception as e:
-    print(f"Monte Carlo export error: {{e}}")
+    print(f"Erosion probability export error: {{e}}")
     results["monteCarlo"] = None
 
 # =====================================================================
