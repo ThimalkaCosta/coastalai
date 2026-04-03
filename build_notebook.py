@@ -2485,9 +2485,10 @@ colors_mc = ['#E24B4A' if r['risk_category'] == 'HIGH'
              else '#FF8C00' if r['risk_category'] == 'MODERATE'
              else '#2ca02c' for _, r in mc_df.iterrows()]
 ax1.bar(mc_df['horizon'], mc_df['mean_prob'], color=colors_mc, edgecolor='white')
+yerr_lower_1 = (mc_df['mean_prob'] - mc_df['ci_lower_95']).clip(lower=0)
+yerr_upper_1 = (mc_df['ci_upper_95'] - mc_df['mean_prob']).clip(lower=0)
 ax1.errorbar(range(len(mc_df)), mc_df['mean_prob'],
-             yerr=[mc_df['mean_prob'] - mc_df['ci_lower_95'],
-                   mc_df['ci_upper_95'] - mc_df['mean_prob']],
+             yerr=[yerr_lower_1, yerr_upper_1],
              fmt='none', color='black', capsize=4)
 ax1.set_ylabel('Erosion Probability')
 ax1.set_title('Monte Carlo Erosion Probability')
@@ -2501,9 +2502,10 @@ action_colors = {'IMMEDIATE ACTION': '#d62728', 'ENHANCED MONITORING': '#ff7f0e'
                  'ROUTINE MONITORING': '#2ca02c', 'STANDARD OPERATIONS': '#1f77b4'}
 retreat_colors = [action_colors.get(r['action_level'], '#888') for _, r in retreat_df.iterrows()]
 ax2.bar(retreat_df['horizon'], retreat_df['retreat_m'], color=retreat_colors, edgecolor='white')
+yerr_lower_2 = (retreat_df['retreat_m'] - retreat_df['retreat_low_95']).clip(lower=0)
+yerr_upper_2 = (retreat_df['retreat_high_95'] - retreat_df['retreat_m']).clip(lower=0)
 ax2.errorbar(range(len(retreat_df)), retreat_df['retreat_m'],
-             yerr=[retreat_df['retreat_m'] - retreat_df['retreat_low_95'],
-                   retreat_df['retreat_high_95'] - retreat_df['retreat_m']],
+             yerr=[yerr_lower_2, yerr_upper_2],
              fmt='none', color='black', capsize=4)
 ax2.set_ylabel('Retreat (meters)')
 ax2.set_title('Predicted Shoreline Retreat')

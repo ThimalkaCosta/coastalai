@@ -61,6 +61,32 @@ const api = {
     return res.json()
   },
 
+  /** GET /api/figures – List available notebook figures */
+  async listFigures() {
+    const res = await fetch(`${API_BASE_URL}/figures`)
+    if (!res.ok) return { figures: [] }
+    return res.json()
+  },
+
+  /** GET /api/figures/{filename} – Get figure URL */
+  getFigureUrl(filename) {
+    return `${API_BASE_URL}/figures/${encodeURIComponent(filename)}`
+  },
+
+  /** GET /api/outputs – List available output CSV files */
+  async listOutputs() {
+    const res = await fetch(`${API_BASE_URL}/outputs`)
+    if (!res.ok) return { outputs: [] }
+    return res.json()
+  },
+
+  /** GET /api/outputs/{filename} – Get output CSV as JSON */
+  async getOutputCsv(filename) {
+    const res = await fetch(`${API_BASE_URL}/outputs/${encodeURIComponent(filename)}`)
+    if (!res.ok) throw new Error(`Failed to fetch ${filename}`)
+    return res.json()
+  },
+
   // ── Morphological Module API ──
 
   /** POST /api/morphological/analyze – Upload files and execute morphological notebook */

@@ -24,20 +24,79 @@ import PageTransition from '../components/common/PageTransition'
 import StatCard from '../components/common/StatCard'
 import { useData } from '../context/DataContext'
 
-// 7 main meteorological variables with display config
-const METEO_VARS = [
-  { key: 'VHM0_max', label: 'Max Wave Height', unit: 'm', color: '#3b82f6', icon: Waves },
-  { key: 'VTPK_max', label: 'Max Wave Period', unit: 's', color: '#6366f1', icon: Waves },
-  { key: 'WindSpeed_max', label: 'Max Wind Speed', unit: 'm/s', color: '#8b5cf6', icon: Wind },
-  { key: 'CurrentMag_max', label: 'Max Current Speed', unit: 'm/s', color: '#06b6d4', icon: Droplets },
-  { key: 'CumWaveEnergy', label: 'Cum. Wave Energy', unit: 'J/m', color: '#14b8a6', icon: Activity },
-  { key: 'StormDays_wave', label: 'Storm Wave Days', unit: 'days', color: '#f59e0b', icon: Activity },
-  { key: 'StormDays_wind', label: 'Storm Wind Days', unit: 'days', color: '#ef4444', icon: Wind },
-]
+// 7 main meteorological variables with display config (fallback for known column names)
+const KNOWN_VAR_META = {
+  VHM0_max:          { label: 'Max Wave Height',     unit: 'm',    color: '#3b82f6', icon: Waves },
+  VHM0_max_annual:   { label: 'Max Wave Height',     unit: 'm',    color: '#3b82f6', icon: Waves },
+  VHM0_mean:         { label: 'Mean Wave Height',    unit: 'm',    color: '#60a5fa', icon: Waves },
+  VHM0_mean_annual:  { label: 'Mean Wave Height',    unit: 'm',    color: '#60a5fa', icon: Waves },
+  VTPK_max:          { label: 'Max Wave Period',     unit: 's',    color: '#6366f1', icon: Waves },
+  VTPK_max_annual:   { label: 'Max Wave Period',     unit: 's',    color: '#6366f1', icon: Waves },
+  VTPK_mean:         { label: 'Mean Wave Period',    unit: 's',    color: '#818cf8', icon: Waves },
+  VTPK_mean_annual:  { label: 'Mean Wave Period',    unit: 's',    color: '#818cf8', icon: Waves },
+  VMDR_mean_annual:  { label: 'Mean Wave Direction', unit: '°',    color: '#a78bfa', icon: Waves },
+  VSDX_max_annual:   { label: 'Max Stokes Drift X',  unit: 'm/s',  color: '#c084fc', icon: Waves },
+  VSDX_mean_annual:  { label: 'Mean Stokes Drift X', unit: 'm/s',  color: '#d8b4fe', icon: Waves },
+  VSDY_max_annual:   { label: 'Max Stokes Drift Y',  unit: 'm/s',  color: '#e879f9', icon: Waves },
+  VSDY_mean_annual:  { label: 'Mean Stokes Drift Y', unit: 'm/s',  color: '#f0abfc', icon: Waves },
+  WindSpeed_max:     { label: 'Max Wind Speed',      unit: 'm/s',  color: '#8b5cf6', icon: Wind },
+  wind_speed_max_annual: { label: 'Max Wind Speed',  unit: 'm/s',  color: '#8b5cf6', icon: Wind },
+  wind_speed_mean_annual:{ label: 'Mean Wind Speed', unit: 'm/s',  color: '#a78bfa', icon: Wind },
+  eastward_wind_max_annual:  { label: 'Max E-Wind',  unit: 'm/s',  color: '#7c3aed', icon: Wind },
+  eastward_wind_mean_annual: { label: 'Mean E-Wind', unit: 'm/s',  color: '#8b5cf6', icon: Wind },
+  northward_wind_max_annual: { label: 'Max N-Wind',  unit: 'm/s',  color: '#6d28d9', icon: Wind },
+  northward_wind_mean_annual:{ label: 'Mean N-Wind', unit: 'm/s',  color: '#7c3aed', icon: Wind },
+  CurrentMag_max:    { label: 'Max Current Speed',   unit: 'm/s',  color: '#06b6d4', icon: Droplets },
+  uo_max_annual:     { label: 'Max Current U',       unit: 'm/s',  color: '#06b6d4', icon: Droplets },
+  uo_mean_annual:    { label: 'Mean Current U',      unit: 'm/s',  color: '#22d3ee', icon: Droplets },
+  vo_max_annual:     { label: 'Max Current V',       unit: 'm/s',  color: '#0891b2', icon: Droplets },
+  vo_mean_annual:    { label: 'Mean Current V',      unit: 'm/s',  color: '#67e8f9', icon: Droplets },
+  zos_max_annual:    { label: 'Max Sea Level',       unit: 'm',    color: '#0e7490', icon: Droplets },
+  zos_mean_annual:   { label: 'Mean Sea Level',      unit: 'm',    color: '#155e75', icon: Droplets },
+  CumWaveEnergy:     { label: 'Cum. Wave Energy',    unit: 'J/m',  color: '#14b8a6', icon: Activity },
+  StormDays_wave:    { label: 'Storm Wave Days',     unit: 'days', color: '#f59e0b', icon: Activity },
+  StormDays_wind:    { label: 'Storm Wind Days',     unit: 'days', color: '#ef4444', icon: Wind },
+}
+
+// Columns to exclude from the meteorological variable list
+const EXCLUDE_COLS = new Set([
+  'monsoon_year', 'annual_NSM', 'erosion_label', 'Erosion_Label',
+  'Change_Class', 'NSM_count', 'severity', 'geometry',
+])
+
+/** Build a display-ready variable descriptor from a column name */
+function varMeta(key) {
+  if (KNOWN_VAR_META[key]) return { key, ...KNOWN_VAR_META[key] }
+  // Auto-generate label from column name
+  const label = key.replace(/_annual$/, '').replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
+  return { key, label, unit: '', color: '#94a3b8', icon: Activity }
+}
 
 export default function AnalysisPage() {
   const { data, loading, dataLoaded } = useData()
-  const [selectedVars, setSelectedVars] = useState(['VHM0_max', 'WindSpeed_max', 'CurrentMag_max'])
+
+  // Dynamically detect meteorological variables from timeSeries column names
+  const METEO_VARS = useMemo(() => {
+    if (!data.timeSeries?.length) return []
+    const cols = Object.keys(data.timeSeries[0] || {}).filter(c => !EXCLUDE_COLS.has(c))
+    return cols.map(c => varMeta(c))
+  }, [data])
+
+  // Default selection: pick the first 3 available variables (or significant features)
+  const defaultSelected = useMemo(() => {
+    const significant = (data.thresholds || []).map(t => t.feature).filter(Boolean)
+    if (significant.length > 0) return significant.slice(0, 3)
+    return METEO_VARS.slice(0, 3).map(v => v.key)
+  }, [METEO_VARS, data])
+
+  const [selectedVars, setSelectedVars] = useState([])
+
+  // Sync default selection once data loads
+  useMemo(() => {
+    if (selectedVars.length === 0 && defaultSelected.length > 0) {
+      setSelectedVars(defaultSelected)
+    }
+  }, [defaultSelected])
 
   const stats = useMemo(() => {
     if (data.summary) {
@@ -64,7 +123,7 @@ export default function AnalysisPage() {
       out.erosion_label = row.erosion_label ?? row.Erosion_Label ?? 0
       return out
     })
-  }, [data])
+  }, [data, METEO_VARS])
 
   // Threshold values from ensemble thresholds (all 7)
   const thresholdMap = useMemo(() => {
@@ -78,11 +137,11 @@ export default function AnalysisPage() {
     return map
   }, [data])
 
-  // Available vars in the data
+  // Available vars in the data (all METEO_VARS that have at least one non-null value)
   const availableVars = useMemo(() => {
     if (!timeSeriesData.length) return METEO_VARS
     return METEO_VARS.filter(v => timeSeriesData.some(r => r[v.key] != null))
-  }, [timeSeriesData])
+  }, [timeSeriesData, METEO_VARS])
 
   const toggleVar = (key) => {
     setSelectedVars(prev =>
@@ -316,25 +375,27 @@ export default function AnalysisPage() {
                 {/* All 7 Detected Thresholds */}
                 <div className="card p-5">
                   <h3 className="font-display font-bold text-coastal-900 mb-4 text-sm">
-                    Detected Erosion Thresholds ({availableVars.length} Meteorological Variables)
+                    Detected Erosion Thresholds ({data.thresholds?.length || 0} Meteorological Variables)
                   </h3>
                   <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
-                    {availableVars.map(v => {
-                      const thVal = thresholdMap[v.key]
-                      const Icon = v.icon
+                    {(data.thresholds || []).map(t => {
+                      const key = t.feature || ''
+                      const thVal = t.consensusThreshold ?? t.thresholdAll ?? t.thresholdHigh ?? null
+                      const meta = varMeta(key)
+                      const Icon = meta.icon
                       return (
-                        <div key={v.key} className="p-3.5 bg-gradient-to-br from-white to-coastal-50 rounded-lg ring-1 ring-coastal-200/60">
+                        <div key={key} className="p-3.5 bg-gradient-to-br from-white to-coastal-50 rounded-lg ring-1 ring-coastal-200/60">
                           <div className="flex items-center gap-2 mb-2">
-                            <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ backgroundColor: v.color + '20' }}>
-                              <Icon className="w-3.5 h-3.5" style={{ color: v.color }} />
+                            <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ backgroundColor: meta.color + '20' }}>
+                              <Icon className="w-3.5 h-3.5" style={{ color: meta.color }} />
                             </div>
-                            <span className="text-xs font-semibold text-coastal-700">{v.label}</span>
+                            <span className="text-xs font-semibold text-coastal-700">{meta.label}</span>
                           </div>
                           <p className="text-xl font-display font-bold text-coastal-900">
                             {thVal != null ? `≥ ${typeof thVal === 'number' ? thVal.toFixed(2) : thVal}` : '--'}
-                            <span className="text-sm font-normal text-coastal-500 ml-1">{v.unit}</span>
+                            <span className="text-sm font-normal text-coastal-500 ml-1">{meta.unit}</span>
                           </p>
-                          <p className="text-[11px] text-coastal-500 mt-1 font-medium font-mono">{v.key}</p>
+                          <p className="text-[11px] text-coastal-500 mt-1 font-medium font-mono">{key}</p>
                         </div>
                       )
                     })}
@@ -402,8 +463,7 @@ export default function AnalysisPage() {
                       />
                       <Legend wrapperStyle={{ fontSize: 11 }} />
                       {selectedVars.map(key => {
-                        const v = METEO_VARS.find(m => m.key === key)
-                        if (!v) return null
+                        const v = availableVars.find(m => m.key === key) || varMeta(key)
                         return (
                           <Line
                             key={key}
@@ -421,8 +481,8 @@ export default function AnalysisPage() {
                       {/* Threshold reference lines for selected vars */}
                       {selectedVars.map(key => {
                         const thVal = thresholdMap[key]
-                        const v = METEO_VARS.find(m => m.key === key)
-                        if (thVal == null || !v) return null
+                        const v = availableVars.find(m => m.key === key) || varMeta(key)
+                        if (thVal == null) return null
                         return (
                           <ReferenceLine
                             key={`th-${key}`}
@@ -519,7 +579,7 @@ export default function AnalysisPage() {
                       <thead className="sticky top-0 bg-white z-10">
                         <tr className="bg-coastal-50/80 border-b-2 border-coastal-200">
                           <th className="py-3 px-3 text-center font-semibold text-coastal-600 uppercase tracking-wider text-xs whitespace-nowrap">Year</th>
-                          {METEO_VARS.map(v => (
+                          {availableVars.map(v => (
                             <th key={v.key} className="py-3 px-3 text-center font-semibold text-coastal-600 uppercase tracking-wider text-xs whitespace-nowrap">
                               {v.label}
                               <span className="block text-[10px] font-normal text-coastal-400">({v.unit})</span>
@@ -532,7 +592,7 @@ export default function AnalysisPage() {
                         {timeSeriesData.map((row, i) => (
                           <tr key={i} className={row.erosion_label === 1 ? 'bg-red-50/60' : i % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'}>
                             <td className="py-2 px-3 text-center text-xs font-semibold text-coastal-800">{row.year}</td>
-                            {METEO_VARS.map(v => (
+                            {availableVars.map(v => (
                               <td key={v.key} className="py-2 px-3 text-center text-xs font-mono">
                                 {row[v.key] != null ? Number(row[v.key]).toFixed(3) : '--'}
                               </td>

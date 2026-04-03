@@ -1,8 +1,20 @@
 import { createContext, useContext, useState, useCallback, useEffect, useRef } from 'react'
 import Papa from 'papaparse'
+import { collection, doc, setDoc, getDocs, query, orderBy, limit, serverTimestamp } from 'firebase/firestore'
+import { db } from '../firebase'
 import api from '../api'
 
 const DataContext = createContext()
+
+/** Check whether an analysis result object has the expected structure. */
+function isValidAnalysisData(d) {
+  if (!d || typeof d !== 'object') return false
+  // Must have a summary with totalTransects, OR non-empty thresholds / shoreline
+  const hasSummary = d.summary && typeof d.summary.totalTransects === 'number'
+  const hasThresholds = Array.isArray(d.thresholds) && d.thresholds.length > 0
+  const hasShoreline = Array.isArray(d.shoreline) && d.shoreline.length > 0
+  return hasSummary || hasThresholds || hasShoreline
+}
 
 /** Normalise raw analysis JSON (from API or local file) into the shape the UI expects.
  *  Handles both the legacy (HMM/RF/XGB) format and the new 4-method ensemble format. */
@@ -362,6 +374,9 @@ export function DataProvider({ children }) {
     isLegacyFormat: false,
   })
 
+  // Raw (un-normalised) analysis data – used by NotebookResultsView
+  const [rawAnalysisData, setRawAnalysisData] = useState(null)
+
   // Loading / error / progress states
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
@@ -383,7 +398,7 @@ export function DataProvider({ children }) {
     api.health().then(setBackendAvailable)
   }, [])
 
-  // ── Load analysis results (local JSON fallback or API) ──
+  // ── Load analysis results (Firestore → API fallback → local JSON fallback) ──
   const loadAnalysisResults = useCallback(async () => {
     setLoading(true)
     setError(null)
@@ -391,10 +406,36 @@ export function DataProvider({ children }) {
     try {
       let analysisData
 
-      // Try backend API first (if available)
-      if (backendAvailable) {
+      // Try Firestore first (latest result)
+      try {
+        const q = query(
+          collection(db, 'analysisResults'),
+          orderBy('savedAt', 'desc'),
+          limit(1)
+        )
+        const snapshot = await getDocs(q)
+        if (!snapshot.empty) {
+          const docData = snapshot.docs[0].data()
+          const candidate = docData.results
+          if (isValidAnalysisData(candidate)) {
+            analysisData = candidate
+            console.log('✓ Loaded results from Firestore:', snapshot.docs[0].id)
+          } else {
+            console.warn('Firestore data invalid/incomplete, skipping')
+          }
+        }
+      } catch (firestoreErr) {
+        console.warn('Firestore read failed, falling back:', firestoreErr.message)
+      }
+
+      // Fallback: Try backend API
+      if (!analysisData && backendAvailable) {
         try {
-          analysisData = await api.getResults()
+          const candidate = await api.getResults()
+          if (isValidAnalysisData(candidate)) {
+            analysisData = candidate
+            console.log('✓ Loaded results from backend API')
+          }
         } catch {
           // fall through to local JSON
         }
@@ -410,9 +451,18 @@ export function DataProvider({ children }) {
         if (!contentType.includes('application/json')) {
           throw new Error('Analysis results not found. Please upload data and run the analysis.')
         }
-        analysisData = await response.json()
+        const candidate = await response.json()
+        if (isValidAnalysisData(candidate)) {
+          analysisData = candidate
+          console.log('✓ Loaded results from static JSON')
+        }
       }
 
+      if (!analysisData) {
+        throw new Error('No valid analysis results found. Please upload data and run the analysis.')
+      }
+
+      setRawAnalysisData(analysisData)
       const normalised = normaliseAnalysisData(analysisData)
       setData(normalised)
       setDataLoaded(true)
@@ -465,9 +515,28 @@ export function DataProvider({ children }) {
       setProgressStep(9) // mark all steps done
 
       setAnalysisStatus('Processing results…')
+      setRawAnalysisData(analysisData)
       const normalised = normaliseAnalysisData(analysisData)
       setData(normalised)
       setDataLoaded(true)
+
+      // Save results to Firestore (only if data is valid)
+      if (isValidAnalysisData(analysisData)) {
+        try {
+          const sessionId = analysisData?._meta?.sessionId || `session_${Date.now()}`
+          await setDoc(doc(db, 'analysisResults', sessionId), {
+            results: analysisData,
+            savedAt: serverTimestamp(),
+            sessionId,
+          })
+          console.log('✓ Results saved to Firestore:', sessionId)
+        } catch (firestoreErr) {
+          console.warn('Failed to save results to Firestore:', firestoreErr.message)
+        }
+      } else {
+        console.warn('Skipping Firestore save: analysis data is incomplete')
+      }
+
       setAnalysisStatus('Analysis complete!')
       setAnalysisComplete(true)
 
@@ -569,6 +638,7 @@ export function DataProvider({ children }) {
   const clearAllData = useCallback(() => {
     setFiles({ qgisReport: null, currentData: null, waveData: null, windData: null })
     setData(emptyState)
+    setRawAnalysisData(null)
     setDataLoaded(false)
     setAnalysisStatus(null)
     setError(null)
@@ -577,6 +647,7 @@ export function DataProvider({ children }) {
   // ── Clear analysis results only (keep uploaded files) ──
   const clearAnalysis = useCallback(async () => {
     setData(emptyState)
+    setRawAnalysisData(null)
     setDataLoaded(false)
     setAnalysisStatus(null)
     setError(null)
@@ -605,6 +676,7 @@ export function DataProvider({ children }) {
   const value = {
     files,
     data,
+    rawAnalysisData,
     loading,
     error,
     uploadProgress,

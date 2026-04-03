@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import {
   Upload,
@@ -16,9 +15,12 @@ import {
   Server,
   XCircle,
   Trash2,
+  BarChart3,
+  ChevronLeft,
 } from 'lucide-react'
 import PageTransition from '../components/common/PageTransition'
 import FileUpload from '../components/upload/FileUpload'
+import NotebookResultsView from '../components/results/NotebookResultsView'
 import { useData } from '../context/DataContext'
 
 const uploadSections = [
@@ -91,11 +93,12 @@ export default function DataUploadPage() {
     backendAvailable,
     clearAnalysis,
     error: contextError,
+    rawAnalysisData,
   } = useData()
 
-  const navigate = useNavigate()
   const [showSuccess, setShowSuccess] = useState(false)
   const [localError, setLocalError] = useState(null)
+  const [activeView, setActiveView] = useState('upload') // 'upload' | 'results'
 
   const handleUpload = async (sectionId, file) => {
     try {
@@ -123,17 +126,72 @@ export default function DataUploadPage() {
     }
 
     try {
-      await runAnalysis()
+      const result = await runAnalysis()
+      if (result) {
+        setActiveView('results')
+      }
     } catch (err) {
       setLocalError(err.message || 'Analysis execution failed')
     }
   }
 
+  const handleClearAndReset = async () => {
+    await clearAnalysis()
+    setAnalysisComplete(false)
+    setActiveView('upload')
+  }
+
   const allFilesUploaded = Object.values(files).filter(Boolean).length === 4
-  const hasData = data.shoreline || data.thresholds
+  const hasData = data.summary || data.thresholds?.length > 0
   const uploadedCount = Object.values(files).filter(Boolean).length
   const displayError = localError || contextError
 
+  // ── RESULTS VIEW ──
+  if (activeView === 'results' && (hasData || analysisComplete)) {
+    return (
+      <PageTransition>
+        <div className="min-h-screen bg-gradient-to-b from-coastal-50 to-white">
+          {/* Results Header */}
+          <section className="pt-6 pb-4">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <button
+                    onClick={() => setActiveView('upload')}
+                    className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium text-coastal-600 bg-coastal-50 hover:bg-coastal-100 border border-coastal-200 transition-colors"
+                  >
+                    <ChevronLeft className="w-4 h-4" />
+                    Back to Upload
+                  </button>
+                  <div>
+                    <h1 className="text-xl font-display font-bold text-coastal-900 flex items-center gap-2">
+                      <BarChart3 className="w-5 h-5 text-ocean-500" />
+                      Notebook Analysis Results
+                    </h1>
+                    <p className="text-xs text-coastal-500 mt-0.5">
+                      All outputs from notebook.ipynb execution
+                    </p>
+                  </div>
+                </div>
+                <button
+                  onClick={handleClearAndReset}
+                  className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium text-red-600 bg-red-50 border border-red-200 hover:bg-red-100 transition-colors"
+                >
+                  <Trash2 className="w-4 h-4" />
+                  Clear & Re-upload
+                </button>
+              </div>
+            </div>
+          </section>
+
+          {/* Results View */}
+          <NotebookResultsView analysisData={rawAnalysisData || data} />
+        </div>
+      </PageTransition>
+    )
+  }
+
+  // ── UPLOAD VIEW ──
   return (
     <PageTransition>
       <div className="min-h-screen bg-gradient-to-b from-coastal-50 to-white bg-mesh-1">
@@ -147,12 +205,12 @@ export default function DataUploadPage() {
             >
               <div className="page-badge bg-ocean-50 text-ocean-600 border-ocean-100 mb-4">
                 <Upload className="w-3.5 h-3.5" />
-                Data Upload
+                Meteorological Threshold Analysis
               </div>
-              <h1 className="section-title mb-3">Upload Your Research Data</h1>
+              <h1 className="section-title mb-3">Upload Data & Run Analysis</h1>
               <p className="section-subtitle">
-                Upload your QGIS analysis reports (CSV) and environmental datasets (NetCDF).
-                The system will process your data for threshold detection analysis.
+                Upload your QGIS analysis reports (CSV) and environmental datasets (NetCDF),
+                then run the notebook to generate threshold detection results.
               </p>
             </motion.div>
           </div>
@@ -218,55 +276,41 @@ export default function DataUploadPage() {
           </div>
         </section>
 
-        {/* Demo Data Banner */}
-        <section className="pb-8">
+        {/* Step Indicator */}
+        <section className="pb-6">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="card p-5 bg-gradient-to-r from-ocean-50/60 to-primary-50/60 border-ocean-200/50"
-            >
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                <div className="flex items-start gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-ocean-100 flex items-center justify-center flex-shrink-0">
-                    <Info className="w-4 h-4 text-ocean-600" />
+            <div className="flex items-center justify-center gap-2">
+              {['Upload Files', 'Run Notebook', 'View Results'].map((step, i) => {
+                const isActive = (i === 0 && !allFilesUploaded) ||
+                                 (i === 1 && allFilesUploaded && !analysisComplete && !analysisRunning) ||
+                                 (i === 1 && analysisRunning) ||
+                                 (i === 2 && analysisComplete)
+                const isComplete = (i === 0 && allFilesUploaded) ||
+                                   (i === 1 && analysisComplete)
+                return (
+                  <div key={step} className="flex items-center gap-2">
+                    {i > 0 && <div className={`w-12 h-0.5 ${isComplete || isActive ? 'bg-ocean-400' : 'bg-coastal-200'}`} />}
+                    <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold transition-all ${
+                      isActive ? 'bg-ocean-100 text-ocean-700 ring-2 ring-ocean-300' :
+                      isComplete ? 'bg-emerald-100 text-emerald-700' :
+                      'bg-coastal-100 text-coastal-400'
+                    }`}>
+                      {isComplete ? (
+                        <CheckCircle className="w-3.5 h-3.5" />
+                      ) : (
+                        <span className="w-4 h-4 rounded-full bg-current/10 flex items-center justify-center text-[10px]">{i + 1}</span>
+                      )}
+                      {step}
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="font-semibold text-coastal-900 mb-1">Try with Demo Data</h3>
-                    <p className="text-sm text-coastal-600">
-                      Don't have data ready? Load demo data to explore the analysis features.
-                    </p>
-                  </div>
-                </div>
-                <button onClick={handleLoadDemo} className="btn-secondary whitespace-nowrap">
-                  {hasData ? (
-                    <>
-                      <CheckCircle className="w-4 h-4 text-emerald-500" />
-                      Demo Loaded
-                    </>
-                  ) : (
-                    'Load Demo Data'
-                  )}
-                </button>
-              </div>
-
-              {showSuccess && (
-                <motion.div
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="mt-4 p-3 bg-emerald-100 text-emerald-700 rounded-lg text-sm flex items-center gap-2"
-                >
-                  <CheckCircle className="w-4 h-4" />
-                  Demo data loaded successfully! You can now view the analysis.
-                </motion.div>
-              )}
-            </motion.div>
+                )
+              })}
+            </div>
           </div>
         </section>
 
         {/* Upload Sections */}
-        <section className="pb-12">
+        <section className="pb-8">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid md:grid-cols-2 gap-6">
               {uploadSections.map((section, index) => (
@@ -306,16 +350,16 @@ export default function DataUploadPage() {
           </div>
         </section>
 
-        {/* Action Section */}
+        {/* Action Section – Run Notebook */}
         <section className="pb-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="card p-6 text-center"
+              className="card p-6"
             >
-              <div className="max-w-lg mx-auto">
+              <div className="max-w-lg mx-auto text-center">
                 {/* ── Analysis Running ── */}
                 {analysisRunning && (
                   <>
@@ -323,11 +367,10 @@ export default function DataUploadPage() {
                       <Loader2 className="w-8 h-8 text-white animate-spin" />
                     </div>
                     <h3 className="text-xl font-display font-semibold text-coastal-900 mb-2">
-                      Running Analysis…
+                      Running Notebook…
                     </h3>
                     <p className="text-coastal-600 mb-6">
-                      The notebook is being executed server-side. This typically takes 2–5 minutes
-                      depending on your dataset size.
+                      The notebook is being executed server-side. This typically takes 2–5 minutes.
                     </p>
 
                     {/* Progress Steps */}
@@ -341,15 +384,21 @@ export default function DataUploadPage() {
                           ) : (
                             <div className="w-4 h-4 rounded-full border-2 border-coastal-300 flex-shrink-0" />
                           )}
-                          <span
-                            className={
-                              i <= progressStep ? 'text-coastal-800' : 'text-coastal-400'
-                            }
-                          >
+                          <span className={i <= progressStep ? 'text-coastal-800' : 'text-coastal-400'}>
                             {step}
                           </span>
                         </div>
                       ))}
+                    </div>
+
+                    {/* Progress Bar */}
+                    <div className="w-full bg-coastal-100 rounded-full h-2 mb-4">
+                      <motion.div
+                        className="bg-gradient-to-r from-ocean-500 to-primary-500 h-2 rounded-full"
+                        initial={{ width: '0%' }}
+                        animate={{ width: `${((progressStep + 1) / PROGRESS_STEPS.length) * 100}%` }}
+                        transition={{ duration: 0.5 }}
+                      />
                     </div>
 
                     {analysisStatus && (
@@ -365,22 +414,22 @@ export default function DataUploadPage() {
                       <CheckCircle className="w-8 h-8 text-emerald-600" />
                     </div>
                     <h3 className="text-xl font-display font-semibold text-coastal-900 mb-2">
-                      Analysis Complete!
+                      Notebook Executed Successfully!
                     </h3>
                     <p className="text-coastal-600 mb-6">
-                      All models have been trained and results are ready. Navigate to the analysis
-                      dashboard to explore the findings.
+                      All analysis results, charts, and CSV outputs are ready to explore.
                     </p>
                     <button
-                      onClick={() => navigate('/analysis')}
-                      className="btn-primary w-full justify-center"
+                      onClick={() => setActiveView('results')}
+                      className="btn-primary w-full justify-center mb-3"
                     >
-                      View Analysis Results
+                      <BarChart3 className="w-5 h-5" />
+                      View All Results
                       <ArrowRight className="w-5 h-5" />
                     </button>
                     <button
-                      onClick={() => { clearAnalysis(); setAnalysisComplete(false) }}
-                      className="btn-secondary w-full justify-center mt-3 text-red-600 border-red-200 hover:bg-red-50"
+                      onClick={handleClearAndReset}
+                      className="btn-secondary w-full justify-center text-red-600 border-red-200 hover:bg-red-50"
                     >
                       <Trash2 className="w-4 h-4" />
                       Clear Results & Re-upload
@@ -398,7 +447,7 @@ export default function DataUploadPage() {
                     <div className="flex items-start gap-3">
                       <XCircle className="w-5 h-5 text-red-500 mt-0.5 flex-shrink-0" />
                       <div>
-                        <h4 className="font-medium text-red-800 mb-1">Analysis Error</h4>
+                        <h4 className="font-medium text-red-800 mb-1">Execution Error</h4>
                         <p className="text-sm text-red-700">{displayError}</p>
                       </div>
                     </div>
@@ -408,59 +457,47 @@ export default function DataUploadPage() {
                 {/* ── Ready to Execute ── */}
                 {!analysisRunning && !analysisComplete && allFilesUploaded && (
                   <>
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-ocean-500 to-primary-600 flex items-center justify-center mx-auto mb-4 shadow-lg">
-                      <Play className="w-6 h-6 text-white" />
+                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-ocean-500 to-primary-600 flex items-center justify-center mx-auto mb-4 shadow-lg">
+                      <Play className="w-8 h-8 text-white" />
                     </div>
                     <h3 className="text-lg font-display font-semibold text-coastal-900 mb-2">
-                      All Files Uploaded!
+                      All {uploadedCount} Files Uploaded
                     </h3>
                     <p className="text-coastal-600 mb-6">
-                      Click below to send files to the backend and execute the full analysis
-                      notebook automatically.
+                      Click below to execute the analysis notebook. The system will run all
+                      threshold detection, forecasting, and vulnerability analysis automatically.
                     </p>
 
                     <button
                       onClick={handleExecuteAnalysis}
                       disabled={analysisRunning || !backendAvailable}
-                      className="btn-primary w-full mb-4 justify-center disabled:opacity-50"
+                      className="btn-primary w-full mb-4 justify-center disabled:opacity-50 text-base py-3"
                     >
                       <Play className="w-5 h-5" />
-                      Run Analysis
+                      Run Notebook
                     </button>
 
                     {!backendAvailable && (
                       <p className="text-xs text-amber-600 mb-4">
-                        Start the backend server first to enable analysis execution.
+                        Start the backend server first to enable analysis.
                       </p>
                     )}
-
-                    <div className="border-t border-coastal-200 pt-4 mt-4">
-                      <p className="text-sm text-coastal-500 mb-3">Or view existing analysis:</p>
-                      <Link to="/analysis" className="btn-secondary">
-                        View Analysis
-                        <ArrowRight className="w-5 h-5" />
-                      </Link>
-                    </div>
                   </>
                 )}
 
-                {/* ── Demo Data Ready ── */}
-                {!analysisRunning && !analysisComplete && !allFilesUploaded && hasData && (
-                  <>
-                    <div className="w-16 h-16 rounded-2xl bg-emerald-100 flex items-center justify-center mx-auto mb-6">
-                      <CheckCircle className="w-8 h-8 text-emerald-600" />
-                    </div>
-                    <h3 className="text-xl font-display font-semibold text-coastal-900 mb-2">
-                      Demo Data Ready
-                    </h3>
-                    <p className="text-coastal-600 mb-6">
-                      Demo data has been loaded. Proceed to view the analysis results.
-                    </p>
-                    <Link to="/analysis" className="btn-primary">
-                      View Analysis
-                      <ArrowRight className="w-5 h-5" />
-                    </Link>
-                  </>
+                {/* ── Has Previous Results ── */}
+                {!analysisRunning && !analysisComplete && hasData && (
+                  <div className="border-t border-coastal-200 pt-4 mt-4">
+                    <p className="text-sm text-coastal-500 mb-3">Previous results available:</p>
+                    <button
+                      onClick={() => setActiveView('results')}
+                      className="btn-secondary w-full justify-center"
+                    >
+                      <BarChart3 className="w-4 h-4" />
+                      View Previous Results
+                      <ArrowRight className="w-4 h-4" />
+                    </button>
+                  </div>
                 )}
 
                 {/* ── Upload Prompt ── */}
@@ -473,8 +510,7 @@ export default function DataUploadPage() {
                       Upload Your Data
                     </h3>
                     <p className="text-coastal-600 mb-6">
-                      Upload all required datasets or load demo data to explore the analysis
-                      features.
+                      Upload all 4 required datasets, then click Run Notebook to start the analysis.
                     </p>
                     <div className="flex items-center justify-center gap-4 text-sm text-coastal-500">
                       <span className="flex items-center gap-1">
@@ -487,6 +523,29 @@ export default function DataUploadPage() {
                       </span>
                     </div>
                   </>
+                )}
+
+                {/* ── Demo Data ── */}
+                {!analysisRunning && !analysisComplete && (
+                  <div className="border-t border-coastal-200 pt-4 mt-6">
+                    <div className="flex items-center gap-3 justify-center">
+                      <Info className="w-4 h-4 text-ocean-500 flex-shrink-0" />
+                      <span className="text-sm text-coastal-500">Don't have data?</span>
+                      <button onClick={handleLoadDemo} className="text-sm text-ocean-600 hover:text-ocean-800 font-semibold underline underline-offset-2">
+                        Load Demo Data
+                      </button>
+                    </div>
+                    {showSuccess && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="mt-3 p-3 bg-emerald-100 text-emerald-700 rounded-lg text-sm flex items-center gap-2 justify-center"
+                      >
+                        <CheckCircle className="w-4 h-4" />
+                        Demo data loaded!
+                      </motion.div>
+                    )}
+                  </div>
                 )}
               </div>
             </motion.div>

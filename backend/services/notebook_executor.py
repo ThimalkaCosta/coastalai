@@ -63,6 +63,7 @@ def execute_analysis(
     )
 
     # ---- 2. Execute the notebook ----
+    notebook_error = None
     try:
         pm.execute_notebook(
             str(param_nb),
@@ -72,8 +73,7 @@ def execute_analysis(
             request_save_on_cell_execute=True,
         )
     except pm.PapermillExecutionError as exc:
-        # Even on failure the partially-executed notebook is written.
-        # We still try to harvest outputs below.
+        notebook_error = exc
         print(f"[executor] Notebook execution error at cell {exc.cell_index}: {exc.ename}: {exc.evalue}")
     finally:
         # Clean up the parameterised copy
@@ -81,10 +81,17 @@ def execute_analysis(
             param_nb.unlink(missing_ok=True)
 
     # ---- 3. Extract outputs ----
-    # First check if the notebook itself wrote a results JSON
+    # The export cell writes a structured results JSON; require it.
     if results_json.exists():
         with open(results_json, "r") as f:
             analysis_results = json.load(f)
+    elif notebook_error is not None:
+        # Notebook failed before the export cell could run
+        raise RuntimeError(
+            f"Notebook execution failed at cell {notebook_error.cell_index}: "
+            f"{notebook_error.ename}: {notebook_error.evalue}. "
+            f"No results were generated."
+        )
     else:
         # Fallback: parse outputs from the executed notebook cells
         analysis_results = _parse_notebook_outputs(output_nb)
@@ -670,6 +677,49 @@ with open(os.path.join(_FRONTEND_PATH, "analysis_results.json"), "w") as _f:
 
 print(f"✓ Results exported to {{_RESULTS_PATH}}")
 print(f"✓ Results copied to {{_FRONTEND_PATH}}/analysis_results.json")
+
+# =====================================================================
+# 17. Embed figures as base64
+# =====================================================================
+import base64 as _b64
+_figure_dir = os.path.join(os.getcwd(), 'figures')
+_figures = {{}}
+if os.path.isdir(_figure_dir):
+    for fname in sorted(os.listdir(_figure_dir)):
+        if fname.lower().endswith(('.png', '.jpg', '.jpeg', '.svg')):
+            fpath = os.path.join(_figure_dir, fname)
+            with open(fpath, 'rb') as _img:
+                _figures[fname] = _b64.b64encode(_img.read()).decode('ascii')
+    print(f"✓ Embedded {{len(_figures)}} figures")
+
+# =====================================================================
+# 18. Embed output CSV data as JSON arrays
+# =====================================================================
+_output_dir = os.path.join(os.getcwd(), 'outputs')
+_csv_outputs = {{}}
+if os.path.isdir(_output_dir):
+    for fname in sorted(os.listdir(_output_dir)):
+        if fname.lower().endswith('.csv'):
+            fpath = os.path.join(_output_dir, fname)
+            try:
+                _csv_df = pd.read_csv(fpath)
+                _csv_outputs[fname] = _sanitise(_csv_df.to_dict(orient='records'))
+            except Exception as _csv_err:
+                print(f"Warning: Could not read {{fname}}: {{_csv_err}}")
+    print(f"✓ Embedded {{len(_csv_outputs)}} CSV output files")
+
+# Add figures and csvOutputs to results
+results["figures"] = _figures
+results["csvOutputs"] = _csv_outputs
+
+# Re-write with figures and CSV data included
+with open(_RESULTS_PATH, "w") as _f:
+    json.dump(results, _f, indent=2, default=str)
+
+with open(os.path.join(_FRONTEND_PATH, "analysis_results.json"), "w") as _f:
+    json.dump(results, _f, indent=2, default=str)
+
+print("✓ Final results with figures and CSVs saved")
 
 '''
 
