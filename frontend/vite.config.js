@@ -7,13 +7,17 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
+      'plotly.js/dist/plotly': path.resolve(__dirname, 'node_modules/plotly.js-dist-min/plotly.min.js'),
     },
+  },
+  optimizeDeps: {
+    include: ['react-plotly.js', 'plotly.js-dist-min'],
+    exclude: [],
   },
   server: {
     port: 3000,
     open: true,
     proxy: {
-      // Proxy API requests to FastAPI backend during development
       '/api': {
         target: 'http://localhost:8000',
         changeOrigin: true,

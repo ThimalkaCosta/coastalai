@@ -6,6 +6,7 @@ import {
   BarChart3,
   GitBranch,
   Layers,
+  Zap,
   ChevronDown,
   Target,
   LayoutDashboard,
@@ -15,9 +16,6 @@ import {
   X,
   Sparkles,
   TrendingUp,
-  Shield,
-  MapPin,
-  ShieldAlert,
 } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 
@@ -32,19 +30,17 @@ function getSidebarNavigation(role) {
     { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
     { name: 'Upload Data', href: '/upload', icon: Upload },
     { name: 'Analysis', href: '/analysis', icon: BarChart3 },
-    { name: 'Thresholds', href: '/threshold', icon: Target },
-    { name: 'Decision Support', href: '/decision-support', icon: ShieldAlert },
+    { name: 'Threshold', href: '/threshold', icon: Target },
+    { name: 'Forecast', href: '/forecast-thresholds', icon: TrendingUp },
     {
-      name: 'Forecast',
-      icon: TrendingUp,
+      name: 'Models',
+      icon: Layers,
       children: [
-        { name: 'Overview', href: '/forecast', icon: TrendingUp },
-        { name: 'SARIMA Forecasting', href: '/forecast/thresholds', icon: Target },
-        { name: 'Retreat & Vulnerability', href: '/forecast/retreat', icon: MapPin },
-        { name: 'Hindcast Validation', href: '/forecast/hindcast', icon: Shield },
+        { name: 'Random Forest', href: '/models/random-forest', icon: GitBranch },
+        { name: 'HMM', href: '/models/hmm', icon: Layers },
+        { name: 'XGBoost', href: '/models/xgboost', icon: Zap },
       ],
     },
-    { name: 'RF Model', href: '/models/random-forest', icon: GitBranch },
   ]
   if (role === 'Manager' || role === 'Head Office') {
     base.push({ name: 'Users', href: '/admin/users', icon: Users })
@@ -53,7 +49,7 @@ function getSidebarNavigation(role) {
 }
 
 export default function Sidebar() {
-  const [subMenuOpen, setSubMenuOpen] = useState(false)
+  const [modelsOpen, setModelsOpen] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const location = useLocation()
   const { currentUser, userRole, logout } = useAuth()
@@ -61,11 +57,11 @@ export default function Sidebar() {
   const navigation = getSidebarNavigation(userRole)
 
   const isActive = (href) => location.pathname === href
-  const isForecastActive = () => location.pathname.startsWith('/forecast')
+  const isModelsActive = () => location.pathname.startsWith('/models')
 
-  // Auto-expand forecast menu if on a forecast page
+  // Auto-expand models menu if on a model page
   useEffect(() => {
-    if (isForecastActive()) setSubMenuOpen(true)
+    if (isModelsActive()) setModelsOpen(true)
   }, [location.pathname])
 
   // Close mobile sidebar on route change
@@ -100,30 +96,27 @@ export default function Sidebar() {
           item.children ? (
             <div key={item.name}>
               <button
-                onClick={() => setSubMenuOpen(!subMenuOpen)}
-                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 group ${
-                  isForecastActive()
+                onClick={() => setModelsOpen(!modelsOpen)}
+                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 group ${isModelsActive()
                     ? 'bg-gradient-to-r from-ocean-50 to-primary-50 text-ocean-700'
                     : 'text-coastal-600 hover:bg-coastal-50 hover:text-coastal-800'
-                }`}
+                  }`}
               >
-                <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-200 ${
-                  isForecastActive()
+                <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-200 ${isModelsActive()
                     ? 'bg-ocean-500/10 text-ocean-600'
                     : 'bg-coastal-100 text-coastal-500 group-hover:bg-coastal-200 group-hover:text-coastal-700'
-                }`}>
+                  }`}>
                   <item.icon className="w-4 h-4" />
                 </div>
                 <span className="flex-1 text-left">{item.name}</span>
                 <ChevronDown
-                  className={`w-4 h-4 text-coastal-400 transition-transform duration-200 ${
-                    subMenuOpen ? 'rotate-180' : ''
-                  }`}
+                  className={`w-4 h-4 text-coastal-400 transition-transform duration-200 ${modelsOpen ? 'rotate-180' : ''
+                    }`}
                 />
               </button>
 
               <AnimatePresence>
-                {subMenuOpen && (
+                {modelsOpen && (
                   <motion.div
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: 'auto' }}
@@ -135,15 +128,13 @@ export default function Sidebar() {
                       <Link
                         key={child.href}
                         to={child.href}
-                        className={`flex items-center gap-3 px-3 py-2 rounded-xl text-sm transition-all duration-200 ${
-                          isActive(child.href)
+                        className={`flex items-center gap-3 px-3 py-2 rounded-xl text-sm transition-all duration-200 ${isActive(child.href)
                             ? 'bg-ocean-50 text-ocean-700 font-semibold'
                             : 'text-coastal-500 hover:bg-coastal-50 hover:text-coastal-700'
-                        }`}
+                          }`}
                       >
-                        <div className={`w-1.5 h-1.5 rounded-full transition-colors ${
-                          isActive(child.href) ? 'bg-ocean-500' : 'bg-coastal-300'
-                        }`} />
+                        <div className={`w-1.5 h-1.5 rounded-full transition-colors ${isActive(child.href) ? 'bg-ocean-500' : 'bg-coastal-300'
+                          }`} />
                         {child.name}
                       </Link>
                     ))}
@@ -155,11 +146,10 @@ export default function Sidebar() {
             <Link
               key={item.href}
               to={item.href}
-              className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 group relative ${
-                isActive(item.href)
+              className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 group relative ${isActive(item.href)
                   ? 'bg-gradient-to-r from-ocean-50 to-primary-50 text-ocean-700'
                   : 'text-coastal-600 hover:bg-coastal-50 hover:text-coastal-800'
-              }`}
+                }`}
             >
               {isActive(item.href) && (
                 <motion.div
@@ -168,11 +158,10 @@ export default function Sidebar() {
                   transition={{ type: 'spring', bounce: 0.2, duration: 0.5 }}
                 />
               )}
-              <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-200 ${
-                isActive(item.href)
+              <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-200 ${isActive(item.href)
                   ? 'bg-ocean-500/10 text-ocean-600'
                   : 'bg-coastal-100 text-coastal-500 group-hover:bg-coastal-200 group-hover:text-coastal-700'
-              }`}>
+                }`}>
                 <item.icon className="w-4 h-4" />
               </div>
               <span>{item.name}</span>
@@ -203,9 +192,8 @@ export default function Sidebar() {
               </div>
               {userRole && (
                 <span
-                  className={`inline-block text-[10px] px-2 py-0.5 rounded-full font-semibold mt-0.5 ${
-                    ROLE_BADGE[userRole] || 'bg-gray-100 text-gray-600'
-                  }`}
+                  className={`inline-block text-[10px] px-2 py-0.5 rounded-full font-semibold mt-0.5 ${ROLE_BADGE[userRole] || 'bg-gray-100 text-gray-600'
+                    }`}
                 >
                   {userRole}
                 </span>
@@ -268,7 +256,7 @@ export default function Sidebar() {
 
       {/* Desktop sidebar */}
       <aside className="hidden lg:flex fixed left-3 top-[84px] bottom-3 w-64 z-40">
-        <div className="w-full h-full bg-white backdrop-blur-xl rounded-2xl shadow-[0_8px_40px_rgba(0,0,0,0.18)] border border-white flex flex-col overflow-hidden">
+        <div className="w-full h-full bg-white/80 backdrop-blur-xl rounded-2xl shadow-glass border border-white/60 flex flex-col overflow-hidden">
           {sidebarContent}
         </div>
       </aside>

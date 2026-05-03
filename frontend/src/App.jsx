@@ -9,12 +9,10 @@ import LandingPage from './pages/LandingPage'
 import DataUploadPage from './pages/DataUploadPage'
 import AnalysisPage from './pages/AnalysisPage'
 import RandomForestPage from './pages/RandomForestPage'
+import HMMPage from './pages/HMMPage'
+import XGBoostPage from './pages/XGBoostPage'
 import ThresholdPage from './pages/ThresholdPage'
-import DecisionSupportPage from './pages/DecisionSupportPage'
-import ForecastOverviewPage from './pages/ForecastOverviewPage'
 import ForecastThresholdPage from './pages/ForecastThresholdPage'
-import RetreatVulnerabilityPage from './pages/RetreatVulnerabilityPage'
-import HindcastValidationPage from './pages/HindcastValidationPage'
 import HMMAnalysisPage from './pages/HMMAnalysisPage'
 import RegimeProfilesPage from './pages/RegimeProfilesPage'
 import SeasonalAnalysisPage from './pages/SeasonalAnalysisPage'
@@ -33,6 +31,7 @@ import MorphRunPage from './pages/morphological/MorphRunPage'
 import { MorphDataProvider } from './context/MorphDataContext'
 import ProtectedRoute from './components/auth/ProtectedRoute'
 import { useAuth } from './context/AuthContext'
+import LTLayout from './components/layout/LTLayout'
 
 /* Pages that only show the top header (no sidebar) */
 const HEADER_ONLY_PATHS = [
@@ -41,7 +40,6 @@ const HEADER_ONLY_PATHS = [
   '/regime-profiles',
   '/seasonal-analysis',
   '/short-term',
-  '/long-term',
 ]
 
 function App() {
@@ -58,6 +56,7 @@ function App() {
 
   const isHeaderOnlyPage = HEADER_ONLY_PATHS.includes(location.pathname)
   const isMorphPage = location.pathname.startsWith('/morphological')
+  const isLTPage = location.pathname.startsWith('/long-term')
 
   /* ── Public pages (no navbar, no sidebar) ── */
   if (isPublicPage) {
@@ -79,60 +78,43 @@ function App() {
         <main className="flex-1">
           <AnimatePresence mode="wait">
             <Routes>
-              <Route
-                path="/"
-                element={
-                  <ProtectedRoute>
-                    <HomePage />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/hmm-analysis"
-                element={
-                  <ProtectedRoute>
-                    <HMMAnalysisPage />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/regime-profiles"
-                element={
-                  <ProtectedRoute>
-                    <RegimeProfilesPage />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/seasonal-analysis"
-                element={
-                  <ProtectedRoute>
-                    <SeasonalAnalysisPage />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/short-term"
-                element={
-                  <ProtectedRoute>
-                    <ShortTermForecastPage />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/long-term"
-                element={
-                  <ProtectedRoute>
-                    <LongTermForecastPage />
-                  </ProtectedRoute>
-                }
-              />
-
+              <Route path="/" element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
+              <Route path="/hmm-analysis" element={<ProtectedRoute><HMMAnalysisPage /></ProtectedRoute>} />
+              <Route path="/regime-profiles" element={<ProtectedRoute><RegimeProfilesPage /></ProtectedRoute>} />
+              <Route path="/seasonal-analysis" element={<ProtectedRoute><SeasonalAnalysisPage /></ProtectedRoute>} />
+              <Route path="/short-term" element={<ProtectedRoute><ShortTermForecastPage /></ProtectedRoute>} />
             </Routes>
           </AnimatePresence>
         </main>
         <ChatWidget />
       </div>
+    )
+  }
+
+  /* ── Long-Term Forecasting pages (navbar + LT sidebar) ── */
+  if (isLTPage) {
+    // Extract the tab ID from the URL (e.g., /long-term/segments -> segments)
+    // Default to 'overview' if just at /long-term
+    const pathParts = location.pathname.split('/')
+    let ltTab = pathParts[2] || 'overview'
+    // Map URL words to actual tab IDs
+    if (!['overview', 'visualizations', 'segments', 'downloads', 'coastal'].includes(ltTab)) {
+      ltTab = 'overview'
+    }
+
+    return (
+      <>
+        <LTLayout>
+          <AnimatePresence mode="wait">
+            <Routes>
+              {/* Catch-all for long-term routes */}
+              <Route path="/long-term" element={<ProtectedRoute><LongTermForecastPage activeTab={ltTab} /></ProtectedRoute>} />
+              <Route path="/long-term/*" element={<ProtectedRoute><LongTermForecastPage activeTab={ltTab} /></ProtectedRoute>} />
+            </Routes>
+          </AnimatePresence>
+        </LTLayout>
+        <ChatWidget />
+      </>
     )
   }
 
@@ -199,14 +181,6 @@ function App() {
               }
             />
             <Route
-              path="/decision-support"
-              element={
-                <ProtectedRoute>
-                  <DecisionSupportPage />
-                </ProtectedRoute>
-              }
-            />
-            <Route
               path="/models/random-forest"
               element={
                 <ProtectedRoute>
@@ -215,34 +189,26 @@ function App() {
               }
             />
             <Route
-              path="/forecast"
+              path="/models/hmm"
               element={
                 <ProtectedRoute>
-                  <ForecastOverviewPage />
+                  <HMMPage />
                 </ProtectedRoute>
               }
             />
             <Route
-              path="/forecast/thresholds"
+              path="/models/xgboost"
+              element={
+                <ProtectedRoute>
+                  <XGBoostPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/forecast-thresholds"
               element={
                 <ProtectedRoute>
                   <ForecastThresholdPage />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/forecast/retreat"
-              element={
-                <ProtectedRoute>
-                  <RetreatVulnerabilityPage />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/forecast/hindcast"
-              element={
-                <ProtectedRoute>
-                  <HindcastValidationPage />
                 </ProtectedRoute>
               }
             />

@@ -1,12 +1,15 @@
 import { useState, useEffect, useCallback } from 'react'
+import { motion } from 'framer-motion'
 import {
   TrendingUp, Map, BarChart2, Download, FileText,
   ChevronDown, AlertTriangle, CheckCircle, RefreshCw,
   Calendar, Layers, ArrowUpRight, ArrowDownRight,
   Play, Loader2,
 } from 'lucide-react'
+import CoastalMonitoringTab from './CoastalMonitoringTab'
+import './longterm.css'
 
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+const API_BASE = import.meta.env.VITE_API_URL || ''
 
 const MODELS = [
   { id: 'Ensemble', label: 'Ensemble (Recommended)', desc: 'Average of all models — most robust' },
@@ -14,15 +17,41 @@ const MODELS = [
   { id: 'WeightedLR', label: 'Weighted Linear', desc: 'Emphasizes recent trends' },
   { id: 'Polynomial_2', label: 'Polynomial (deg 2)', desc: 'Captures acceleration / deceleration' },
   { id: 'Ridge', label: 'Ridge Regression', desc: 'Regularized to prevent overfitting' },
+  { id: 'RandomForest', label: 'Random Forest', desc: 'Non-linear ensemble of decision trees' },
+  { id: 'XGBoost', label: 'XGBoost', desc: 'Gradient-boosted trees — captures complex patterns' },
 ]
 
-export default function LTDashboard() {
+export default function LTDashboard({ activeTab = 'overview' }) {
   const [years, setYears] = useState([])
   const [selectedYear, setSelectedYear] = useState(null)
   const [results, setResults] = useState(null)
   const [loading, setLoading] = useState(false)
+
+  // Apply full-viewport coastal background image only on Overview tab
+  useEffect(() => {
+    if (activeTab === 'overview') {
+      document.body.classList.add('lt-page-active')
+      document.body.style.setProperty('background-image', "url('/coastal-bg.png')", 'important')
+      document.body.style.setProperty('background-size', 'cover', 'important')
+      document.body.style.setProperty('background-position', 'center center', 'important')
+      document.body.style.setProperty('background-attachment', 'fixed', 'important')
+    } else {
+      document.body.classList.remove('lt-page-active')
+      document.body.style.removeProperty('background-image')
+      document.body.style.removeProperty('background-size')
+      document.body.style.removeProperty('background-position')
+      document.body.style.removeProperty('background-attachment')
+    }
+    return () => {
+      document.body.classList.remove('lt-page-active')
+      document.body.style.removeProperty('background-image')
+      document.body.style.removeProperty('background-size')
+      document.body.style.removeProperty('background-position')
+      document.body.style.removeProperty('background-attachment')
+    }
+  }, [activeTab])
+
   const [error, setError] = useState('')
-  const [activeTab, setActiveTab] = useState('overview')
 
   // Run forecast state
   const [showRunPanel, setShowRunPanel] = useState(false)
@@ -39,7 +68,7 @@ export default function LTDashboard() {
         setYears(d.years || [])
         if (d.years?.length > 0) setSelectedYear(d.years[0])
       })
-      .catch(() => {})
+      .catch(() => { })
   }, [])
 
   // Load results when year changes
@@ -85,23 +114,40 @@ export default function LTDashboard() {
   const segments = results?.segments
   const files = results?.files
 
-  const tabs = [
-    { id: 'overview', label: 'Overview', icon: <BarChart2 size={15} /> },
-    { id: 'visualizations', label: 'Visualizations', icon: <TrendingUp size={15} /> },
-    { id: 'segments', label: 'Segment Analysis', icon: <Layers size={15} /> },
-    { id: 'downloads', label: 'Downloads', icon: <Download size={15} /> },
-  ]
-
   return (
     <div className="lt-root">
       {/* ── Header ── */}
       <header className="lt-header">
         <div className="lt-header-top">
           <div className="lt-header-left">
-            <h1 className="lt-title">Long-Term Shoreline Forecasting</h1>
-            <p className="lt-subtitle">
-              Linear regression-based coastal erosion prediction using historical KML transect data
-            </p>
+            <motion.div
+              className="flex items-center gap-3 mb-4"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1, duration: 0.5 }}
+            >
+              <img
+                src="/logo_coastal.png"
+                alt="Coast Conservation & Coastal Resource Management Department"
+                className="h-12 max-w-[280px] object-contain"
+              />
+            </motion.div>
+            <motion.h1
+              className="lt-title"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 0.5 }}
+            >
+              <span className="lt-title-accent">Long-Term</span> Shoreline Forecasting
+            </motion.h1>
+            <motion.p
+              className="lt-subtitle"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.5 }}
+            >
+              AI-powered coastal erosion threshold detection framework for advanced research analysis.
+            </motion.p>
           </div>
           <div className="lt-header-actions">
             {years.length > 0 && (
@@ -189,8 +235,17 @@ export default function LTDashboard() {
         </div>
       )}
 
-      {/* ── Results ── */}
-      {!loading && !error && results && (
+
+
+      {/* ── Coastal Map tab (always available) ── */}
+      {activeTab === 'coastal' && (
+        <div className="lt-body">
+          <CoastalMonitoringTab />
+        </div>
+      )}
+
+      {/* ── Results (other tabs) ── */}
+      {!loading && !error && results && activeTab !== 'coastal' && (
         <>
           {/* Summary Cards */}
           {summary && (
@@ -226,26 +281,13 @@ export default function LTDashboard() {
             </div>
           )}
 
-          {/* Tabs */}
-          <div className="lt-tabs">
-            {tabs.map(t => (
-              <button
-                key={t.id}
-                className={`lt-tab ${activeTab === t.id ? 'active' : ''}`}
-                onClick={() => setActiveTab(t.id)}
-              >
-                {t.icon}{t.label}
-              </button>
-            ))}
-          </div>
-
           {/* Tab Content */}
           <div className="lt-body">
             {activeTab === 'overview' && (
               <OverviewTab summary={summary} segments={segments} year={selectedYear} />
             )}
             {activeTab === 'visualizations' && (
-              <VisualizationsTab year={selectedYear} files={files} imgUrl={imgUrl} />
+              <VisualizationsTab year={selectedYear} files={files} imgUrl={imgUrl} segments={segments} />
             )}
             {activeTab === 'segments' && (
               <SegmentsTab segments={segments} />
@@ -290,12 +332,22 @@ function OverviewTab({ summary, segments, year }) {
   return (
     <div className="lt-overview">
       <div className="lt-overview-grid">
-        <div className="lt-overview-card">
+        <motion.div
+          className="lt-overview-card"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1, duration: 0.5 }}
+        >
           <h3><Calendar size={16} /> Forecast Period</h3>
           <p className="lt-overview-big">{summary.baselineDate} → {year}</p>
           <p className="lt-overview-detail">Model: <strong>{summary.model}</strong></p>
-        </div>
-        <div className="lt-overview-card">
+        </motion.div>
+        <motion.div
+          className="lt-overview-card"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, duration: 0.5 }}
+        >
           <h3><AlertTriangle size={16} /> Highest Erosion</h3>
           {maxErosion ? (
             <>
@@ -303,8 +355,13 @@ function OverviewTab({ summary, segments, year }) {
               <p className="lt-overview-detail">Segment {maxErosion.segment} ({maxErosion.areaM2.toFixed(1)} m²)</p>
             </>
           ) : <p className="lt-overview-detail">No erosion segments</p>}
-        </div>
-        <div className="lt-overview-card">
+        </motion.div>
+        <motion.div
+          className="lt-overview-card"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3, duration: 0.5 }}
+        >
           <h3><CheckCircle size={16} /> Highest Accretion</h3>
           {maxAccretion ? (
             <>
@@ -312,10 +369,27 @@ function OverviewTab({ summary, segments, year }) {
               <p className="lt-overview-detail">Segment {maxAccretion.segment} ({maxAccretion.areaM2.toFixed(1)} m²)</p>
             </>
           ) : <p className="lt-overview-detail">No accretion segments</p>}
-        </div>
+        </motion.div>
       </div>
 
-      {/* Mini bar chart of segments */}
+    </div>
+  )
+}
+
+function VisualizationsTab({ year, files, imgUrl, segments }) {
+  const [lightbox, setLightbox] = useState(null)
+
+  const images = [
+    { key: 'trendPlot', file: `trend_forecast_${year}.png`, title: 'Trend Forecast', desc: 'Historical average shoreline distance with forecast projection, confidence ranges, and trend lines.' },
+    { key: 'mapPlot', file: `map_forecast_${year}.png`, title: 'Shoreline Map', desc: 'Spatial overlay of the latest observed shoreline vs. forecasted shoreline position.' },
+    { key: 'landChangePlot', file: `land_change_${year}.png`, title: 'Land Change Analysis', desc: '4-panel visualization: bar chart, pie chart, cumulative change, and spatial map of erosion/accretion zones.' },
+  ]
+
+  const available = images.filter(img => files?.[img.key])
+
+  return (
+    <div className="lt-viz">
+      {/* Shoreline Shift bar chart */}
       {segments && segments.length > 0 && (
         <div className="lt-bar-chart-card">
           <h3>Shoreline Shift per Segment (m)</h3>
@@ -342,23 +416,7 @@ function OverviewTab({ summary, segments, year }) {
           </div>
         </div>
       )}
-    </div>
-  )
-}
 
-function VisualizationsTab({ year, files, imgUrl }) {
-  const [lightbox, setLightbox] = useState(null)
-
-  const images = [
-    { key: 'trendPlot', file: `trend_forecast_${year}.png`, title: 'Trend Forecast', desc: 'Historical average shoreline distance with forecast projection, confidence ranges, and trend lines.' },
-    { key: 'mapPlot', file: `map_forecast_${year}.png`, title: 'Shoreline Map', desc: 'Spatial overlay of the latest observed shoreline vs. forecasted shoreline position.' },
-    { key: 'landChangePlot', file: `land_change_${year}.png`, title: 'Land Change Analysis', desc: '4-panel visualization: bar chart, pie chart, cumulative change, and spatial map of erosion/accretion zones.' },
-  ]
-
-  const available = images.filter(img => files?.[img.key])
-
-  return (
-    <div className="lt-viz">
       {lightbox && (
         <div className="lt-lightbox" onClick={() => setLightbox(null)}>
           <img src={lightbox} alt="Full view" onClick={e => e.stopPropagation()} />
