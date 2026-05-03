@@ -1,0 +1,6 @@
+Best Model: RandomForest
+Accuracy (±5m): 58.28%
+Accuracy (±10m): 87.73%
+R2: 0.8507
+RMSE: 6.21 meters
+MAE: 4.92 meters
