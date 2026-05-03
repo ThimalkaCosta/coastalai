@@ -49,22 +49,6 @@ export default function MorphErosionPage() {
       </header>
 
       <div className="mt-section">
-        {/* Stats row */}
-        <div className="mt-cards-grid mt-cards-3">
-          <div className="mt-card mt-card-highlight">
-            <div className="mt-card-label">Erosion Transition Prob.</div>
-            <div className="mt-card-value">{pct(hmm.erosionTransitionProb)}</div>
-          </div>
-          <div className="mt-card">
-            <div className="mt-card-label">Erosion-Dominant State</div>
-            <div className="mt-card-value">State {hmm.erosionState}</div>
-          </div>
-          <div className="mt-card">
-            <div className="mt-card-label">Cycles Analysed</div>
-            <div className="mt-card-value">{hmm.totalCycles} <span className="mt-dim">({hmm.erosionCycles} erosion)</span></div>
-          </div>
-        </div>
-
         {/* Threshold comparison */}
         <div className="mt-panel">
           <h3 className="mt-panel-title">Current vs Erosion Threshold</h3>

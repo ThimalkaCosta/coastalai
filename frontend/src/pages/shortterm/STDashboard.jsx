@@ -225,7 +225,7 @@ function LeafletKmlMap({ kmlUrl, filename, onDownload, mapId }) {
       <div className="rp-kml-viewer-header">
         <div className="rp-kml-viewer-title">
           <Map size={16} />
-          <span>{isWow ? 'WOW Risk Map — Live Preview' : isForecast ? 'Forecast Shoreline — Live Preview' : filename}</span>
+          <span>{isWow ? 'Risk Map — Live Preview' : isForecast ? 'Forecast Shoreline — Live Preview' : filename}</span>
           {isWow && <span className="rp-kml-badge risk">RISK ZONES</span>}
           {isForecast && <span className="rp-kml-badge forecast">FORECAST</span>}
         </div>
