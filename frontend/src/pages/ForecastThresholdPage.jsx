@@ -18,6 +18,7 @@ import {
 import {
   AreaChart, Area, Line, XAxis, YAxis, CartesianGrid,
   Tooltip, ResponsiveContainer, ReferenceLine, BarChart, Bar, Cell,
+  ComposedChart, Scatter,
 } from 'recharts'
 import PageTransition from '../components/common/PageTransition'
 import Tabs from '../components/common/Tabs'
@@ -197,6 +198,9 @@ export default function ForecastThresholdPage() {
   const variables = forecasts?.variables || {}
   const varKeys = Object.keys(variables)
 
+  // Five-class forecasts
+  const fiveClassForecasts = data?.fiveClassForecasts || null
+
   // ── Compute summary stats for selected horizon ──
   const summaryCards = useMemo(() => {
     if (!varKeys.length) return []
@@ -229,6 +233,7 @@ export default function ForecastThresholdPage() {
     { id: 'overview', label: 'Overview' },
     { id: 'details', label: 'Variable Details' },
     { id: 'validation', label: 'Model Validation' },
+    ...(fiveClassForecasts ? [{ id: 'trajectories', label: 'Threshold Trajectories' }] : []),
   ]
 
   const noData = !forecasts || varKeys.length === 0
@@ -877,6 +882,15 @@ export default function ForecastThresholdPage() {
                         </motion.div>
                       )}
                     </AnimatePresence>
+
+                    {/* ===================== TRAJECTORIES TAB ===================== */}
+                    <AnimatePresence mode="wait">
+                      {activeTab === 'trajectories' && fiveClassForecasts && (
+                        <motion.div key="trajectories" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }}>
+                          <ThresholdTrajectoryPanel fiveClassForecasts={fiveClassForecasts} />
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
                 </motion.div>
               </div>
@@ -885,5 +899,200 @@ export default function ForecastThresholdPage() {
         )}
       </div>
     </PageTransition>
+  )
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// THRESHOLD TRAJECTORY PANEL
+// ═══════════════════════════════════════════════════════════════════════════
+
+const BOUNDARY_COLORS = {
+  severe_erosion:   '#dc2626',
+  erosion_onset:    '#f97316',
+  accretion_onset:  '#22c55e',
+  strong_accretion: '#0ea5e9',
+}
+const BOUNDARY_LABELS = {
+  severe_erosion:   'Severe Erosion',
+  erosion_onset:    'Erosion Onset',
+  accretion_onset:  'Accretion Onset',
+  strong_accretion: 'Strong Accretion',
+}
+const HORIZON_COLORS = { H6: '#7c3aed', H12: '#0284c7', H18: '#0891b2', H24: '#059669' }
+
+function TrendBadge({ trend, mkTau, mkP }) {
+  if (!trend) return null
+  const cfg = trend === 'increasing'
+    ? { icon: ArrowUpRight, cls: 'bg-red-100 text-red-700', label: 'Rising' }
+    : trend === 'decreasing'
+    ? { icon: ArrowDownRight, cls: 'bg-green-100 text-green-700', label: 'Falling' }
+    : { icon: Minus, cls: 'bg-gray-100 text-gray-600', label: 'Stable' }
+  const Icon = cfg.icon
+  const sig = mkP != null && mkP < 0.05
+  return (
+    <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold ${cfg.cls}`}>
+      <Icon className="w-3 h-3" />
+      {cfg.label}
+      {mkP != null && <span className="opacity-70">p={Number(mkP).toFixed(2)}{sig ? '*' : ''}</span>}
+    </span>
+  )
+}
+
+function BoundaryTrajectoryCard({ featureKey, boundaryKey, boundaryData, forecastAnchor }) {
+  const history = (boundaryData.history || []).map(h => ({
+    year: h.year, threshold: h.threshold, type: 'history',
+  }))
+  const anchorYear = forecastAnchor ? parseInt(forecastAnchor.split('-')[0]) + (parseInt(forecastAnchor.split('-')[1]) - 1) / 12 : null
+  const horizonPoints = Object.entries(boundaryData.horizons || {}).map(([h, v]) => ({
+    label: h,
+    estimate: v.estimate,
+    low95: v.low95,
+    high95: v.high95,
+    targetDate: v.targetDate,
+    year: v.targetDate ? parseInt(v.targetDate.split('-')[0]) + (parseInt(v.targetDate.split('-')[1]) - 1) / 12 : null,
+  }))
+
+  const allVals = [...history.map(h => h.threshold), ...horizonPoints.map(p => p.estimate)].filter(v => v != null && isFinite(v))
+  const minY = allVals.length ? Math.min(...allVals) * 0.92 : 0
+  const maxY = allVals.length ? Math.max(...allVals) * 1.08 : 1
+
+  const color = BOUNDARY_COLORS[boundaryKey] || '#6b7280'
+
+  return (
+    <div className="rounded-xl border border-gray-200 bg-white overflow-hidden shadow-sm">
+      <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
+        <div>
+          <p className="text-xs font-semibold text-gray-700">{BOUNDARY_LABELS[boundaryKey] || boundaryKey}</p>
+          <p className="text-[10px] text-gray-400 font-mono">{featureKey}</p>
+        </div>
+        <TrendBadge trend={boundaryData.trend} mkTau={boundaryData.mkTau} mkP={boundaryData.mkPValue} />
+      </div>
+
+      {/* Chart */}
+      <div className="h-36 px-2 pt-2">
+        <ResponsiveContainer width="100%" height="100%">
+          <ComposedChart data={history} margin={{ top: 4, right: 6, bottom: 4, left: 0 }}>
+            <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
+            <XAxis dataKey="year" tickFormatter={v => Math.floor(v)} tick={{ fontSize: 9 }} />
+            <YAxis domain={[minY, maxY]} tick={{ fontSize: 9 }} tickFormatter={v => v.toFixed(2)} width={42} />
+            <Tooltip
+              formatter={(v, name) => [v != null ? Number(v).toFixed(3) : '--', name]}
+              contentStyle={{ fontSize: 10, padding: '4px 8px' }}
+            />
+            {anchorYear && (
+              <ReferenceLine x={anchorYear} stroke="#6b7280" strokeDasharray="4 4" label={{ value: 'Now', fontSize: 8, fill: '#6b7280' }} />
+            )}
+            <Line type="monotone" dataKey="threshold" stroke={color} strokeWidth={2} dot={{ r: 3, fill: color }} name="Historical" connectNulls />
+            {/* Horizon forecast points */}
+            {horizonPoints.map(hp => (
+              hp.year != null && hp.estimate != null ? (
+                <ReferenceLine key={hp.label} x={hp.year} stroke={HORIZON_COLORS[hp.label] || '#888'}
+                  strokeDasharray="2 3" strokeWidth={1.5}
+                  label={{ value: `${hp.label}:${Number(hp.estimate).toFixed(2)}`, fontSize: 8, fill: HORIZON_COLORS[hp.label] || '#888', position: 'top' }} />
+              ) : null
+            ))}
+          </ComposedChart>
+        </ResponsiveContainer>
+      </div>
+
+      {/* Horizon cards */}
+      <div className="grid grid-cols-4 divide-x divide-gray-100 border-t border-gray-100">
+        {['H6', 'H12', 'H18', 'H24'].map(h => {
+          const hp = horizonPoints.find(p => p.label === h)
+          return (
+            <div key={h} className="px-2 py-2 text-center">
+              <p className="text-[9px] font-bold uppercase tracking-wider" style={{ color: HORIZON_COLORS[h] }}>{h}</p>
+              <p className="text-xs font-semibold font-mono text-gray-800 mt-0.5">
+                {hp?.estimate != null ? Number(hp.estimate).toFixed(3) : '--'}
+              </p>
+              {hp?.low95 != null && hp?.high95 != null && (
+                <p className="text-[9px] text-gray-400 font-mono leading-tight">
+                  [{Number(hp.low95).toFixed(2)}–{Number(hp.high95).toFixed(2)}]
+                </p>
+              )}
+              <p className="text-[9px] text-gray-400">{hp?.targetDate || ''}</p>
+            </div>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
+
+function ThresholdTrajectoryPanel({ fiveClassForecasts }) {
+  const features = fiveClassForecasts?.features || {}
+  const featureKeys = Object.keys(features).slice(0, 5)   // show top 5 drivers
+  const forecastAnchor = fiveClassForecasts?.forecastAnchor
+
+  if (!featureKeys.length) {
+    return (
+      <div className="card p-8 text-center text-gray-500">
+        <TrendingUp className="w-8 h-8 mx-auto mb-3 opacity-40" />
+        <p className="text-sm">No threshold trajectory data available yet.</p>
+        <p className="text-xs mt-1">Run the analysis notebook to generate threshold forecasts.</p>
+      </div>
+    )
+  }
+
+  return (
+    <div className="space-y-8 py-2">
+      {/* Header */}
+      <div className="flex items-start gap-3">
+        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-teal-500 to-cyan-600 flex items-center justify-center shadow-sm flex-shrink-0">
+          <TrendingUp className="w-4 h-4 text-white" />
+        </div>
+        <div>
+          <h3 className="font-display font-bold text-gray-900 text-base">Threshold Trajectory Forecasts</h3>
+          <p className="text-xs text-gray-500 mt-0.5">
+            Ensemble of TheilSen + Gaussian Process (Matérn) + HuberRegressor.
+            Mann-Kendall trend significance shown on each panel.
+            Anchor: {forecastAnchor || '—'}
+          </p>
+        </div>
+      </div>
+
+      {/* Method info pills */}
+      <div className="flex flex-wrap gap-2 text-[10px]">
+        {[
+          { label: 'TheilSen', desc: 'Median pairwise slopes — robust to outliers', color: 'bg-violet-100 text-violet-700' },
+          { label: 'GP Matérn', desc: 'Bayesian non-parametric — native CI', color: 'bg-blue-100 text-blue-700' },
+          { label: 'HuberRegressor', desc: 'Huber loss — downweights outlier years', color: 'bg-teal-100 text-teal-700' },
+          { label: 'Mann-Kendall', desc: 'Monotone trend significance test', color: 'bg-amber-100 text-amber-700' },
+        ].map(m => (
+          <span key={m.label} className={`px-2 py-1 rounded-full font-semibold ${m.color}`} title={m.desc}>{m.label}</span>
+        ))}
+        <span className="px-2 py-1 rounded-full bg-gray-100 text-gray-600">
+          * = p &lt; 0.05 significant trend
+        </span>
+      </div>
+
+      {/* Feature panels */}
+      {featureKeys.map(fk => {
+        const fd = features[fk]
+        const boundaries = fd?.boundaries || {}
+        const bKeys = Object.keys(boundaries).filter(b => Object.keys(boundaries[b]?.horizons || {}).length > 0)
+        if (!bKeys.length) return null
+        return (
+          <div key={fk}>
+            <div className="flex items-center gap-2 mb-3">
+              <Activity className="w-4 h-4 text-coastal-500" />
+              <h4 className="font-semibold text-sm text-gray-800">{fk}</h4>
+              <span className="text-xs text-gray-400">{fd.driver}</span>
+            </div>
+            <div className="grid sm:grid-cols-2 xl:grid-cols-2 gap-4">
+              {bKeys.map(bk => (
+                <BoundaryTrajectoryCard
+                  key={bk}
+                  featureKey={fk}
+                  boundaryKey={bk}
+                  boundaryData={boundaries[bk]}
+                  forecastAnchor={forecastAnchor}
+                />
+              ))}
+            </div>
+          </div>
+        )
+      })}
+    </div>
   )
 }

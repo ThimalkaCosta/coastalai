@@ -712,14 +712,29 @@ if os.path.isdir(_output_dir):
 results["figures"] = _figures
 results["csvOutputs"] = _csv_outputs
 
-# Re-write with figures and CSV data included
+# =====================================================================
+# 19. Merge five-class results (written by Section 3.5)
+# =====================================================================
+try:
+    _fc_path = os.path.join(os.getcwd(), 'outputs', 'five_class_results.json')
+    if os.path.exists(_fc_path):
+        with open(_fc_path) as _fcf:
+            _fc_data = json.load(_fcf)
+        results.update(_fc_data)
+        print(f"✓ Merged five-class results from {{_fc_path}}")
+    else:
+        print("Info: five_class_results.json not found — skipping merge")
+except Exception as _fce:
+    print(f"Warning: five-class merge failed: {{_fce}}")
+
+# Re-write with figures, CSVs, and five-class data included
 with open(_RESULTS_PATH, "w") as _f:
     json.dump(results, _f, indent=2, default=str)
 
 with open(os.path.join(_FRONTEND_PATH, "analysis_results.json"), "w") as _f:
     json.dump(results, _f, indent=2, default=str)
 
-print("✓ Final results with figures and CSVs saved")
+print("✓ Final results with figures, CSVs, and five-class data saved")
 
 '''
 

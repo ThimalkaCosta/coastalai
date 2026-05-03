@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useState, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
 import {
@@ -46,6 +46,8 @@ export default function ThresholdPage() {
   const thresholdData = useMemo(() => data?.thresholds || [], [data])
   const statisticalTests = useMemo(() => data?.statisticalTests || [], [data])
   const thresholdComparison = useMemo(() => data?.thresholdComparison || [], [data])
+  const fiveClassThresholds = useMemo(() => data?.fiveClassThresholds || [], [data])
+  const fiveClassRecognition = useMemo(() => data?.fiveClassRecognition || null, [data])
   const isLegacy = data?.isLegacyFormat
   const hasData = thresholdData.length > 0
 
@@ -394,7 +396,237 @@ export default function ThresholdPage() {
             )}
           </>
         )}
+
+        {/* ═══════════════════════════════════════════════════════════════════
+            FIVE-CLASS BOUNDARY RANGES
+            (Ordered Logit + KDE + BCa Bootstrap — always visible when available)
+            ═══════════════════════════════════════════════════════════════════ */}
+        {fiveClassThresholds.length > 0 && (
+          <FiveClassBoundarySection
+            thresholds={fiveClassThresholds}
+            recognition={fiveClassRecognition}
+          />
+        )}
       </div>
     </PageTransition>
+  )
+}
+
+// ── Five-Class Boundary Section ───────────────────────────────────────────────
+
+const BOUNDARY_CONFIG = [
+  { key: 'severe_erosion',    label: 'Severe Erosion',    color: '#dc2626', bg: 'bg-red-50',    border: 'border-red-200',    badge: 'bg-red-100 text-red-700' },
+  { key: 'erosion_onset',     label: 'Erosion Onset',     color: '#f97316', bg: 'bg-orange-50', border: 'border-orange-200', badge: 'bg-orange-100 text-orange-700' },
+  { key: 'accretion_onset',   label: 'Accretion Onset',   color: '#22c55e', bg: 'bg-green-50',  border: 'border-green-200',  badge: 'bg-green-100 text-green-700' },
+  { key: 'strong_accretion',  label: 'Strong Accretion',  color: '#0ea5e9', bg: 'bg-sky-50',    border: 'border-sky-200',    badge: 'bg-sky-100 text-sky-700' },
+]
+
+const CLASS_ORDER = ['eroded_high', 'eroded_low', 'stable', 'accreted_low', 'accreted_high']
+const CLASS_LABELS = {
+  eroded_high:   'Strongly Eroded',
+  eroded_low:    'Mildly Eroded',
+  stable:        'Stable',
+  accreted_low:  'Mildly Accreted',
+  accreted_high: 'Strongly Accreted',
+}
+const CLASS_COLORS = {
+  eroded_high:   '#dc2626',
+  eroded_low:    '#f97316',
+  stable:        '#6b7280',
+  accreted_low:  '#22c55e',
+  accreted_high: '#0ea5e9',
+}
+
+function jsdColor(jsd) {
+  if (jsd == null || isNaN(jsd)) return 'bg-gray-100 text-gray-500'
+  if (jsd >= 0.3) return 'bg-green-100 text-green-700'
+  if (jsd >= 0.1) return 'bg-amber-100 text-amber-700'
+  return 'bg-red-100 text-red-600'
+}
+
+function RangeBar({ estimate, low95, high95, unit, color }) {
+  if (estimate == null) return <span className="text-xs text-gray-400">—</span>
+  return (
+    <div className="flex items-center gap-2 text-xs font-mono">
+      <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: color }} />
+      <span className="font-semibold" style={{ color }}>{Number(estimate).toFixed(3)}</span>
+      {low95 != null && high95 != null && (
+        <span className="text-gray-400 text-[10px]">
+          [{Number(low95).toFixed(3)} – {Number(high95).toFixed(3)}]
+        </span>
+      )}
+      {unit && <span className="text-gray-400">{unit}</span>}
+    </div>
+  )
+}
+
+function FeatureRow({ item, defaultOpen }) {
+  const [open, setOpen] = useState(defaultOpen || false)
+  const DriverIcon = getDriverIcon(item.driver)
+  const methodBadge = item.method?.includes('logit') ? 'Ordered Logit + KDE'
+    : item.method?.includes('kde') ? 'KDE Crossing'
+    : 'Empirical'
+
+  return (
+    <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
+      className="border border-gray-200 rounded-xl overflow-hidden shadow-sm">
+      {/* Row header */}
+      <button
+        onClick={() => setOpen(o => !o)}
+        className="w-full flex items-center justify-between gap-3 px-4 py-3 bg-white hover:bg-coastal-50/50 transition-colors text-left"
+      >
+        <div className="flex items-center gap-3 min-w-0">
+          <div className="w-8 h-8 rounded-lg bg-coastal-100 flex items-center justify-center flex-shrink-0">
+            <DriverIcon className="w-4 h-4 text-coastal-600" />
+          </div>
+          <div className="min-w-0">
+            <p className="font-semibold text-sm text-gray-900 truncate">{item.feature}</p>
+            <p className="text-xs text-gray-500">{item.driver} · {item.direction === 'direct' ? 'Higher → erosion' : 'Lower → erosion'}</p>
+          </div>
+        </div>
+        <div className="flex items-center gap-2 flex-shrink-0">
+          <span className="hidden sm:inline-flex text-[10px] px-2 py-0.5 rounded bg-blue-100 text-blue-700 font-medium">{methodBadge}</span>
+          {item.spearmanRho != null && (
+            <span className="text-[10px] px-2 py-0.5 rounded bg-gray-100 text-gray-600 font-mono">
+              ρ={Number(item.spearmanRho).toFixed(2)}
+            </span>
+          )}
+          {open ? <ChevronUp className="w-4 h-4 text-gray-400" /> : <ChevronDown className="w-4 h-4 text-gray-400" />}
+        </div>
+      </button>
+
+      {/* Expanded content */}
+      {open && (
+        <div className="border-t border-gray-100 bg-gray-50/40 px-4 py-4 space-y-5">
+          {/* Boundaries grid */}
+          <div>
+            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Ordered Class Boundaries (Ensemble Estimate + 95% BCa CI)</p>
+            <div className="grid sm:grid-cols-2 xl:grid-cols-4 gap-3">
+              {BOUNDARY_CONFIG.map(bc => {
+                const b = item.boundaries?.[bc.key]
+                const jsd = item.jsd?.[bc.key]
+                return (
+                  <div key={bc.key} className={`rounded-lg border p-3 ${bc.bg} ${bc.border}`}>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className={`text-[10px] font-semibold px-2 py-0.5 rounded ${bc.badge}`}>{bc.label}</span>
+                      {jsd != null && !isNaN(jsd) && (
+                        <span className={`text-[10px] px-1.5 py-0.5 rounded font-mono ${jsdColor(jsd)}`} title="Jensen-Shannon Divergence">
+                          JSD {Number(jsd).toFixed(2)}
+                        </span>
+                      )}
+                    </div>
+                    <RangeBar
+                      estimate={b?.estimate}
+                      low95={b?.low95}
+                      high95={b?.high95}
+                      unit={item.unit}
+                      color={bc.color}
+                    />
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+
+          {/* Class bands */}
+          {item.classBands && (
+            <div>
+              <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Historical Class Ranges (Q25 – Median – Q75)</p>
+              <div className="space-y-2">
+                {CLASS_ORDER.map(cl => {
+                  const b = item.classBands?.[cl]
+                  if (!b || b.count === 0) return null
+                  return (
+                    <div key={cl} className="flex items-center gap-3 text-xs">
+                      <span className="w-28 text-right font-medium text-gray-700 flex-shrink-0">{CLASS_LABELS[cl]}</span>
+                      <span className="text-gray-400 font-mono text-[10px]">n={b.count}</span>
+                      <div className="flex-1 flex items-center gap-1">
+                        <span className="font-mono text-[10px] text-gray-500">{b.q25 != null ? Number(b.q25).toFixed(3) : '--'}</span>
+                        <div className="flex-1 h-2 rounded-full bg-gray-200 overflow-hidden">
+                          <div className="h-full rounded-full opacity-70" style={{ backgroundColor: CLASS_COLORS[cl], width: '70%' }} />
+                        </div>
+                        <span className="font-mono text-[10px] text-gray-500">{b.q75 != null ? Number(b.q75).toFixed(3) : '--'}</span>
+                      </div>
+                      <span className="font-semibold font-mono text-[10px] w-16 text-center" style={{ color: CLASS_COLORS[cl] }}>
+                        med {b.median != null ? Number(b.median).toFixed(3) : '--'}
+                      </span>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+    </motion.div>
+  )
+}
+
+function FiveClassBoundarySection({ thresholds, recognition }) {
+  const [expandAll, setExpandAll] = useState(false)
+  const toggleAll = useCallback(() => setExpandAll(e => !e), [])
+
+  const skillItems = recognition ? [
+    { label: 'Balanced Accuracy', value: recognition.balancedAccuracy != null ? `${(recognition.balancedAccuracy * 100).toFixed(1)}%` : '--' },
+    { label: 'Macro F1', value: recognition.macroF1 != null ? Number(recognition.macroF1).toFixed(3) : '--' },
+    { label: 'ROC AUC (OvR)', value: recognition.rocAucOvr != null ? Number(recognition.rocAucOvr).toFixed(3) : '--' },
+    { label: 'Features Used', value: recognition.selectedFeatures?.length ?? '--' },
+  ] : []
+
+  return (
+    <section className="pb-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Section header */}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
+          className="mb-6">
+          <div className="flex items-start justify-between gap-4 flex-wrap">
+            <div>
+              <div className="flex items-center gap-2 mb-2">
+                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-teal-500 to-cyan-600 flex items-center justify-center shadow-sm">
+                  <Target className="w-4 h-4 text-white" />
+                </div>
+                <h2 className="text-xl font-display font-bold text-gray-900">Five-Class Ordered Boundary Ranges</h2>
+              </div>
+              <p className="text-sm text-gray-600 max-w-2xl">
+                Ordered logistic regression + KDE crossing ensemble. Boundaries separate five shoreline change classes.
+                Uncertainty shown as 95% BCa bootstrap confidence intervals. JSD = Jensen-Shannon Divergence (class separability).
+              </p>
+            </div>
+            <button onClick={toggleAll}
+              className="text-xs px-3 py-1.5 rounded-lg border border-gray-200 text-gray-600 hover:bg-gray-50 transition-colors flex-shrink-0">
+              {expandAll ? 'Collapse all' : 'Expand all'}
+            </button>
+          </div>
+        </motion.div>
+
+        {/* Recognition skill pills */}
+        {skillItems.length > 0 && (
+          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}
+            className="flex flex-wrap gap-3 mb-6">
+            {skillItems.map(si => (
+              <div key={si.label} className="flex items-center gap-2 bg-white border border-gray-200 rounded-full px-3 py-1.5 shadow-xs">
+                <span className="text-xs text-gray-500">{si.label}</span>
+                <span className="text-xs font-semibold text-teal-700">{si.value}</span>
+              </div>
+            ))}
+            <div className="flex items-center gap-2 bg-white border border-gray-200 rounded-full px-3 py-1.5 shadow-xs">
+              <span className="w-2 h-2 rounded-full bg-green-400" />
+              <span className="text-xs text-gray-500">JSD ≥ 0.3 = well separated</span>
+              <span className="w-2 h-2 rounded-full bg-amber-400 ml-1" />
+              <span className="text-xs text-gray-500">0.1–0.3 = moderate</span>
+              <span className="w-2 h-2 rounded-full bg-red-400 ml-1" />
+              <span className="text-xs text-gray-500">&lt; 0.1 = overlapping</span>
+            </div>
+          </motion.div>
+        )}
+
+        {/* Feature rows */}
+        <div className="space-y-3">
+          {thresholds.map((item, i) => (
+            <FeatureRow key={item.feature} item={item} defaultOpen={expandAll || i < 2} />
+          ))}
+        </div>
+      </div>
+    </section>
   )
 }

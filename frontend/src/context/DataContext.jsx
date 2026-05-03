@@ -328,6 +328,10 @@ function normaliseAnalysisData(analysisData) {
     modelComparison: analysisData.modelComparison || [],
     yearlyShoreline: analysisData.yearlyShoreline || [],
     isLegacyFormat: isLegacy,
+    // Five-class pattern recognition, threshold ranges, and threshold forecasts
+    fiveClassRecognition: analysisData.fiveClassRecognition || null,
+    fiveClassThresholds: analysisData.fiveClassThresholds || [],
+    fiveClassForecasts: analysisData.fiveClassForecasts || null,
   }
 }
 
@@ -372,6 +376,9 @@ export function DataProvider({ children }) {
     modelComparison: [],
     yearlyShoreline: [],
     isLegacyFormat: false,
+    fiveClassRecognition: null,
+    fiveClassThresholds: [],
+    fiveClassForecasts: null,
   })
 
   // Raw (un-normalised) analysis data – used by NotebookResultsView
