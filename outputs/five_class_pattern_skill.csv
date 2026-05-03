@@ -1,0 +1,13 @@
+monsoon_year,actual_code,predicted_code,actual_class,predicted_class,correct,top_probability
+2012,1,1,eroded_low,eroded_low,True,0.6202226412054426
+2013,0,3,eroded_high,accreted_low,False,0.557937026924977
+2014,3,3,accreted_low,accreted_low,True,0.5717348970583316
+2015,1,1,eroded_low,eroded_low,True,0.733474977208511
+2016,3,3,accreted_low,accreted_low,True,0.675321805569074
+2017,3,3,accreted_low,accreted_low,True,0.6136773638687165
+2018,1,1,eroded_low,eroded_low,True,0.4532381642170923
+2019,1,1,eroded_low,eroded_low,True,0.5906893877386219
+2020,2,2,stable,stable,True,0.3923468991743347
+2021,2,2,stable,stable,True,0.7448916205990614
+2022,2,2,stable,stable,True,0.6951120524025447
+2023,0,1,eroded_high,eroded_low,False,0.9186538134086909
