@@ -1,6 +1,0 @@
-Driver,Unit,GMM_Threshold,RF_Threshold,Erosion_Threshold_Lower,Erosion_Threshold_Upper,Model_Consensus,Physical_Interpretation
-Hm0_max,m,1.628,1.805,1.628,1.805,High,Wave energy exceeds sediment resistance
-UcurrMax,m/s,0.287,0.248,0.248,0.287,Low,Offshore sediment transport intensifies
-WindMax,m/s,4.032,4.413,4.032,4.413,Medium,Wave generation and surge enhancement
-CumCurrent,m/day,4.079,5.319,4.079,5.319,Low,Sustained sediment flux offshore
-StormDays_wave,days,7.392,9.5,7.392,9.5,Medium,Prolonged high-energy exposure

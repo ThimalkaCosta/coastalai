@@ -1,9 +1,0 @@
-Driver,Unit,Description,Direction,HMM_Threshold,RF_Threshold,XGB_Threshold,Consensus_Threshold,Erosion_Threshold_Lower,Erosion_Threshold_Upper,Model_Consensus
-Hm0_max,m,Maximum significant wave height,≥,1.8771,2.455,1.93,2.1265,1.69,2.7075,Strong
-Hm0_mean,m,Mean significant wave height,≥,1.0102,0.7895,1.0152,0.9291,0.7397,1.3749,Moderate
-CumWaveEnergy,m²·s,Cumulative wave energy proxy,≥,3450.9203,4056.0627,3224.1317,3554.2707,1857.0243,9437.9842,Moderate
-StormDays_wave,days,Storm wave days (Hm0 > 2 m),≥,6.5731,11.75,5.0,7.6625,4.5365,25.75,Moderate
-WindMax,m/s,Maximum wind speed,≤,4.3889,3.865,3.96,3.9498,3.015,4.91,Strong
-UcurrMax,m/s,Maximum ocean current speed,≥,0.3607,0.3297,0.3313,0.3325,0.2494,0.3788,Strong
-UcurrMean,m/s,Mean ocean current speed,≤,0.1646,0.1592,0.1403,0.1489,0.1276,0.201,Strong
-CumCurrent,m,Cumulative current transport,≤,5.0426,3.6787,4.9342,4.4633,3.2301,5.0543,Moderate
