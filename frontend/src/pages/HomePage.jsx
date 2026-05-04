@@ -526,8 +526,8 @@ export default function HomePage() {
               Ready to Protect the Coast?
             </h2>
             <p className="text-xl text-ocean-100 mb-10 max-w-2xl mx-auto">
-              Dive into the full dashboard to view detailed erosion analysis, upload your datasets,
-              run AI models, and explore threshold detection results across Sri Lanka's coastline.
+              Open the dashboard to review erosion indicators,
+              run model insights, and explore threshold detection results across Sri Lanka's coastline.
             </p>
 
             <div className="flex flex-col sm:flex-row justify-center gap-4">
@@ -540,11 +540,11 @@ export default function HomePage() {
                 <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
               </Link>
               <Link
-                to="/upload"
+                to="/morphological"
                 className="inline-flex items-center justify-center gap-2 px-10 py-5 border-2 border-white/30 text-white font-bold rounded-2xl hover:bg-white/10 transition-all duration-300 text-lg active:scale-[0.98]"
               >
                 <Upload className="w-5 h-5" />
-                Upload Data
+                Open Morphology
               </Link>
             </div>
           </motion.div>

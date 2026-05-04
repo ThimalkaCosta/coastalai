@@ -96,7 +96,7 @@ export default function ThresholdPage() {
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: 0.3 }}
                   disabled={clearing}
-                  onClick={async () => { setClearing(true); await clearAnalysis(); setClearing(false); navigate('/upload') }}
+                  onClick={async () => { setClearing(true); await clearAnalysis(); setClearing(false); navigate('/dashboard') }}
                   className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium text-red-600 bg-red-50 border border-red-200 hover:bg-red-100 transition-colors flex-shrink-0 mt-2 disabled:opacity-50"
                 >
                   <Trash2 className="w-4 h-4" />

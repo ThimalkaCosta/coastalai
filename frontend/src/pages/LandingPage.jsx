@@ -169,12 +169,12 @@ export default function LandingPage() {
                 transition={{ delay: 0.4 }}
                 className="flex flex-wrap gap-3"
               >
-                <Link to="/upload" className="inline-flex items-center gap-2 px-7 py-3.5 bg-gradient-to-r from-blue-600 to-violet-600 text-white font-bold rounded-xl shadow-lg shadow-blue-600/30 hover:shadow-xl hover:shadow-blue-600/40 hover:-translate-y-0.5 transition-all duration-200 text-sm">
-                  Upload Data
+                <Link to="/dashboard" className="inline-flex items-center gap-2 px-7 py-3.5 bg-gradient-to-r from-blue-600 to-violet-600 text-white font-bold rounded-xl shadow-lg shadow-blue-600/30 hover:shadow-xl hover:shadow-blue-600/40 hover:-translate-y-0.5 transition-all duration-200 text-sm">
+                  Open Dashboard
                   <ArrowRight className="w-4 h-4" />
                 </Link>
-                <Link to="/analysis" className="inline-flex items-center gap-2 px-7 py-3.5 bg-white/8 backdrop-blur-md text-white/90 font-semibold rounded-xl ring-1 ring-white/20 hover:bg-white/15 hover:ring-white/35 hover:-translate-y-0.5 transition-all duration-200 text-sm">
-                  View Analysis
+                <Link to="/morphological" className="inline-flex items-center gap-2 px-7 py-3.5 bg-white/8 backdrop-blur-md text-white/90 font-semibold rounded-xl ring-1 ring-white/20 hover:bg-white/15 hover:ring-white/35 hover:-translate-y-0.5 transition-all duration-200 text-sm">
+                  Open Morphology
                 </Link>
               </motion.div>
 
@@ -393,23 +393,23 @@ export default function LandingPage() {
               Ready to Analyze Your Coastal Data?
             </h2>
             <p className="text-lg text-ocean-200 mb-10 max-w-2xl mx-auto leading-relaxed">
-              Upload your QGIS reports and environmental datasets to get started with
-              AI-powered threshold detection.
+              Open the dashboard to review coastal conditions and model outputs
+              from the latest processed datasets.
             </p>
             
             <div className="flex flex-wrap justify-center gap-4">
               <Link
-                to="/upload"
+                to="/dashboard"
                 className="inline-flex items-center gap-2 px-8 py-4 bg-white text-ocean-700 font-bold rounded-xl shadow-xl hover:shadow-2xl hover:-translate-y-0.5 transition-all duration-200"
               >
-                Get Started
+                Open Dashboard
                 <ArrowRight className="w-5 h-5" />
               </Link>
               <Link
-                to="/analysis"
+                to="/morphological"
                 className="inline-flex items-center gap-2 px-8 py-4 border border-white/20 text-white font-semibold rounded-xl hover:bg-white/10 transition-all duration-200"
               >
-                View Demo Analysis
+                Open Morphology
               </Link>
             </div>
           </motion.div>

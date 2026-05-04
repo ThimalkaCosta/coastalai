@@ -77,8 +77,8 @@ export default function ForecastOverviewPage() {
             <AlertTriangle className="w-16 h-16 text-amber-500 mx-auto mb-4" />
             <h3 className="text-xl font-semibold text-coastal-900 mb-2">No Forecast Data</h3>
             <p className="text-coastal-600 mb-4">Run the analysis to generate forecasts.</p>
-            <Link to="/upload" className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium bg-indigo-600 text-white hover:bg-indigo-700 transition-colors">
-              Upload Data <ArrowRight className="w-4 h-4" />
+            <Link to="/dashboard" className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium bg-indigo-600 text-white hover:bg-indigo-700 transition-colors">
+              Open Dashboard <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
         ) : (

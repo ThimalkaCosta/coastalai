@@ -2,17 +2,13 @@ import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import {
-  Upload,
   BarChart3,
-  Target,
   LayoutDashboard,
   LogOut,
   Users,
   PanelLeft,
   X,
   Sparkles,
-  CloudRain,
-  MapPin,
 } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 
@@ -25,10 +21,7 @@ const ROLE_BADGE = {
 function getSidebarNavigation(role) {
   const base = [
     { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
-    { name: 'Upload Data', href: '/upload', icon: Upload },
     { name: 'Analysis', href: '/analysis', icon: BarChart3 },
-    { name: 'Meteo Thresholds', href: '/threshold', icon: CloudRain },
-    { name: 'Shoreline Labels', href: '/threshold/shoreline', icon: MapPin, indent: true },
   ]
   if (role === 'Manager' || role === 'Head Office') {
     base.push({ name: 'Users', href: '/admin/users', icon: Users })

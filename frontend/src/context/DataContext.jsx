@@ -1,5 +1,4 @@
 import { createContext, useContext, useState, useCallback, useEffect, useRef } from 'react'
-import Papa from 'papaparse'
 import { collection, doc, setDoc, getDocs, query, orderBy, limit, serverTimestamp } from 'firebase/firestore'
 import { db } from '../firebase'
 import api from '../api'
@@ -461,11 +460,11 @@ export function DataProvider({ children }) {
       if (!analysisData) {
         const response = await fetch('/data/analysis_results.json')
         if (!response.ok) {
-          throw new Error('Analysis results not found. Please upload data and run the analysis.')
+          throw new Error('Analysis results not found. Please run the notebook analysis.')
         }
         const contentType = response.headers.get('content-type') || ''
         if (!contentType.includes('application/json')) {
-          throw new Error('Analysis results not found. Please upload data and run the analysis.')
+          throw new Error('Analysis results not found. Please run the notebook analysis.')
         }
         const candidate = await response.json()
         if (isValidAnalysisData(candidate)) {
@@ -475,7 +474,7 @@ export function DataProvider({ children }) {
       }
 
       if (!analysisData) {
-        throw new Error('No valid analysis results found. Please upload data and run the analysis.')
+        throw new Error('No valid analysis results found. Please run the notebook analysis.')
       }
 
       setRawAnalysisData(analysisData)
@@ -501,31 +500,22 @@ export function DataProvider({ children }) {
   }, [backendAvailable, loadAnalysisResults])
 
   // ── Run analysis via backend API ──
-  const runAnalysis = useCallback(async (uploadedFiles) => {
-    const filesToUse = uploadedFiles || files
-    const allReady = (Array.isArray(filesToUse.qgisReport) ? filesToUse.qgisReport.length > 0 : !!filesToUse.qgisReport)
-      && filesToUse.waveData && filesToUse.windData && filesToUse.currentData
-
-    if (!allReady) {
-      setError('Please upload all four required files before running analysis.')
-      return null
-    }
-
+  const runAnalysis = useCallback(async () => {
     setAnalysisRunning(true)
     setAnalysisComplete(false)
     setProgressStep(0)
-    setAnalysisStatus('Uploading files to server…')
+    setAnalysisStatus('Starting notebook run with server-side notebook_data files…')
     setError(null)
 
-    // Advance progress step every 16s (10 steps × ~16s ≈ ~2.5 min typical)
+    // Advance progress step every 6s so the UI bar visibly fills during execution
     if (progressIntervalRef.current) clearInterval(progressIntervalRef.current)
     progressIntervalRef.current = setInterval(() => {
       setProgressStep((prev) => Math.min(prev + 1, 9)) // 0-9 for 10 steps
-    }, 16_000)
+    }, 6_000)
 
     try {
       setAnalysisStatus('Executing analysis notebook – this may take several minutes…')
-      const analysisData = await api.analyze(filesToUse)
+      const analysisData = await api.analyze()
 
       clearInterval(progressIntervalRef.current)
       progressIntervalRef.current = null
@@ -569,22 +559,6 @@ export function DataProvider({ children }) {
     } finally {
       setAnalysisRunning(false)
     }
-  }, [files])
-
-  // ── Parse CSV ──
-  const parseCSV = useCallback((file) => {
-    return new Promise((resolve, reject) => {
-      Papa.parse(file, {
-        header: true,
-        dynamicTyping: true,
-        skipEmptyLines: true,
-        complete: (results) => {
-          if (results.errors.length > 0) reject(new Error(results.errors[0].message))
-          else resolve(results.data)
-        },
-        error: (error) => reject(error),
-      })
-    })
   }, [])
 
   // ── Handle individual file upload ──
@@ -601,13 +575,6 @@ export function DataProvider({ children }) {
         }))
       }, 100)
 
-      let parsedData = null
-      if (file.name.endsWith('.csv')) {
-        parsedData = await parseCSV(file)
-      } else if (file.name.endsWith('.nc')) {
-        parsedData = { fileName: file.name, fileSize: file.size, fileType: 'NetCDF', uploaded: true }
-      }
-
       clearInterval(progressInterval)
       setUploadProgress((prev) => ({ ...prev, [fileType]: 100 }))
       if (fileType === 'qgisReport') {
@@ -616,13 +583,8 @@ export function DataProvider({ children }) {
         setFiles((prev) => ({ ...prev, [fileType]: file }))
       }
 
-      const dataKeyMap = { thresholds: 'thresholds', annualFeatures: 'annualFeatures' }
-      if (dataKeyMap[fileType] && file.name.endsWith('.csv')) {
-        setData((prev) => ({ ...prev, [dataKeyMap[fileType]]: parsedData }))
-      }
-
       setTimeout(() => setUploadProgress((prev) => ({ ...prev, [fileType]: 0 })), 1000)
-      return parsedData
+      return { fileName: file.name, fileSize: file.size, uploaded: true }
     } catch (err) {
       setError(err.message)
       setUploadProgress((prev) => ({ ...prev, [fileType]: 0 }))
@@ -630,7 +592,7 @@ export function DataProvider({ children }) {
     } finally {
       setLoading(false)
     }
-  }, [parseCSV])
+  }, [])
 
   // ── Clear file ──
   const clearFile = useCallback((fileType, filename = null) => {

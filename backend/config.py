@@ -8,6 +8,12 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent
 PROJECT_ROOT = BASE_DIR.parent
 NOTEBOOK_PATH = PROJECT_ROOT / "notebook.ipynb"
+NOTEBOOK_DATA_DIR = PROJECT_ROOT / "notebook_data"
+
+# Fixed meteorological notebook input files (used by /api/analyze)
+NOTEBOOK_WAVE_FILE = NOTEBOOK_DATA_DIR / "Global_Ocean_Waves_Reanalysis_2009_2024.nc"
+NOTEBOOK_WIND_FILE = NOTEBOOK_DATA_DIR / "Global Ocean Monthly Mean Sea Surface Wind and Stress from Scatterometer and Model_2009_2024.nc"
+NOTEBOOK_CURRENT_FILE = NOTEBOOK_DATA_DIR / "Global Ocean Physics Reanalysis(current_data)_2009_2024.nc"
 
 # Upload / workspace directories
 UPLOAD_DIR = BASE_DIR / "uploads"

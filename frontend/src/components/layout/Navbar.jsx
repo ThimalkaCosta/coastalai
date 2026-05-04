@@ -22,7 +22,7 @@ const headerNavigation = [
 ]
 
 /* Paths belonging to each top-level section (for active-tab highlighting) */
-const METEOROLOGICAL_PATHS = ['/dashboard', '/upload', '/analysis', '/threshold', '/models']
+const METEOROLOGICAL_PATHS = ['/dashboard', '/analysis', '/models']
 const MORPHOLOGICAL_PATHS = ['/morphological']
 const SHORTTERM_PATHS = ['/short-term']
 const LONGTERM_PATHS = ['/long-term']

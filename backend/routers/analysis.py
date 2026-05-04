@@ -15,71 +15,56 @@ from typing import List
 from fastapi import APIRouter, File, HTTPException, UploadFile
 from fastapi.responses import FileResponse, JSONResponse
 
-from config import FRONTEND_DATA_DIR, RESULTS_DIR, UPLOAD_DIR
+from config import (
+    FRONTEND_DATA_DIR,
+    NOTEBOOK_CURRENT_FILE,
+    NOTEBOOK_DATA_DIR,
+    NOTEBOOK_WAVE_FILE,
+    NOTEBOOK_WIND_FILE,
+    RESULTS_DIR,
+    UPLOAD_DIR,
+)
 from services.notebook_executor import execute_analysis
 
 router = APIRouter()
 
 
 # ---------------------------------------------------------------------------
-# POST /api/analyze  –  upload 4 files & run the notebook
+# POST /api/analyze  –  run the notebook using fixed notebook_data inputs
 # ---------------------------------------------------------------------------
 @router.post("/analyze")
-async def analyze(
-    shoreline: List[UploadFile] = File(..., description="DSAS year-pair stat CSV files"),
-    wave: UploadFile = File(..., description="Wave NetCDF file"),
-    wind: UploadFile = File(..., description="Wind NetCDF file"),
-    current: UploadFile = File(..., description="Current NetCDF file"),
-):
+async def analyze():
     """
-    Accepts multiple DSAS CSV files and three NetCDF files, saves them,
-    executes the analysis notebook, and returns the full results JSON.
+    Executes the analysis notebook using pre-existing files in notebook_data.
+    Frontend uploads are display-only and are not used by this endpoint.
     """
-    session_id = uuid.uuid4().hex[:8]
-    saved_paths: dict[str, str] = {}
-    try:
-        # Save DSAS CSVs into a per-session subdirectory so DATA_PATH resolves correctly
-        csv_dir = UPLOAD_DIR / f"dsas_{session_id}"
-        csv_dir.mkdir(parents=True, exist_ok=True)
-        first_csv: str | None = None
-        for upload in shoreline:
-            dest = csv_dir / upload.filename
-            content = await upload.read()
-            if dest.exists():
-                try:
-                    os.remove(dest)
-                except OSError:
-                    stem = dest.stem
-                    suffix = dest.suffix
-                    dest = csv_dir / f"{stem}_{uuid.uuid4().hex[:8]}{suffix}"
-            dest.write_bytes(content)
-            if first_csv is None:
-                first_csv = str(dest)
-        saved_paths["shoreline"] = first_csv  # notebook executor derives data_path from parent dir
+    if not NOTEBOOK_DATA_DIR.exists():
+        raise HTTPException(
+            status_code=500,
+            detail=f"Notebook data folder not found: {NOTEBOOK_DATA_DIR}",
+        )
 
-        # Save NetCDF files
-        for label, upload in [("wave", wave), ("wind", wind), ("current", current)]:
-            dest = UPLOAD_DIR / upload.filename
-            content = await upload.read()
-            if dest.exists():
-                try:
-                    os.remove(dest)
-                except OSError:
-                    stem = dest.stem
-                    suffix = dest.suffix
-                    dest = UPLOAD_DIR / f"{stem}_{uuid.uuid4().hex[:8]}{suffix}"
-            dest.write_bytes(content)
-            saved_paths[label] = str(dest)
-    except Exception as exc:
-        raise HTTPException(status_code=500, detail=f"File save error: {exc}")
+    shoreline_files = sorted(NOTEBOOK_DATA_DIR.glob("*-stat.csv"))
+    if not shoreline_files:
+        raise HTTPException(
+            status_code=500,
+            detail=f"No DSAS interval CSV files found in {NOTEBOOK_DATA_DIR}",
+        )
+
+    for required in [NOTEBOOK_WAVE_FILE, NOTEBOOK_WIND_FILE, NOTEBOOK_CURRENT_FILE]:
+        if not required.exists():
+            raise HTTPException(
+                status_code=500,
+                detail=f"Required notebook input missing: {required.name}",
+            )
 
     # ---- Execute notebook ----
     try:
         results = execute_analysis(
-            shoreline_file=saved_paths["shoreline"],
-            wave_file=saved_paths["wave"],
-            wind_file=saved_paths["wind"],
-            current_file=saved_paths["current"],
+            shoreline_file=str(shoreline_files[0]),
+            wave_file=str(NOTEBOOK_WAVE_FILE),
+            wind_file=str(NOTEBOOK_WIND_FILE),
+            current_file=str(NOTEBOOK_CURRENT_FILE),
         )
         return JSONResponse(content=results)
     except Exception as exc:
@@ -187,6 +172,7 @@ async def analysis_status():
     has_results = frontend_json.exists()
     return {
         "hasResults": has_results,
+        "dataSource": str(NOTEBOOK_DATA_DIR),
         "uploadsDir": str(UPLOAD_DIR),
         "filesInUploads": [f.name for f in UPLOAD_DIR.iterdir() if f.is_file()] if UPLOAD_DIR.exists() else [],
     }
