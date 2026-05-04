@@ -2,7 +2,7 @@
  * API configuration for CoastalAI backend.
  */
 const API_BASE_URL =
-  import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
+  import.meta.env.VITE_API_URL || '/api'
 
 const api = {
   baseUrl: API_BASE_URL,
@@ -10,7 +10,10 @@ const api = {
   /** POST /api/analyze – Upload files and execute notebook */
   async analyze(files) {
     const formData = new FormData()
-    if (files.qgisReport) formData.append('shoreline', files.qgisReport)
+    if (files.qgisReport) {
+      const csvFiles = Array.isArray(files.qgisReport) ? files.qgisReport : [files.qgisReport]
+      csvFiles.forEach(f => formData.append('shoreline', f))
+    }
     if (files.waveData) formData.append('wave', files.waveData)
     if (files.windData) formData.append('wind', files.windData)
     if (files.currentData) formData.append('current', files.currentData)

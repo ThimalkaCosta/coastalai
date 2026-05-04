@@ -1,12 +1,9 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import {
   Upload,
   BarChart3,
-  GitBranch,
-  Layers,
-  ChevronDown,
   Target,
   LayoutDashboard,
   LogOut,
@@ -14,10 +11,8 @@ import {
   PanelLeft,
   X,
   Sparkles,
-  TrendingUp,
-  Shield,
+  CloudRain,
   MapPin,
-  ShieldAlert,
 } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 
@@ -32,19 +27,8 @@ function getSidebarNavigation(role) {
     { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
     { name: 'Upload Data', href: '/upload', icon: Upload },
     { name: 'Analysis', href: '/analysis', icon: BarChart3 },
-    { name: 'Thresholds', href: '/threshold', icon: Target },
-    { name: 'Decision Support', href: '/decision-support', icon: ShieldAlert },
-    {
-      name: 'Forecast',
-      icon: TrendingUp,
-      children: [
-        { name: 'Overview', href: '/forecast', icon: TrendingUp },
-        { name: 'SARIMA Forecasting', href: '/forecast/thresholds', icon: Target },
-        { name: 'Retreat & Vulnerability', href: '/forecast/retreat', icon: MapPin },
-        { name: 'Hindcast Validation', href: '/forecast/hindcast', icon: Shield },
-      ],
-    },
-    { name: 'RF Model', href: '/models/random-forest', icon: GitBranch },
+    { name: 'Meteo Thresholds', href: '/threshold', icon: CloudRain },
+    { name: 'Shoreline Labels', href: '/threshold/shoreline', icon: MapPin, indent: true },
   ]
   if (role === 'Manager' || role === 'Head Office') {
     base.push({ name: 'Users', href: '/admin/users', icon: Users })
@@ -53,22 +37,13 @@ function getSidebarNavigation(role) {
 }
 
 export default function Sidebar() {
-  const [subMenuOpen, setSubMenuOpen] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const location = useLocation()
   const { currentUser, userRole, logout } = useAuth()
 
   const navigation = getSidebarNavigation(userRole)
-
   const isActive = (href) => location.pathname === href
-  const isForecastActive = () => location.pathname.startsWith('/forecast')
 
-  // Auto-expand forecast menu if on a forecast page
-  useEffect(() => {
-    if (isForecastActive()) setSubMenuOpen(true)
-  }, [location.pathname])
-
-  // Close mobile sidebar on route change
   useEffect(() => {
     setMobileOpen(false)
   }, [location.pathname])
@@ -88,100 +63,43 @@ export default function Sidebar() {
         </div>
       </div>
 
-      {/* Divider */}
       <div className="mx-4 h-px bg-gradient-to-r from-transparent via-coastal-200 to-transparent" />
 
-      {/* Navigation Items */}
       <nav className="flex-1 px-3 pt-4 pb-2 space-y-1 overflow-y-auto">
         <p className="px-3 mb-2 text-[10px] font-bold uppercase tracking-widest text-coastal-400">
           Menu
         </p>
-        {navigation.map((item) =>
-          item.children ? (
-            <div key={item.name}>
-              <button
-                onClick={() => setSubMenuOpen(!subMenuOpen)}
-                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 group ${
-                  isForecastActive()
-                    ? 'bg-gradient-to-r from-ocean-50 to-primary-50 text-ocean-700'
-                    : 'text-coastal-600 hover:bg-coastal-50 hover:text-coastal-800'
-                }`}
-              >
-                <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-200 ${
-                  isForecastActive()
-                    ? 'bg-ocean-500/10 text-ocean-600'
-                    : 'bg-coastal-100 text-coastal-500 group-hover:bg-coastal-200 group-hover:text-coastal-700'
-                }`}>
-                  <item.icon className="w-4 h-4" />
-                </div>
-                <span className="flex-1 text-left">{item.name}</span>
-                <ChevronDown
-                  className={`w-4 h-4 text-coastal-400 transition-transform duration-200 ${
-                    subMenuOpen ? 'rotate-180' : ''
-                  }`}
-                />
-              </button>
-
-              <AnimatePresence>
-                {subMenuOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
-                    exit={{ opacity: 0, height: 0 }}
-                    transition={{ duration: 0.2 }}
-                    className="ml-3 mt-1 space-y-0.5 overflow-hidden"
-                  >
-                    {item.children.map((child) => (
-                      <Link
-                        key={child.href}
-                        to={child.href}
-                        className={`flex items-center gap-3 px-3 py-2 rounded-xl text-sm transition-all duration-200 ${
-                          isActive(child.href)
-                            ? 'bg-ocean-50 text-ocean-700 font-semibold'
-                            : 'text-coastal-500 hover:bg-coastal-50 hover:text-coastal-700'
-                        }`}
-                      >
-                        <div className={`w-1.5 h-1.5 rounded-full transition-colors ${
-                          isActive(child.href) ? 'bg-ocean-500' : 'bg-coastal-300'
-                        }`} />
-                        {child.name}
-                      </Link>
-                    ))}
-                  </motion.div>
-                )}
-              </AnimatePresence>
+        {navigation.map((item) => (
+          <Link
+            key={item.href}
+            to={item.href}
+            className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 group relative ${
+              item.indent ? 'ml-4' : ''
+            } ${
+              isActive(item.href)
+                ? 'bg-gradient-to-r from-ocean-50 to-primary-50 text-ocean-700'
+                : 'text-coastal-600 hover:bg-coastal-50 hover:text-coastal-800'
+            }`}
+          >
+            {isActive(item.href) && (
+              <motion.div
+                layoutId="sidebar-active"
+                className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-gradient-to-b from-ocean-500 to-primary-500 rounded-r-full"
+                transition={{ type: 'spring', bounce: 0.2, duration: 0.5 }}
+              />
+            )}
+            <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-200 ${
+              isActive(item.href)
+                ? 'bg-ocean-500/10 text-ocean-600'
+                : 'bg-coastal-100 text-coastal-500 group-hover:bg-coastal-200 group-hover:text-coastal-700'
+            }`}>
+              <item.icon className="w-4 h-4" />
             </div>
-          ) : (
-            <Link
-              key={item.href}
-              to={item.href}
-              className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 group relative ${
-                isActive(item.href)
-                  ? 'bg-gradient-to-r from-ocean-50 to-primary-50 text-ocean-700'
-                  : 'text-coastal-600 hover:bg-coastal-50 hover:text-coastal-800'
-              }`}
-            >
-              {isActive(item.href) && (
-                <motion.div
-                  layoutId="sidebar-active"
-                  className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-gradient-to-b from-ocean-500 to-primary-500 rounded-r-full"
-                  transition={{ type: 'spring', bounce: 0.2, duration: 0.5 }}
-                />
-              )}
-              <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-200 ${
-                isActive(item.href)
-                  ? 'bg-ocean-500/10 text-ocean-600'
-                  : 'bg-coastal-100 text-coastal-500 group-hover:bg-coastal-200 group-hover:text-coastal-700'
-              }`}>
-                <item.icon className="w-4 h-4" />
-              </div>
-              <span>{item.name}</span>
-            </Link>
-          )
-        )}
+            <span>{item.name}</span>
+          </Link>
+        ))}
       </nav>
 
-      {/* User Account Section at Bottom */}
       {currentUser && (
         <div className="p-3">
           <div className="divider-gradient mb-3" />
@@ -202,11 +120,9 @@ export default function Sidebar() {
                 {currentUser.displayName || 'User'}
               </div>
               {userRole && (
-                <span
-                  className={`inline-block text-[10px] px-2 py-0.5 rounded-full font-semibold mt-0.5 ${
-                    ROLE_BADGE[userRole] || 'bg-gray-100 text-gray-600'
-                  }`}
-                >
+                <span className={`inline-block text-[10px] px-2 py-0.5 rounded-full font-semibold mt-0.5 ${
+                  ROLE_BADGE[userRole] || 'bg-gray-100 text-gray-600'
+                }`}>
                   {userRole}
                 </span>
               )}
@@ -226,7 +142,6 @@ export default function Sidebar() {
 
   return (
     <>
-      {/* Mobile toggle button */}
       <button
         onClick={() => setMobileOpen(true)}
         className="lg:hidden fixed bottom-5 left-5 z-50 w-12 h-12 bg-gradient-to-br from-ocean-500 to-ocean-600 text-white rounded-2xl shadow-lg shadow-ocean-500/30 flex items-center justify-center hover:shadow-xl hover:shadow-ocean-500/40 transition-all duration-200 active:scale-95"
@@ -235,38 +150,29 @@ export default function Sidebar() {
         <PanelLeft className="w-5 h-5" />
       </button>
 
-      {/* Mobile overlay + drawer */}
-      <AnimatePresence>
-        {mobileOpen && (
-          <>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="lg:hidden fixed inset-0 bg-coastal-900/20 backdrop-blur-sm z-[60]"
+      {mobileOpen && (
+        <>
+          <motion.div
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            className="lg:hidden fixed inset-0 bg-coastal-900/20 backdrop-blur-sm z-[60]"
+            onClick={() => setMobileOpen(false)}
+          />
+          <motion.aside
+            initial={{ x: -280 }} animate={{ x: 0 }} exit={{ x: -280 }}
+            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+            className="lg:hidden fixed left-0 top-0 bottom-0 w-[272px] z-[70] bg-white shadow-2xl border-r border-coastal-100 flex flex-col"
+          >
+            <button
               onClick={() => setMobileOpen(false)}
-            />
-            <motion.aside
-              initial={{ x: -280 }}
-              animate={{ x: 0 }}
-              exit={{ x: -280 }}
-              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-              className="lg:hidden fixed left-0 top-0 bottom-0 w-[272px] z-[70] bg-white shadow-2xl border-r border-coastal-100 flex flex-col"
+              className="absolute top-4 right-4 p-1.5 rounded-lg hover:bg-coastal-100 transition-colors z-10"
             >
-              {/* Mobile drawer close button */}
-              <button
-                onClick={() => setMobileOpen(false)}
-                className="absolute top-4 right-4 p-1.5 rounded-lg hover:bg-coastal-100 transition-colors z-10"
-              >
-                <X className="w-5 h-5 text-coastal-400" />
-              </button>
-              {sidebarContent}
-            </motion.aside>
-          </>
-        )}
-      </AnimatePresence>
+              <X className="w-5 h-5 text-coastal-400" />
+            </button>
+            {sidebarContent}
+          </motion.aside>
+        </>
+      )}
 
-      {/* Desktop sidebar */}
       <aside className="hidden lg:flex fixed left-3 top-[84px] bottom-3 w-64 z-40">
         <div className="w-full h-full bg-white backdrop-blur-xl rounded-2xl shadow-[0_8px_40px_rgba(0,0,0,0.18)] border border-white flex flex-col overflow-hidden">
           {sidebarContent}

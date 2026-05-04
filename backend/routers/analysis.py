@@ -10,6 +10,8 @@ import traceback
 import uuid
 from pathlib import Path
 
+from typing import List
+
 from fastapi import APIRouter, File, HTTPException, UploadFile
 from fastapi.responses import FileResponse, JSONResponse
 
@@ -24,32 +26,45 @@ router = APIRouter()
 # ---------------------------------------------------------------------------
 @router.post("/analyze")
 async def analyze(
-    shoreline: UploadFile = File(..., description="all_stat.csv"),
+    shoreline: List[UploadFile] = File(..., description="DSAS year-pair stat CSV files"),
     wave: UploadFile = File(..., description="Wave NetCDF file"),
     wind: UploadFile = File(..., description="Wind NetCDF file"),
     current: UploadFile = File(..., description="Current NetCDF file"),
 ):
     """
-    Accepts four files, saves them to the upload directory,
+    Accepts multiple DSAS CSV files and three NetCDF files, saves them,
     executes the analysis notebook, and returns the full results JSON.
     """
-    # ---- Save uploaded files ----
+    session_id = uuid.uuid4().hex[:8]
     saved_paths: dict[str, str] = {}
     try:
-        for label, upload in [
-            ("shoreline", shoreline),
-            ("wave", wave),
-            ("wind", wind),
-            ("current", current),
-        ]:
-            dest = UPLOAD_DIR / upload.filename
+        # Save DSAS CSVs into a per-session subdirectory so DATA_PATH resolves correctly
+        csv_dir = UPLOAD_DIR / f"dsas_{session_id}"
+        csv_dir.mkdir(parents=True, exist_ok=True)
+        first_csv: str | None = None
+        for upload in shoreline:
+            dest = csv_dir / upload.filename
             content = await upload.read()
-            # On Windows, remove existing file first to avoid lock conflicts
             if dest.exists():
                 try:
                     os.remove(dest)
                 except OSError:
-                    # File is locked; use a unique name instead
+                    stem = dest.stem
+                    suffix = dest.suffix
+                    dest = csv_dir / f"{stem}_{uuid.uuid4().hex[:8]}{suffix}"
+            dest.write_bytes(content)
+            if first_csv is None:
+                first_csv = str(dest)
+        saved_paths["shoreline"] = first_csv  # notebook executor derives data_path from parent dir
+
+        # Save NetCDF files
+        for label, upload in [("wave", wave), ("wind", wind), ("current", current)]:
+            dest = UPLOAD_DIR / upload.filename
+            content = await upload.read()
+            if dest.exists():
+                try:
+                    os.remove(dest)
+                except OSError:
                     stem = dest.stem
                     suffix = dest.suffix
                     dest = UPLOAD_DIR / f"{stem}_{uuid.uuid4().hex[:8]}{suffix}"
@@ -101,19 +116,32 @@ async def get_results():
 # ---------------------------------------------------------------------------
 @router.post("/upload")
 async def upload_files(
-    shoreline: UploadFile = File(None),
+    shoreline: List[UploadFile] = File(None),
     wave: UploadFile = File(None),
     wind: UploadFile = File(None),
     current: UploadFile = File(None),
 ):
     """Upload individual files without triggering analysis."""
     saved = {}
-    for label, upload in [
-        ("shoreline", shoreline),
-        ("wave", wave),
-        ("wind", wind),
-        ("current", current),
-    ]:
+    if shoreline:
+        csv_dir = UPLOAD_DIR / "dsas_staged"
+        csv_dir.mkdir(parents=True, exist_ok=True)
+        csv_names = []
+        for upload in shoreline:
+            dest = csv_dir / upload.filename
+            content = await upload.read()
+            if dest.exists():
+                try:
+                    os.remove(dest)
+                except OSError:
+                    stem = dest.stem
+                    suffix = dest.suffix
+                    dest = csv_dir / f"{stem}_{uuid.uuid4().hex[:8]}{suffix}"
+            dest.write_bytes(content)
+            csv_names.append(dest.name)
+        saved["shoreline"] = {"files": csv_names, "count": len(csv_names)}
+
+    for label, upload in [("wave", wave), ("wind", wind), ("current", current)]:
         if upload is not None:
             dest = UPLOAD_DIR / upload.filename
             content = await upload.read()

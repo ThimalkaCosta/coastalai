@@ -332,13 +332,18 @@ function normaliseAnalysisData(analysisData) {
     fiveClassRecognition: analysisData.fiveClassRecognition || null,
     fiveClassThresholds: analysisData.fiveClassThresholds || [],
     fiveClassForecasts: analysisData.fiveClassForecasts || null,
+    // Three-class pattern recognition, threshold ranges, and threshold forecasts
+    threeClassRecognition: analysisData.threeClassRecognition || null,
+    threeClassThresholds: analysisData.threeClassThresholds || [],
+    threeClassForecasts: analysisData.threeClassForecasts || null,
+    csvOutputs: analysisData.csvOutputs || {},
   }
 }
 
 export function DataProvider({ children }) {
   // File upload states
   const [files, setFiles] = useState({
-    qgisReport: null,
+    qgisReport: [],
     currentData: null,
     waveData: null,
     windData: null,
@@ -379,6 +384,10 @@ export function DataProvider({ children }) {
     fiveClassRecognition: null,
     fiveClassThresholds: [],
     fiveClassForecasts: null,
+    threeClassRecognition: null,
+    threeClassThresholds: [],
+    threeClassForecasts: null,
+    csvOutputs: {},
   })
 
   // Raw (un-normalised) analysis data – used by NotebookResultsView
@@ -494,7 +503,8 @@ export function DataProvider({ children }) {
   // ── Run analysis via backend API ──
   const runAnalysis = useCallback(async (uploadedFiles) => {
     const filesToUse = uploadedFiles || files
-    const allReady = filesToUse.qgisReport && filesToUse.waveData && filesToUse.windData && filesToUse.currentData
+    const allReady = (Array.isArray(filesToUse.qgisReport) ? filesToUse.qgisReport.length > 0 : !!filesToUse.qgisReport)
+      && filesToUse.waveData && filesToUse.windData && filesToUse.currentData
 
     if (!allReady) {
       setError('Please upload all four required files before running analysis.')
@@ -600,9 +610,13 @@ export function DataProvider({ children }) {
 
       clearInterval(progressInterval)
       setUploadProgress((prev) => ({ ...prev, [fileType]: 100 }))
-      setFiles((prev) => ({ ...prev, [fileType]: file }))
+      if (fileType === 'qgisReport') {
+        setFiles((prev) => ({ ...prev, qgisReport: [...(prev.qgisReport || []), file] }))
+      } else {
+        setFiles((prev) => ({ ...prev, [fileType]: file }))
+      }
 
-      const dataKeyMap = { qgisReport: 'shoreline', thresholds: 'thresholds', annualFeatures: 'annualFeatures' }
+      const dataKeyMap = { thresholds: 'thresholds', annualFeatures: 'annualFeatures' }
       if (dataKeyMap[fileType] && file.name.endsWith('.csv')) {
         setData((prev) => ({ ...prev, [dataKeyMap[fileType]]: parsedData }))
       }
@@ -619,9 +633,18 @@ export function DataProvider({ children }) {
   }, [parseCSV])
 
   // ── Clear file ──
-  const clearFile = useCallback((fileType) => {
-    setFiles((prev) => ({ ...prev, [fileType]: null }))
-    setUploadProgress((prev) => ({ ...prev, [fileType]: 0 }))
+  const clearFile = useCallback((fileType, filename = null) => {
+    if (fileType === 'qgisReport') {
+      setFiles((prev) => ({
+        ...prev,
+        qgisReport: filename
+          ? (prev.qgisReport || []).filter(f => f.name !== filename)
+          : [],
+      }))
+    } else {
+      setFiles((prev) => ({ ...prev, [fileType]: null }))
+      setUploadProgress((prev) => ({ ...prev, [fileType]: 0 }))
+    }
   }, [])
 
   // ── Load demo data (from static JSON) ──
@@ -640,10 +663,12 @@ export function DataProvider({ children }) {
     horizonFeatures: [], erosionPredictions: [], forecastOverview: null, forecasts: null,
     scatter: [], correlation: null, pca: [], forcingRegimes: [], boxplot: [],
     roc: null, modelComparison: [], yearlyShoreline: [], isLegacyFormat: false,
+    threeClassRecognition: null, threeClassThresholds: [], threeClassForecasts: null,
+    csvOutputs: {},
   }
 
   const clearAllData = useCallback(() => {
-    setFiles({ qgisReport: null, currentData: null, waveData: null, windData: null })
+    setFiles({ qgisReport: [], currentData: null, waveData: null, windData: null })
     setData(emptyState)
     setRawAnalysisData(null)
     setDataLoaded(false)
