@@ -9,9 +9,7 @@ import {
   TrendingUp,
   Activity,
   Mountain,
-  Users,
 } from 'lucide-react'
-import { useAuth } from '../../context/AuthContext'
 
 const headerNavigation = [
   { name: 'Home', href: '/', icon: Home },
@@ -22,22 +20,14 @@ const headerNavigation = [
 ]
 
 /* Paths belonging to each top-level section (for active-tab highlighting) */
-const METEOROLOGICAL_PATHS = ['/dashboard', '/upload', '/analysis', '/threshold', '/models']
+const METEOROLOGICAL_PATHS = ['/dashboard', '/upload', '/analysis', '/threshold', '/models', '/admin']
 const MORPHOLOGICAL_PATHS = ['/morphological']
 const SHORTTERM_PATHS = ['/short-term']
 const LONGTERM_PATHS = ['/long-term']
-const USERS_PATHS = ['/admin/users']
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const location = useLocation()
-  const { userRole } = useAuth()
-
-  const showUsersLink = userRole === 'Manager' || userRole === 'Head Office'
-
-  const navItems = showUsersLink
-    ? [...headerNavigation, { name: 'Users', href: '/admin/users', icon: Users }]
-    : headerNavigation
 
   const isActive = (href) => {
     if (href === '/') return location.pathname === '/'
@@ -45,13 +35,12 @@ export default function Navbar() {
     if (href === '/morphological') return MORPHOLOGICAL_PATHS.some((p) => location.pathname.startsWith(p))
     if (href === '/short-term') return SHORTTERM_PATHS.some((p) => location.pathname.startsWith(p))
     if (href === '/long-term') return LONGTERM_PATHS.some((p) => location.pathname.startsWith(p))
-    if (href === '/admin/users') return USERS_PATHS.some((p) => location.pathname.startsWith(p))
     return location.pathname === href
   }
 
   return (
     <nav className="fixed top-2 sm:top-3 left-2 sm:left-3 right-2 sm:right-3 z-50">
-      <div className="max-w-[1500px] mx-auto bg-white backdrop-blur-xl rounded-xl sm:rounded-2xl shadow-[0_4px_32px_rgba(0,0,0,0.18)] border border-white">
+      <div className="max-w-[1500px] mx-auto bg-white/80 backdrop-blur-xl rounded-xl sm:rounded-2xl shadow-glass border border-white/50">
         <div className="px-3 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-14 sm:h-16">
             {/* Logo */}
@@ -65,7 +54,7 @@ export default function Navbar() {
 
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center gap-0.5 xl:gap-1">
-              {navItems.map((item) => (
+              {headerNavigation.map((item) => (
                 <Link
                   key={item.href}
                   to={item.href}
@@ -111,7 +100,7 @@ export default function Navbar() {
             className="lg:hidden bg-white/95 backdrop-blur-xl border-t border-coastal-100/50 rounded-b-xl sm:rounded-b-2xl overflow-hidden mt-1 shadow-glass"
           >
             <div className="px-4 py-4 space-y-1">
-              {navItems.map((item) => (
+              {headerNavigation.map((item) => (
                 <Link
                   key={item.href}
                   to={item.href}

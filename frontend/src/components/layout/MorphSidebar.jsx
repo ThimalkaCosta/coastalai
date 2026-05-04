@@ -181,7 +181,7 @@ export default function MorphSidebar() {
 
       {/* Desktop sidebar */}
       <aside className="hidden lg:flex fixed left-3 top-[84px] bottom-3 w-64 z-40">
-        <div className="w-full h-full bg-white backdrop-blur-xl rounded-2xl shadow-[0_8px_40px_rgba(0,0,0,0.18)] border border-white flex flex-col overflow-hidden">
+        <div className="w-full h-full bg-white/80 backdrop-blur-xl rounded-2xl shadow-glass border border-white/60 flex flex-col overflow-hidden">
           {sidebarContent}
         </div>
       </aside>

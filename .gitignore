@@ -218,3 +218,5 @@ short-term component/data_cache/
 # Executed notebooks (can be very large)
 backend/executed_notebooks/
 
+
+frontend/.vite/

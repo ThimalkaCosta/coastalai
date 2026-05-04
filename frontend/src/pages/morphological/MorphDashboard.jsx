@@ -5,7 +5,7 @@ import {
   Waves, Mountain, ArrowRight, Info,
 } from 'lucide-react'
 
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+const API_BASE = import.meta.env.VITE_API_URL || ''
 
 const TABS = [
   { id: 'overview', label: 'Overview', icon: <BarChart2 size={15} /> },
@@ -27,7 +27,7 @@ export default function MorphDashboard() {
     fetch(`${API_BASE}/api/morphological/results/latest`)
       .then(r => r.ok ? r.json() : null)
       .then(d => { if (d) setResults(d) })
-      .catch(() => {})
+      .catch(() => { })
       .finally(() => setInitialLoad(false))
   }, [])
 
@@ -148,6 +148,11 @@ function OverviewTab({ data, pct, levelColor, riskColor }) {
     <div className="mt-section">
       {/* Summary cards */}
       <div className="mt-cards-grid">
+        <div className="mt-card mt-card-highlight">
+          <div className="mt-card-label">Erosion Transition Probability</div>
+          <div className="mt-card-value">{pct(hmm.erosionTransitionProb)}</div>
+          <div className="mt-card-note">Next-month probability of entering erosion regime</div>
+        </div>
         <div className="mt-card">
           <div className="mt-card-label">CVI — Current</div>
           <div className="mt-card-value">{cvi.currentValue.toFixed(2)}</div>
@@ -209,6 +214,22 @@ function ErosionTab({ data, pct }) {
   const { hmm } = data
   return (
     <div className="mt-section">
+      {/* Stats row */}
+      <div className="mt-cards-grid mt-cards-3">
+        <div className="mt-card mt-card-highlight">
+          <div className="mt-card-label">Erosion Transition Prob.</div>
+          <div className="mt-card-value">{pct(hmm.erosionTransitionProb)}</div>
+        </div>
+        <div className="mt-card">
+          <div className="mt-card-label">Erosion-Dominant State</div>
+          <div className="mt-card-value">State {hmm.erosionState}</div>
+        </div>
+        <div className="mt-card">
+          <div className="mt-card-label">Cycles Analysed</div>
+          <div className="mt-card-value">{hmm.totalCycles} <span className="mt-dim">({hmm.erosionCycles} erosion)</span></div>
+        </div>
+      </div>
+
       {/* Threshold comparison */}
       <div className="mt-panel">
         <h3 className="mt-panel-title">Current vs Erosion Threshold</h3>

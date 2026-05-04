@@ -2,7 +2,7 @@
  * API configuration for CoastalAI backend.
  */
 const API_BASE_URL =
-  import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
+  import.meta.env.VITE_API_URL || '/api'
 
 const api = {
   baseUrl: API_BASE_URL,
@@ -58,32 +58,6 @@ const api = {
   async clearResults() {
     const res = await fetch(`${API_BASE_URL}/results`, { method: 'DELETE' })
     if (!res.ok) throw new Error('Failed to clear results')
-    return res.json()
-  },
-
-  /** GET /api/figures – List available notebook figures */
-  async listFigures() {
-    const res = await fetch(`${API_BASE_URL}/figures`)
-    if (!res.ok) return { figures: [] }
-    return res.json()
-  },
-
-  /** GET /api/figures/{filename} – Get figure URL */
-  getFigureUrl(filename) {
-    return `${API_BASE_URL}/figures/${encodeURIComponent(filename)}`
-  },
-
-  /** GET /api/outputs – List available output CSV files */
-  async listOutputs() {
-    const res = await fetch(`${API_BASE_URL}/outputs`)
-    if (!res.ok) return { outputs: [] }
-    return res.json()
-  },
-
-  /** GET /api/outputs/{filename} – Get output CSV as JSON */
-  async getOutputCsv(filename) {
-    const res = await fetch(`${API_BASE_URL}/outputs/${encodeURIComponent(filename)}`)
-    if (!res.ok) throw new Error(`Failed to fetch ${filename}`)
     return res.json()
   },
 
