@@ -1,0 +1,3135 @@
+{
+  "fiveClassRecognition": {
+    "balancedAccuracy": 0.35,
+    "macroF1": 0.2933,
+    "rocAucOvr": 0.4475,
+    "confusionMatrix": [
+      [
+        3,
+        1,
+        0,
+        0,
+        0
+      ],
+      [
+        2,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        1,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        4,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        1,
+        0
+      ]
+    ],
+    "classNames": [
+      "eroded_high",
+      "eroded_low",
+      "stable",
+      "accreted_low",
+      "accreted_high"
+    ],
+    "loocvResults": [
+      {
+        "monsoon_year": 2013,
+        "actual_class": "eroded_low",
+        "predicted_class": "eroded_high",
+        "correct": false,
+        "top_prob": 0.6635167788985185
+      },
+      {
+        "monsoon_year": 2014,
+        "actual_class": "eroded_high",
+        "predicted_class": "eroded_low",
+        "correct": false,
+        "top_prob": 0.41192964201589577
+      },
+      {
+        "monsoon_year": 2015,
+        "actual_class": "accreted_high",
+        "predicted_class": "accreted_low",
+        "correct": false,
+        "top_prob": 0.6780047239977703
+      },
+      {
+        "monsoon_year": 2016,
+        "actual_class": "eroded_low",
+        "predicted_class": "eroded_high",
+        "correct": false,
+        "top_prob": 0.5159800517141343
+      },
+      {
+        "monsoon_year": 2017,
+        "actual_class": "accreted_low",
+        "predicted_class": "accreted_low",
+        "correct": true,
+        "top_prob": 0.39065381917142944
+      },
+      {
+        "monsoon_year": 2018,
+        "actual_class": "accreted_low",
+        "predicted_class": "accreted_low",
+        "correct": true,
+        "top_prob": 0.6263737005030313
+      },
+      {
+        "monsoon_year": 2019,
+        "actual_class": "eroded_high",
+        "predicted_class": "eroded_high",
+        "correct": true,
+        "top_prob": 0.626995767477002
+      },
+      {
+        "monsoon_year": 2020,
+        "actual_class": "eroded_high",
+        "predicted_class": "eroded_high",
+        "correct": true,
+        "top_prob": 0.7719598771759766
+      },
+      {
+        "monsoon_year": 2021,
+        "actual_class": "accreted_low",
+        "predicted_class": "accreted_low",
+        "correct": true,
+        "top_prob": 0.6755505407051444
+      },
+      {
+        "monsoon_year": 2022,
+        "actual_class": "accreted_low",
+        "predicted_class": "accreted_low",
+        "correct": true,
+        "top_prob": 0.7114307292656004
+      },
+      {
+        "monsoon_year": 2023,
+        "actual_class": "stable",
+        "predicted_class": "accreted_low",
+        "correct": false,
+        "top_prob": 0.7340132334085384
+      },
+      {
+        "monsoon_year": 2024,
+        "actual_class": "eroded_high",
+        "predicted_class": "eroded_high",
+        "correct": true,
+        "top_prob": 0.7207097274947758
+      }
+    ],
+    "selectedFeatures": [
+      "VHM0_mean__p50",
+      "VTPK_mean__late_minus_early",
+      "VMDR_mean__p50",
+      "eastward_wind_mean__anom_pos_months",
+      "uo_mean__p10",
+      "vo_mean__p90",
+      "zos_mean__p90",
+      "VMDR_mean__p10",
+      "VHM0_mean__anom_pos_months",
+      "eastward_wind_mean__p50",
+      "vo_mean__run_pos",
+      "VTPK_mean__iqr",
+      "uo_mean__anom_mean",
+      "zos_mean__anom_peak_neg"
+    ],
+    "shapTopFeatures": [
+      {
+        "feature": "VHM0_mean__p50",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "VTPK_mean__late_minus_early",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "VMDR_mean__p50",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "eastward_wind_mean__anom_pos_months",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "uo_mean__p10",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "vo_mean__p90",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "zos_mean__p90",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "VMDR_mean__p10",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "VHM0_mean__anom_pos_months",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "eastward_wind_mean__p50",
+        "mean_abs_shap": 0.0
+      }
+    ],
+    "permImportance": [
+      {
+        "feature": "VMDR_mean__p10",
+        "mean": 0.019999999999999997,
+        "std": 0.03999999999999999
+      },
+      {
+        "feature": "VHM0_mean__p50",
+        "mean": 0.0,
+        "std": 0.0
+      },
+      {
+        "feature": "VMDR_mean__p50",
+        "mean": 0.0,
+        "std": 0.0
+      },
+      {
+        "feature": "eastward_wind_mean__anom_pos_months",
+        "mean": 0.0,
+        "std": 0.0
+      },
+      {
+        "feature": "uo_mean__p10",
+        "mean": 0.0,
+        "std": 0.0
+      },
+      {
+        "feature": "VTPK_mean__late_minus_early",
+        "mean": 0.0,
+        "std": 0.0
+      },
+      {
+        "feature": "vo_mean__p90",
+        "mean": 0.0,
+        "std": 0.0
+      },
+      {
+        "feature": "zos_mean__p90",
+        "mean": 0.0,
+        "std": 0.0
+      },
+      {
+        "feature": "VHM0_mean__anom_pos_months",
+        "mean": 0.0,
+        "std": 0.0
+      },
+      {
+        "feature": "eastward_wind_mean__p50",
+        "mean": 0.0,
+        "std": 0.0
+      },
+      {
+        "feature": "vo_mean__run_pos",
+        "mean": 0.0,
+        "std": 0.0
+      },
+      {
+        "feature": "VTPK_mean__iqr",
+        "mean": 0.0,
+        "std": 0.0
+      },
+      {
+        "feature": "uo_mean__anom_mean",
+        "mean": 0.0,
+        "std": 0.0
+      },
+      {
+        "feature": "zos_mean__anom_peak_neg",
+        "mean": 0.0,
+        "std": 0.0
+      }
+    ],
+    "featureScreening": [
+      {
+        "feature": "VMDR_mean__p50",
+        "driver": "VMDR_mean",
+        "compositeScore": 3.1163826363221245,
+        "spearmanRho": 0.7519074569755176,
+        "kruskalP": 0.06255780240440591,
+        "mutualInfo": 0.4088492063492062
+      },
+      {
+        "feature": "VMDR_mean__p10",
+        "driver": "VMDR_mean",
+        "compositeScore": 2.8324636119943962,
+        "spearmanRho": 0.7446426506279281,
+        "kruskalP": 0.11256028429232984,
+        "mutualInfo": 0.39456349206349195
+      },
+      {
+        "feature": "VHM0_mean__p50",
+        "driver": "VHM0_mean",
+        "compositeScore": 2.413805374280744,
+        "spearmanRho": 0.5266984602002418,
+        "kruskalP": 0.09017941613145262,
+        "mutualInfo": 0.3155158730158729
+      },
+      {
+        "feature": "VHM0_mean__anom_pos_months",
+        "driver": "VHM0_mean",
+        "compositeScore": 2.3893223680441134,
+        "spearmanRho": 0.5260804698170469,
+        "kruskalP": 0.08504797322374008,
+        "mutualInfo": 0.26682539682539663
+      },
+      {
+        "feature": "VHM0_mean__anom_mean",
+        "driver": "VHM0_mean",
+        "compositeScore": 2.37819977680339,
+        "spearmanRho": 0.6284057490664955,
+        "kruskalP": 0.16119140473699728,
+        "mutualInfo": 0.32873015873015854
+      },
+      {
+        "feature": "VMDR_mean__anom_neg_months",
+        "driver": "VMDR_mean",
+        "compositeScore": 2.3353361442257747,
+        "spearmanRho": -0.7032109643466592,
+        "kruskalP": 0.16300348721271968,
+        "mutualInfo": 0.14111111111111097
+      },
+      {
+        "feature": "uo_mean__p10",
+        "driver": "uo_mean",
+        "compositeScore": 2.2822554858212714,
+        "spearmanRho": -0.6901566030210065,
+        "kruskalP": 0.15081847517573027,
+        "mutualInfo": 0.08039682539682502
+      },
+      {
+        "feature": "VMDR_mean__anom_mean",
+        "driver": "VMDR_mean",
+        "compositeScore": 2.2698592998260985,
+        "spearmanRho": 0.6901566030210065,
+        "kruskalP": 0.20496705679249783,
+        "mutualInfo": 0.2012301587301586
+      },
+      {
+        "feature": "VMDR_mean__run_neg",
+        "driver": "VMDR_mean",
+        "compositeScore": 2.215160396711816,
+        "spearmanRho": -0.6089064590589112,
+        "kruskalP": 0.2549075390172157,
+        "mutualInfo": 0.4037301587301585
+      },
+      {
+        "feature": "eastward_wind_mean__anom_pos_months",
+        "driver": "eastward_wind_mean",
+        "compositeScore": 2.1529682905415988,
+        "spearmanRho": 0.6933852128684046,
+        "kruskalP": 0.17307987769491612,
+        "mutualInfo": 0.004444444444444251
+      },
+      {
+        "feature": "eastward_wind_mean__p50",
+        "driver": "eastward_wind_mean",
+        "compositeScore": 2.1325336833736364,
+        "spearmanRho": 0.5811845078071634,
+        "kruskalP": 0.1576638609722437,
+        "mutualInfo": 0.16789682539682516
+      },
+      {
+        "feature": "vo_mean__p90",
+        "driver": "vo_mean",
+        "compositeScore": 2.1247966933201,
+        "spearmanRho": 0.6211409427189059,
+        "kruskalP": 0.16238306992163315,
+        "mutualInfo": 0.09305555555555545
+      },
+      {
+        "feature": "VMDR_mean__late_minus_early",
+        "driver": "VMDR_mean",
+        "compositeScore": 2.0689750822064465,
+        "spearmanRho": 0.6683621839782379,
+        "kruskalP": 0.21397761047426278,
+        "mutualInfo": 0.06261904761904735
+      },
+      {
+        "feature": "VTPK_mean__late_minus_early",
+        "driver": "VTPK_mean",
+        "compositeScore": 2.0394588994734653,
+        "spearmanRho": -0.602978926849932,
+        "kruskalP": 0.2380442439182824,
+        "mutualInfo": 0.21015873015873
+      },
+      {
+        "feature": "VHM0_mean__anom_peak_neg",
+        "driver": "VHM0_mean",
+        "compositeScore": 1.9887162712724555,
+        "spearmanRho": 0.6502001681092642,
+        "kruskalP": 0.20496705679249783,
+        "mutualInfo": 0.0
+      },
+      {
+        "feature": "VHM0_mean__iqr",
+        "driver": "VHM0_mean",
+        "compositeScore": 1.9687833549355904,
+        "spearmanRho": 0.49400683163608883,
+        "kruskalP": 0.11002521175847411,
+        "mutualInfo": 0.022261904761904594
+      },
+      {
+        "feature": "vo_mean__run_pos",
+        "driver": "vo_mean",
+        "compositeScore": 1.9303184806535518,
+        "spearmanRho": -0.16498869445128958,
+        "kruskalP": 0.16584355199193065,
+        "mutualInfo": 0.8200396825396823
+      },
+      {
+        "feature": "VHM0_mean__run_pos",
+        "driver": "VHM0_mean",
+        "compositeScore": 1.926560595038708,
+        "spearmanRho": 0.5654891903629229,
+        "kruskalP": 0.22587191302042073,
+        "mutualInfo": 0.1494444444444445
+      },
+      {
+        "feature": "eastward_wind_mean__late_minus_early",
+        "driver": "eastward_wind_mean",
+        "compositeScore": 1.8995870631758844,
+        "spearmanRho": 0.5339632665478313,
+        "kruskalP": 0.15194023831496062,
+        "mutualInfo": 0.013333333333333641
+      },
+      {
+        "feature": "VTPK_mean__iqr",
+        "driver": "VTPK_mean",
+        "compositeScore": 1.8861480535317177,
+        "spearmanRho": 0.5848169109809582,
+        "kruskalP": 0.19208160167213964,
+        "mutualInfo": 0.0
+      }
+    ],
+    "forecastAnchor": "2024-02"
+  },
+  "fiveClassThresholds": [
+    {
+      "feature": "VMDR_mean__p50",
+      "driver": "VMDR_mean",
+      "unit": "\u00b0",
+      "direction": "direct",
+      "method": "ordered_logit",
+      "spearmanRho": 0.7519074569755176,
+      "screeningScore": 3.1163826363221245,
+      "kruskalP": 0.06255780240440591,
+      "boundaries": {
+        "severe_erosion": {
+          "estimate": 189.1737075315294,
+          "low95": 189.38425477295058,
+          "high95": 210.65418853759766
+        },
+        "erosion_onset": {
+          "estimate": 189.1737075315294,
+          "low95": 195.606305479516,
+          "high95": 210.06812444912507
+        },
+        "accretion_onset": {
+          "estimate": 189.1737075315294,
+          "low95": 178.3863311767578,
+          "high95": 178.3863311767578
+        },
+        "strong_accretion": {
+          "estimate": 189.1737075315294,
+          "low95": 178.3863311767578,
+          "high95": 178.3863311767578
+        }
+      },
+      "classBands": {
+        "eroded_high": {
+          "count": 4,
+          "q25": 185.68174171447754,
+          "median": 190.2122344970703,
+          "q75": 195.5862045288086
+        },
+        "eroded_low": {
+          "count": 2,
+          "q25": 194.87216186523438,
+          "median": 195.97686767578125,
+          "q75": 197.08157348632812
+        },
+        "stable": {
+          "count": 1,
+          "q25": 205.2008056640625,
+          "median": 205.2008056640625,
+          "q75": 205.2008056640625
+        },
+        "accreted_low": {
+          "count": 4,
+          "q25": 204.4156951904297,
+          "median": 205.17946243286133,
+          "q75": 205.67834091186523
+        },
+        "accreted_high": {
+          "count": 1,
+          "q25": 201.4170913696289,
+          "median": 201.4170913696289,
+          "q75": 201.4170913696289
+        }
+      },
+      "jsd": {
+        "severe_erosion": null,
+        "erosion_onset": null,
+        "accretion_onset": null,
+        "strong_accretion": null
+      }
+    },
+    {
+      "feature": "VMDR_mean__p10",
+      "driver": "VMDR_mean",
+      "unit": "\u00b0",
+      "direction": "direct",
+      "method": "ordered_logit",
+      "spearmanRho": 0.7446426506279281,
+      "screeningScore": 2.8324636119943962,
+      "kruskalP": 0.11256028429232984,
+      "boundaries": {
+        "severe_erosion": {
+          "estimate": 177.22129942166384,
+          "low95": 174.1270428730183,
+          "high95": 191.68381164550783
+        },
+        "erosion_onset": {
+          "estimate": 177.22129942166384,
+          "low95": 187.2136196899414,
+          "high95": 191.68381164550783
+        },
+        "accretion_onset": {
+          "estimate": 177.22129942166384,
+          "low95": 168.94616119384764,
+          "high95": 168.94616119384764
+        },
+        "strong_accretion": {
+          "estimate": 177.22129942166384,
+          "low95": 168.94616119384764,
+          "high95": 168.94616119384764
+        }
+      },
+      "classBands": {
+        "eroded_high": {
+          "count": 4,
+          "q25": 174.70053520202634,
+          "median": 175.62690505981445,
+          "q75": 175.91128005981446
+        },
+        "eroded_low": {
+          "count": 2,
+          "q25": 181.64714813232422,
+          "median": 182.31168670654296,
+          "q75": 182.97622528076172
+        },
+        "stable": {
+          "count": 1,
+          "q25": 181.3630828857422,
+          "median": 181.3630828857422,
+          "q75": 181.3630828857422
+        },
+        "accreted_low": {
+          "count": 4,
+          "q25": 180.95742111206056,
+          "median": 183.13835220336915,
+          "q75": 186.05939559936525
+        },
+        "accreted_high": {
+          "count": 1,
+          "q25": 181.80941772460938,
+          "median": 181.80941772460938,
+          "q75": 181.80941772460938
+        }
+      },
+      "jsd": {
+        "severe_erosion": null,
+        "erosion_onset": null,
+        "accretion_onset": null,
+        "strong_accretion": null
+      }
+    },
+    {
+      "feature": "VHM0_mean__p50",
+      "driver": "VHM0_mean",
+      "unit": "m",
+      "direction": "direct",
+      "method": "ordered_logit",
+      "spearmanRho": 0.5266984602002418,
+      "screeningScore": 2.413805374280744,
+      "kruskalP": 0.09017941613145262,
+      "boundaries": {
+        "severe_erosion": {
+          "estimate": 1.5035782455800968,
+          "low95": 1.405120014146234,
+          "high95": 1.7135104656219482
+        },
+        "erosion_onset": {
+          "estimate": 1.5035782455800968,
+          "low95": 1.5253411832387058,
+          "high95": 1.7135104656219482
+        },
+        "accretion_onset": {
+          "estimate": 1.5035782455800968,
+          "low95": 1.3877348184585572,
+          "high95": 1.3877348184585572
+        },
+        "strong_accretion": {
+          "estimate": 1.5035782455800968,
+          "low95": 1.3877348184585572,
+          "high95": 1.3877348184585572
+        }
+      },
+      "classBands": {
+        "eroded_high": {
+          "count": 4,
+          "q25": 1.4490322470664978,
+          "median": 1.4772731959819794,
+          "q75": 1.5213331878185272
+        },
+        "eroded_low": {
+          "count": 2,
+          "q25": 1.4593916684389114,
+          "median": 1.4722194373607635,
+          "q75": 1.4850472062826157
+        },
+        "stable": {
+          "count": 1,
+          "q25": 1.5643749833106995,
+          "median": 1.5643749833106995,
+          "q75": 1.5643749833106995
+        },
+        "accreted_low": {
+          "count": 4,
+          "q25": 1.6157508492469788,
+          "median": 1.6345793306827545,
+          "q75": 1.6563415825366974
+        },
+        "accreted_high": {
+          "count": 1,
+          "q25": 1.4572614431381226,
+          "median": 1.4572614431381226,
+          "q75": 1.4572614431381226
+        }
+      },
+      "jsd": {
+        "severe_erosion": null,
+        "erosion_onset": null,
+        "accretion_onset": null,
+        "strong_accretion": null
+      }
+    },
+    {
+      "feature": "VHM0_mean__anom_pos_months",
+      "driver": "VHM0_mean",
+      "unit": "m",
+      "direction": "direct",
+      "method": "ordered_logit",
+      "spearmanRho": 0.5260804698170469,
+      "screeningScore": 2.3893223680441134,
+      "kruskalP": 0.08504797322374008,
+      "boundaries": {
+        "severe_erosion": {
+          "estimate": 1.8046744574290485,
+          "low95": 0.09922758059586417,
+          "high95": 6.0
+        },
+        "erosion_onset": {
+          "estimate": 1.8046744574290485,
+          "low95": 2.3268608736230827,
+          "high95": 6.0
+        },
+        "accretion_onset": {
+          "estimate": 1.8046744574290485,
+          "low95": -1.0,
+          "high95": -1.0
+        },
+        "strong_accretion": {
+          "estimate": 1.8046744574290485,
+          "low95": -1.0,
+          "high95": -1.0
+        }
+      },
+      "classBands": {
+        "eroded_high": {
+          "count": 4,
+          "q25": 0.75,
+          "median": 1.5,
+          "q75": 2.5
+        },
+        "eroded_low": {
+          "count": 2,
+          "q25": 0.25,
+          "median": 0.5,
+          "q75": 0.75
+        },
+        "stable": {
+          "count": 1,
+          "q25": 5.0,
+          "median": 5.0,
+          "q75": 5.0
+        },
+        "accreted_low": {
+          "count": 4,
+          "q25": 4.0,
+          "median": 4.0,
+          "q75": 4.25
+        },
+        "accreted_high": {
+          "count": 1,
+          "q25": 3.0,
+          "median": 3.0,
+          "q75": 3.0
+        }
+      },
+      "jsd": {
+        "severe_erosion": null,
+        "erosion_onset": null,
+        "accretion_onset": null,
+        "strong_accretion": null
+      }
+    },
+    {
+      "feature": "uo_mean__p10",
+      "driver": "uo_mean",
+      "unit": "m/s",
+      "direction": "inverse",
+      "method": "ordered_logit",
+      "spearmanRho": -0.6901566030210065,
+      "screeningScore": 2.2822554858212714,
+      "kruskalP": 0.15081847517573027,
+      "boundaries": {
+        "severe_erosion": {
+          "estimate": -0.23252534266505298,
+          "low95": -0.325840020775795,
+          "high95": -0.10844700767551682
+        },
+        "erosion_onset": {
+          "estimate": -0.23252534266505298,
+          "low95": -0.325840020775795,
+          "high95": -0.15032028539122613
+        },
+        "accretion_onset": {
+          "estimate": -0.15084038704882477,
+          "low95": -0.126932592593678,
+          "high95": 0.005883968472480773
+        },
+        "strong_accretion": {
+          "estimate": -0.15084038704882477,
+          "low95": -0.3258400168371886,
+          "high95": -0.3065849822268865
+        }
+      },
+      "classBands": {
+        "eroded_high": {
+          "count": 4,
+          "q25": -0.20781578607857226,
+          "median": -0.16104617416858674,
+          "q75": -0.1033051572740078
+        },
+        "eroded_low": {
+          "count": 2,
+          "q25": -0.1913357961922884,
+          "median": -0.1824091337621212,
+          "q75": -0.173482471331954
+        },
+        "stable": {
+          "count": 1,
+          "q25": -0.1346476636826992,
+          "median": -0.1346476636826992,
+          "q75": -0.1346476636826992
+        },
+        "accreted_low": {
+          "count": 4,
+          "q25": -0.25473800376057626,
+          "median": -0.23715934082865714,
+          "q75": -0.22638630252331496
+        },
+        "accreted_high": {
+          "count": 1,
+          "q25": -0.2559892535209656,
+          "median": -0.2559892535209656,
+          "q75": -0.2559892535209656
+        }
+      },
+      "jsd": {
+        "severe_erosion": null,
+        "erosion_onset": null,
+        "accretion_onset": null,
+        "strong_accretion": null
+      }
+    },
+    {
+      "feature": "eastward_wind_mean__anom_pos_months",
+      "driver": "eastward_wind_mean",
+      "unit": "m/s",
+      "direction": "direct",
+      "method": "ordered_logit",
+      "spearmanRho": 0.6933852128684046,
+      "screeningScore": 2.1529682905415988,
+      "kruskalP": 0.17307987769491612,
+      "boundaries": {
+        "severe_erosion": {
+          "estimate": 1.3528102392877017,
+          "low95": -0.6032963842643598,
+          "high95": 6.0
+        },
+        "erosion_onset": {
+          "estimate": 1.3528102392877017,
+          "low95": 0.8162243483021134,
+          "high95": 6.0
+        },
+        "accretion_onset": {
+          "estimate": 1.3528102392877017,
+          "low95": -1.0,
+          "high95": -1.0
+        },
+        "strong_accretion": {
+          "estimate": 4.854757929883139,
+          "low95": 1.2470542231811645,
+          "high95": 5.976627712854758
+        }
+      },
+      "classBands": {
+        "eroded_high": {
+          "count": 4,
+          "q25": 0.0,
+          "median": 0.5,
+          "q75": 1.25
+        },
+        "eroded_low": {
+          "count": 2,
+          "q25": 0.25,
+          "median": 0.5,
+          "q75": 0.75
+        },
+        "stable": {
+          "count": 1,
+          "q25": 2.0,
+          "median": 2.0,
+          "q75": 2.0
+        },
+        "accreted_low": {
+          "count": 4,
+          "q25": 1.75,
+          "median": 2.5,
+          "q75": 3.5
+        },
+        "accreted_high": {
+          "count": 1,
+          "q25": 3.0,
+          "median": 3.0,
+          "q75": 3.0
+        }
+      },
+      "jsd": {
+        "severe_erosion": null,
+        "erosion_onset": null,
+        "accretion_onset": null,
+        "strong_accretion": null
+      }
+    },
+    {
+      "feature": "eastward_wind_mean__p50",
+      "driver": "eastward_wind_mean",
+      "unit": "m/s",
+      "direction": "direct",
+      "method": "ordered_logit",
+      "spearmanRho": 0.5811845078071634,
+      "screeningScore": 2.1325336833736364,
+      "kruskalP": 0.1576638609722437,
+      "boundaries": {
+        "severe_erosion": {
+          "estimate": 1.813804691940397,
+          "low95": 1.0581941367924617,
+          "high95": 4.1420000195503235
+        },
+        "erosion_onset": {
+          "estimate": 1.813804691940397,
+          "low95": 3.6918093665103497,
+          "high95": 4.1420000195503235
+        },
+        "accretion_onset": {
+          "estimate": 1.813804691940397,
+          "low95": 0.3830000162124634,
+          "high95": 0.3830000162124634
+        },
+        "strong_accretion": {
+          "estimate": 1.813804691940397,
+          "low95": 0.3830000162124634,
+          "high95": 0.3830000162124634
+        }
+      },
+      "classBands": {
+        "eroded_high": {
+          "count": 4,
+          "q25": 0.9912500157952309,
+          "median": 1.270000010728836,
+          "q75": 1.9224999770522118
+        },
+        "eroded_low": {
+          "count": 2,
+          "q25": 1.5562499910593033,
+          "median": 1.6724999845027924,
+          "q75": 1.7887499779462814
+        },
+        "stable": {
+          "count": 1,
+          "q25": 3.125,
+          "median": 3.125,
+          "q75": 3.125
+        },
+        "accreted_low": {
+          "count": 4,
+          "q25": 2.5662500262260437,
+          "median": 3.0575000047683716,
+          "q75": 3.5262500047683716
+        },
+        "accreted_high": {
+          "count": 1,
+          "q25": 2.2350000739097595,
+          "median": 2.2350000739097595,
+          "q75": 2.2350000739097595
+        }
+      },
+      "jsd": {
+        "severe_erosion": null,
+        "erosion_onset": null,
+        "accretion_onset": null,
+        "strong_accretion": null
+      }
+    },
+    {
+      "feature": "vo_mean__p90",
+      "driver": "vo_mean",
+      "unit": "m/s",
+      "direction": "direct",
+      "method": "ordered_logit",
+      "spearmanRho": 0.6211409427189059,
+      "screeningScore": 2.1247966933201,
+      "kruskalP": 0.16238306992163315,
+      "boundaries": {
+        "severe_erosion": {
+          "estimate": 0.03976985677510799,
+          "low95": 0.0278393323995699,
+          "high95": 0.11546983234584332
+        },
+        "erosion_onset": {
+          "estimate": 0.03976985677510799,
+          "low95": 0.03974518869619156,
+          "high95": 0.1154248068710237
+        },
+        "accretion_onset": {
+          "estimate": 0.03976985677510799,
+          "low95": 0.0044679097831249286,
+          "high95": 0.0044679097831249286
+        },
+        "strong_accretion": {
+          "estimate": 0.03976985677510799,
+          "low95": 0.0044679097831249286,
+          "high95": 0.0044679097831249286
+        }
+      },
+      "classBands": {
+        "eroded_high": {
+          "count": 4,
+          "q25": 0.03712576674297452,
+          "median": 0.051881466060876846,
+          "q75": 0.06120487069711089
+        },
+        "eroded_low": {
+          "count": 2,
+          "q25": 0.03651539655402303,
+          "median": 0.03988769184798002,
+          "q75": 0.04325998714193702
+        },
+        "stable": {
+          "count": 1,
+          "q25": 0.045350505039095906,
+          "median": 0.045350505039095906,
+          "q75": 0.045350505039095906
+        },
+        "accreted_low": {
+          "count": 4,
+          "q25": 0.08447523666545753,
+          "median": 0.09704886190593245,
+          "q75": 0.09773552678525449
+        },
+        "accreted_high": {
+          "count": 1,
+          "q25": 0.0779442697763443,
+          "median": 0.0779442697763443,
+          "q75": 0.0779442697763443
+        }
+      },
+      "jsd": {
+        "severe_erosion": null,
+        "erosion_onset": null,
+        "accretion_onset": null,
+        "strong_accretion": null
+      }
+    },
+    {
+      "feature": "VTPK_mean__late_minus_early",
+      "driver": "VTPK_mean",
+      "unit": "s",
+      "direction": "inverse",
+      "method": "ordered_logit",
+      "spearmanRho": -0.602978926849932,
+      "screeningScore": 2.0394588994734653,
+      "kruskalP": 0.2380442439182824,
+      "boundaries": {
+        "severe_erosion": {
+          "estimate": -0.23066647366676118,
+          "low95": -0.831516043345135,
+          "high95": 0.32915393170869295
+        },
+        "erosion_onset": {
+          "estimate": -0.23066647366676118,
+          "low95": -0.8535031890869156,
+          "high95": 0.8166807746887216
+        },
+        "accretion_onset": {
+          "estimate": 0.04723600698034813,
+          "low95": 0.24414178472528492,
+          "high95": 0.8194976743062348
+        },
+        "strong_accretion": {
+          "estimate": 0.04723600698034813,
+          "low95": -0.8535031890847442,
+          "high95": -0.5691727748910413
+        }
+      },
+      "classBands": {
+        "eroded_high": {
+          "count": 4,
+          "q25": -0.16427322228749563,
+          "median": 0.19647010167439838,
+          "q75": 0.49804575443267884
+        },
+        "eroded_low": {
+          "count": 2,
+          "q25": 0.06840892632802253,
+          "median": 0.1193528970082598,
+          "q75": 0.17029686768849706
+        },
+        "stable": {
+          "count": 1,
+          "q25": -0.1397387186686192,
+          "median": -0.1397387186686192,
+          "q75": -0.1397387186686192
+        },
+        "accreted_low": {
+          "count": 4,
+          "q25": -0.3925696611404428,
+          "median": -0.22850847244262784,
+          "q75": -0.11949638525644968
+        },
+        "accreted_high": {
+          "count": 1,
+          "q25": -0.614503065745037,
+          "median": -0.614503065745037,
+          "q75": -0.614503065745037
+        }
+      },
+      "jsd": {
+        "severe_erosion": null,
+        "erosion_onset": null,
+        "accretion_onset": null,
+        "strong_accretion": null
+      }
+    },
+    {
+      "feature": "VTPK_mean__iqr",
+      "driver": "VTPK_mean",
+      "unit": "s",
+      "direction": "direct",
+      "method": "ordered_logit",
+      "spearmanRho": 0.5848169109809582,
+      "screeningScore": 1.8861480535317177,
+      "kruskalP": 0.19208160167213964,
+      "boundaries": {
+        "severe_erosion": {
+          "estimate": 0.737039345612311,
+          "low95": 0.6013848715741189,
+          "high95": 1.3970479488372802
+        },
+        "erosion_onset": {
+          "estimate": 0.737039345612311,
+          "low95": 1.0768893725087927,
+          "high95": 1.3970479488372802
+        },
+        "accretion_onset": {
+          "estimate": 0.737039345612311,
+          "low95": 0.2833996295928955,
+          "high95": 0.2833996295928955
+        },
+        "strong_accretion": {
+          "estimate": 0.737039345612311,
+          "low95": 0.2833996295928955,
+          "high95": 0.2833996295928955
+        }
+      },
+      "classBands": {
+        "eroded_high": {
+          "count": 4,
+          "q25": 0.5085992217063904,
+          "median": 0.5764362812042236,
+          "q75": 0.7119435667991638
+        },
+        "eroded_low": {
+          "count": 2,
+          "q25": 0.7459725737571716,
+          "median": 0.8117257356643677,
+          "q75": 0.8774788975715637
+        },
+        "stable": {
+          "count": 1,
+          "q25": 1.2379553318023682,
+          "median": 1.2379553318023682,
+          "q75": 1.2379553318023682
+        },
+        "accreted_low": {
+          "count": 4,
+          "q25": 0.7818871736526489,
+          "median": 0.9368891716003418,
+          "q75": 1.0837770104408264
+        },
+        "accreted_high": {
+          "count": 1,
+          "q25": 1.0342154502868652,
+          "median": 1.0342154502868652,
+          "q75": 1.0342154502868652
+        }
+      },
+      "jsd": {
+        "severe_erosion": null,
+        "erosion_onset": null,
+        "accretion_onset": null,
+        "strong_accretion": null
+      }
+    },
+    {
+      "feature": "uo_mean__anom_mean",
+      "driver": "uo_mean",
+      "unit": "m/s",
+      "direction": "inverse",
+      "method": "ordered_logit",
+      "spearmanRho": -0.5739197014595738,
+      "screeningScore": 1.8737975991713518,
+      "kruskalP": 0.18794977223094922,
+      "boundaries": {
+        "severe_erosion": {
+          "estimate": -0.4296529051501989,
+          "low95": -0.7448674383388517,
+          "high95": 0.6479075217207699
+        },
+        "erosion_onset": {
+          "estimate": -0.4296529051501989,
+          "low95": -0.7448674383388517,
+          "high95": 0.5110654673346872
+        },
+        "accretion_onset": {
+          "estimate": 0.0074609982950033515,
+          "low95": 0.43826794108982386,
+          "high95": 0.7302380724424224
+        },
+        "strong_accretion": {
+          "estimate": 0.0074609982950033515,
+          "low95": -0.7448674383388517,
+          "high95": -0.6448562305941171
+        }
+      },
+      "classBands": {
+        "eroded_high": {
+          "count": 4,
+          "q25": 0.10416182929540665,
+          "median": 0.22323264215658226,
+          "q75": 0.314422753980029
+        },
+        "eroded_low": {
+          "count": 2,
+          "q25": 0.038013183904183,
+          "median": 0.19851169385591644,
+          "q75": 0.3590102038076498
+        },
+        "stable": {
+          "count": 1,
+          "q25": 0.503776327895111,
+          "median": 0.503776327895111,
+          "q75": 0.503776327895111
+        },
+        "accreted_low": {
+          "count": 4,
+          "q25": -0.3128159611308047,
+          "median": -0.09673252738212336,
+          "q75": 0.07891655834553551
+        },
+        "accreted_high": {
+          "count": 1,
+          "q25": -0.5341380796558125,
+          "median": -0.5341380796558125,
+          "q75": -0.5341380796558125
+        }
+      },
+      "jsd": {
+        "severe_erosion": null,
+        "erosion_onset": null,
+        "accretion_onset": null,
+        "strong_accretion": null
+      }
+    },
+    {
+      "feature": "zos_mean__p90",
+      "driver": "zos_mean",
+      "unit": "",
+      "direction": "direct",
+      "method": "ordered_logit",
+      "spearmanRho": 0.5702872982857792,
+      "screeningScore": 1.602964710800219,
+      "kruskalP": 0.3448338458564014,
+      "boundaries": {
+        "severe_erosion": {
+          "estimate": 0.5814904816905592,
+          "low95": 0.531841364828462,
+          "high95": 0.6491714096069336
+        },
+        "erosion_onset": {
+          "estimate": 0.5814904816905592,
+          "low95": 0.6478896319866181,
+          "high95": 0.6491714096069336
+        },
+        "accretion_onset": {
+          "estimate": 0.5814904816905592,
+          "low95": 0.5123630547523499,
+          "high95": 0.5123630547523499
+        },
+        "strong_accretion": {
+          "estimate": 0.6455170962886142,
+          "low95": 0.6048730961806905,
+          "high95": 0.6491714096069336
+        }
+      },
+      "classBands": {
+        "eroded_high": {
+          "count": 4,
+          "q25": 0.5373088687658311,
+          "median": 0.5411847293376923,
+          "q75": 0.5447782903909684
+        },
+        "eroded_low": {
+          "count": 2,
+          "q25": 0.5452589556574822,
+          "median": 0.5488448828458786,
+          "q75": 0.5524308100342751
+        },
+        "stable": {
+          "count": 1,
+          "q25": 0.5949277997016907,
+          "median": 0.5949277997016907,
+          "q75": 0.5949277997016907
+        },
+        "accreted_low": {
+          "count": 4,
+          "q25": 0.5509964495897293,
+          "median": 0.5797906666994095,
+          "q75": 0.6106753885746002
+        },
+        "accreted_high": {
+          "count": 1,
+          "q25": 0.5621509253978729,
+          "median": 0.5621509253978729,
+          "q75": 0.5621509253978729
+        }
+      },
+      "jsd": {
+        "severe_erosion": null,
+        "erosion_onset": null,
+        "accretion_onset": null,
+        "strong_accretion": null
+      }
+    },
+    {
+      "feature": "zos_mean__anom_peak_neg",
+      "driver": "zos_mean",
+      "unit": "",
+      "direction": "direct",
+      "method": "ordered_logit",
+      "spearmanRho": 0.4576827998981412,
+      "screeningScore": 1.5142786309997862,
+      "kruskalP": 0.2518181150727962,
+      "boundaries": {
+        "severe_erosion": {
+          "estimate": -1.2381135554128428,
+          "low95": -1.7965435815014512,
+          "high95": 0.48019119020356765
+        },
+        "erosion_onset": {
+          "estimate": -1.2381135554128428,
+          "low95": 0.2742667240272985,
+          "high95": 0.48019119020356765
+        },
+        "accretion_onset": {
+          "estimate": -1.2381135554128428,
+          "low95": -2.629369361531266,
+          "high95": -2.629369361531266
+        },
+        "strong_accretion": {
+          "estimate": -1.2381135554128428,
+          "low95": -2.629369361531266,
+          "high95": -2.629369361531266
+        }
+      },
+      "classBands": {
+        "eroded_high": {
+          "count": 4,
+          "q25": -1.7386193866446493,
+          "median": -1.5443971686254105,
+          "q75": -1.3580731097827117
+        },
+        "eroded_low": {
+          "count": 2,
+          "q25": -1.4220382568158576,
+          "median": -1.2510730013366311,
+          "q75": -1.0801077458574049
+        },
+        "stable": {
+          "count": 1,
+          "q25": -0.0267705496994042,
+          "median": -0.0267705496994042,
+          "q75": -0.0267705496994042
+        },
+        "accreted_low": {
+          "count": 4,
+          "q25": -1.2502129465356737,
+          "median": -0.8113366915700262,
+          "q75": -0.30352110031179685
+        },
+        "accreted_high": {
+          "count": 1,
+          "q25": -1.4287281058641021,
+          "median": -1.4287281058641021,
+          "q75": -1.4287281058641021
+        }
+      },
+      "jsd": {
+        "severe_erosion": null,
+        "erosion_onset": null,
+        "accretion_onset": null,
+        "strong_accretion": null
+      }
+    }
+  ],
+  "fiveClassForecasts": {
+    "forecastAnchor": "2024-02",
+    "horizons": [
+      "H6",
+      "H12",
+      "H18",
+      "H24"
+    ],
+    "method": "ensemble(TheilSen + GP_Matern + Huber)",
+    "features": {
+      "VHM0_mean__p50": {
+        "driver": "VHM0_mean",
+        "boundaries": {
+          "severe_erosion": {
+            "history": [
+              {
+                "year": 2020,
+                "threshold": 1.5140118818748773
+              },
+              {
+                "year": 2021,
+                "threshold": 1.497623296064606
+              },
+              {
+                "year": 2022,
+                "threshold": 1.4887687483594094
+              },
+              {
+                "year": 2023,
+                "threshold": 1.518260628348201
+              },
+              {
+                "year": 2024,
+                "threshold": 1.5035782455800968
+              }
+            ],
+            "horizons": {
+              "H6": {
+                "estimate": 1.505132963902125,
+                "low95": 1.4624743116716288,
+                "high95": 1.5254355920327076,
+                "predTheilSen": 1.5044488398508977,
+                "predGP": 1.5044185388703,
+                "predHuber": 1.5065315129851768,
+                "targetDate": "2024-08"
+              },
+              "H12": {
+                "estimate": 1.5051846429724074,
+                "low95": 1.4561636468063668,
+                "high95": 1.5255320819108202,
+                "predTheilSen": 1.504223163502097,
+                "predGP": 1.5044271932567743,
+                "predHuber": 1.5069035721583506,
+                "targetDate": "2025-02"
+              },
+              "H18": {
+                "estimate": 1.5052393611971395,
+                "low95": 1.4498529819411015,
+                "high95": 1.5255589496237436,
+                "predTheilSen": 1.5039974871532964,
+                "predGP": 1.5044449651065983,
+                "predHuber": 1.507275631331524,
+                "targetDate": "2025-08"
+              },
+              "H24": {
+                "estimate": 1.5052892116076129,
+                "low95": 1.4435423170758395,
+                "high95": 1.5255623273077739,
+                "predTheilSen": 1.503771810804496,
+                "predGP": 1.504448133513645,
+                "predHuber": 1.5076476905046976,
+                "targetDate": "2026-02"
+              }
+            },
+            "trend": "stable",
+            "mkTau": 0.09999999999999999,
+            "mkPValue": 0.8728885715695383,
+            "direction": "direct"
+          },
+          "strong_accretion": {
+            "history": [
+              {
+                "year": 2020,
+                "threshold": 1.5140118818748773
+              },
+              {
+                "year": 2021,
+                "threshold": 1.497623296064606
+              },
+              {
+                "year": 2022,
+                "threshold": 1.4887687483594094
+              },
+              {
+                "year": 2023,
+                "threshold": 1.518260628348201
+              },
+              {
+                "year": 2024,
+                "threshold": 1.5035782455800968
+              }
+            ],
+            "horizons": {
+              "H6": {
+                "estimate": 1.505132963902125,
+                "low95": 1.4624743116716288,
+                "high95": 1.5254355920327076,
+                "predTheilSen": 1.5044488398508977,
+                "predGP": 1.5044185388703,
+                "predHuber": 1.5065315129851768,
+                "targetDate": "2024-08"
+              },
+              "H12": {
+                "estimate": 1.5051846429724074,
+                "low95": 1.4561636468063668,
+                "high95": 1.5255320819108202,
+                "predTheilSen": 1.504223163502097,
+                "predGP": 1.5044271932567743,
+                "predHuber": 1.5069035721583506,
+                "targetDate": "2025-02"
+              },
+              "H18": {
+                "estimate": 1.5052393611971395,
+                "low95": 1.4498529819411015,
+                "high95": 1.5255589496237436,
+                "predTheilSen": 1.5039974871532964,
+                "predGP": 1.5044449651065983,
+                "predHuber": 1.507275631331524,
+                "targetDate": "2025-08"
+              },
+              "H24": {
+                "estimate": 1.5052892116076129,
+                "low95": 1.4435423170758395,
+                "high95": 1.5255623273077739,
+                "predTheilSen": 1.503771810804496,
+                "predGP": 1.504448133513645,
+                "predHuber": 1.5076476905046976,
+                "targetDate": "2026-02"
+              }
+            },
+            "trend": "stable",
+            "mkTau": 0.09999999999999999,
+            "mkPValue": 0.8728885715695383,
+            "direction": "direct"
+          }
+        }
+      },
+      "VTPK_mean__late_minus_early": {
+        "driver": "VTPK_mean",
+        "boundaries": {
+          "severe_erosion": {
+            "history": [
+              {
+                "year": 2020,
+                "threshold": -0.3306471927071791
+              },
+              {
+                "year": 2021,
+                "threshold": -0.3458634615873196
+              },
+              {
+                "year": 2022,
+                "threshold": -0.42194480598802175
+              },
+              {
+                "year": 2023,
+                "threshold": -0.24695771386640686
+              },
+              {
+                "year": 2024,
+                "threshold": -0.23066647366676118
+              }
+            ],
+            "horizons": {
+              "H6": {
+                "estimate": -0.2547432605832285,
+                "low95": -0.42237832499733696,
+                "high95": -0.19483615924155445,
+                "predTheilSen": -0.22018449315472566,
+                "predGP": -0.2345467045799313,
+                "predHuber": -0.30949858401502844,
+                "targetDate": "2024-08"
+              },
+              "H12": {
+                "estimate": -0.26443695807822754,
+                "low95": -0.4224825165256918,
+                "high95": -0.1581859337430374,
+                "predTheilSen": -0.20636088983977174,
+                "predGP": -0.2773749797676536,
+                "predHuber": -0.30957500462725723,
+                "targetDate": "2025-02"
+              },
+              "H18": {
+                "estimate": -0.26875652263284006,
+                "low95": -0.43993457906468314,
+                "high95": -0.12705757339119755,
+                "predTheilSen": -0.19253728652482494,
+                "predGP": -0.3040808561342092,
+                "predHuber": -0.30965142523948597,
+                "targetDate": "2025-08"
+              },
+              "H24": {
+                "estimate": -0.26701086770783156,
+                "low95": -0.44990876686845305,
+                "high95": -0.07923808095006209,
+                "predTheilSen": -0.17871368320987102,
+                "predGP": -0.31259107406190884,
+                "predHuber": -0.30972784585171476,
+                "targetDate": "2026-02"
+              }
+            },
+            "trend": "stable",
+            "mkTau": 0.6,
+            "mkPValue": 0.28475697986529375,
+            "direction": "inverse"
+          },
+          "strong_accretion": {
+            "history": [
+              {
+                "year": 2020,
+                "threshold": -0.3306471927071791
+              },
+              {
+                "year": 2021,
+                "threshold": -0.3458634615873196
+              },
+              {
+                "year": 2022,
+                "threshold": -0.42194480598802175
+              },
+              {
+                "year": 2023,
+                "threshold": -0.027589837511049042
+              },
+              {
+                "year": 2024,
+                "threshold": 0.04723600698034813
+              }
+            ],
+            "horizons": {
+              "H6": {
+                "estimate": -0.03438648551969944,
+                "low95": -0.4223791049223665,
+                "high95": 0.12857486367402643,
+                "predTheilSen": 0.07916723106936274,
+                "predGP": 0.037658098672829904,
+                "predHuber": -0.21998478630129095,
+                "targetDate": "2024-08"
+              },
+              "H12": {
+                "estimate": -0.04531080874152374,
+                "low95": -0.42248337022217325,
+                "high95": 0.20595325750940233,
+                "predTheilSen": 0.1295881265885157,
+                "predGP": -0.04548149626369688,
+                "predHuber": -0.22003905654939004,
+                "targetDate": "2025-02"
+              },
+              "H18": {
+                "estimate": -0.054590044820656165,
+                "low95": -0.4562244119977383,
+                "high95": 0.3014398428417877,
+                "predTheilSen": 0.18000902210764025,
+                "predGP": -0.12368582977211962,
+                "predHuber": -0.22009332679748914,
+                "targetDate": "2025-08"
+              },
+              "H24": {
+                "estimate": -0.05396358872702333,
+                "low95": -0.5346064436424558,
+                "high95": 0.4186704302871391,
+                "predTheilSen": 0.2304299176267932,
+                "predGP": -0.17217308676227497,
+                "predHuber": -0.22014759704558823,
+                "targetDate": "2026-02"
+              }
+            },
+            "trend": "stable",
+            "mkTau": 0.6,
+            "mkPValue": 0.28475697986529375,
+            "direction": "inverse"
+          }
+        }
+      },
+      "VMDR_mean__p50": {
+        "driver": "VMDR_mean",
+        "boundaries": {
+          "severe_erosion": {
+            "history": [
+              {
+                "year": 2020,
+                "threshold": 187.4478168621286
+              },
+              {
+                "year": 2021,
+                "threshold": 196.37875915425448
+              },
+              {
+                "year": 2022,
+                "threshold": 187.35561039308476
+              },
+              {
+                "year": 2023,
+                "threshold": 189.20064230395081
+              },
+              {
+                "year": 2024,
+                "threshold": 189.1737075315294
+              }
+            ],
+            "horizons": {
+              "H6": {
+                "estimate": 189.06666745488732,
+                "low95": 183.29471479565706,
+                "high95": 196.38187255208697,
+                "predTheilSen": 188.57545508684777,
+                "predGP": 189.83829367387202,
+                "predHuber": 188.78625360394216,
+                "targetDate": "2024-08"
+              },
+              "H12": {
+                "estimate": 189.10401945934458,
+                "low95": 183.31866360688616,
+                "high95": 196.45993075535392,
+                "predTheilSen": 188.58988403596007,
+                "predGP": 189.88929718112004,
+                "predHuber": 188.83287716095356,
+                "targetDate": "2025-02"
+              },
+              "H18": {
+                "estimate": 189.13060589585518,
+                "low95": 183.33456868060782,
+                "high95": 196.48143928844874,
+                "predTheilSen": 188.60431298507237,
+                "predGP": 189.90800398452828,
+                "predHuber": 188.87950071796493,
+                "targetDate": "2025-08"
+              },
+              "H24": {
+                "estimate": 189.1519325981079,
+                "low95": 183.3374318191165,
+                "high95": 196.4844313512088,
+                "predTheilSen": 188.6187419341847,
+                "predGP": 189.91093158516264,
+                "predHuber": 188.92612427497633,
+                "targetDate": "2026-02"
+              }
+            },
+            "trend": "stable",
+            "mkTau": 0.09999999999999999,
+            "mkPValue": 0.8728885715695383,
+            "direction": "direct"
+          },
+          "strong_accretion": {
+            "history": [
+              {
+                "year": 2020,
+                "threshold": 187.4478168621286
+              },
+              {
+                "year": 2021,
+                "threshold": 208.55327628872828
+              },
+              {
+                "year": 2022,
+                "threshold": 187.35561039308476
+              },
+              {
+                "year": 2023,
+                "threshold": 189.20064230395081
+              },
+              {
+                "year": 2024,
+                "threshold": 189.1737075315294
+              }
+            ],
+            "horizons": {
+              "H6": {
+                "estimate": 189.80348329580792,
+                "low95": 176.0619088306791,
+                "high95": 207.99987799738722,
+                "predTheilSen": 188.59329782510628,
+                "predGP": 192.03089341403316,
+                "predHuber": 188.78625864828422,
+                "targetDate": "2024-08"
+              },
+              "H12": {
+                "estimate": 189.89927238605574,
+                "low95": 176.2157444615046,
+                "high95": 208.28665593025337,
+                "predTheilSen": 188.61373475575002,
+                "predGP": 192.251200195879,
+                "predHuber": 188.83288220653827,
+                "targetDate": "2025-02"
+              },
+              "H18": {
+                "estimate": 189.9485435157103,
+                "low95": 176.2896138395392,
+                "high95": 208.37429235235027,
+                "predTheilSen": 188.63417168639376,
+                "predGP": 192.33195309594473,
+                "predHuber": 188.87950576479236,
+                "targetDate": "2025-08"
+              },
+              "H24": {
+                "estimate": 189.9751090830454,
+                "low95": 176.3020916769376,
+                "high95": 208.387086941167,
+                "predTheilSen": 188.6546086170375,
+                "predGP": 192.3445893090523,
+                "predHuber": 188.92612932304644,
+                "targetDate": "2026-02"
+              }
+            },
+            "trend": "stable",
+            "mkTau": 0.09999999999999999,
+            "mkPValue": 0.8728885715695383,
+            "direction": "direct"
+          }
+        }
+      },
+      "eastward_wind_mean__anom_pos_months": {
+        "driver": "eastward_wind_mean",
+        "boundaries": {
+          "severe_erosion": {
+            "history": [
+              {
+                "year": 2020,
+                "threshold": 1.7462437395659434
+              },
+              {
+                "year": 2021,
+                "threshold": 1.676126878130217
+              },
+              {
+                "year": 2022,
+                "threshold": 1.5475792988313857
+              },
+              {
+                "year": 2023,
+                "threshold": 1.3528102392877017
+              },
+              {
+                "year": 2024,
+                "threshold": 1.3528102392877017
+              }
+            ],
+            "horizons": {
+              "H6": {
+                "estimate": 1.4112142251513777,
+                "low95": 1.2099106233005656,
+                "high95": 1.4599323195527396,
+                "predTheilSen": 1.3403508908875779,
+                "predGP": 1.35670726656329,
+                "predHuber": 1.5365845180032656,
+                "targetDate": "2024-08"
+              },
+              "H12": {
+                "estimate": 1.4059259386734329,
+                "low95": 1.1439569518363613,
+                "high95": 1.4958591132655792,
+                "predTheilSen": 1.2866499033156913,
+                "predGP": 1.3941639617439108,
+                "predHuber": 1.536963950960696,
+                "targetDate": "2025-02"
+              },
+              "H18": {
+                "estimate": 1.4002759896206216,
+                "low95": 1.0780032803721569,
+                "high95": 1.6054956414525046,
+                "predTheilSen": 1.2329489157438047,
+                "predGP": 1.430535669199934,
+                "predHuber": 1.5373433839181263,
+                "targetDate": "2025-08"
+              },
+              "H24": {
+                "estimate": 1.3925159642059148,
+                "low95": 1.012049608907951,
+                "high95": 1.6964546296853273,
+                "predTheilSen": 1.1792479281719466,
+                "predGP": 1.460577147570241,
+                "predHuber": 1.5377228168755568,
+                "targetDate": "2026-02"
+              }
+            },
+            "trend": "decreasing",
+            "mkTau": -0.9746794344808964,
+            "mkPValue": 0.004818230468198537,
+            "direction": "direct"
+          },
+          "strong_accretion": {
+            "history": [
+              {
+                "year": 2020,
+                "threshold": 4.959933222036728
+              },
+              {
+                "year": 2021,
+                "threshold": 5.053422370617696
+              },
+              {
+                "year": 2022,
+                "threshold": 5.123539232053423
+              },
+              {
+                "year": 2023,
+                "threshold": 5.006677796327212
+              },
+              {
+                "year": 2024,
+                "threshold": 4.854757929883139
+              }
+            ],
+            "horizons": {
+              "H6": {
+                "estimate": 4.9127802713003375,
+                "low95": 4.837477443954295,
+                "high95": 5.293961778853552,
+                "predTheilSen": 4.875808478232855,
+                "predGP": 4.849063693730325,
+                "predHuber": 5.013468641937831,
+                "targetDate": "2024-08"
+              },
+              "H12": {
+                "estimate": 4.906919315838398,
+                "low95": 4.75436693225672,
+                "high95": 5.334863190090753,
+                "predTheilSen": 4.862869968231266,
+                "predGP": 4.8431812054658545,
+                "predHuber": 5.014706773818076,
+                "targetDate": "2025-02"
+              },
+              "H18": {
+                "estimate": 4.911382632164337,
+                "low95": 4.716192411748984,
+                "high95": 5.375764601327956,
+                "predTheilSen": 4.849931458229676,
+                "predGP": 4.868271532565014,
+                "predHuber": 5.01594490569832,
+                "targetDate": "2025-08"
+              },
+              "H24": {
+                "estimate": 4.918795325858407,
+                "low95": 4.7047849767592,
+                "high95": 5.4166660125651305,
+                "predTheilSen": 4.836992948228094,
+                "predGP": 4.902209991768561,
+                "predHuber": 5.017183037578565,
+                "targetDate": "2026-02"
+              }
+            },
+            "trend": "stable",
+            "mkTau": -0.3,
+            "mkPValue": 0.6238376647810728,
+            "direction": "direct"
+          }
+        }
+      },
+      "uo_mean__p10": {
+        "driver": "uo_mean",
+        "boundaries": {
+          "severe_erosion": {
+            "history": [
+              {
+                "year": 2020,
+                "threshold": -0.19791307333614275
+              },
+              {
+                "year": 2021,
+                "threshold": -0.19735927702688016
+              },
+              {
+                "year": 2022,
+                "threshold": -0.19625168440835505
+              },
+              {
+                "year": 2023,
+                "threshold": -0.23557122236599706
+              },
+              {
+                "year": 2024,
+                "threshold": -0.23252534266505298
+              }
+            ],
+            "horizons": {
+              "H6": {
+                "estimate": -0.22574953117225557,
+                "low95": -0.24934746719142212,
+                "high95": -0.19565101069813515,
+                "predTheilSen": -0.23387626486833568,
+                "predGP": -0.23121935536323593,
+                "predHuber": -0.2121529732851951,
+                "targetDate": "2024-08"
+              },
+              "H12": {
+                "estimate": -0.22484755256090147,
+                "low95": -0.2557057392690452,
+                "high95": -0.19537402277846458,
+                "predTheilSen": -0.2390748119996431,
+                "predGP": -0.2232624722662584,
+                "predHuber": -0.21220537341680287,
+                "targetDate": "2025-02"
+              },
+              "H18": {
+                "estimate": -0.22466978789005507,
+                "low95": -0.26206401134666485,
+                "high95": -0.18547080536147295,
+                "predTheilSen": -0.24427335913095405,
+                "predGP": -0.2174782309908004,
+                "predHuber": -0.21225777354841066,
+                "targetDate": "2025-08"
+              },
+              "H24": {
+                "estimate": -0.22537498918418786,
+                "low95": -0.26842228342428776,
+                "high95": -0.17986062468773845,
+                "predTheilSen": -0.24947190626226146,
+                "predGP": -0.21434288761028372,
+                "predHuber": -0.21231017368001842,
+                "targetDate": "2026-02"
+              }
+            },
+            "trend": "stable",
+            "mkTau": -0.49999999999999994,
+            "mkPValue": 0.39100221895577053,
+            "direction": "inverse"
+          },
+          "strong_accretion": {
+            "history": [
+              {
+                "year": 2020,
+                "threshold": 0.005883968472480773
+              },
+              {
+                "year": 2021,
+                "threshold": 0.005883968472480773
+              },
+              {
+                "year": 2022,
+                "threshold": 0.005883968472480773
+              },
+              {
+                "year": 2023,
+                "threshold": -0.15554765567755657
+              },
+              {
+                "year": 2024,
+                "threshold": -0.15084038704882477
+              }
+            ],
+            "horizons": {
+              "H6": {
+                "estimate": -0.12011686315012808,
+                "low95": -0.21457107932048203,
+                "high95": 0.0058846016469052504,
+                "predTheilSen": -0.15693071974607165,
+                "predGP": -0.14556607174744232,
+                "predHuber": -0.05785379795687027,
+                "targetDate": "2024-08"
+              },
+              "H12": {
+                "estimate": -0.1167333248609731,
+                "low95": -0.24181266482874902,
+                "high95": 0.005884690781720728,
+                "predTheilSen": -0.1799870001196524,
+                "predGP": -0.11234486717615497,
+                "predHuber": -0.05786810728711187,
+                "targetDate": "2025-02"
+              },
+              "H18": {
+                "estimate": -0.1158266075276298,
+                "low95": -0.269054250337016,
+                "high95": 0.047180445951423094,
+                "predTheilSen": -0.20304328049324738,
+                "predGP": -0.08655412547228852,
+                "predHuber": -0.05788241661735347,
+                "targetDate": "2025-08"
+              },
+              "H24": {
+                "estimate": -0.11846319815834207,
+                "low95": -0.296295835845283,
+                "high95": 0.07553935266420272,
+                "predTheilSen": -0.22609956086682814,
+                "predGP": -0.07139330766060298,
+                "predHuber": -0.057896725947595075,
+                "targetDate": "2026-02"
+              }
+            },
+            "trend": "stable",
+            "mkTau": -0.7826237921249264,
+            "mkPValue": 0.11761376087345808,
+            "direction": "inverse"
+          }
+        }
+      },
+      "vo_mean__p90": {
+        "driver": "vo_mean",
+        "boundaries": {
+          "severe_erosion": {
+            "history": [
+              {
+                "year": 2020,
+                "threshold": 0.05894965474713028
+              },
+              {
+                "year": 2021,
+                "threshold": 0.05802309445862679
+              },
+              {
+                "year": 2022,
+                "threshold": 0.030782221976624113
+              },
+              {
+                "year": 2023,
+                "threshold": 0.03694384789517234
+              },
+              {
+                "year": 2024,
+                "threshold": 0.03976985677510799
+              }
+            ],
+            "horizons": {
+              "H6": {
+                "estimate": 0.040606459339881155,
+                "low95": 0.025454269880332347,
+                "high95": 0.05516529898399047,
+                "predTheilSen": 0.03691422059821292,
+                "predGP": 0.039971097103324096,
+                "predHuber": 0.04493406031810645,
+                "targetDate": "2024-08"
+              },
+              "H12": {
+                "estimate": 0.0402928958767115,
+                "low95": 0.020204842911930497,
+                "high95": 0.05862028975231126,
+                "predTheilSen": 0.034040037758300556,
+                "predGP": 0.04189349565377291,
+                "predHuber": 0.04494515421806103,
+                "targetDate": "2025-02"
+              },
+              "H18": {
+                "estimate": 0.03988890932554195,
+                "low95": 0.014955415943525185,
+                "high95": 0.06494582305754962,
+                "predTheilSen": 0.03116585491838819,
+                "predGP": 0.04354462494022204,
+                "predHuber": 0.04495624811801561,
+                "targetDate": "2025-08"
+              },
+              "H24": {
+                "estimate": 0.039213823291558335,
+                "low95": 0.009705988975123337,
+                "high95": 0.06675577084234299,
+                "predTheilSen": 0.028291672078475827,
+                "predGP": 0.04438245577822899,
+                "predHuber": 0.04496734201797019,
+                "targetDate": "2026-02"
+              }
+            },
+            "trend": "stable",
+            "mkTau": -0.6,
+            "mkPValue": 0.28475697986529375,
+            "direction": "direct"
+          },
+          "strong_accretion": {
+            "history": [
+              {
+                "year": 2020,
+                "threshold": 0.10360986065299861
+              },
+              {
+                "year": 2021,
+                "threshold": 0.11546983234584332
+              },
+              {
+                "year": 2022,
+                "threshold": 0.030782221976624113
+              },
+              {
+                "year": 2023,
+                "threshold": 0.03694384789517234
+              },
+              {
+                "year": 2024,
+                "threshold": 0.03976985677510799
+              }
+            ],
+            "horizons": {
+              "H6": {
+                "estimate": 0.042987186187594374,
+                "low95": -0.005701888483231698,
+                "high95": 0.10973246698512425,
+                "predTheilSen": 0.02349983664178268,
+                "predGP": 0.0405589789198201,
+                "predHuber": 0.06490274300118035,
+                "targetDate": "2024-08"
+              },
+              "H12": {
+                "estimate": 0.04270064887165762,
+                "low95": -0.023998542154345694,
+                "high95": 0.10975956699092795,
+                "predTheilSen": 0.013579563420009322,
+                "predGP": 0.049603623540327706,
+                "predHuber": 0.06491875965463585,
+                "targetDate": "2025-02"
+              },
+              "H18": {
+                "estimate": 0.042195167294209086,
+                "low95": -0.03797291769967668,
+                "high95": 0.1249251383844788,
+                "predTheilSen": 0.0036592901982430703,
+                "predGP": 0.057991435376292845,
+                "predHuber": 0.06493477630809134,
+                "targetDate": "2025-08"
+              },
+              "H24": {
+                "estimate": 0.040376187676926904,
+                "low95": -0.05194729324501459,
+                "high95": 0.13271305784825038,
+                "predTheilSen": -0.006260983023523181,
+                "predGP": 0.062438753092757045,
+                "predHuber": 0.06495079296154684,
+                "targetDate": "2026-02"
+              }
+            },
+            "trend": "stable",
+            "mkTau": -0.49999999999999994,
+            "mkPValue": 0.39100221895577053,
+            "direction": "direct"
+          }
+        }
+      },
+      "zos_mean__p90": {
+        "driver": "zos_mean",
+        "boundaries": {
+          "severe_erosion": {
+            "history": [
+              {
+                "year": 2020,
+                "threshold": 0.5446610101535045
+              },
+              {
+                "year": 2021,
+                "threshold": 0.5551784988396952
+              },
+              {
+                "year": 2022,
+                "threshold": 0.5628382574616371
+              },
+              {
+                "year": 2023,
+                "threshold": 0.5648938087031917
+              },
+              {
+                "year": 2024,
+                "threshold": 0.5814904816905592
+              }
+            ],
+            "horizons": {
+              "H6": {
+                "estimate": 0.5737915775832619,
+                "low95": 0.565677179575138,
+                "high95": 0.5897245487344002,
+                "predTheilSen": 0.5821188053430717,
+                "predGP": 0.5777008641547691,
+                "predHuber": 0.5615550632519447,
+                "targetDate": "2024-08"
+              },
+              "H12": {
+                "estimate": 0.5761927153433027,
+                "low95": 0.5663619431537896,
+                "high95": 0.5943887656221216,
+                "predTheilSen": 0.586509040966881,
+                "predGP": 0.5803753543879556,
+                "predHuber": 0.5616937506750718,
+                "targetDate": "2025-02"
+              },
+              "H18": {
+                "estimate": 0.5782865022169852,
+                "low95": 0.5652741208810871,
+                "high95": 0.5989814630430462,
+                "predTheilSen": 0.5908992765906902,
+                "predGP": 0.5821277919620667,
+                "predHuber": 0.5618324380981988,
+                "targetDate": "2025-08"
+              },
+              "H24": {
+                "estimate": 0.5800876402197592,
+                "low95": 0.5628575479947323,
+                "high95": 0.603147017852172,
+                "predTheilSen": 0.5952895122144994,
+                "predGP": 0.5830022829234521,
+                "predHuber": 0.5619711255213259,
+                "targetDate": "2026-02"
+              }
+            },
+            "trend": "increasing",
+            "mkTau": 0.9999999999999999,
+            "mkPValue": 1.4042654220543672e-24,
+            "direction": "direct"
+          },
+          "strong_accretion": {
+            "history": [
+              {
+                "year": 2020,
+                "threshold": 0.5606362098743999
+              },
+              {
+                "year": 2021,
+                "threshold": 0.6017454762649855
+              },
+              {
+                "year": 2022,
+                "threshold": 0.6393504425639502
+              },
+              {
+                "year": 2023,
+                "threshold": 0.646659069200589
+              },
+              {
+                "year": 2024,
+                "threshold": 0.6455170962886142
+              }
+            ],
+            "horizons": {
+              "H6": {
+                "estimate": 0.6416654166209014,
+                "low95": 0.6438807466251215,
+                "high95": 0.7213442518665463,
+                "predTheilSen": 0.6531773869201416,
+                "predGP": 0.64541605209575,
+                "predHuber": 0.6264028108468124,
+                "targetDate": "2024-08"
+              },
+              "H12": {
+                "estimate": 0.6449669564129383,
+                "low95": 0.6302277555842635,
+                "high95": 0.7410227657781402,
+                "predTheilSen": 0.6638850070810633,
+                "predGP": 0.644458339016119,
+                "predHuber": 0.6265575231416327,
+                "targetDate": "2025-02"
+              },
+              "H18": {
+                "estimate": 0.6480362767498021,
+                "low95": 0.6126078957690515,
+                "high95": 0.7607012796897198,
+                "predTheilSen": 0.6745926272419851,
+                "predGP": 0.6428039675709685,
+                "predHuber": 0.6267122354364529,
+                "targetDate": "2025-08"
+              },
+              "H24": {
+                "estimate": 0.6509150048415905,
+                "low95": 0.5943511162565649,
+                "high95": 0.7803797936013137,
+                "predTheilSen": 0.685300247402914,
+                "predGP": 0.6405778193905843,
+                "predHuber": 0.6268669477312733,
+                "targetDate": "2026-02"
+              }
+            },
+            "trend": "increasing",
+            "mkTau": 0.8999999999999998,
+            "mkPValue": 0.03738607346849874,
+            "direction": "direct"
+          }
+        }
+      },
+      "VMDR_mean__p10": {
+        "driver": "VMDR_mean",
+        "boundaries": {
+          "severe_erosion": {
+            "history": [
+              {
+                "year": 2020,
+                "threshold": 179.07106851415364
+              },
+              {
+                "year": 2021,
+                "threshold": 178.98009028872582
+              },
+              {
+                "year": 2022,
+                "threshold": 179.37781706235245
+              },
+              {
+                "year": 2023,
+                "threshold": 179.22706976888972
+              },
+              {
+                "year": 2024,
+                "threshold": 177.22129942166384
+              }
+            ],
+            "horizons": {
+              "H6": {
+                "estimate": 178.77646004272665,
+                "low95": 177.08699329296527,
+                "high95": 180.16812390955565,
+                "predTheilSen": 179.0447316549563,
+                "predGP": 178.62755860126046,
+                "predHuber": 178.65708987196314,
+                "targetDate": "2024-08"
+              },
+              "H12": {
+                "estimate": 178.76040052946647,
+                "low95": 176.8793132238398,
+                "high95": 180.27627558546106,
+                "predTheilSen": 178.97010454048092,
+                "predGP": 178.72919058574917,
+                "predHuber": 178.5819064621693,
+                "targetDate": "2025-02"
+              },
+              "H18": {
+                "estimate": 178.7235570160632,
+                "low95": 176.58618175283794,
+                "high95": 180.3162307027317,
+                "predTheilSen": 178.89547742600553,
+                "predGP": 178.76847056980864,
+                "predHuber": 178.5067230523755,
+                "targetDate": "2025-08"
+              },
+              "H24": {
+                "estimate": 178.6756868863116,
+                "low95": 176.29305028183612,
+                "high95": 180.32244637112848,
+                "predTheilSen": 178.82085031153014,
+                "predGP": 178.77467070482305,
+                "predHuber": 178.43153964258164,
+                "targetDate": "2026-02"
+              }
+            },
+            "trend": "stable",
+            "mkTau": -0.19999999999999998,
+            "mkPValue": 0.747060078104662,
+            "direction": "direct"
+          },
+          "strong_accretion": {
+            "history": [
+              {
+                "year": 2020,
+                "threshold": 184.82544127246175
+              },
+              {
+                "year": 2021,
+                "threshold": 185.14386506145902
+              },
+              {
+                "year": 2022,
+                "threshold": 188.36235575273162
+              },
+              {
+                "year": 2023,
+                "threshold": 188.27190737665396
+              },
+              {
+                "year": 2024,
+                "threshold": 177.22129942166384
+              }
+            ],
+            "horizons": {
+              "H6": {
+                "estimate": 186.13293361237925,
+                "low95": 176.12321131167454,
+                "high95": 191.98377646610015,
+                "predTheilSen": 188.10224726908226,
+                "predGP": 184.05349388888735,
+                "predHuber": 186.2430596791681,
+                "targetDate": "2024-08"
+              },
+              "H12": {
+                "estimate": 186.2967471151965,
+                "low95": 175.6808009115029,
+                "high95": 192.50490583896283,
+                "predTheilSen": 188.05999995988697,
+                "predGP": 184.54118618791267,
+                "predHuber": 186.2890551977899,
+                "targetDate": "2025-02"
+              },
+              "H18": {
+                "estimate": 186.36129973649903,
+                "low95": 174.36037335566377,
+                "high95": 192.6982780277761,
+                "predTheilSen": 188.0177526506917,
+                "predGP": 184.7310958423937,
+                "predHuber": 186.33505071641173,
+                "targetDate": "2025-08"
+              },
+              "H24": {
+                "estimate": 186.37255310385896,
+                "low95": 173.0399457998247,
+                "high95": 192.72836958604964,
+                "predTheilSen": 187.97550534149642,
+                "predGP": 184.7611077350469,
+                "predHuber": 186.38104623503355,
+                "targetDate": "2026-02"
+              }
+            },
+            "trend": "stable",
+            "mkTau": -0.09999999999999999,
+            "mkPValue": 0.8728885715695383,
+            "direction": "direct"
+          }
+        }
+      },
+      "VHM0_mean__anom_pos_months": {
+        "driver": "VHM0_mean",
+        "boundaries": {
+          "severe_erosion": {
+            "history": [
+              {
+                "year": 2020,
+                "threshold": 1.121035058430718
+              },
+              {
+                "year": 2021,
+                "threshold": 0.974958263772955
+              },
+              {
+                "year": 2022,
+                "threshold": 0.8931552587646077
+              },
+              {
+                "year": 2023,
+                "threshold": 1.7228714524207012
+              },
+              {
+                "year": 2024,
+                "threshold": 1.8046744574290485
+              }
+            ],
+            "horizons": {
+              "H6": {
+                "estimate": 1.6645017467375502,
+                "low95": 0.6557809520075978,
+                "high95": 1.967622804446627,
+                "predTheilSen": 1.9060918818526602,
+                "predGP": 1.7825230045537943,
+                "predHuber": 1.3048903538061958,
+                "targetDate": "2024-08"
+              },
+              "H12": {
+                "estimate": 1.643033773154917,
+                "low95": 0.5988111186151791,
+                "high95": 2.129395459022548,
+                "predTheilSen": 2.0052607225497923,
+                "predGP": 1.618627907251101,
+                "predHuber": 1.305212689663858,
+                "targetDate": "2025-02"
+              },
+              "H18": {
+                "estimate": 1.628379214839228,
+                "low95": 0.5418412852227596,
+                "high95": 2.3035024341824832,
+                "predTheilSen": 2.104429563246981,
+                "predGP": 1.4751730557491818,
+                "predHuber": 1.3055350255215206,
+                "targetDate": "2025-08"
+              },
+              "H24": {
+                "estimate": 1.6319605483545885,
+                "low95": 0.4848714518303403,
+                "high95": 2.530359694272279,
+                "predTheilSen": 2.203598403944113,
+                "predGP": 1.3864258797404694,
+                "predHuber": 1.305857361379183,
+                "targetDate": "2026-02"
+              }
+            },
+            "trend": "stable",
+            "mkTau": 0.6,
+            "mkPValue": 0.28475697986529375,
+            "direction": "direct"
+          },
+          "strong_accretion": {
+            "history": [
+              {
+                "year": 2020,
+                "threshold": 1.121035058430718
+              },
+              {
+                "year": 2021,
+                "threshold": 0.974958263772955
+              },
+              {
+                "year": 2022,
+                "threshold": 0.8931552587646077
+              },
+              {
+                "year": 2023,
+                "threshold": 1.7228714524207012
+              },
+              {
+                "year": 2024,
+                "threshold": 1.8046744574290485
+              }
+            ],
+            "horizons": {
+              "H6": {
+                "estimate": 1.6645017467375502,
+                "low95": 0.6557809520075978,
+                "high95": 1.967622804446627,
+                "predTheilSen": 1.9060918818526602,
+                "predGP": 1.7825230045537943,
+                "predHuber": 1.3048903538061958,
+                "targetDate": "2024-08"
+              },
+              "H12": {
+                "estimate": 1.643033773154917,
+                "low95": 0.5988111186151791,
+                "high95": 2.129395459022548,
+                "predTheilSen": 2.0052607225497923,
+                "predGP": 1.618627907251101,
+                "predHuber": 1.305212689663858,
+                "targetDate": "2025-02"
+              },
+              "H18": {
+                "estimate": 1.628379214839228,
+                "low95": 0.5418412852227596,
+                "high95": 2.3035024341824832,
+                "predTheilSen": 2.104429563246981,
+                "predGP": 1.4751730557491818,
+                "predHuber": 1.3055350255215206,
+                "targetDate": "2025-08"
+              },
+              "H24": {
+                "estimate": 1.6319605483545885,
+                "low95": 0.4848714518303403,
+                "high95": 2.530359694272279,
+                "predTheilSen": 2.203598403944113,
+                "predGP": 1.3864258797404694,
+                "predHuber": 1.305857361379183,
+                "targetDate": "2026-02"
+              }
+            },
+            "trend": "stable",
+            "mkTau": 0.6,
+            "mkPValue": 0.28475697986529375,
+            "direction": "direct"
+          }
+        }
+      },
+      "eastward_wind_mean__p50": {
+        "driver": "eastward_wind_mean",
+        "boundaries": {
+          "severe_erosion": {
+            "history": [
+              {
+                "year": 2020,
+                "threshold": 2.3735609522645977
+              },
+              {
+                "year": 2021,
+                "threshold": 2.3372404179907402
+              },
+              {
+                "year": 2022,
+                "threshold": 1.3959332380599292
+              },
+              {
+                "year": 2023,
+                "threshold": 1.8484265608884058
+              },
+              {
+                "year": 2024,
+                "threshold": 1.813804691940397
+              }
+            ],
+            "horizons": {
+              "H6": {
+                "estimate": 1.8480055474355928,
+                "low95": 1.397371244905905,
+                "high95": 2.225250990641709,
+                "predTheilSen": 1.737308835827207,
+                "predGP": 1.8197510756957942,
+                "predHuber": 1.986956730783777,
+                "targetDate": "2024-08"
+              },
+              "H12": {
+                "estimate": 1.852989341981612,
+                "low95": 1.2304078229584872,
+                "high95": 2.5952421663019427,
+                "predTheilSen": 1.6586956550721084,
+                "predGP": 1.912824994630215,
+                "predHuber": 1.9874473762425124,
+                "targetDate": "2025-02"
+              },
+              "H18": {
+                "estimate": 1.8385491584067963,
+                "low95": 1.2330673140725215,
+                "high95": 2.662186644331855,
+                "predTheilSen": 1.5800824743169528,
+                "predGP": 1.9476269792021883,
+                "predHuber": 1.987938021701248,
+                "targetDate": "2025-08"
+              },
+              "H24": {
+                "estimate": 1.8143296917002898,
+                "low95": 1.2163684853330679,
+                "high95": 2.6683739797073365,
+                "predTheilSen": 1.5014692935617973,
+                "predGP": 1.9530911143790892,
+                "predHuber": 1.9884286671599833,
+                "targetDate": "2026-02"
+              }
+            },
+            "trend": "stable",
+            "mkTau": -0.7,
+            "mkPValue": 0.1881204043741873,
+            "direction": "direct"
+          },
+          "strong_accretion": {
+            "history": [
+              {
+                "year": 2020,
+                "threshold": 4.007984994588193
+              },
+              {
+                "year": 2021,
+                "threshold": 4.123000019788742
+              },
+              {
+                "year": 2022,
+                "threshold": 1.3959332380599292
+              },
+              {
+                "year": 2023,
+                "threshold": 1.8484265608884058
+              },
+              {
+                "year": 2024,
+                "threshold": 1.813804691940397
+              }
+            ],
+            "horizons": {
+              "H6": {
+                "estimate": 1.9547996478246847,
+                "low95": 0.6102689072146916,
+                "high95": 4.07268625970287,
+                "predTheilSen": 1.392160915841032,
+                "predGP": 1.832352776303443,
+                "predHuber": 2.6398852513295785,
+                "targetDate": "2024-08"
+              },
+              "H12": {
+                "estimate": 1.942963521937009,
+                "low95": 0.04471500760444088,
+                "high95": 4.073692067959138,
+                "predTheilSen": 1.0689221714771975,
+                "predGP": 2.119431416632504,
+                "predHuber": 2.6405369777013252,
+                "targetDate": "2025-02"
+              },
+              "H18": {
+                "estimate": 1.9288094301908736,
+                "low95": -0.5176447857866208,
+                "high95": 4.580710108071038,
+                "predTheilSen": 0.7456834271131356,
+                "predGP": 2.3995561593864134,
+                "predHuber": 2.6411887040730715,
+                "targetDate": "2025-08"
+              },
+              "H24": {
+                "estimate": 1.8702251961781589,
+                "low95": -0.9627095459147824,
+                "high95": 4.827633954493402,
+                "predTheilSen": 0.42244468274930114,
+                "predGP": 2.5463904753403575,
+                "predHuber": 2.641840430444818,
+                "targetDate": "2026-02"
+              }
+            },
+            "trend": "stable",
+            "mkTau": -0.6,
+            "mkPValue": 0.28475697986529375,
+            "direction": "direct"
+          }
+        }
+      },
+      "VTPK_mean__iqr": {
+        "driver": "VTPK_mean",
+        "boundaries": {
+          "severe_erosion": {
+            "history": [
+              {
+                "year": 2020,
+                "threshold": 0.8151099301339788
+              },
+              {
+                "year": 2021,
+                "threshold": 0.5646858212943865
+              },
+              {
+                "year": 2022,
+                "threshold": 0.821768678289423
+              },
+              {
+                "year": 2023,
+                "threshold": 0.712870016480129
+              },
+              {
+                "year": 2024,
+                "threshold": 0.737039345612311
+              }
+            ],
+            "horizons": {
+              "H6": {
+                "estimate": 0.7485273699933903,
+                "low95": 0.5475983479386075,
+                "high95": 0.914139473449773,
+                "predTheilSen": 0.7619891015359519,
+                "predGP": 0.7308689106941902,
+                "predHuber": 0.7527240977500288,
+                "targetDate": "2024-08"
+              },
+              "H12": {
+                "estimate": 0.7478146940888291,
+                "low95": 0.5464654418157833,
+                "high95": 0.9145095616005134,
+                "predTheilSen": 0.760046587414223,
+                "predGP": 0.7304875017081484,
+                "predHuber": 0.7529099931441157,
+                "targetDate": "2025-02"
+              },
+              "H18": {
+                "estimate": 0.7471747562165474,
+                "low95": 0.5462244220776163,
+                "high95": 0.9144241915602737,
+                "predTheilSen": 0.7581040732924951,
+                "predGP": 0.730324306818945,
+                "predHuber": 0.7530958885382024,
+                "targetDate": "2025-08"
+              },
+              "H24": {
+                "estimate": 0.7465804967476924,
+                "low95": 0.5461964718039041,
+                "high95": 0.9143998224761378,
+                "predTheilSen": 0.7561615591707671,
+                "predGP": 0.730298147140021,
+                "predHuber": 0.7532817839322893,
+                "targetDate": "2026-02"
+              }
+            },
+            "trend": "stable",
+            "mkTau": -0.09999999999999999,
+            "mkPValue": 0.8728885715695383,
+            "direction": "direct"
+          },
+          "strong_accretion": {
+            "history": [
+              {
+                "year": 2020,
+                "threshold": 1.077878498035998
+              },
+              {
+                "year": 2021,
+                "threshold": 0.5646858212943865
+              },
+              {
+                "year": 2022,
+                "threshold": 1.333650243899261
+              },
+              {
+                "year": 2023,
+                "threshold": 0.712870016480129
+              },
+              {
+                "year": 2024,
+                "threshold": 0.737039345612311
+              }
+            ],
+            "horizons": {
+              "H6": {
+                "estimate": 0.8188848592941628,
+                "low95": 0.31926233399500514,
+                "high95": 1.4217374189571812,
+                "predTheilSen": 0.7352310920351073,
+                "predGP": 0.8704998764760932,
+                "predHuber": 0.850923609371288,
+                "targetDate": "2024-08"
+              },
+              "H12": {
+                "estimate": 0.8126094077461055,
+                "low95": 0.32730132924676425,
+                "high95": 1.4343097973469692,
+                "predTheilSen": 0.7058889247946638,
+                "predGP": 0.8808055632968667,
+                "predHuber": 0.8511337351467859,
+                "targetDate": "2025-02"
+              },
+              "H18": {
+                "estimate": 0.8041509407780364,
+                "low95": 0.33082323316550377,
+                "high95": 1.4383011745497059,
+                "predTheilSen": 0.6765467575542203,
+                "predGP": 0.8845622038576049,
+                "predHuber": 0.8513438609222839,
+                "targetDate": "2025-08"
+              },
+              "H24": {
+                "estimate": 0.7946360135651678,
+                "low95": 0.26472276275978857,
+                "high95": 1.4388938351960179,
+                "predTheilSen": 0.6472045903137769,
+                "predGP": 0.8851494636839445,
+                "predHuber": 0.8515539866977818,
+                "targetDate": "2026-02"
+              }
+            },
+            "trend": "stable",
+            "mkTau": -0.09999999999999999,
+            "mkPValue": 0.8728885715695383,
+            "direction": "direct"
+          }
+        }
+      },
+      "uo_mean__anom_mean": {
+        "driver": "uo_mean",
+        "boundaries": {
+          "severe_erosion": {
+            "history": [
+              {
+                "year": 2020,
+                "threshold": -0.17846632401549112
+              },
+              {
+                "year": 2021,
+                "threshold": -0.2424942760694362
+              },
+              {
+                "year": 2022,
+                "threshold": -0.25111342346131355
+              },
+              {
+                "year": 2023,
+                "threshold": -0.2006298458803183
+              },
+              {
+                "year": 2024,
+                "threshold": -0.4296529051501989
+              }
+            ],
+            "horizons": {
+              "H6": {
+                "estimate": -0.2938268406233454,
+                "low95": -0.44997658795331785,
+                "high95": -0.10298898134179671,
+                "predTheilSen": -0.3733243603958556,
+                "predGP": -0.27648278464755727,
+                "predHuber": -0.23167337682662334,
+                "targetDate": "2024-08"
+              },
+              "H12": {
+                "estimate": -0.2983254186828494,
+                "low95": -0.46628487572192545,
+                "high95": -0.09126671515571441,
+                "predTheilSen": -0.39775538819498024,
+                "predGP": -0.2654902525524754,
+                "predHuber": -0.2317306153010926,
+                "targetDate": "2025-02"
+              },
+              "H18": {
+                "estimate": -0.3050682959155112,
+                "low95": -0.4976829883179764,
+                "high95": -0.08693151349200742,
+                "predTheilSen": -0.4221864159940907,
+                "predGP": -0.26123061797688113,
+                "predHuber": -0.23178785377556185,
+                "targetDate": "2025-08"
+              },
+              "H24": {
+                "estimate": -0.3130068374161902,
+                "low95": -0.5290811009140274,
+                "high95": -0.08625713308017999,
+                "predTheilSen": -0.44661744379321533,
+                "predGP": -0.260557976205324,
+                "predHuber": -0.2318450922500311,
+                "targetDate": "2026-02"
+              }
+            },
+            "trend": "stable",
+            "mkTau": -0.7,
+            "mkPValue": 0.1881204043741873,
+            "direction": "inverse"
+          },
+          "strong_accretion": {
+            "history": [
+              {
+                "year": 2020,
+                "threshold": -0.17846632401549112
+              },
+              {
+                "year": 2021,
+                "threshold": -0.2424942760694362
+              },
+              {
+                "year": 2022,
+                "threshold": -0.25111342346131355
+              },
+              {
+                "year": 2023,
+                "threshold": 0.017311452457148824
+              },
+              {
+                "year": 2024,
+                "threshold": 0.0074609982950033515
+              }
+            ],
+            "horizons": {
+              "H6": {
+                "estimate": -0.03268466438423548,
+                "low95": -0.32678731526791294,
+                "high95": 0.08975973872577979,
+                "predTheilSen": 0.03223043716369034,
+                "predGP": -0.0007536992645662821,
+                "predHuber": -0.1295307310518305,
+                "targetDate": "2024-08"
+              },
+              "H12": {
+                "estimate": -0.03979066537773205,
+                "low95": -0.3449490488771197,
+                "high95": 0.12319741184988314,
+                "predTheilSen": 0.06244170928755466,
+                "predGP": -0.05225103534651025,
+                "predHuber": -0.12956267007424055,
+                "targetDate": "2025-02"
+              },
+              "H18": {
+                "estimate": -0.04260116657410057,
+                "low95": -0.36311078248634027,
+                "high95": 0.16200309223135567,
+                "predTheilSen": 0.09265298141141898,
+                "predGP": -0.09086187203707008,
+                "predHuber": -0.1295946090966506,
+                "targetDate": "2025-08"
+              },
+              "H24": {
+                "estimate": -0.0396885133856204,
+                "low95": -0.38127251609554696,
+                "high95": 0.21568483820546783,
+                "predTheilSen": 0.1228642535352833,
+                "predGP": -0.11230324557308383,
+                "predHuber": -0.12962654811906066,
+                "targetDate": "2026-02"
+              }
+            },
+            "trend": "stable",
+            "mkTau": 0.49999999999999994,
+            "mkPValue": 0.39100221895577053,
+            "direction": "inverse"
+          }
+        }
+      },
+      "zos_mean__anom_peak_neg": {
+        "driver": "zos_mean",
+        "boundaries": {
+          "severe_erosion": {
+            "history": [
+              {
+                "year": 2020,
+                "threshold": -1.5918791535312757
+              },
+              {
+                "year": 2021,
+                "threshold": -1.697712184521164
+              },
+              {
+                "year": 2022,
+                "threshold": -1.7234957116519196
+              },
+              {
+                "year": 2023,
+                "threshold": -1.340640802318958
+              },
+              {
+                "year": 2024,
+                "threshold": -1.2381135554128428
+              }
+            ],
+            "horizons": {
+              "H6": {
+                "estimate": -1.336522552843002,
+                "low95": -1.8605961184346,
+                "high95": -1.1761033712966071,
+                "predTheilSen": -1.2362278037962824,
+                "predGP": -1.24520036364623,
+                "predHuber": -1.5281394910864932,
+                "targetDate": "2024-08"
+              },
+              "H12": {
+                "estimate": -1.3419956259037107,
+                "low95": -1.8935002160482006,
+                "high95": -1.0911196633179816,
+                "predTheilSen": -1.1853154976281246,
+                "predGP": -1.3121545459314194,
+                "predHuber": -1.5285168341515878,
+                "targetDate": "2025-02"
+              },
+              "H18": {
+                "estimate": -1.349727249520358,
+                "low95": -1.9264043136618283,
+                "high95": -0.9750355037592101,
+                "predTheilSen": -1.1344031914599952,
+                "predGP": -1.3858843798843965,
+                "predHuber": -1.5288941772166824,
+                "targetDate": "2025-08"
+              },
+              "H24": {
+                "estimate": -1.3514868989974342,
+                "low95": -1.959308411275429,
+                "high95": -0.8538528809347099,
+                "predTheilSen": -1.0834908852918375,
+                "predGP": -1.4416982914186878,
+                "predHuber": -1.529271520281777,
+                "targetDate": "2026-02"
+              }
+            },
+            "trend": "stable",
+            "mkTau": 0.6,
+            "mkPValue": 0.28475697986529375,
+            "direction": "direct"
+          },
+          "strong_accretion": {
+            "history": [
+              {
+                "year": 2020,
+                "threshold": -1.5918791535312757
+              },
+              {
+                "year": 2021,
+                "threshold": -1.697712184521164
+              },
+              {
+                "year": 2022,
+                "threshold": -1.7234957116519196
+              },
+              {
+                "year": 2023,
+                "threshold": -1.340640802318958
+              },
+              {
+                "year": 2024,
+                "threshold": -1.2381135554128428
+              }
+            ],
+            "horizons": {
+              "H6": {
+                "estimate": -1.336522552843002,
+                "low95": -1.8605961184346,
+                "high95": -1.1761033712966071,
+                "predTheilSen": -1.2362278037962824,
+                "predGP": -1.24520036364623,
+                "predHuber": -1.5281394910864932,
+                "targetDate": "2024-08"
+              },
+              "H12": {
+                "estimate": -1.3419956259037107,
+                "low95": -1.8935002160482006,
+                "high95": -1.0911196633179816,
+                "predTheilSen": -1.1853154976281246,
+                "predGP": -1.3121545459314194,
+                "predHuber": -1.5285168341515878,
+                "targetDate": "2025-02"
+              },
+              "H18": {
+                "estimate": -1.349727249520358,
+                "low95": -1.9264043136618283,
+                "high95": -0.9750355037592101,
+                "predTheilSen": -1.1344031914599952,
+                "predGP": -1.3858843798843965,
+                "predHuber": -1.5288941772166824,
+                "targetDate": "2025-08"
+              },
+              "H24": {
+                "estimate": -1.3514868989974342,
+                "low95": -1.959308411275429,
+                "high95": -0.8538528809347099,
+                "predTheilSen": -1.0834908852918375,
+                "predGP": -1.4416982914186878,
+                "predHuber": -1.529271520281777,
+                "targetDate": "2026-02"
+              }
+            },
+            "trend": "stable",
+            "mkTau": 0.6,
+            "mkPValue": 0.28475697986529375,
+            "direction": "direct"
+          }
+        }
+      }
+    }
+  }
+}

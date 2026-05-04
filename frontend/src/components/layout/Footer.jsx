@@ -1,13 +1,12 @@
 import { Link } from 'react-router-dom'
-import { Waves, Github, Mail, ExternalLink } from 'lucide-react'
+import { Github, Mail, ExternalLink } from 'lucide-react'
 
 const footerLinks = {
   product: [
     { name: 'Home', href: '/' },
     { name: 'Dashboard', href: '/dashboard' },
-    { name: 'Data Upload', href: '/upload' },
     { name: 'Analysis', href: '/analysis' },
-    { name: 'Threshold', href: '/threshold' },
+    { name: 'Morphological Dashboard', href: '/morphological' },
   ],
   models: [
     { name: 'Random Forest', href: '/models/random-forest' },

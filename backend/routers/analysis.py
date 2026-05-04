@@ -10,61 +10,61 @@ import traceback
 import uuid
 from pathlib import Path
 
+from typing import List
+
 from fastapi import APIRouter, File, HTTPException, UploadFile
 from fastapi.responses import FileResponse, JSONResponse
 
-from config import FRONTEND_DATA_DIR, RESULTS_DIR, UPLOAD_DIR
+from config import (
+    FRONTEND_DATA_DIR,
+    NOTEBOOK_CURRENT_FILE,
+    NOTEBOOK_DATA_DIR,
+    NOTEBOOK_WAVE_FILE,
+    NOTEBOOK_WIND_FILE,
+    RESULTS_DIR,
+    UPLOAD_DIR,
+)
 from services.notebook_executor import execute_analysis
 
 router = APIRouter()
 
 
 # ---------------------------------------------------------------------------
-# POST /api/analyze  –  upload 4 files & run the notebook
+# POST /api/analyze  –  run the notebook using fixed notebook_data inputs
 # ---------------------------------------------------------------------------
 @router.post("/analyze")
-async def analyze(
-    shoreline: UploadFile = File(..., description="all_stat.csv"),
-    wave: UploadFile = File(..., description="Wave NetCDF file"),
-    wind: UploadFile = File(..., description="Wind NetCDF file"),
-    current: UploadFile = File(..., description="Current NetCDF file"),
-):
+async def analyze():
     """
-    Accepts four files, saves them to the upload directory,
-    executes the analysis notebook, and returns the full results JSON.
+    Executes the analysis notebook using pre-existing files in notebook_data.
+    Frontend uploads are display-only and are not used by this endpoint.
     """
-    # ---- Save uploaded files ----
-    saved_paths: dict[str, str] = {}
-    try:
-        for label, upload in [
-            ("shoreline", shoreline),
-            ("wave", wave),
-            ("wind", wind),
-            ("current", current),
-        ]:
-            dest = UPLOAD_DIR / upload.filename
-            content = await upload.read()
-            # On Windows, remove existing file first to avoid lock conflicts
-            if dest.exists():
-                try:
-                    os.remove(dest)
-                except OSError:
-                    # File is locked; use a unique name instead
-                    stem = dest.stem
-                    suffix = dest.suffix
-                    dest = UPLOAD_DIR / f"{stem}_{uuid.uuid4().hex[:8]}{suffix}"
-            dest.write_bytes(content)
-            saved_paths[label] = str(dest)
-    except Exception as exc:
-        raise HTTPException(status_code=500, detail=f"File save error: {exc}")
+    if not NOTEBOOK_DATA_DIR.exists():
+        raise HTTPException(
+            status_code=500,
+            detail=f"Notebook data folder not found: {NOTEBOOK_DATA_DIR}",
+        )
+
+    shoreline_files = sorted(NOTEBOOK_DATA_DIR.glob("*-stat.csv"))
+    if not shoreline_files:
+        raise HTTPException(
+            status_code=500,
+            detail=f"No DSAS interval CSV files found in {NOTEBOOK_DATA_DIR}",
+        )
+
+    for required in [NOTEBOOK_WAVE_FILE, NOTEBOOK_WIND_FILE, NOTEBOOK_CURRENT_FILE]:
+        if not required.exists():
+            raise HTTPException(
+                status_code=500,
+                detail=f"Required notebook input missing: {required.name}",
+            )
 
     # ---- Execute notebook ----
     try:
         results = execute_analysis(
-            shoreline_file=saved_paths["shoreline"],
-            wave_file=saved_paths["wave"],
-            wind_file=saved_paths["wind"],
-            current_file=saved_paths["current"],
+            shoreline_file=str(shoreline_files[0]),
+            wave_file=str(NOTEBOOK_WAVE_FILE),
+            wind_file=str(NOTEBOOK_WIND_FILE),
+            current_file=str(NOTEBOOK_CURRENT_FILE),
         )
         return JSONResponse(content=results)
     except Exception as exc:
@@ -101,19 +101,32 @@ async def get_results():
 # ---------------------------------------------------------------------------
 @router.post("/upload")
 async def upload_files(
-    shoreline: UploadFile = File(None),
+    shoreline: List[UploadFile] = File(None),
     wave: UploadFile = File(None),
     wind: UploadFile = File(None),
     current: UploadFile = File(None),
 ):
     """Upload individual files without triggering analysis."""
     saved = {}
-    for label, upload in [
-        ("shoreline", shoreline),
-        ("wave", wave),
-        ("wind", wind),
-        ("current", current),
-    ]:
+    if shoreline:
+        csv_dir = UPLOAD_DIR / "dsas_staged"
+        csv_dir.mkdir(parents=True, exist_ok=True)
+        csv_names = []
+        for upload in shoreline:
+            dest = csv_dir / upload.filename
+            content = await upload.read()
+            if dest.exists():
+                try:
+                    os.remove(dest)
+                except OSError:
+                    stem = dest.stem
+                    suffix = dest.suffix
+                    dest = csv_dir / f"{stem}_{uuid.uuid4().hex[:8]}{suffix}"
+            dest.write_bytes(content)
+            csv_names.append(dest.name)
+        saved["shoreline"] = {"files": csv_names, "count": len(csv_names)}
+
+    for label, upload in [("wave", wave), ("wind", wind), ("current", current)]:
         if upload is not None:
             dest = UPLOAD_DIR / upload.filename
             content = await upload.read()
@@ -159,6 +172,7 @@ async def analysis_status():
     has_results = frontend_json.exists()
     return {
         "hasResults": has_results,
+        "dataSource": str(NOTEBOOK_DATA_DIR),
         "uploadsDir": str(UPLOAD_DIR),
         "filesInUploads": [f.name for f in UPLOAD_DIR.iterdir() if f.is_file()] if UPLOAD_DIR.exists() else [],
     }

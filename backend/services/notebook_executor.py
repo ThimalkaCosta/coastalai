@@ -132,41 +132,49 @@ def _inject_parameters(
     """
     nb = nbformat.read(str(source_notebook), as_version=4)
 
-    # --- Replace file paths in the data-loading cell (Section 2) ---
+    # --- Replace file paths in the data-loading cell (Section 0.2) ---
     for cell in nb.cells:
         if cell.cell_type != "code":
             continue
         src = cell.source
-        if "DATA_PATH" in src and "SHORELINE_FILE" in src:
-            # Replace the path definitions
-            # NOTE: use lambda replacements so Windows back-slashes
-            # in paths are NOT interpreted as regex escape sequences.
+        if "DATA_PATH" in src and ("SHORELINE_GLOB" in src or "WAVE_FILE" in src):
+            # Replace DATA_PATH — handles both plain string and Path("...") forms
             new_src = re.sub(
-                r'DATA_PATH\s*=\s*r?"[^"]*"',
-                lambda _: f'DATA_PATH = r"{data_path}"',
+                r'DATA_PATH\s*=\s*.*',
+                lambda _: f'DATA_PATH = Path(r"{data_path}")',
                 src,
             )
             new_src = re.sub(
-                r'SHORELINE_FILE\s*=\s*.*',
-                lambda _: f'SHORELINE_FILE = r"{shoreline_file}"',
-                new_src,
-            )
-            new_src = re.sub(
                 r'WAVE_FILE\s*=\s*.*',
-                lambda _: f'WAVE_FILE = r"{wave_file}"',
+                lambda _: f'WAVE_FILE = Path(r"{wave_file}")',
                 new_src,
             )
             new_src = re.sub(
                 r'WIND_FILE\s*=\s*.*',
-                lambda _: f'WIND_FILE = r"{wind_file}"',
+                lambda _: f'WIND_FILE = Path(r"{wind_file}")',
                 new_src,
             )
             new_src = re.sub(
                 r'CURRENT_FILE\s*=\s*.*',
-                lambda _: f'CURRENT_FILE = r"{current_file}"',
+                lambda _: f'CURRENT_FILE = Path(r"{current_file}")',
                 new_src,
             )
             cell.source = new_src
+            # Inject a compatibility cell immediately after this one
+            _compat_src = (
+                "# ── Backend compatibility: fill missing NetCDF variables ──\n"
+                "import numpy as np\n"
+                "# zos (sea surface height) — some older current files omit it\n"
+                "if 'zos' not in current_ds.data_vars:\n"
+                "    _zos_like = current_ds['uo'].isel(**{d: 0 for d in current_ds['uo'].dims if d not in ('time', 'latitude', 'longitude', 'lat', 'lon')}, drop=True) if any(d not in ('time', 'latitude', 'longitude', 'lat', 'lon') for d in current_ds['uo'].dims) else current_ds['uo']\n"
+                "    current_ds = current_ds.assign(zos=(_zos_like * 0.0).assign_attrs({'units': 'm', 'long_name': 'Sea surface height (zero-filled — not in source file)'}))\n"
+                "    print('Compatibility: zos not found in current dataset — filled with 0.0')\n"
+            )
+            compat_cell = nbformat.v4.new_code_cell(source=_compat_src)
+            compat_cell.metadata["tags"] = ["injected_compat"]
+            # Find index of this cell and insert immediately after
+            _idx = nb.cells.index(cell)
+            nb.cells.insert(_idx + 1, compat_cell)
             break
 
     # --- Replace the export DATA_PATH references in Section 8.3 ---
@@ -713,28 +721,28 @@ results["figures"] = _figures
 results["csvOutputs"] = _csv_outputs
 
 # =====================================================================
-# 19. Merge five-class results (written by Section 3.5)
+# 19. Merge three-class results (written by Section 3.5)
 # =====================================================================
 try:
-    _fc_path = os.path.join(os.getcwd(), 'outputs', 'five_class_results.json')
+    _fc_path = os.path.join(os.getcwd(), 'outputs', 'three_class_results.json')
     if os.path.exists(_fc_path):
         with open(_fc_path) as _fcf:
             _fc_data = json.load(_fcf)
         results.update(_fc_data)
-        print(f"✓ Merged five-class results from {{_fc_path}}")
+        print(f"✓ Merged three-class results from {{_fc_path}}")
     else:
-        print("Info: five_class_results.json not found — skipping merge")
+        print("Info: three_class_results.json not found — skipping merge")
 except Exception as _fce:
-    print(f"Warning: five-class merge failed: {{_fce}}")
+    print(f"Warning: three-class merge failed: {{_fce}}")
 
-# Re-write with figures, CSVs, and five-class data included
+# Re-write with figures, CSVs, and three-class data included
 with open(_RESULTS_PATH, "w") as _f:
     json.dump(results, _f, indent=2, default=str)
 
 with open(os.path.join(_FRONTEND_PATH, "analysis_results.json"), "w") as _f:
     json.dump(results, _f, indent=2, default=str)
 
-print("✓ Final results with figures, CSVs, and five-class data saved")
+print("✓ Final results with figures, CSVs, and three-class data saved")
 
 '''
 
