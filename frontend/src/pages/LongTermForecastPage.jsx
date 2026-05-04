@@ -1,10 +1,10 @@
 import LTDashboard from './longterm/LTDashboard'
 import './longterm/longterm.css'
 
-export default function LongTermForecastPage() {
+export default function LongTermForecastPage({ activeTab }) {
   return (
     <div className="lt-forecast-wrapper">
-      <LTDashboard />
+      <LTDashboard activeTab={activeTab} />
     </div>
   )
 }

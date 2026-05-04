@@ -44,11 +44,6 @@ service cloud.firestore {
       }
     }
 
-    // ── Analysis results — any authenticated user can read/write ──
-    match /analysisResults/{docId} {
-      allow read, write: if request.auth != null;
-    }
-
     // All other collections — authenticated users can read; Managers and Head Office can write
     match /{collection}/{document=**} {
       allow read: if request.auth != null;

@@ -2,11 +2,21 @@ import { Routes, Route, useLocation, Navigate } from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
 import Layout from './components/layout/Layout'
 import MorphLayout from './components/layout/MorphLayout'
+import LTLayout from './components/layout/LTLayout'
 import Navbar from './components/layout/Navbar'
 import ChatWidget from './components/chat/ChatWidget'
 import HomePage from './pages/HomePage'
 import LandingPage from './pages/LandingPage'
 import AnalysisPage from './pages/AnalysisPage'
+import RandomForestPage from './pages/RandomForestPage'
+import HMMPage from './pages/HMMPage'
+import XGBoostPage from './pages/XGBoostPage'
+import ThresholdPage from './pages/ThresholdPage'
+import ForecastThresholdPage from './pages/ForecastThresholdPage'
+import HMMAnalysisPage from './pages/HMMAnalysisPage'
+import RegimeProfilesPage from './pages/RegimeProfilesPage'
+import SeasonalAnalysisPage from './pages/SeasonalAnalysisPage'
+import LongTermForecastPage from './pages/LongTermForecastPage'
 import LoginPage from './pages/LoginPage'
 import UserManagementPage from './pages/UserManagementPage'
 import UnauthorizedPage from './pages/UnauthorizedPage'
@@ -22,7 +32,13 @@ import { MorphDataProvider } from './context/MorphDataContext'
 import ProtectedRoute from './components/auth/ProtectedRoute'
 import { useAuth } from './context/AuthContext'
 
-const HEADER_ONLY_PATHS = new Set(['/'])
+/* Paths that only show the top header (no sidebar) */
+const HEADER_ONLY_PATHS = [
+  '/',
+  '/hmm-analysis',
+  '/regime-profiles',
+  '/seasonal-analysis',
+]
 
 function App() {
   const location = useLocation()
@@ -35,8 +51,9 @@ function App() {
   const isPublicPage =
     location.pathname === '/login' || location.pathname === '/unauthorized'
 
-  const isHeaderOnlyPage = HEADER_ONLY_PATHS.has(location.pathname)
+  const isHeaderOnlyPage = HEADER_ONLY_PATHS.includes(location.pathname)
   const isMorphPage = location.pathname.startsWith('/morphological')
+  const isLTPage = location.pathname.startsWith('/long-term')
 
   if (isPublicPage) {
     return (
@@ -57,6 +74,9 @@ function App() {
           <AnimatePresence mode="wait">
             <Routes>
               <Route path="/" element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
+              <Route path="/hmm-analysis" element={<ProtectedRoute><HMMAnalysisPage /></ProtectedRoute>} />
+              <Route path="/regime-profiles" element={<ProtectedRoute><RegimeProfilesPage /></ProtectedRoute>} />
+              <Route path="/seasonal-analysis" element={<ProtectedRoute><SeasonalAnalysisPage /></ProtectedRoute>} />
             </Routes>
           </AnimatePresence>
         </main>
@@ -65,6 +85,30 @@ function App() {
     )
   }
 
+  /* ── Long-Term Forecasting pages (navbar + LT sidebar) ── */
+  if (isLTPage) {
+    const pathParts = location.pathname.split('/')
+    let ltTab = pathParts[2] || 'overview'
+    if (!['overview', 'visualizations', 'segments', 'downloads', 'coastal'].includes(ltTab)) {
+      ltTab = 'overview'
+    }
+
+    return (
+      <>
+        <LTLayout>
+          <AnimatePresence mode="wait">
+            <Routes>
+              <Route path="/long-term" element={<ProtectedRoute><LongTermForecastPage activeTab={ltTab} /></ProtectedRoute>} />
+              <Route path="/long-term/*" element={<ProtectedRoute><LongTermForecastPage activeTab={ltTab} /></ProtectedRoute>} />
+            </Routes>
+          </AnimatePresence>
+        </LTLayout>
+        <ChatWidget />
+      </>
+    )
+  }
+
+  /* ── Morphological pages (navbar + morph sidebar) ── */
   if (isMorphPage) {
     return (
       <>
@@ -95,10 +139,14 @@ function App() {
           <Routes>
             <Route path="/dashboard" element={<ProtectedRoute><LandingPage /></ProtectedRoute>} />
             <Route path="/analysis" element={<ProtectedRoute><AnalysisPage /></ProtectedRoute>} />
+            <Route path="/threshold" element={<ProtectedRoute><ThresholdPage /></ProtectedRoute>} />
             <Route path="/short-term" element={<ProtectedRoute><ShortTermForecastPage /></ProtectedRoute>} />
+            <Route path="/models/random-forest" element={<ProtectedRoute><RandomForestPage /></ProtectedRoute>} />
+            <Route path="/models/hmm" element={<ProtectedRoute><HMMPage /></ProtectedRoute>} />
+            <Route path="/models/xgboost" element={<ProtectedRoute><XGBoostPage /></ProtectedRoute>} />
+            <Route path="/forecast-thresholds" element={<ProtectedRoute><ForecastThresholdPage /></ProtectedRoute>} />
             <Route path="/upload" element={<Navigate to="/analysis" replace />} />
-            <Route path="/threshold" element={<Navigate to="/analysis" replace />} />
-            <Route path="/threshold/shoreline" element={<Navigate to="/analysis" replace />} />
+            <Route path="/threshold/shoreline" element={<Navigate to="/threshold" replace />} />
             <Route path="/admin/users" element={<ProtectedRoute allowedRoles={['Manager', 'Head Office']}><UserManagementPage /></ProtectedRoute>} />
           </Routes>
         </AnimatePresence>

@@ -1,6 +1,6 @@
 Best Model: Ensemble
-Accuracy (±5m): 54.33%
-Accuracy (±10m): 87.67%
-R2: 0.8266
-RMSE: 6.85 meters
-MAE: 5.48 meters
+Accuracy (±5m): 49.54%
+Accuracy (±10m): 78.83%
+R2: 0.7935
+RMSE: 7.30 meters
+MAE: 5.89 meters

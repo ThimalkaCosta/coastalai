@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect, useCallback } from 'react'
 
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+const API_BASE = import.meta.env.VITE_API_URL || ''
 
 const MorphDataContext = createContext(null)
 
@@ -18,7 +18,7 @@ export function MorphDataProvider({ children }) {
     fetch(`${API_BASE}/api/morphological/results/latest`)
       .then(r => r.ok ? r.json() : null)
       .then(d => { if (d) setResults(d) })
-      .catch(() => {})
+      .catch(() => { })
       .finally(() => setInitialLoad(false))
   }, [])
 

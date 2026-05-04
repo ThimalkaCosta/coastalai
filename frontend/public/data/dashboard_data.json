@@ -1,0 +1,1951 @@
+{
+    "districts": [
+        {
+            "id": "kalutara",
+            "name": "Kalutara",
+            "hasData": true,
+            "avgVulnerability": "moderate",
+            "color": "#F59E0B",
+            "center": [
+                6.625,
+                79.9417
+            ],
+            "zoom": 14
+        },
+        {
+            "id": "galle",
+            "name": "Galle",
+            "hasData": false,
+            "avgVulnerability": "unknown",
+            "color": "#6B7280",
+            "center": [
+                6.033,
+                80.216
+            ],
+            "zoom": 12
+        },
+        {
+            "id": "matara",
+            "name": "Matara",
+            "hasData": false,
+            "avgVulnerability": "unknown",
+            "color": "#6B7280",
+            "center": [
+                5.944,
+                80.535
+            ],
+            "zoom": 12
+        },
+        {
+            "id": "hambantota",
+            "name": "Hambantota",
+            "hasData": false,
+            "avgVulnerability": "unknown",
+            "color": "#6B7280",
+            "center": [
+                6.124,
+                81.107
+            ],
+            "zoom": 12
+        },
+        {
+            "id": "colombo",
+            "name": "Colombo",
+            "hasData": false,
+            "avgVulnerability": "unknown",
+            "color": "#6B7280",
+            "center": [
+                6.927,
+                79.861
+            ],
+            "zoom": 12
+        },
+        {
+            "id": "gampaha",
+            "name": "Gampaha",
+            "hasData": false,
+            "avgVulnerability": "unknown",
+            "color": "#6B7280",
+            "center": [
+                7.091,
+                79.999
+            ],
+            "zoom": 12
+        },
+        {
+            "id": "puttalam",
+            "name": "Puttalam",
+            "hasData": false,
+            "avgVulnerability": "unknown",
+            "color": "#6B7280",
+            "center": [
+                8.031,
+                79.845
+            ],
+            "zoom": 12
+        },
+        {
+            "id": "mannar",
+            "name": "Mannar",
+            "hasData": false,
+            "avgVulnerability": "unknown",
+            "color": "#6B7280",
+            "center": [
+                8.977,
+                79.904
+            ],
+            "zoom": 12
+        },
+        {
+            "id": "jaffna",
+            "name": "Jaffna",
+            "hasData": false,
+            "avgVulnerability": "unknown",
+            "color": "#6B7280",
+            "center": [
+                9.661,
+                80.025
+            ],
+            "zoom": 12
+        },
+        {
+            "id": "trincomalee",
+            "name": "Trincomalee",
+            "hasData": false,
+            "avgVulnerability": "unknown",
+            "color": "#6B7280",
+            "center": [
+                8.578,
+                81.234
+            ],
+            "zoom": 12
+        },
+        {
+            "id": "batticaloa",
+            "name": "Batticaloa",
+            "hasData": false,
+            "avgVulnerability": "unknown",
+            "color": "#6B7280",
+            "center": [
+                7.717,
+                81.7
+            ],
+            "zoom": 12
+        },
+        {
+            "id": "ampara",
+            "name": "Ampara",
+            "hasData": false,
+            "avgVulnerability": "unknown",
+            "color": "#6B7280",
+            "center": [
+                7.301,
+                81.672
+            ],
+            "zoom": 12
+        }
+    ],
+    "segments": [
+        {
+            "id": "waskaduwa",
+            "name": "Waskaduwa Beach",
+            "district": "Kalutara",
+            "segmentNo": "KL-01",
+            "description": "Waskaduwa coastline, Kalutara District. ~3km stretch (Pothupitiya North to Kalutara) with 163 monitoring transects.",
+            "bbox": [
+                [
+                    6.6117,
+                    79.9362
+                ],
+                [
+                    6.6383,
+                    79.9471
+                ]
+            ],
+            "center": [
+                6.625,
+                79.9417
+            ],
+            "zoom": 15,
+            "obsDateRange": "May 2012 – Feb 2024",
+            "numObservations": 19,
+            "numTransects": 162,
+            "modelAccuracy": {
+                "r2": 0.83,
+                "rmse": 6.75,
+                "mae": 5.47,
+                "model": "Ensemble"
+            },
+            "landChange2029": {
+                "totalLoss_m2": 0,
+                "totalGain_m2": 0,
+                "netChange_m2": 0,
+                "erosionSegments": 120,
+                "accrSegments": 42,
+                "totalSegments": 162
+            },
+            "avgEPR": -6.58,
+            "avgNSM": -6.58,
+            "overallVulnerability": "critical"
+        }
+    ],
+    "yearlyKML": {
+        "2012_05": "/api/longterm/kml/052012.kml",
+        "2013_01": "/api/longterm/kml/012013.kml",
+        "2013_11": "/api/longterm/kml/112013.kml",
+        "2014_02": "/api/longterm/kml/022014.kml",
+        "2014_08": "/api/longterm/kml/082014.kml",
+        "2015_01": "/api/longterm/kml/012015.kml",
+        "2015_08": "/api/longterm/kml/082015.kml",
+        "2015_12": "/api/longterm/kml/122015.kml",
+        "2016_04": "/api/longterm/kml/042016.kml",
+        "2016_12": "/api/longterm/kml/122016.kml",
+        "2017_12": "/api/longterm/kml/122017.kml",
+        "2018_11": "/api/longterm/kml/112018.kml",
+        "2019_05": "/api/longterm/kml/052019.kml",
+        "2019_12": "/api/longterm/kml/122019.kml",
+        "2020_07": "/api/longterm/kml/072020.kml",
+        "2021_01": "/api/longterm/kml/012021.kml",
+        "2021_11": "/api/longterm/kml/112021.kml",
+        "2022_11": "/api/longterm/kml/112022.kml",
+        "2024_02": "/api/longterm/kml/022024.kml"
+    },
+    "sliderYears": [
+        {
+            "year": 2012,
+            "label": "2012",
+            "kmlKey": "2012_05",
+            "isObserved": true
+        },
+        {
+            "year": 2013,
+            "label": "2013",
+            "kmlKey": "2013_11",
+            "isObserved": true
+        },
+        {
+            "year": 2014,
+            "label": "2014",
+            "kmlKey": "2014_08",
+            "isObserved": true
+        },
+        {
+            "year": 2015,
+            "label": "2015",
+            "kmlKey": "2015_12",
+            "isObserved": true
+        },
+        {
+            "year": 2016,
+            "label": "2016",
+            "kmlKey": "2016_12",
+            "isObserved": true
+        },
+        {
+            "year": 2017,
+            "label": "2017",
+            "kmlKey": "2017_12",
+            "isObserved": true
+        },
+        {
+            "year": 2018,
+            "label": "2018",
+            "kmlKey": "2018_11",
+            "isObserved": true
+        },
+        {
+            "year": 2019,
+            "label": "2019",
+            "kmlKey": "2019_12",
+            "isObserved": true
+        },
+        {
+            "year": 2020,
+            "label": "2020",
+            "kmlKey": "2020_07",
+            "isObserved": true
+        },
+        {
+            "year": 2021,
+            "label": "2021",
+            "kmlKey": "2021_11",
+            "isObserved": true
+        },
+        {
+            "year": 2022,
+            "label": "2022",
+            "kmlKey": "2022_11",
+            "isObserved": true
+        },
+        {
+            "year": 2023,
+            "label": "2023",
+            "kmlKey": "2022_11",
+            "isObserved": true
+        },
+        {
+            "year": 2024,
+            "label": "2024",
+            "kmlKey": "2024_02",
+            "isObserved": true
+        },
+        {
+            "year": 2025,
+            "label": "2025",
+            "kmlKey": "2024_02",
+            "isObserved": true
+        },
+        {
+            "year": 2026,
+            "label": "2026 ★",
+            "kmlFile": "/api/longterm/kml/022024.kml",
+            "isObserved": false
+        },
+        {
+            "year": 2027,
+            "label": "2027 ★",
+            "kmlFile": "/api/longterm/kml/022024.kml",
+            "isObserved": false
+        },
+        {
+            "year": 2028,
+            "label": "2028 ★",
+            "kmlFile": "/api/longterm/kml/022024.kml",
+            "isObserved": false
+        },
+        {
+            "year": 2029,
+            "label": "2029 ★",
+            "kmlFile": "/api/longterm/kml/022024.kml",
+            "isObserved": false
+        },
+        {
+            "year": 2030,
+            "label": "2030 ★",
+            "kmlFile": "/api/longterm/kml/022024.kml",
+            "isObserved": false
+        }
+    ],
+    "transects": [
+        {
+            "id": 1,
+            "epr": 3.81,
+            "nsm": 3.81,
+            "sce": 3.81,
+            "lrr": 3.81,
+            "vulnerabilityLevel": "stable",
+            "color": "#10b981",
+            "trend": "Accretion"
+        },
+        {
+            "id": 2,
+            "epr": 3.72,
+            "nsm": 3.72,
+            "sce": 3.72,
+            "lrr": 3.72,
+            "vulnerabilityLevel": "stable",
+            "color": "#10b981",
+            "trend": "Accretion"
+        },
+        {
+            "id": 3,
+            "epr": 2.58,
+            "nsm": 2.58,
+            "sce": 2.58,
+            "lrr": 2.58,
+            "vulnerabilityLevel": "stable",
+            "color": "#10b981",
+            "trend": "Stable"
+        },
+        {
+            "id": 4,
+            "epr": 0.5,
+            "nsm": 0.5,
+            "sce": 0.5,
+            "lrr": 0.5,
+            "vulnerabilityLevel": "stable",
+            "color": "#10b981",
+            "trend": "Stable"
+        },
+        {
+            "id": 5,
+            "epr": -1.9,
+            "nsm": -1.9,
+            "sce": 1.9,
+            "lrr": -1.9,
+            "vulnerabilityLevel": "moderate",
+            "color": "#f59e0b",
+            "trend": "Stable"
+        },
+        {
+            "id": 6,
+            "epr": -3.07,
+            "nsm": -3.07,
+            "sce": 3.07,
+            "lrr": -3.07,
+            "vulnerabilityLevel": "moderate",
+            "color": "#f59e0b",
+            "trend": "Erosion"
+        },
+        {
+            "id": 7,
+            "epr": -1.85,
+            "nsm": -1.85,
+            "sce": 1.85,
+            "lrr": -1.85,
+            "vulnerabilityLevel": "moderate",
+            "color": "#f59e0b",
+            "trend": "Stable"
+        },
+        {
+            "id": 8,
+            "epr": -1.31,
+            "nsm": -1.31,
+            "sce": 1.31,
+            "lrr": -1.31,
+            "vulnerabilityLevel": "moderate",
+            "color": "#f59e0b",
+            "trend": "Stable"
+        },
+        {
+            "id": 9,
+            "epr": -1.64,
+            "nsm": -1.64,
+            "sce": 1.64,
+            "lrr": -1.64,
+            "vulnerabilityLevel": "moderate",
+            "color": "#f59e0b",
+            "trend": "Stable"
+        },
+        {
+            "id": 10,
+            "epr": -1.51,
+            "nsm": -1.51,
+            "sce": 1.51,
+            "lrr": -1.51,
+            "vulnerabilityLevel": "moderate",
+            "color": "#f59e0b",
+            "trend": "Stable"
+        },
+        {
+            "id": 11,
+            "epr": -1.85,
+            "nsm": -1.85,
+            "sce": 1.85,
+            "lrr": -1.85,
+            "vulnerabilityLevel": "moderate",
+            "color": "#f59e0b",
+            "trend": "Stable"
+        },
+        {
+            "id": 12,
+            "epr": -1.48,
+            "nsm": -1.48,
+            "sce": 1.48,
+            "lrr": -1.48,
+            "vulnerabilityLevel": "moderate",
+            "color": "#f59e0b",
+            "trend": "Stable"
+        },
+        {
+            "id": 13,
+            "epr": -1.86,
+            "nsm": -1.86,
+            "sce": 1.86,
+            "lrr": -1.86,
+            "vulnerabilityLevel": "moderate",
+            "color": "#f59e0b",
+            "trend": "Stable"
+        },
+        {
+            "id": 14,
+            "epr": -1.17,
+            "nsm": -1.17,
+            "sce": 1.17,
+            "lrr": -1.17,
+            "vulnerabilityLevel": "moderate",
+            "color": "#f59e0b",
+            "trend": "Stable"
+        },
+        {
+            "id": 15,
+            "epr": -1.45,
+            "nsm": -1.45,
+            "sce": 1.45,
+            "lrr": -1.45,
+            "vulnerabilityLevel": "moderate",
+            "color": "#f59e0b",
+            "trend": "Stable"
+        },
+        {
+            "id": 16,
+            "epr": -0.96,
+            "nsm": -0.96,
+            "sce": 0.96,
+            "lrr": -0.96,
+            "vulnerabilityLevel": "moderate",
+            "color": "#f59e0b",
+            "trend": "Stable"
+        },
+        {
+            "id": 17,
+            "epr": 0.04,
+            "nsm": 0.04,
+            "sce": 0.04,
+            "lrr": 0.04,
+            "vulnerabilityLevel": "stable",
+            "color": "#10b981",
+            "trend": "Stable"
+        },
+        {
+            "id": 18,
+            "epr": 1.68,
+            "nsm": 1.68,
+            "sce": 1.68,
+            "lrr": 1.68,
+            "vulnerabilityLevel": "stable",
+            "color": "#10b981",
+            "trend": "Stable"
+        },
+        {
+            "id": 19,
+            "epr": 2.45,
+            "nsm": 2.45,
+            "sce": 2.45,
+            "lrr": 2.45,
+            "vulnerabilityLevel": "stable",
+            "color": "#10b981",
+            "trend": "Stable"
+        },
+        {
+            "id": 20,
+            "epr": 4.78,
+            "nsm": 4.78,
+            "sce": 4.78,
+            "lrr": 4.78,
+            "vulnerabilityLevel": "stable",
+            "color": "#10b981",
+            "trend": "Accretion"
+        },
+        {
+            "id": 21,
+            "epr": -15.72,
+            "nsm": -15.72,
+            "sce": 15.72,
+            "lrr": -15.72,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 22,
+            "epr": -16.33,
+            "nsm": -16.33,
+            "sce": 16.33,
+            "lrr": -16.33,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 23,
+            "epr": -19.14,
+            "nsm": -19.14,
+            "sce": 19.14,
+            "lrr": -19.14,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 24,
+            "epr": -19.83,
+            "nsm": -19.83,
+            "sce": 19.83,
+            "lrr": -19.83,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 25,
+            "epr": -19.6,
+            "nsm": -19.6,
+            "sce": 19.6,
+            "lrr": -19.6,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 26,
+            "epr": -19.08,
+            "nsm": -19.08,
+            "sce": 19.08,
+            "lrr": -19.08,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 27,
+            "epr": -17.74,
+            "nsm": -17.74,
+            "sce": 17.74,
+            "lrr": -17.74,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 28,
+            "epr": -18.17,
+            "nsm": -18.17,
+            "sce": 18.17,
+            "lrr": -18.17,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 29,
+            "epr": -17.8,
+            "nsm": -17.8,
+            "sce": 17.8,
+            "lrr": -17.8,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 30,
+            "epr": -17.77,
+            "nsm": -17.77,
+            "sce": 17.77,
+            "lrr": -17.77,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 31,
+            "epr": -17.33,
+            "nsm": -17.33,
+            "sce": 17.33,
+            "lrr": -17.33,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 32,
+            "epr": -17.04,
+            "nsm": -17.04,
+            "sce": 17.04,
+            "lrr": -17.04,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 33,
+            "epr": -16.44,
+            "nsm": -16.44,
+            "sce": 16.44,
+            "lrr": -16.44,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 34,
+            "epr": -16.48,
+            "nsm": -16.48,
+            "sce": 16.48,
+            "lrr": -16.48,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 35,
+            "epr": -16.0,
+            "nsm": -16.0,
+            "sce": 16.0,
+            "lrr": -16.0,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 36,
+            "epr": -16.63,
+            "nsm": -16.63,
+            "sce": 16.63,
+            "lrr": -16.63,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 37,
+            "epr": -14.12,
+            "nsm": -14.12,
+            "sce": 14.12,
+            "lrr": -14.12,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 38,
+            "epr": -11.91,
+            "nsm": -11.91,
+            "sce": 11.91,
+            "lrr": -11.91,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 39,
+            "epr": -10.66,
+            "nsm": -10.66,
+            "sce": 10.66,
+            "lrr": -10.66,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 40,
+            "epr": -10.28,
+            "nsm": -10.28,
+            "sce": 10.28,
+            "lrr": -10.28,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 41,
+            "epr": -9.91,
+            "nsm": -9.91,
+            "sce": 9.91,
+            "lrr": -9.91,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 42,
+            "epr": -9.91,
+            "nsm": -9.91,
+            "sce": 9.91,
+            "lrr": -9.91,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 43,
+            "epr": -8.73,
+            "nsm": -8.73,
+            "sce": 8.73,
+            "lrr": -8.73,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 44,
+            "epr": -9.76,
+            "nsm": -9.76,
+            "sce": 9.76,
+            "lrr": -9.76,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 45,
+            "epr": -8.74,
+            "nsm": -8.74,
+            "sce": 8.74,
+            "lrr": -8.74,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 46,
+            "epr": -8.35,
+            "nsm": -8.35,
+            "sce": 8.35,
+            "lrr": -8.35,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 47,
+            "epr": -10.1,
+            "nsm": -10.1,
+            "sce": 10.1,
+            "lrr": -10.1,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 48,
+            "epr": -7.89,
+            "nsm": -7.89,
+            "sce": 7.89,
+            "lrr": -7.89,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 49,
+            "epr": -6.05,
+            "nsm": -6.05,
+            "sce": 6.05,
+            "lrr": -6.05,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 50,
+            "epr": -3.98,
+            "nsm": -3.98,
+            "sce": 3.98,
+            "lrr": -3.98,
+            "vulnerabilityLevel": "moderate",
+            "color": "#f59e0b",
+            "trend": "Erosion"
+        },
+        {
+            "id": 51,
+            "epr": -1.93,
+            "nsm": -1.93,
+            "sce": 1.93,
+            "lrr": -1.93,
+            "vulnerabilityLevel": "moderate",
+            "color": "#f59e0b",
+            "trend": "Stable"
+        },
+        {
+            "id": 52,
+            "epr": -1.06,
+            "nsm": -1.06,
+            "sce": 1.06,
+            "lrr": -1.06,
+            "vulnerabilityLevel": "moderate",
+            "color": "#f59e0b",
+            "trend": "Stable"
+        },
+        {
+            "id": 53,
+            "epr": -1.15,
+            "nsm": -1.15,
+            "sce": 1.15,
+            "lrr": -1.15,
+            "vulnerabilityLevel": "moderate",
+            "color": "#f59e0b",
+            "trend": "Stable"
+        },
+        {
+            "id": 54,
+            "epr": 0.24,
+            "nsm": 0.24,
+            "sce": 0.24,
+            "lrr": 0.24,
+            "vulnerabilityLevel": "stable",
+            "color": "#10b981",
+            "trend": "Stable"
+        },
+        {
+            "id": 55,
+            "epr": -0.68,
+            "nsm": -0.68,
+            "sce": 0.68,
+            "lrr": -0.68,
+            "vulnerabilityLevel": "moderate",
+            "color": "#f59e0b",
+            "trend": "Stable"
+        },
+        {
+            "id": 56,
+            "epr": 0.05,
+            "nsm": 0.05,
+            "sce": 0.05,
+            "lrr": 0.05,
+            "vulnerabilityLevel": "stable",
+            "color": "#10b981",
+            "trend": "Stable"
+        },
+        {
+            "id": 57,
+            "epr": -1.34,
+            "nsm": -1.34,
+            "sce": 1.34,
+            "lrr": -1.34,
+            "vulnerabilityLevel": "moderate",
+            "color": "#f59e0b",
+            "trend": "Stable"
+        },
+        {
+            "id": 58,
+            "epr": -3.64,
+            "nsm": -3.64,
+            "sce": 3.64,
+            "lrr": -3.64,
+            "vulnerabilityLevel": "moderate",
+            "color": "#f59e0b",
+            "trend": "Erosion"
+        },
+        {
+            "id": 59,
+            "epr": -6.56,
+            "nsm": -6.56,
+            "sce": 6.56,
+            "lrr": -6.56,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 60,
+            "epr": -7.6,
+            "nsm": -7.6,
+            "sce": 7.6,
+            "lrr": -7.6,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 61,
+            "epr": -7.87,
+            "nsm": -7.87,
+            "sce": 7.87,
+            "lrr": -7.87,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 62,
+            "epr": -7.16,
+            "nsm": -7.16,
+            "sce": 7.16,
+            "lrr": -7.16,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 63,
+            "epr": -3.61,
+            "nsm": -3.61,
+            "sce": 3.61,
+            "lrr": -3.61,
+            "vulnerabilityLevel": "moderate",
+            "color": "#f59e0b",
+            "trend": "Erosion"
+        },
+        {
+            "id": 64,
+            "epr": -3.02,
+            "nsm": -3.02,
+            "sce": 3.02,
+            "lrr": -3.02,
+            "vulnerabilityLevel": "moderate",
+            "color": "#f59e0b",
+            "trend": "Erosion"
+        },
+        {
+            "id": 65,
+            "epr": -2.45,
+            "nsm": -2.45,
+            "sce": 2.45,
+            "lrr": -2.45,
+            "vulnerabilityLevel": "moderate",
+            "color": "#f59e0b",
+            "trend": "Stable"
+        },
+        {
+            "id": 66,
+            "epr": -3.5,
+            "nsm": -3.5,
+            "sce": 3.5,
+            "lrr": -3.5,
+            "vulnerabilityLevel": "moderate",
+            "color": "#f59e0b",
+            "trend": "Erosion"
+        },
+        {
+            "id": 67,
+            "epr": -2.56,
+            "nsm": -2.56,
+            "sce": 2.56,
+            "lrr": -2.56,
+            "vulnerabilityLevel": "moderate",
+            "color": "#f59e0b",
+            "trend": "Stable"
+        },
+        {
+            "id": 68,
+            "epr": -2.11,
+            "nsm": -2.11,
+            "sce": 2.11,
+            "lrr": -2.11,
+            "vulnerabilityLevel": "moderate",
+            "color": "#f59e0b",
+            "trend": "Stable"
+        },
+        {
+            "id": 69,
+            "epr": -4.15,
+            "nsm": -4.15,
+            "sce": 4.15,
+            "lrr": -4.15,
+            "vulnerabilityLevel": "moderate",
+            "color": "#f59e0b",
+            "trend": "Erosion"
+        },
+        {
+            "id": 70,
+            "epr": -2.81,
+            "nsm": -2.81,
+            "sce": 2.81,
+            "lrr": -2.81,
+            "vulnerabilityLevel": "moderate",
+            "color": "#f59e0b",
+            "trend": "Stable"
+        },
+        {
+            "id": 71,
+            "epr": -5.61,
+            "nsm": -5.61,
+            "sce": 5.61,
+            "lrr": -5.61,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 72,
+            "epr": -9.69,
+            "nsm": -9.69,
+            "sce": 9.69,
+            "lrr": -9.69,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 73,
+            "epr": -11.31,
+            "nsm": -11.31,
+            "sce": 11.31,
+            "lrr": -11.31,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 74,
+            "epr": -12.29,
+            "nsm": -12.29,
+            "sce": 12.29,
+            "lrr": -12.29,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 75,
+            "epr": -12.37,
+            "nsm": -12.37,
+            "sce": 12.37,
+            "lrr": -12.37,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 76,
+            "epr": -12.46,
+            "nsm": -12.46,
+            "sce": 12.46,
+            "lrr": -12.46,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 77,
+            "epr": -12.75,
+            "nsm": -12.75,
+            "sce": 12.75,
+            "lrr": -12.75,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 78,
+            "epr": -13.75,
+            "nsm": -13.75,
+            "sce": 13.75,
+            "lrr": -13.75,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 79,
+            "epr": -14.32,
+            "nsm": -14.32,
+            "sce": 14.32,
+            "lrr": -14.32,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 80,
+            "epr": -14.78,
+            "nsm": -14.78,
+            "sce": 14.78,
+            "lrr": -14.78,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 81,
+            "epr": -15.21,
+            "nsm": -15.21,
+            "sce": 15.21,
+            "lrr": -15.21,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 82,
+            "epr": -15.14,
+            "nsm": -15.14,
+            "sce": 15.14,
+            "lrr": -15.14,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 83,
+            "epr": -15.06,
+            "nsm": -15.06,
+            "sce": 15.06,
+            "lrr": -15.06,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 84,
+            "epr": -14.73,
+            "nsm": -14.73,
+            "sce": 14.73,
+            "lrr": -14.73,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 85,
+            "epr": -15.0,
+            "nsm": -15.0,
+            "sce": 15.0,
+            "lrr": -15.0,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 86,
+            "epr": -15.44,
+            "nsm": -15.44,
+            "sce": 15.44,
+            "lrr": -15.44,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 87,
+            "epr": -15.07,
+            "nsm": -15.07,
+            "sce": 15.07,
+            "lrr": -15.07,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 88,
+            "epr": -14.63,
+            "nsm": -14.63,
+            "sce": 14.63,
+            "lrr": -14.63,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 89,
+            "epr": -13.4,
+            "nsm": -13.4,
+            "sce": 13.4,
+            "lrr": -13.4,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 90,
+            "epr": -13.04,
+            "nsm": -13.04,
+            "sce": 13.04,
+            "lrr": -13.04,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 91,
+            "epr": -12.57,
+            "nsm": -12.57,
+            "sce": 12.57,
+            "lrr": -12.57,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 92,
+            "epr": -11.91,
+            "nsm": -11.91,
+            "sce": 11.91,
+            "lrr": -11.91,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 93,
+            "epr": -12.01,
+            "nsm": -12.01,
+            "sce": 12.01,
+            "lrr": -12.01,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 94,
+            "epr": -12.78,
+            "nsm": -12.78,
+            "sce": 12.78,
+            "lrr": -12.78,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 95,
+            "epr": -13.85,
+            "nsm": -13.85,
+            "sce": 13.85,
+            "lrr": -13.85,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 96,
+            "epr": -14.55,
+            "nsm": -14.55,
+            "sce": 14.55,
+            "lrr": -14.55,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 97,
+            "epr": -12.77,
+            "nsm": -12.77,
+            "sce": 12.77,
+            "lrr": -12.77,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 98,
+            "epr": -13.39,
+            "nsm": -13.39,
+            "sce": 13.39,
+            "lrr": -13.39,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 99,
+            "epr": -14.04,
+            "nsm": -14.04,
+            "sce": 14.04,
+            "lrr": -14.04,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 100,
+            "epr": -15.46,
+            "nsm": -15.46,
+            "sce": 15.46,
+            "lrr": -15.46,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 101,
+            "epr": -15.44,
+            "nsm": -15.44,
+            "sce": 15.44,
+            "lrr": -15.44,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 102,
+            "epr": -15.16,
+            "nsm": -15.16,
+            "sce": 15.16,
+            "lrr": -15.16,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 103,
+            "epr": -10.61,
+            "nsm": -10.61,
+            "sce": 10.61,
+            "lrr": -10.61,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 104,
+            "epr": -13.33,
+            "nsm": -13.33,
+            "sce": 13.33,
+            "lrr": -13.33,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 105,
+            "epr": -12.6,
+            "nsm": -12.6,
+            "sce": 12.6,
+            "lrr": -12.6,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 106,
+            "epr": -12.02,
+            "nsm": -12.02,
+            "sce": 12.02,
+            "lrr": -12.02,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 107,
+            "epr": -12.29,
+            "nsm": -12.29,
+            "sce": 12.29,
+            "lrr": -12.29,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 108,
+            "epr": -13.38,
+            "nsm": -13.38,
+            "sce": 13.38,
+            "lrr": -13.38,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 109,
+            "epr": -14.69,
+            "nsm": -14.69,
+            "sce": 14.69,
+            "lrr": -14.69,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 110,
+            "epr": -15.23,
+            "nsm": -15.23,
+            "sce": 15.23,
+            "lrr": -15.23,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 111,
+            "epr": -17.62,
+            "nsm": -17.62,
+            "sce": 17.62,
+            "lrr": -17.62,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 112,
+            "epr": -19.75,
+            "nsm": -19.75,
+            "sce": 19.75,
+            "lrr": -19.75,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 113,
+            "epr": -19.38,
+            "nsm": -19.38,
+            "sce": 19.38,
+            "lrr": -19.38,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 114,
+            "epr": -17.27,
+            "nsm": -17.27,
+            "sce": 17.27,
+            "lrr": -17.27,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 115,
+            "epr": -16.64,
+            "nsm": -16.64,
+            "sce": 16.64,
+            "lrr": -16.64,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 116,
+            "epr": -15.57,
+            "nsm": -15.57,
+            "sce": 15.57,
+            "lrr": -15.57,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 117,
+            "epr": -15.11,
+            "nsm": -15.11,
+            "sce": 15.11,
+            "lrr": -15.11,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 118,
+            "epr": -14.65,
+            "nsm": -14.65,
+            "sce": 14.65,
+            "lrr": -14.65,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 119,
+            "epr": -14.08,
+            "nsm": -14.08,
+            "sce": 14.08,
+            "lrr": -14.08,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 120,
+            "epr": -13.13,
+            "nsm": -13.13,
+            "sce": 13.13,
+            "lrr": -13.13,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 121,
+            "epr": -12.81,
+            "nsm": -12.81,
+            "sce": 12.81,
+            "lrr": -12.81,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 122,
+            "epr": -12.85,
+            "nsm": -12.85,
+            "sce": 12.85,
+            "lrr": -12.85,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 123,
+            "epr": -11.67,
+            "nsm": -11.67,
+            "sce": 11.67,
+            "lrr": -11.67,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 124,
+            "epr": -9.83,
+            "nsm": -9.83,
+            "sce": 9.83,
+            "lrr": -9.83,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 125,
+            "epr": -9.28,
+            "nsm": -9.28,
+            "sce": 9.28,
+            "lrr": -9.28,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 126,
+            "epr": -7.71,
+            "nsm": -7.71,
+            "sce": 7.71,
+            "lrr": -7.71,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 127,
+            "epr": -5.07,
+            "nsm": -5.07,
+            "sce": 5.07,
+            "lrr": -5.07,
+            "vulnerabilityLevel": "critical",
+            "color": "#ef4444",
+            "trend": "Erosion"
+        },
+        {
+            "id": 128,
+            "epr": -4.13,
+            "nsm": -4.13,
+            "sce": 4.13,
+            "lrr": -4.13,
+            "vulnerabilityLevel": "moderate",
+            "color": "#f59e0b",
+            "trend": "Erosion"
+        },
+        {
+            "id": 129,
+            "epr": -2.45,
+            "nsm": -2.45,
+            "sce": 2.45,
+            "lrr": -2.45,
+            "vulnerabilityLevel": "moderate",
+            "color": "#f59e0b",
+            "trend": "Stable"
+        },
+        {
+            "id": 130,
+            "epr": -1.04,
+            "nsm": -1.04,
+            "sce": 1.04,
+            "lrr": -1.04,
+            "vulnerabilityLevel": "moderate",
+            "color": "#f59e0b",
+            "trend": "Stable"
+        },
+        {
+            "id": 131,
+            "epr": 0.97,
+            "nsm": 0.97,
+            "sce": 0.97,
+            "lrr": 0.97,
+            "vulnerabilityLevel": "stable",
+            "color": "#10b981",
+            "trend": "Stable"
+        },
+        {
+            "id": 132,
+            "epr": 2.04,
+            "nsm": 2.04,
+            "sce": 2.04,
+            "lrr": 2.04,
+            "vulnerabilityLevel": "stable",
+            "color": "#10b981",
+            "trend": "Stable"
+        },
+        {
+            "id": 133,
+            "epr": 2.21,
+            "nsm": 2.21,
+            "sce": 2.21,
+            "lrr": 2.21,
+            "vulnerabilityLevel": "stable",
+            "color": "#10b981",
+            "trend": "Stable"
+        },
+        {
+            "id": 134,
+            "epr": 4.76,
+            "nsm": 4.76,
+            "sce": 4.76,
+            "lrr": 4.76,
+            "vulnerabilityLevel": "stable",
+            "color": "#10b981",
+            "trend": "Accretion"
+        },
+        {
+            "id": 135,
+            "epr": 6.73,
+            "nsm": 6.73,
+            "sce": 6.73,
+            "lrr": 6.73,
+            "vulnerabilityLevel": "stable",
+            "color": "#10b981",
+            "trend": "Accretion"
+        },
+        {
+            "id": 136,
+            "epr": 7.17,
+            "nsm": 7.17,
+            "sce": 7.17,
+            "lrr": 7.17,
+            "vulnerabilityLevel": "stable",
+            "color": "#10b981",
+            "trend": "Accretion"
+        },
+        {
+            "id": 137,
+            "epr": 6.38,
+            "nsm": 6.38,
+            "sce": 6.38,
+            "lrr": 6.38,
+            "vulnerabilityLevel": "stable",
+            "color": "#10b981",
+            "trend": "Accretion"
+        },
+        {
+            "id": 138,
+            "epr": 6.92,
+            "nsm": 6.92,
+            "sce": 6.92,
+            "lrr": 6.92,
+            "vulnerabilityLevel": "stable",
+            "color": "#10b981",
+            "trend": "Accretion"
+        },
+        {
+            "id": 139,
+            "epr": 5.95,
+            "nsm": 5.95,
+            "sce": 5.95,
+            "lrr": 5.95,
+            "vulnerabilityLevel": "stable",
+            "color": "#10b981",
+            "trend": "Accretion"
+        },
+        {
+            "id": 140,
+            "epr": 5.47,
+            "nsm": 5.47,
+            "sce": 5.47,
+            "lrr": 5.47,
+            "vulnerabilityLevel": "stable",
+            "color": "#10b981",
+            "trend": "Accretion"
+        },
+        {
+            "id": 141,
+            "epr": 4.99,
+            "nsm": 4.99,
+            "sce": 4.99,
+            "lrr": 4.99,
+            "vulnerabilityLevel": "stable",
+            "color": "#10b981",
+            "trend": "Accretion"
+        },
+        {
+            "id": 142,
+            "epr": 5.84,
+            "nsm": 5.84,
+            "sce": 5.84,
+            "lrr": 5.84,
+            "vulnerabilityLevel": "stable",
+            "color": "#10b981",
+            "trend": "Accretion"
+        },
+        {
+            "id": 143,
+            "epr": 6.64,
+            "nsm": 6.64,
+            "sce": 6.64,
+            "lrr": 6.64,
+            "vulnerabilityLevel": "stable",
+            "color": "#10b981",
+            "trend": "Accretion"
+        },
+        {
+            "id": 144,
+            "epr": 7.13,
+            "nsm": 7.13,
+            "sce": 7.13,
+            "lrr": 7.13,
+            "vulnerabilityLevel": "stable",
+            "color": "#10b981",
+            "trend": "Accretion"
+        },
+        {
+            "id": 145,
+            "epr": 7.71,
+            "nsm": 7.71,
+            "sce": 7.71,
+            "lrr": 7.71,
+            "vulnerabilityLevel": "stable",
+            "color": "#10b981",
+            "trend": "Accretion"
+        },
+        {
+            "id": 146,
+            "epr": 8.19,
+            "nsm": 8.19,
+            "sce": 8.19,
+            "lrr": 8.19,
+            "vulnerabilityLevel": "stable",
+            "color": "#10b981",
+            "trend": "Accretion"
+        },
+        {
+            "id": 147,
+            "epr": 8.97,
+            "nsm": 8.97,
+            "sce": 8.97,
+            "lrr": 8.97,
+            "vulnerabilityLevel": "stable",
+            "color": "#10b981",
+            "trend": "Accretion"
+        },
+        {
+            "id": 148,
+            "epr": 9.52,
+            "nsm": 9.52,
+            "sce": 9.52,
+            "lrr": 9.52,
+            "vulnerabilityLevel": "stable",
+            "color": "#10b981",
+            "trend": "Accretion"
+        },
+        {
+            "id": 149,
+            "epr": 9.24,
+            "nsm": 9.24,
+            "sce": 9.24,
+            "lrr": 9.24,
+            "vulnerabilityLevel": "stable",
+            "color": "#10b981",
+            "trend": "Accretion"
+        },
+        {
+            "id": 150,
+            "epr": 8.54,
+            "nsm": 8.54,
+            "sce": 8.54,
+            "lrr": 8.54,
+            "vulnerabilityLevel": "stable",
+            "color": "#10b981",
+            "trend": "Accretion"
+        },
+        {
+            "id": 151,
+            "epr": 8.09,
+            "nsm": 8.09,
+            "sce": 8.09,
+            "lrr": 8.09,
+            "vulnerabilityLevel": "stable",
+            "color": "#10b981",
+            "trend": "Accretion"
+        },
+        {
+            "id": 152,
+            "epr": 7.26,
+            "nsm": 7.26,
+            "sce": 7.26,
+            "lrr": 7.26,
+            "vulnerabilityLevel": "stable",
+            "color": "#10b981",
+            "trend": "Accretion"
+        },
+        {
+            "id": 153,
+            "epr": 7.16,
+            "nsm": 7.16,
+            "sce": 7.16,
+            "lrr": 7.16,
+            "vulnerabilityLevel": "stable",
+            "color": "#10b981",
+            "trend": "Accretion"
+        },
+        {
+            "id": 154,
+            "epr": 6.15,
+            "nsm": 6.15,
+            "sce": 6.15,
+            "lrr": 6.15,
+            "vulnerabilityLevel": "stable",
+            "color": "#10b981",
+            "trend": "Accretion"
+        },
+        {
+            "id": 155,
+            "epr": 5.1,
+            "nsm": 5.1,
+            "sce": 5.1,
+            "lrr": 5.1,
+            "vulnerabilityLevel": "stable",
+            "color": "#10b981",
+            "trend": "Accretion"
+        },
+        {
+            "id": 156,
+            "epr": 4.54,
+            "nsm": 4.54,
+            "sce": 4.54,
+            "lrr": 4.54,
+            "vulnerabilityLevel": "stable",
+            "color": "#10b981",
+            "trend": "Accretion"
+        },
+        {
+            "id": 157,
+            "epr": 4.17,
+            "nsm": 4.17,
+            "sce": 4.17,
+            "lrr": 4.17,
+            "vulnerabilityLevel": "stable",
+            "color": "#10b981",
+            "trend": "Accretion"
+        },
+        {
+            "id": 158,
+            "epr": 4.0,
+            "nsm": 4.0,
+            "sce": 4.0,
+            "lrr": 4.0,
+            "vulnerabilityLevel": "stable",
+            "color": "#10b981",
+            "trend": "Accretion"
+        },
+        {
+            "id": 159,
+            "epr": 2.66,
+            "nsm": 2.66,
+            "sce": 2.66,
+            "lrr": 2.66,
+            "vulnerabilityLevel": "stable",
+            "color": "#10b981",
+            "trend": "Stable"
+        },
+        {
+            "id": 160,
+            "epr": 1.77,
+            "nsm": 1.77,
+            "sce": 1.77,
+            "lrr": 1.77,
+            "vulnerabilityLevel": "stable",
+            "color": "#10b981",
+            "trend": "Stable"
+        },
+        {
+            "id": 161,
+            "epr": 2.48,
+            "nsm": 2.48,
+            "sce": 2.48,
+            "lrr": 2.48,
+            "vulnerabilityLevel": "stable",
+            "color": "#10b981",
+            "trend": "Stable"
+        },
+        {
+            "id": 162,
+            "epr": 4.22,
+            "nsm": 4.22,
+            "sce": 4.22,
+            "lrr": 4.22,
+            "vulnerabilityLevel": "stable",
+            "color": "#10b981",
+            "trend": "Accretion"
+        }
+    ]
+}

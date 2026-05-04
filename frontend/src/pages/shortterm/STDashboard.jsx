@@ -5,13 +5,8 @@ import { Download, RefreshCw, AlertTriangle, Map, BarChart2, FileText, CheckCirc
 import STLandingPage from './STLandingPage'
 import STParametersPage from './STParametersPage'
 
-// ── Static transect history images ──
-import transect0  from '../../assets/transect_0.png'
-import transect50 from '../../assets/transect_50.png'
-import transect99 from '../../assets/transect_99.png'
-
 // ✅ Preserved: friend's API base using VITE_API_URL + shortterm paths
-const API_BASE = (import.meta.env.VITE_API_URL || 'http://localhost:8000').replace(/\/api\/?$/, '').replace(/\/$/, '')
+const API_BASE = (import.meta.env.VITE_API_URL || '').replace(/\/api\/?$/, '').replace(/\/$/, '')
 
 const PAGES = { LANDING: 'landing', PARAMETERS: 'parameters', RESULTS: 'results' }
 
@@ -28,9 +23,9 @@ function ResultsWaveCanvas() {
     window.addEventListener('resize', resize)
     const configs = [
       { amp: 14, freq: 0.009, speed: 0.022, yFrac: 0.45, c0: 'rgba(29,101,212,0.38)', c1: 'rgba(29,101,212,0.08)' },
-      { amp: 10, freq: 0.013, speed: 0.032, yFrac: 0.58, c0: 'rgba(6,182,212,0.30)',  c1: 'rgba(29,101,212,0.06)' },
-      { amp: 7,  freq: 0.018, speed: 0.044, yFrac: 0.70, c0: 'rgba(96,165,250,0.22)', c1: 'rgba(6,182,212,0.05)' },
-      { amp: 5,  freq: 0.025, speed: 0.058, yFrac: 0.82, c0: 'rgba(147,197,253,0.16)', c1: 'rgba(96,165,250,0.03)' },
+      { amp: 10, freq: 0.013, speed: 0.032, yFrac: 0.58, c0: 'rgba(6,182,212,0.30)', c1: 'rgba(29,101,212,0.06)' },
+      { amp: 7, freq: 0.018, speed: 0.044, yFrac: 0.70, c0: 'rgba(96,165,250,0.22)', c1: 'rgba(6,182,212,0.05)' },
+      { amp: 5, freq: 0.025, speed: 0.058, yFrac: 0.82, c0: 'rgba(147,197,253,0.16)', c1: 'rgba(96,165,250,0.03)' },
     ]
     const draw = () => {
       const { width, height } = canvas
@@ -225,7 +220,7 @@ function LeafletKmlMap({ kmlUrl, filename, onDownload, mapId }) {
       <div className="rp-kml-viewer-header">
         <div className="rp-kml-viewer-title">
           <Map size={16} />
-          <span>{isWow ? 'Risk Map — Live Preview' : isForecast ? 'Forecast Shoreline — Live Preview' : filename}</span>
+          <span>{isWow ? 'WOW Risk Map — Live Preview' : isForecast ? 'Forecast Shoreline — Live Preview' : filename}</span>
           {isWow && <span className="rp-kml-badge risk">RISK ZONES</span>}
           {isForecast && <span className="rp-kml-badge forecast">FORECAST</span>}
         </div>
@@ -278,7 +273,7 @@ function ChartCard({ output, idx, onExpand }) {
     'Current vs forecast shoreline position and per-transect change (m)',
   ]
   const title = titles[idx] || `Visualization ${idx + 1}`
-  const desc  = descs[idx]  || ''
+  const desc = descs[idx] || ''
 
   if (output.type === 'image') {
     const src = `data:image/png;base64,${output.data}`
@@ -329,40 +324,6 @@ function ChartCard({ output, idx, onExpand }) {
   return null
 }
 
-// ── TransectHistoryCard — static card showing 3 transect history plots ──
-function TransectHistoryCard({ onExpand }) {
-  const transects = [
-    { img: transect0,  label: 'Transect 0',  sub: 'Northern end' },
-    { img: transect50, label: 'Transect 50', sub: 'Mid-shore' },
-    { img: transect99, label: 'Transect 99', sub: 'Southern end' },
-  ]
-
-  return (
-    <div className="rp-chart-card">
-      <div className="rp-chart-card-header">
-        <div>
-          <div className="rp-chart-card-title">Historical Shoreline Movement — Key Transects</div>
-          <div className="rp-chart-card-desc">Observed shoreline position change 2010–2026 at three representative cross-shore transects</div>
-        </div>
-      </div>
-      <div className="rp-transect-grid">
-        {transects.map(({ img, label, sub }) => (
-          <div key={label} className="rp-transect-item">
-            <img
-              src={img}
-              alt={label}
-              className="rp-transect-img"
-              onClick={() => onExpand(img)}
-            />
-            <div className="rp-transect-label">{label}</div>
-            <div className="rp-transect-sub">{sub}</div>
-          </div>
-        ))}
-      </div>
-    </div>
-  )
-}
-
 function LogCell({ text, idx }) {
   const [open, setOpen] = useState(idx === 0)
   const lines = text.trim().split('\n')
@@ -394,17 +355,17 @@ function HtmlTable({ html }) {
 }
 
 function ModelMetricsPanel({ text }) {
-  const r2tr   = text.match(/TRAIN[\s\S]*?R[²2].*?[:\|]\s*([\d.]+)/)
-  const r2te   = text.match(/TEST[\s\S]*?R[²2].*?[:\|]\s*([\d.]+)/)
-  const maetr  = text.match(/TRAIN[\s\S]*?MAE.*?[:\|]\s*([\d.]+)\s*m/)
-  const maete  = text.match(/TEST[\s\S]*?MAE.*?[:\|]\s*([\d.]+)\s*m/)
+  const r2tr = text.match(/TRAIN[\s\S]*?R[²2].*?[:\|]\s*([\d.]+)/)
+  const r2te = text.match(/TEST[\s\S]*?R[²2].*?[:\|]\s*([\d.]+)/)
+  const maetr = text.match(/TRAIN[\s\S]*?MAE.*?[:\|]\s*([\d.]+)\s*m/)
+  const maete = text.match(/TEST[\s\S]*?MAE.*?[:\|]\s*([\d.]+)\s*m/)
   const rmsetr = text.match(/TRAIN[\s\S]*?RMSE.*?[:\|]\s*([\d.]+)\s*m/)
   const rmsete = text.match(/TEST[\s\S]*?RMSE.*?[:\|]\s*([\d.]+)\s*m/)
 
   const rows = [
-    { metric: 'R² (mean)',  train: r2tr?.[1],   test: r2te?.[1],   unit: '',  desc: 'Coefficient of determination — 1.0 is perfect, higher is better' },
-    { metric: 'MAE',        train: maetr?.[1],  test: maete?.[1],  unit: 'm', desc: 'Mean Absolute Error across all 100 transects' },
-    { metric: 'RMSE',       train: rmsetr?.[1], test: rmsete?.[1], unit: 'm', desc: 'Root Mean Square Error — penalises large errors more than MAE' },
+    { metric: 'R² (mean)', train: r2tr?.[1], test: r2te?.[1], unit: '', desc: 'Coefficient of determination — 1.0 is perfect, higher is better' },
+    { metric: 'MAE', train: maetr?.[1], test: maete?.[1], unit: 'm', desc: 'Mean Absolute Error across all 100 transects' },
+    { metric: 'RMSE', train: rmsetr?.[1], test: rmsete?.[1], unit: 'm', desc: 'Root Mean Square Error — penalises large errors more than MAE' },
   ]
 
   const hasData = rows.some(r => r.train || r.test)
@@ -444,23 +405,23 @@ function ModelMetricsPanel({ text }) {
 }
 
 function MetricStrip({ text }) {
-  const r2Match      = text.match(/R[²2]\s*\(mean\)\s*[:\|]\s*([\d.]+)/)
-  const maeMatch     = text.match(/MAE.*?[:\|]\s*([\d.]+)\s*m/)
-  const rmseMatch    = text.match(/RMSE.*?[:\|]\s*([\d.]+)\s*m/)
-  const changeMatch  = text.match(/Mean change\s*[:\|]\s*([-\d.]+)\s*m/)
+  const r2Match = text.match(/R[²2]\s*\(mean\)\s*[:\|]\s*([\d.]+)/)
+  const maeMatch = text.match(/MAE.*?[:\|]\s*([\d.]+)\s*m/)
+  const rmseMatch = text.match(/RMSE.*?[:\|]\s*([\d.]+)\s*m/)
+  const changeMatch = text.match(/Mean change\s*[:\|]\s*([-\d.]+)\s*m/)
   const retreatMatch = text.match(/Max retreat\s*[:\|]\s*([-\d.]+)\s*m/)
   const advanceMatch = text.match(/Max advance\s*[:\|]\s*([-\d.]+)\s*m/)
 
   const modelMetrics = [
-    r2Match   && { label: 'Model R²', value: r2Match[1],   unit: '',  color: '#22c55e' },
-    maeMatch  && { label: 'MAE',      value: maeMatch[1],  unit: 'm', color: '#38bdf8' },
-    rmseMatch && { label: 'RMSE',     value: rmseMatch[1], unit: 'm', color: '#38bdf8' },
+    r2Match && { label: 'Model R²', value: r2Match[1], unit: '', color: '#22c55e' },
+    maeMatch && { label: 'MAE', value: maeMatch[1], unit: 'm', color: '#38bdf8' },
+    rmseMatch && { label: 'RMSE', value: rmseMatch[1], unit: 'm', color: '#38bdf8' },
   ].filter(Boolean)
 
   const forecastMetrics = [
-    changeMatch  && { label: 'Mean Change',  value: changeMatch[1],  unit: 'm', color: Number(changeMatch[1]) < 0 ? '#ef4444' : '#22c55e' },
-    retreatMatch && { label: 'Max Retreat',  value: retreatMatch[1], unit: 'm', color: '#ef4444' },
-    advanceMatch && { label: 'Max Advance',  value: advanceMatch[1], unit: 'm', color: '#22c55e' },
+    changeMatch && { label: 'Mean Change', value: changeMatch[1], unit: 'm', color: Number(changeMatch[1]) < 0 ? '#ef4444' : '#22c55e' },
+    retreatMatch && { label: 'Max Retreat', value: retreatMatch[1], unit: 'm', color: '#ef4444' },
+    advanceMatch && { label: 'Max Advance', value: advanceMatch[1], unit: 'm', color: '#22c55e' },
   ].filter(Boolean)
 
   if (modelMetrics.length === 0 && forecastMetrics.length === 0) return null
@@ -527,9 +488,9 @@ function ResultsPage({ data, onBack, loading, error, downloadFile, forecastDate,
           {[...Array(8)].map((_, i) => (
             <div key={i} className="rp-orb" style={{
               '--delay': `${i * 0.7}s`,
-              '--size':  `${120 + i * 40}px`,
-              '--x':     `${10 + i * 11}%`,
-              '--dur':   `${6 + i * 1.2}s`,
+              '--size': `${120 + i * 40}px`,
+              '--x': `${10 + i * 11}%`,
+              '--dur': `${6 + i * 1.2}s`,
             }} />
           ))}
           <div className="rp-loading-grid" />
@@ -582,12 +543,12 @@ function ResultsPage({ data, onBack, loading, error, downloadFile, forecastDate,
 
   if (!data) return null
 
-  const outputs      = data.outputs || []
-  const kmlOutputs   = outputs.filter(o => o.type === 'kml_file')
+  const outputs = data.outputs || []
+  const kmlOutputs = outputs.filter(o => o.type === 'kml_file')
   const chartOutputs = outputs.filter(o => o.type === 'image' || o.type === 'plotly')
-  const htmlOutputs  = outputs.filter(o => o.type === 'html')
-  const textOutputs  = outputs.filter(o => o.type === 'text')
-  const allText      = textOutputs.map(o => o.data).join('\n')
+  const htmlOutputs = outputs.filter(o => o.type === 'html')
+  const textOutputs = outputs.filter(o => o.type === 'text')
+  const allText = textOutputs.map(o => o.data).join('\n')
 
   const currentKmls = kmlOutputs.filter(o => forecastDate && o.filename?.includes(forecastDate))
   const currentKmlsFinal = currentKmls.length > 0
@@ -611,26 +572,26 @@ function ResultsPage({ data, onBack, loading, error, downloadFile, forecastDate,
   const filteredHtmlOutputs = htmlOutputs.filter((_, i) => i < TABLE_NAMES.length)
 
   const DATASET_FILES = [
-    { name: 'predicted_30days.csv',                label: '30-Day Env Forecast',   desc: 'Full 30-day predicted environmental conditions + event scores' },
-    { name: 'spike_summary.csv',                   label: 'Risk Spike Summary',     desc: 'High-risk event days with wave height, wind speed and drivers' },
-    { name: 'env_conditions.json',                 label: 'Env Conditions (JSON)',  desc: 'Seasonal mean environmental conditions for the forecast date' },
-    { name: 'final_training_dataset.csv',          label: 'Training Dataset',       desc: 'Merged ERA5 + CMEMS + shoreline dataset' },
+    { name: 'predicted_30days.csv', label: '30-Day Env Forecast', desc: 'Full 30-day predicted environmental conditions + event scores' },
+    { name: 'spike_summary.csv', label: 'Risk Spike Summary', desc: 'High-risk event days with wave height, wind speed and drivers' },
+    { name: 'env_conditions.json', label: 'Env Conditions (JSON)', desc: 'Seasonal mean environmental conditions for the forecast date' },
+    { name: 'final_training_dataset.csv', label: 'Training Dataset', desc: 'Merged ERA5 + CMEMS + shoreline dataset' },
     { name: 'final_era5_cmems_daily_features.csv', label: 'ERA5 + CMEMS Features', desc: 'Full historical daily environmental features' },
   ]
 
   const tabs = [
-    { id: 'charts',   label: 'Visualizations',  icon: <BarChart2 size={15} />,    count: chartOutputs.length },
-    { id: 'kml',      label: 'KML Maps',         icon: <Map size={15} />,          count: kmlOutputs.length },
-    { id: 'metrics',  label: 'Model Metrics',    icon: <CheckCircle size={15} />,  count: null },
-    { id: 'details',  label: 'Analysis Tables',  icon: <FileText size={15} />,     count: filteredHtmlOutputs.length },
-    { id: 'datasets', label: 'Data Downloads',   icon: <Download size={15} />,     count: DATASET_FILES.length },
+    { id: 'charts', label: 'Visualizations', icon: <BarChart2 size={15} />, count: chartOutputs.length },
+    { id: 'kml', label: 'KML Maps', icon: <Map size={15} />, count: kmlOutputs.length },
+    { id: 'metrics', label: 'Model Metrics', icon: <CheckCircle size={15} />, count: null },
+    { id: 'details', label: 'Analysis Tables', icon: <FileText size={15} />, count: filteredHtmlOutputs.length },
+    { id: 'datasets', label: 'Data Downloads', icon: <Download size={15} />, count: DATASET_FILES.length },
   ]
 
   return (
     <div className="rp-root">
       {lightbox && <Lightbox src={lightbox} onClose={() => setLightbox(null)} />}
 
-      {/* ── Results wave banner ── */}
+      {/* ── NEW: Results wave banner replacing plain rp-header title ── */}
       <div className="rp-results-banner">
         <ResultsWaveCanvas />
         <div className="rp-results-banner-content">
@@ -670,28 +631,11 @@ function ResultsPage({ data, onBack, loading, error, downloadFile, forecastDate,
           <div className="rp-charts-section">
             {chartOutputs.length === 0
               ? <div className="rp-empty">No visualizations generated.</div>
-              : (
-                <div className="rp-charts-grid-2x2">
-                  {/* Row 1: Shoreline Forecast Summary + Transect History */}
-                  {chartOutputs[2] && (
-                    <ChartCard output={chartOutputs[2]} idx={2} onExpand={setLightbox} />
-                  )}
-                  <TransectHistoryCard onExpand={setLightbox} />
-
-                  {/* Row 2: Correlation Matrix + Diagnostic Plots */}
-                  {chartOutputs[0] && (
-                    <ChartCard output={chartOutputs[0]} idx={0} onExpand={setLightbox} />
-                  )}
-                  {chartOutputs[1] && (
-                    <ChartCard output={chartOutputs[1]} idx={1} onExpand={setLightbox} />
-                  )}
-
-                  {/* Any extra charts beyond index 2 */}
-                  {chartOutputs.slice(3).map((output, i) => (
-                    <ChartCard key={i + 3} output={output} idx={i + 3} onExpand={setLightbox} />
-                  ))}
-                </div>
-              )
+              : <div className="rp-charts-grid">
+                {chartOutputs.map((output, idx) => (
+                  <ChartCard key={idx} output={output} idx={idx} onExpand={setLightbox} />
+                ))}
+              </div>
             }
           </div>
         )}
@@ -701,53 +645,54 @@ function ResultsPage({ data, onBack, loading, error, downloadFile, forecastDate,
             {kmlOutputs.length === 0
               ? <div className="rp-empty">No KML files generated.</div>
               : <>
-                  <p className="rp-kml-intro">
-                    KML files contain georeferenced shoreline data with risk zones, hotspot pins and erosion bands.
-                    The interactive preview below uses live satellite imagery.
-                    Download any file and open in <strong>Google Earth Pro</strong> for full 3D terrain.
-                  </p>
+                <p className="rp-kml-intro">
+                  KML files contain georeferenced shoreline data with risk zones, hotspot pins and erosion bands.
+                  The interactive preview below uses live satellite imagery.
+                  Download any file and open in <strong>Google Earth Pro</strong> for full 3D terrain.
+                </p>
 
-                  {currentKmlsFinal.length > 0 && (
-                    <>
-                      <div className="rp-kml-section-label">
-                        <span className="rp-kml-section-dot current" /> This Forecast Run — {forecastDate}
+                {currentKmlsFinal.length > 0 && (
+                  <>
+                    <div className="rp-kml-section-label">
+                      <span className="rp-kml-section-dot current" /> This Forecast Run — {forecastDate}
+                    </div>
+
+                    {/* WOW KML — single card, header rendered by KmlViewer */}
+                    {wowKml && (
+                      <KmlViewer file={wowKml} onDownload={downloadFile} />
+                    )}
+
+                    {forecastOnlyKml && (
+                      <div className="rp-kml-grid" style={{ marginTop: 16 }}>
+                        <KmlViewer file={forecastOnlyKml} onDownload={downloadFile} />
                       </div>
+                    )}
+                  </>
+                )}
 
-                      {wowKml && (
-                        <KmlViewer file={wowKml} onDownload={downloadFile} />
-                      )}
-
-                      {forecastOnlyKml && (
-                        <div className="rp-kml-grid" style={{ marginTop: 16 }}>
-                          <KmlViewer file={forecastOnlyKml} onDownload={downloadFile} />
-                        </div>
-                      )}
-                    </>
-                  )}
-
-                  {recentKmls.length > 0 && (
-                    <>
-                      <div className="rp-kml-section-label" style={{ marginTop: 36 }}>
-                        <span className="rp-kml-section-dot recent" /> Previous Recent Requests
-                      </div>
-                      <div className="rp-kml-prev-grid">
-                        {recentKmls.map((file, idx) => (
-                          <div key={idx} className="rp-kml-prev-card">
-                            <div className="rp-kml-prev-name">
-                              <Map size={13} />
-                              <span>{file.filename}</span>
-                              {file.filename?.toLowerCase().includes('wow') && <span className="rp-kml-badge risk">RISK</span>}
-                              {file.filename?.toLowerCase().includes('forecast') && !file.filename?.toLowerCase().includes('wow') && <span className="rp-kml-badge forecast">FORECAST</span>}
-                            </div>
-                            <button className="rp-kml-dl-btn" onClick={() => downloadFile(file.filename)}>
-                              <Download size={13} /> Download
-                            </button>
+                {recentKmls.length > 0 && (
+                  <>
+                    <div className="rp-kml-section-label" style={{ marginTop: 36 }}>
+                      <span className="rp-kml-section-dot recent" /> Previous Recent Requests
+                    </div>
+                    <div className="rp-kml-prev-grid">
+                      {recentKmls.map((file, idx) => (
+                        <div key={idx} className="rp-kml-prev-card">
+                          <div className="rp-kml-prev-name">
+                            <Map size={13} />
+                            <span>{file.filename}</span>
+                            {file.filename?.toLowerCase().includes('wow') && <span className="rp-kml-badge risk">RISK</span>}
+                            {file.filename?.toLowerCase().includes('forecast') && !file.filename?.toLowerCase().includes('wow') && <span className="rp-kml-badge forecast">FORECAST</span>}
                           </div>
-                        ))}
-                      </div>
-                    </>
-                  )}
-                </>
+                          <button className="rp-kml-dl-btn" onClick={() => downloadFile(file.filename)}>
+                            <Download size={13} /> Download
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                )}
+              </>
             }
           </div>
         )}
@@ -766,16 +711,16 @@ function ResultsPage({ data, onBack, loading, error, downloadFile, forecastDate,
             {filteredHtmlOutputs.length === 0
               ? <div className="rp-empty">No analysis tables generated.</div>
               : <div className="rp-tables-grid">
-                  {filteredHtmlOutputs.map((o, i) => (
-                    <div className="rp-named-table" key={i}>
-                      <div className="rp-named-table-header">
-                        <div className="rp-named-table-title">{TABLE_NAMES[i]?.title || `Table ${i + 1}`}</div>
-                        {TABLE_NAMES[i]?.desc && <div className="rp-named-table-desc">{TABLE_NAMES[i].desc}</div>}
-                      </div>
-                      <HtmlTable html={o.data} />
+                {filteredHtmlOutputs.map((o, i) => (
+                  <div className="rp-named-table" key={i}>
+                    <div className="rp-named-table-header">
+                      <div className="rp-named-table-title">{TABLE_NAMES[i]?.title || `Table ${i + 1}`}</div>
+                      {TABLE_NAMES[i]?.desc && <div className="rp-named-table-desc">{TABLE_NAMES[i].desc}</div>}
                     </div>
-                  ))}
-                </div>
+                    <HtmlTable html={o.data} />
+                  </div>
+                ))}
+              </div>
             }
           </div>
         )}
@@ -809,13 +754,13 @@ function ResultsPage({ data, onBack, loading, error, downloadFile, forecastDate,
 
 // ── MAIN DASHBOARD ──
 export default function STDashboard() {
-  const [page, setPage]             = useState(PAGES.LANDING)
-  const [results, setResults]       = useState(null)
-  const [loading, setLoading]       = useState(false)
-  const [error, setError]           = useState('')
-  const [riskData, setRiskData]     = useState(null)
+  const [page, setPage] = useState(PAGES.LANDING)
+  const [results, setResults] = useState(null)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+  const [riskData, setRiskData] = useState(null)
   const [forecastDate, setForecastDate] = useState('')
-  const [runMode, setRunMode]       = useState('full')
+  const [runMode, setRunMode] = useState('full')
 
   useEffect(() => {
     const loadRiskData = async () => {
