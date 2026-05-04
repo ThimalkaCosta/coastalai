@@ -10,6 +10,7 @@ import AnalysisPage from './pages/AnalysisPage'
 import LoginPage from './pages/LoginPage'
 import UserManagementPage from './pages/UserManagementPage'
 import UnauthorizedPage from './pages/UnauthorizedPage'
+import ShortTermForecastPage from './pages/ShortTermForecastPage'
 import MorphLandingPage from './pages/morphological/MorphLandingPage'
 import MorphOverviewPage from './pages/morphological/MorphOverviewPage'
 import MorphErosionPage from './pages/morphological/MorphErosionPage'
@@ -94,6 +95,7 @@ function App() {
           <Routes>
             <Route path="/dashboard" element={<ProtectedRoute><LandingPage /></ProtectedRoute>} />
             <Route path="/analysis" element={<ProtectedRoute><AnalysisPage /></ProtectedRoute>} />
+            <Route path="/short-term" element={<ProtectedRoute><ShortTermForecastPage /></ProtectedRoute>} />
             <Route path="/upload" element={<Navigate to="/analysis" replace />} />
             <Route path="/threshold" element={<Navigate to="/analysis" replace />} />
             <Route path="/threshold/shoreline" element={<Navigate to="/analysis" replace />} />
