@@ -178,7 +178,7 @@ export default function LTDashboard({ activeTab = 'overview' }) {
                   <label>Target Year</label>
                   <input
                     type="number"
-                    min={2026}
+                    min={2025}
                     max={2100}
                     value={runYear}
                     onChange={e => setRunYear(Number(e.target.value))}

@@ -187,9 +187,9 @@ def run_forecast(req: RunRequest):
     if not NOTEBOOK.exists():
         raise HTTPException(status_code=500, detail="Notebook not found")
 
-    if req.targetYear < 2026 or req.targetYear > 2100:
+    if req.targetYear < 2025 or req.targetYear > 2100:
         raise HTTPException(
-            status_code=400, detail="Target year must be between 2026 and 2100"
+            status_code=400, detail="Target year must be between 2025 and 2100"
         )
 
     allowed_models = {
@@ -211,7 +211,7 @@ def run_forecast(req: RunRequest):
             parameters={
                 "TARGET_YEAR": req.targetYear,
                 "MODEL_TYPE": req.modelType,
-                "KML_DIR": str(DATA_DIR / "high_res_kml"),
+                "KML_DIR": str(DATA_DIR / "kml"),
                 "OUTPUT_DIR": str(OUTPUT_DIR),
                 "DATA_DIR": str(DATA_DIR),
             },
