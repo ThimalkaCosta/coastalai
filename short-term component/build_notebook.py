@@ -73,8 +73,8 @@ CMEMS_USER = "tharushinjayasooriya@gmail.com"
 CMEMS_PASS = "Research@12"
 
 # Study area bounding box  (south, north, west, east)
-LAT_MIN, LAT_MAX = 5.8,  6.5
-LON_MIN, LON_MAX = 80.0, 81.5
+LAT_MIN, LAT_MAX = 6.611656, 6.638294
+LON_MIN, LON_MAX = 79.936194, 79.947092
 
 # Training date range  (last 3 years, ERA5 has ~5-day latency)
 TODAY      = datetime.date.today()
