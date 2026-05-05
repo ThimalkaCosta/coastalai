@@ -8,9 +8,6 @@ import ChatWidget from './components/chat/ChatWidget'
 import HomePage from './pages/HomePage'
 import LandingPage from './pages/LandingPage'
 import AnalysisPage from './pages/AnalysisPage'
-import RandomForestPage from './pages/RandomForestPage'
-import HMMPage from './pages/HMMPage'
-import XGBoostPage from './pages/XGBoostPage'
 import ThresholdPage from './pages/ThresholdPage'
 import ForecastThresholdPage from './pages/ForecastThresholdPage'
 import HMMAnalysisPage from './pages/HMMAnalysisPage'
@@ -21,6 +18,8 @@ import LoginPage from './pages/LoginPage'
 import UserManagementPage from './pages/UserManagementPage'
 import UnauthorizedPage from './pages/UnauthorizedPage'
 import ShortTermForecastPage from './pages/ShortTermForecastPage'
+import ShorelineChangesPage from './pages/ShorelineChangesPage'
+import HistoricalEnvDataPage from './pages/HistoricalEnvDataPage'
 import MorphLandingPage from './pages/morphological/MorphLandingPage'
 import MorphOverviewPage from './pages/morphological/MorphOverviewPage'
 import MorphErosionPage from './pages/morphological/MorphErosionPage'
@@ -141,11 +140,11 @@ function App() {
             <Route path="/analysis" element={<ProtectedRoute><AnalysisPage /></ProtectedRoute>} />
             <Route path="/threshold" element={<ProtectedRoute><ThresholdPage /></ProtectedRoute>} />
             <Route path="/short-term" element={<ProtectedRoute><ShortTermForecastPage /></ProtectedRoute>} />
-            <Route path="/models/random-forest" element={<ProtectedRoute><RandomForestPage /></ProtectedRoute>} />
-            <Route path="/models/hmm" element={<ProtectedRoute><HMMPage /></ProtectedRoute>} />
-            <Route path="/models/xgboost" element={<ProtectedRoute><XGBoostPage /></ProtectedRoute>} />
             <Route path="/forecast-thresholds" element={<ProtectedRoute><ForecastThresholdPage /></ProtectedRoute>} />
-            <Route path="/upload" element={<Navigate to="/analysis" replace />} />
+            <Route path="/shoreline-changes" element={<ProtectedRoute><ShorelineChangesPage /></ProtectedRoute>} />
+            <Route path="/historical-env-data" element={<ProtectedRoute><HistoricalEnvDataPage /></ProtectedRoute>} />
+            <Route path="/upload" element={<Navigate to="/dashboard" replace />} />
+            <Route path="/models/*" element={<Navigate to="/dashboard" replace />} />
             <Route path="/threshold/shoreline" element={<Navigate to="/threshold" replace />} />
             <Route path="/admin/users" element={<ProtectedRoute allowedRoles={['Manager', 'Head Office']}><UserManagementPage /></ProtectedRoute>} />
           </Routes>

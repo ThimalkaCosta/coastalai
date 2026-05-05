@@ -5,12 +5,16 @@ Executes forecasting_gpt.ipynb via Papermill and serves results/downloads.
 from pathlib import Path
 import json
 import os
+import re
+import subprocess
+import sys
 import uuid
-from datetime import datetime, timezone
+from datetime import datetime, date, timezone
 
 import papermill as pm
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import JSONResponse, FileResponse
+from jupyter_client.kernelspec import KernelSpecManager
 from pydantic import BaseModel
 
 from config import PROJECT_ROOT
@@ -25,11 +29,35 @@ RESULTS_DIR = ST_BASE_DIR / "backend" / "results"
 OUTPUT_FORECASTS_DIR = DATA_CACHE / "output_forecasts"
 RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 OUTPUT_FORECASTS_DIR.mkdir(parents=True, exist_ok=True)
+KERNEL_NAME = "coastalai-venv"
 
 
 class ForecastRequest(BaseModel):
     forecastDate: str
     mode: str = "full"  # "quick" = skip download+train, "full" = run everything
+
+
+def _ensure_kernel() -> str:
+    ksm = KernelSpecManager()
+    specs = ksm.find_kernel_specs()
+    if KERNEL_NAME not in specs:
+        subprocess.run(
+            [
+                sys.executable,
+                "-m",
+                "ipykernel",
+                "install",
+                "--user",
+                "--name",
+                KERNEL_NAME,
+                "--display-name",
+                "Python (coastalai)",
+            ],
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+    return KERNEL_NAME
 
 
 # ── Endpoints ──
@@ -91,6 +119,19 @@ def download_file(filename: str):
 
 @router.post("/run")
 def run_notebook(request: ForecastRequest):
+    try:
+        target_date = datetime.strptime(request.forecastDate, "%Y-%m-%d").date()
+    except ValueError:
+        raise HTTPException(status_code=400, detail="Invalid forecastDate format. Use YYYY-MM-DD.")
+
+    today = date.today()
+    forecast_days = (target_date - today).days
+    if forecast_days < 1 or forecast_days > 365:
+        raise HTTPException(
+            status_code=400,
+            detail="Forecast date must be between 1 and 365 days from today.",
+        )
+
     if not NOTEBOOK.exists():
         raise HTTPException(status_code=500, detail="Forecasting notebook not found")
 
@@ -126,6 +167,7 @@ def run_notebook(request: ForecastRequest):
             )
 
     try:
+        kernel_name = _ensure_kernel()
         pm.execute_notebook(
             input_path=str(NOTEBOOK),
             output_path=str(out_nb),
@@ -137,11 +179,12 @@ def run_notebook(request: ForecastRequest):
                 "CMEMS_USER": os.getenv("CMEMS_USER", ""),
                 "CMEMS_PASS": os.getenv("CMEMS_PASS", ""),
             },
-            kernel_name="python3",
+            kernel_name=kernel_name,
             cwd=str(ST_BASE_DIR),
         )
     except Exception as e:
         error_msg = str(e)
+        error_msg = re.sub(r"\x1b\[[0-9;]*m", "", error_msg)
         if "AssertionError" in error_msg:
             for line in error_msg.split("\n"):
                 if "AssertionError" in line and "\u274c" in line:
@@ -150,6 +193,19 @@ def run_notebook(request: ForecastRequest):
         elif "PapermillExecutionError" in error_msg:
             lines = [l.strip() for l in error_msg.split("\n") if l.strip()]
             error_msg = lines[-1] if lines else error_msg
+
+        lower_msg = error_msg.lower()
+        if "target date must be 1-365 days from today" in lower_msg:
+            return JSONResponse(
+                status_code=400,
+                content={"error": "Forecast date must be between 1 and 365 days from today."},
+            )
+        if "no transects" in lower_msg or "check kml files" in lower_msg:
+            return JSONResponse(
+                status_code=400,
+                content={"error": "No transects could be generated. Check shoreline KML files in short-term component/data_cache/shorelines_kml."},
+            )
+
         return JSONResponse(status_code=500, content={"error": error_msg})
 
     if not out_nb.exists():

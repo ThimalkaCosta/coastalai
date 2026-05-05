@@ -1,22 +1,22 @@
 [
   {
     "variable": "wind_speed",
-    "mean": 2.2847,
-    "std": 1.0457,
+    "mean": 4.1517,
+    "std": 1.5914,
     "unit": "m/s",
     "label": "Wind Speed"
   },
   {
     "variable": "fg10",
-    "mean": 5.1152,
-    "std": 1.4097,
+    "mean": 7.976,
+    "std": 2.7444,
     "unit": "m/s",
     "label": "Wind Gust"
   },
   {
     "variable": "msl",
-    "mean": 101071.2655,
-    "std": 146.2743,
+    "mean": 100910.3056,
+    "std": 166.5449,
     "unit": "Pa",
     "label": "Sea Level Pressure"
   },
@@ -29,29 +29,29 @@
   },
   {
     "variable": "vhm0",
-    "mean": 1.096,
-    "std": 0.3786,
+    "mean": 1.6153,
+    "std": 0.5433,
     "unit": "m",
     "label": "Sig. Wave Height"
   },
   {
     "variable": "vtpk",
-    "mean": 12.4613,
-    "std": 3.3704,
+    "mean": 10.9768,
+    "std": 3.8032,
     "unit": "s",
     "label": "Wave Peak Period"
   },
   {
     "variable": "vmdr",
-    "mean": 208.4268,
-    "std": 19.5665,
+    "mean": 230.2911,
+    "std": 19.4386,
     "unit": "\u00b0",
     "label": "Wave Direction"
   },
   {
     "variable": "wave_energy",
-    "mean": 1.3429,
-    "std": 0.9921,
+    "mean": 2.8727,
+    "std": 1.886,
     "unit": "m\u00b2",
     "label": "Wave Energy Proxy"
   }

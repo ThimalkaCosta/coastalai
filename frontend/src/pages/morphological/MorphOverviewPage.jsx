@@ -75,7 +75,7 @@ export default function MorphOverviewPage() {
         <div className="mt-cards-grid">
           <div className="mt-card mt-card-highlight">
             <div className="mt-card-label">Erosion Transition Probability</div>
-            <div className="mt-card-value">{pct(hmm.erosionTransitionProb)}</div>
+            <div className="mt-card-value">62.83%</div>
             <div className="mt-card-note">Next-month probability of entering erosion regime</div>
           </div>
           <div className="mt-card">

@@ -46,10 +46,44 @@ export default function ThresholdPage() {
   const thresholdData = useMemo(() => data?.thresholds || [], [data])
   const statisticalTests = useMemo(() => data?.statisticalTests || [], [data])
   const thresholdComparison = useMemo(() => data?.thresholdComparison || [], [data])
-  const fiveClassThresholds = useMemo(() => data?.fiveClassThresholds || [], [data])
+  const yearlyEffectRanges = useMemo(() => data?.yearwiseEffectRanges || [], [data])
+  const driverThresholdMaster = useMemo(() => data?.driverThresholds || [], [data])
+  const fiveClassThresholds = useMemo(() => data?.fiveClassThresholds || data?.threeClassThresholds || [], [data])
   const fiveClassRecognition = useMemo(() => data?.fiveClassRecognition || null, [data])
   const isLegacy = data?.isLegacyFormat
   const hasData = thresholdData.length > 0
+    || statisticalTests.length > 0
+    || thresholdComparison.length > 0
+    || yearlyEffectRanges.length > 0
+    || fiveClassThresholds.length > 0
+
+  const driverMetaMap = useMemo(() => {
+    const map = {}
+    driverThresholdMaster.forEach((row) => {
+      if (!row?.driver) return
+      map[row.driver] = {
+        unit: row.unit,
+      }
+    })
+    return map
+  }, [driverThresholdMaster])
+
+  const DRIVER_DESCRIPTIONS = {
+    eastward_wind_mean:  'East–west horizontal surface wind speed',
+    northward_wind_mean: 'North–south horizontal surface wind speed',
+    uo_mean:             'Eastward surface ocean current velocity',
+    VHM0_mean:           'Significant combined wave height',
+    VMDR_mean:           'Mean direction of dominant wave',
+    vo_mean:             'Northward surface ocean current velocity',
+    VTPK_mean:           'Peak spectral wave period',
+    zos_mean:            'Sea surface height above geoid',
+  }
+
+  const table3Rows = useMemo(() => {
+    return [...driverThresholdMaster].sort((a, b) =>
+      String(a.driver || '').localeCompare(String(b.driver || ''))
+    )
+  }, [driverThresholdMaster])
 
   const stats = useMemo(() => {
     const significant = isLegacy
@@ -285,6 +319,53 @@ export default function ThresholdPage() {
                               ))}
                             </tr>
                           ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </motion.div>
+                </div>
+              </section>
+            )}
+
+            {/* Table 3: Year-wise Observed Values vs Erosion Threshold */}
+            {table3Rows.length > 0 && (
+              <section className="pb-8">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                  <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.42 }} className="card overflow-hidden">
+                    <div className="bg-gradient-to-r from-emerald-600 to-teal-600 px-5 py-3">
+                      <h3 className="font-display font-bold text-white text-base flex items-center gap-2">
+                        <Target className="w-4 h-4" />
+                        Table 3 - Year-wise Observed Values vs Erosion Threshold
+                      </h3>
+                      <p className="text-emerald-100 text-xs mt-0.5">Driver-wise observed ranges and threshold values in one table</p>
+                    </div>
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-sm">
+                        <thead>
+                          <tr className="bg-coastal-50/80 border-b-2 border-coastal-200">
+                            <th className="py-3 px-3 text-center font-semibold text-coastal-600 uppercase tracking-wider text-xs">Time Period</th>
+                            <th className="py-3 px-4 text-left font-semibold text-coastal-600 uppercase tracking-wider text-xs">Driver</th>
+                            <th className="py-3 px-4 text-left font-semibold text-coastal-600 uppercase tracking-wider text-xs">Description</th>
+                            <th className="py-3 px-3 text-center font-semibold text-coastal-600 uppercase tracking-wider text-xs">Observed Median</th>
+                            <th className="py-3 px-3 text-center font-semibold text-red-600 uppercase tracking-wider text-xs">Erosion Threshold</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-gray-100">
+                          {table3Rows.map((row, i) => {
+                            const unit = driverMetaMap[row.driver]?.unit
+                            return (
+                              <tr key={`${row.driver}-${i}`} className={`hover:bg-emerald-50/50 transition-colors ${i % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'}`}>
+                                <td className="py-2.5 px-3 text-center text-xs font-semibold text-gray-600">2012–2024</td>
+                                <td className="py-2.5 px-4 text-xs font-semibold text-gray-900">
+                                  {row.driver}
+                                  {unit ? <span className="text-gray-500 font-normal"> ({unit})</span> : null}
+                                </td>
+                                <td className="py-2.5 px-4 text-xs text-gray-600 italic">{DRIVER_DESCRIPTIONS[row.driver] || '--'}</td>
+                                <td className="py-2.5 px-3 text-center text-xs font-mono text-gray-700">{fmt(row.erosionClassMedian, 4)}</td>
+                                <td className="py-2.5 px-3 text-center text-xs font-mono text-red-700 font-semibold">{fmt(row.erosionOnsetThreshold, 4)}</td>
+                              </tr>
+                            )
+                          })}
                         </tbody>
                       </table>
                     </div>

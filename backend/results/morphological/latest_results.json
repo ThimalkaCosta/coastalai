@@ -2491,7 +2491,7 @@
   ],
   "hmm": {
     "erosionState": 0,
-    "erosionTransitionProb": 0.0,
+    "erosionTransitionProb": 0.6283,
     "transitionMatrix": [
       [
         0.7557,

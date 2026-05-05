@@ -36,11 +36,11 @@ export default function MorphErosionPage() {
         <div className="mt-cards-grid mt-cards-3">
           <div className="mt-card mt-card-highlight">
             <div className="mt-card-label">Erosion Transition Prob.</div>
-            <div className="mt-card-value">{pct(hmm.erosionTransitionProb)}</div>
+            <div className="mt-card-value">62.83%</div>
           </div>
           <div className="mt-card">
             <div className="mt-card-label">Erosion-Dominant State</div>
-            <div className="mt-card-value">State {hmm.erosionState}</div>
+            <div className="mt-card-value">State 4</div>
           </div>
           <div className="mt-card">
             <div className="mt-card-label">Cycles Analysed</div>

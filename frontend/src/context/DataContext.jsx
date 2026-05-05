@@ -338,6 +338,11 @@ function normaliseAnalysisData(analysisData) {
     threeClassRecognition: analysisData.threeClassRecognition || null,
     threeClassThresholds: analysisData.threeClassThresholds || [],
     threeClassForecasts: analysisData.threeClassForecasts || null,
+    table2PredictedRanges: analysisData.table2PredictedRanges || [],
+    table3ThresholdForecast: analysisData.table3ThresholdForecast || [],
+    // Driver-level threshold table and year-wise observed vs threshold data
+    driverThresholds: analysisData.driverThresholds || [],
+    yearwiseEffectRanges: analysisData.yearwiseEffectRanges || [],
     csvOutputs: analysisData.csvOutputs || {},
   }
 }
@@ -391,6 +396,10 @@ export function DataProvider({ children }) {
     threeClassRecognition: null,
     threeClassThresholds: [],
     threeClassForecasts: null,
+    table2PredictedRanges: [],
+    table3ThresholdForecast: [],
+    driverThresholds: [],
+    yearwiseEffectRanges: [],
     csvOutputs: {},
   })
 

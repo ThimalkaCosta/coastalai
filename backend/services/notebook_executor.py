@@ -177,6 +177,41 @@ def _inject_parameters(
             nb.cells.insert(_idx + 1, compat_cell)
             break
 
+    # --- Replace validation-file paths (Section 4.x validation block) ---
+    # Some notebook versions reference a future-only folder (notebook_data/validation data)
+    # that may not exist in deployment. Point them to provided input files instead.
+    for cell in nb.cells:
+        if cell.cell_type != "code":
+            continue
+        src = cell.source
+        if "VAL_WAVE_FILE" in src or "VAL_DIR" in src or "VAL_CURR_FILE" in src:
+            new_src = re.sub(
+                r'VAL_DIR\s*=\s*.*',
+                lambda _: f'VAL_DIR = Path(r"{data_path}")',
+                src,
+            )
+            new_src = re.sub(
+                r'VAL_WAVE_FILE\s*=\s*.*',
+                lambda _: f'VAL_WAVE_FILE = Path(r"{wave_file}")',
+                new_src,
+            )
+            new_src = re.sub(
+                r'VAL_WIND_FILE\s*=\s*.*',
+                lambda _: f'VAL_WIND_FILE = Path(r"{wind_file}")',
+                new_src,
+            )
+            new_src = re.sub(
+                r'VAL_CURR_FILE\s*=\s*.*',
+                lambda _: f'VAL_CURR_FILE = Path(r"{current_file}")',
+                new_src,
+            )
+            new_src = re.sub(
+                r'VAL_SHORE_CSV\s*=\s*.*',
+                lambda _: f'VAL_SHORE_CSV = Path(r"{shoreline_file}")',
+                new_src,
+            )
+            cell.source = new_src
+
     # --- Replace the export DATA_PATH references in Section 8.3 ---
     for cell in nb.cells:
         if cell.cell_type != "code":
@@ -660,6 +695,72 @@ try:
 except Exception as e:
     print(f"Erosion predictions export error: {{e}}")
     results["erosionPredictions"] = []
+
+# =====================================================================
+# 16b. Table 2 (Section 3.4): Predicted driver ranges for 2025/2026
+# =====================================================================
+try:
+    table2_rows = []
+    if 'future_threshold_forecasts_df' in globals() and len(future_threshold_forecasts_df) > 0:
+        _fc = future_threshold_forecasts_df.copy()
+
+        # Keep only annual forecast horizons shown in Table 2.
+        _fc = _fc[_fc['horizon'].astype(str).isin(['H2025', 'H2026'])]
+
+        # Build a unit lookup by driver from driver_thresholds_master if available.
+        _unit_map = {{}}
+        if 'driver_thresholds_master' in globals() and isinstance(driver_thresholds_master, pd.DataFrame) and len(driver_thresholds_master) > 0:
+            if 'driver' in driver_thresholds_master.columns and 'unit' in driver_thresholds_master.columns:
+                _unit_map = dict(zip(driver_thresholds_master['driver'].astype(str), driver_thresholds_master['unit'].astype(str)))
+
+        for _, r in _fc.iterrows():
+            _feature = str(r.get('feature', ''))
+            _driver = _feature.split('__')[0] if '__' in _feature else _feature
+            _year_txt = str(r.get('horizon', '')).replace('H', '')
+            _year = int(_year_txt) if _year_txt.isdigit() else None
+
+            table2_rows.append({{
+                'driver': _driver,
+                'unit': _unit_map.get(_driver),
+                'year': _year,
+                'predQ25': _safe(r.get('pred_q25')),
+                'q25Low95': _safe(r.get('q25_low95')),
+                'q25High95': _safe(r.get('q25_high95')),
+                'predMedian': _safe(r.get('pred_median')),
+                'predQ75': _safe(r.get('pred_q75')),
+                'q75Low95': _safe(r.get('q75_low95')),
+                'q75High95': _safe(r.get('q75_high95')),
+                'predClass': str(r.get('predicted_class', 'unknown')),
+            }})
+
+        table2_rows = sorted(table2_rows, key=lambda x: (str(x.get('driver') or ''), x.get('year') or 0))
+
+    results['table2PredictedRanges'] = table2_rows
+except Exception as e:
+    print(f"Table 2 export error: {{e}}")
+    results['table2PredictedRanges'] = []
+
+# =====================================================================
+# 16c. Table 3 (Section 3.4): Erosion Onset Threshold Forecast Summary
+# =====================================================================
+try:
+    table3_rows = []
+    if 'forecast_summary_df' in globals() and isinstance(forecast_summary_df, pd.DataFrame) and len(forecast_summary_df) > 0:
+        for _, r in forecast_summary_df.iterrows():
+            table3_rows.append({{
+                'driver':         str(r.get('driver', '')),
+                'unit':           str(r.get('unit', '')) if r.get('unit') is not None else None,
+                'histThrLast':    _safe(r.get('hist_thr_last')),
+                'fcThr2025':      _safe(r.get('fc_thr_2025')),
+                'fcThr2026':      _safe(r.get('fc_thr_2026')),
+                'predClass2025':  str(r.get('pred_class_2025', 'unknown')),
+                'predClass2026':  str(r.get('pred_class_2026', 'unknown')),
+            }})
+        table3_rows = sorted(table3_rows, key=lambda x: str(x.get('driver') or ''))
+    results['table3ThresholdForecast'] = table3_rows
+except Exception as e:
+    print(f"Table 3 export error: {{e}}")
+    results['table3ThresholdForecast'] = []
 
 # ---- Sanitise & Write JSON ----
 import math as _math

@@ -49,7 +49,7 @@ export default function AnalysisPage() {
     if (analysisRunning) {
       return RUN_STEPS[Math.min(progressStep, RUN_STEPS.length - 1)]
     }
-    return 'Ready to run notebook.ipynb'
+    return 'Ready to run analysis'
   }, [analysisComplete, analysisRunning, progressStep])
 
   const handleRunNotebook = async () => {
@@ -70,7 +70,7 @@ export default function AnalysisPage() {
                 <Server className="w-3.5 h-3.5" />
                 Meteorological Analysis Runner
               </div>
-              <h1 className="section-title mb-3">Run notebook.ipynb</h1>
+              <h1 className="section-title mb-3">Run Analysis</h1>
               <p className="section-subtitle">
                 Use this page to start the full notebook run from frontend. The backend executes
                 notebook.ipynb using files in notebook_data and shows live run progress below.
@@ -121,7 +121,7 @@ export default function AnalysisPage() {
                   ) : (
                     <>
                       <Play className="w-4 h-4" />
-                      Run notebook.ipynb
+                      Run Analysis
                     </>
                   )}
                 </button>

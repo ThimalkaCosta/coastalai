@@ -71,37 +71,45 @@ const models = [
 
 export default function LandingPage() {
   const { data, dataLoaded } = useData()
-  
-  // Get dynamic stats from loaded data
-  const stats = [
-    { value: data.summary?.erosionRate ? `${data.summary.erosionRate}%` : '--', label: 'Erosion Rate' },
-    { value: data.summary?.analysisYearRange || '--', label: 'Years of Data' },
-    { value: data.summary?.totalTransects?.toString() || '--', label: 'Transects Analyzed' },
-    { value: '10', label: 'ML Models' },
-  ]
-  
-  // Get threshold values from data
-  const thresholdData = data.thresholds || []
-  const getThresholdValue = (featurePrefix) => {
-    const item = thresholdData.find(t => t.Driver?.toLowerCase().includes(featurePrefix.toLowerCase()))
-    if (item) {
-      // Return RF_Threshold or HMM_Threshold value
-      return item.RF_Threshold || item.HMM_Threshold || '--'
-    }
-    return '--'
-  }
-  
-  // Get model accuracy
-  const modelAccuracy = data.rfModel?.oobScore
-    ? `${(data.rfModel.oobScore * 100).toFixed(1)}%`
-    : (data.hindcast?.metrics?.accuracy
-      ? `${(data.hindcast.metrics.accuracy * 100).toFixed(1)}%`
-      : '--')
-  
-  // Get erosion rate/NSM
-  const erosionNSM = data.summary?.meanNSM 
-    ? `${data.summary.meanNSM}m` 
+
+  // ── Shoreline-derived stats ───────────────────────────────────────────────
+  const shoreline = data.shoreline || []
+  const nsmVals   = shoreline.map(r => r.NSM).filter(v => v != null && !isNaN(v))
+  const meanNSM   = nsmVals.length ? (nsmVals.reduce((a, b) => a + b, 0) / nsmVals.length).toFixed(2) : null
+  const erosionPct = shoreline.length
+    ? ((shoreline.filter(r => r.erosion_flag).length / shoreline.length) * 100).toFixed(1)
+    : null
+
+  // ── Time series year range ────────────────────────────────────────────────
+  const ts = data.timeSeries || []
+  const years = ts.map(r => r.monsoon_year).filter(Boolean)
+  const yearRange = years.length
+    ? years.length === 1 ? String(years[0]) : `${Math.min(...years)}–${Math.max(...years)}`
+    : null
+
+  // ── Model accuracy from three-class recognition ───────────────────────────
+  const tcr = data.threeClassRecognition || {}
+  const modelAccuracy = tcr.balancedAccuracy != null
+    ? `${(tcr.balancedAccuracy * 100).toFixed(1)}%`
     : '--'
+
+  // ── Mean NSM display ──────────────────────────────────────────────────────
+  const erosionNSM = meanNSM ? `${meanNSM} m` : '--'
+
+  // ── Stats bar ─────────────────────────────────────────────────────────────
+  const stats = [
+    { value: erosionPct ? `${erosionPct}%` : '--', label: 'Erosion Rate' },
+    { value: yearRange || '--',                     label: 'Years of Data' },
+    { value: shoreline.length ? shoreline.length.toLocaleString() : '--', label: 'Transects Analysed' },
+    { value: '10',                                  label: 'ML Models' },
+  ]
+
+  // ── Threshold card values from driverThresholds ───────────────────────────
+  const driverThr = data.driverThresholds || []
+  const getThr = (key) => {
+    const row = driverThr.find(r => r.driver?.toLowerCase() === key.toLowerCase())
+    return row ? Number(row.erosionOnsetThreshold).toFixed(3) : '--'
+  }
 
   return (
     <PageTransition>
@@ -114,11 +122,11 @@ export default function LandingPage() {
             style={{ 
               backgroundImage: 'url(/background_coastal.png)',
               imageRendering: '-webkit-optimize-contrast',
-              filter: 'contrast(1.08) saturate(1.15) brightness(0.95)',
+              filter: 'contrast(1.05) saturate(1.1) brightness(1.0)',
             }}
           />
           {/* Dark gradient overlay for text readability */}
-          <div className="absolute inset-0 bg-gradient-to-br from-slate-900/45 via-slate-900/22 to-ocean-900/15" />
+          <div className="absolute inset-0 bg-gradient-to-br from-slate-900/15 via-slate-900/8 to-ocean-900/5" />
           {/* Subtle grid pattern */}
           <div className="absolute inset-0" style={{
             backgroundImage: 'linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px)',
@@ -219,16 +227,16 @@ export default function LandingPage() {
                     
                     <div className="space-y-3">
                       <div className="flex justify-between items-center p-3 bg-white/8 rounded-xl ring-1 ring-white/5">
-                        <span className="text-sm text-white/60">Hm0_max</span>
-                        <span className="font-mono font-semibold text-cyan-300">{getThresholdValue('hm0_max')}</span>
+                        <span className="text-sm text-white/60">VHM0 mean</span>
+                        <span className="font-mono font-semibold text-cyan-300">{getThr('VHM0_mean')} m</span>
                       </div>
                       <div className="flex justify-between items-center p-3 bg-white/8 rounded-xl ring-1 ring-white/5">
-                        <span className="text-sm text-white/60">UcurrMax</span>
-                        <span className="font-mono font-semibold text-cyan-300">{getThresholdValue('ucurrmax')}</span>
+                        <span className="text-sm text-white/60">uo mean</span>
+                        <span className="font-mono font-semibold text-cyan-300">{getThr('uo_mean')} m/s</span>
                       </div>
                       <div className="flex justify-between items-center p-3 bg-white/8 rounded-xl ring-1 ring-white/5">
-                        <span className="text-sm text-white/60">WindMax</span>
-                        <span className="font-mono font-semibold text-cyan-300">{getThresholdValue('windmax')}</span>
+                        <span className="text-sm text-white/60">Wind Speed</span>
+                        <span className="font-mono font-semibold text-cyan-300">{getThr('eastward_wind_mean')} m/s</span>
                       </div>
                     </div>
                   </div>

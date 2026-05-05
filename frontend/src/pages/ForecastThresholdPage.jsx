@@ -167,9 +167,34 @@ export default function ForecastThresholdPage() {
   const [activeTab, setActiveTab] = useState('overview')
 
   const forecasts = data.forecasts
+  const table2PredictedRanges = data?.table2PredictedRanges || []
+  const table3ThresholdForecast = data?.table3ThresholdForecast || []
   const metadata = forecasts?.metadata || {}
   const variables = forecasts?.variables || {}
   const varKeys = Object.keys(variables)
+
+  const displayName = (driver) => {
+    const map = {
+      VHM0_mean: 'Wave Height',
+      VTPK_mean: 'Wave Period',
+      VMDR_mean: 'Wave Direction',
+      eastward_wind_mean: 'Eastward Wind',
+      northward_wind_mean: 'Northward Wind',
+      uo_mean: 'Eastward Current',
+      vo_mean: 'Northward Current',
+      zos_mean: 'Sea Level',
+    }
+    return map[driver] || driver
+  }
+
+  const fmt = (v, d = 4) => (v == null || Number.isNaN(Number(v)) ? '--' : Number(v).toFixed(d))
+
+  const ciText = (low, high) => {
+    if (low == null || high == null || Number.isNaN(Number(low)) || Number.isNaN(Number(high))) {
+      return '--'
+    }
+    return `[${Number(low).toFixed(4)}, ${Number(high).toFixed(4)}]`
+  }
 
   // ── Compute summary stats for selected horizon ──
   const summaryCards = useMemo(() => {
@@ -237,13 +262,131 @@ export default function ForecastThresholdPage() {
         {noData ? (
           <section className="pb-20">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="card p-12 text-center">
-                <TrendingUp className="w-9 h-9 text-coastal-300 mx-auto mb-3" />
-                <h3 className="text-lg font-semibold text-coastal-700 mb-2">No Forecast Data Available</h3>
-                <p className="text-coastal-500">
-                  Run the full analysis notebook to generate SARIMA forecasts for each environmental variable.
-                </p>
-              </div>
+              {table2PredictedRanges.length > 0 ? (
+                <div className="space-y-6">
+                  {/* ── Table 2a: 2025 ── */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {[2025, 2026].map((yr) => {
+                    const rows = table2PredictedRanges.filter((r) => r.year === yr)
+                    if (!rows.length) return null
+                    return (
+                      <div key={yr} className="card overflow-hidden">
+                        <div className="bg-gradient-to-r from-teal-600 to-emerald-600 px-4 py-2">
+                          <h3 className="font-display font-bold text-white text-sm flex items-center gap-2">
+                            <BarChart3 className="w-3.5 h-3.5" />
+                            Table 2 – Predicted Driver Ranges ({yr})
+                          </h3>
+                          <p className="text-emerald-100 text-[11px] mt-0.5">
+                            Forecast stable threshold and risk class for each driver in {yr}.
+                          </p>
+                        </div>
+                        <div className="overflow-x-auto">
+                          <table className="w-full text-xs">
+                            <thead>
+                              <tr className="bg-coastal-50/80 border-b border-coastal-200">
+                                <th className="py-2 px-3 text-left font-semibold text-coastal-600 uppercase tracking-wider text-[10px]">Driver</th>
+                                <th className="py-2 px-3 text-center font-semibold text-coastal-600 uppercase tracking-wider text-[10px]">Stable Threshold</th>
+                                <th className="py-2 px-3 text-center font-semibold text-coastal-600 uppercase tracking-wider text-[10px]">Class</th>
+                              </tr>
+                            </thead>
+                            <tbody className="divide-y divide-gray-100">
+                              {rows.map((row, i) => {
+                                return (
+                                  <tr key={`${row.driver}-${yr}-${i}`} className={i % 2 === 0 ? 'bg-white' : 'bg-gray-50/40'}>
+                                    <td className="py-1.5 px-3 text-xs font-semibold text-gray-900">
+                                      {displayName(row.driver)}
+                                      <span className="text-gray-400 font-normal ml-1">{row.unit ? `(${row.unit})` : ''}</span>
+                                    </td>
+                                    <td className="py-1.5 px-3 text-center text-xs font-mono text-gray-900 font-semibold">{fmt(row.predMedian)}</td>
+                                    <td className="py-1.5 px-3 text-center">
+                                      <span className="inline-flex px-2 py-0.5 rounded-full text-[10px] font-semibold border bg-emerald-100 text-emerald-700 border-emerald-300">
+                                        stable
+                                      </span>
+                                    </td>
+                                  </tr>
+                                )
+                              })}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    )
+                  })}
+                  </div>
+
+                  {/* ── Table 3 ── */}
+                  {table3ThresholdForecast.length > 0 && (
+                    <div className="card overflow-hidden">
+                      <div className="bg-gradient-to-r from-blue-600 to-indigo-600 px-5 py-3">
+                        <h3 className="font-display font-bold text-white text-base flex items-center gap-2">
+                          <BarChart3 className="w-4 h-4" />
+                          Table 3 - Erosion Onset Threshold Forecast Summary
+                        </h3>
+                        <p className="text-blue-100 text-xs mt-0.5">
+                          Last known erosion onset threshold compared with forecast values for 2025 and 2026.
+                        </p>
+                      </div>
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-sm">
+                          <thead>
+                            <tr className="bg-coastal-50/80 border-b border-coastal-200">
+                              <th className="py-3 px-4 text-left font-semibold text-coastal-600 uppercase tracking-wider text-xs">Driver</th>
+                              <th className="py-3 px-3 text-center font-semibold text-coastal-600 uppercase tracking-wider text-xs">Unit</th>
+                              <th className="py-3 px-3 text-center font-semibold text-coastal-600 uppercase tracking-wider text-xs">Last Known Threshold</th>
+                              <th className="py-3 px-3 text-center font-semibold text-coastal-600 uppercase tracking-wider text-xs">Forecast 2025</th>
+                              <th className="py-3 px-3 text-center font-semibold text-coastal-600 uppercase tracking-wider text-xs">Forecast 2026</th>
+                              <th className="py-3 px-3 text-center font-semibold text-coastal-600 uppercase tracking-wider text-xs">Class 2025</th>
+                              <th className="py-3 px-3 text-center font-semibold text-coastal-600 uppercase tracking-wider text-xs">Class 2026</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-gray-100">
+                            {table3ThresholdForecast.map((row, i) => {
+                              const cls25 = String(row.predClass2025 || '').toLowerCase()
+                              const cls26 = String(row.predClass2026 || '').toLowerCase()
+                              const badge = (cls) =>
+                                cls === 'erosion'
+                                  ? 'bg-red-100 text-red-700 border-red-300'
+                                  : cls === 'stable'
+                                  ? 'bg-emerald-100 text-emerald-700 border-emerald-300'
+                                  : 'bg-gray-100 text-gray-600 border-gray-300'
+                              return (
+                                <tr key={`t3-${row.driver}-${i}`} className={i % 2 === 0 ? 'bg-white' : 'bg-gray-50/40'}>
+                                  <td className="py-2.5 px-4 text-xs font-semibold text-gray-900">
+                                    {displayName(row.driver)}
+                                    <div className="text-gray-500 font-normal">{row.driver}</div>
+                                  </td>
+                                  <td className="py-2.5 px-3 text-center text-xs text-gray-600">{row.unit || '--'}</td>
+                                  <td className="py-2.5 px-3 text-center text-xs font-mono text-gray-700">{fmt(row.histThrLast)}</td>
+                                  <td className="py-2.5 px-3 text-center text-xs font-mono text-blue-700 font-semibold">{fmt(row.fcThr2025)}</td>
+                                  <td className="py-2.5 px-3 text-center text-xs font-mono text-indigo-700 font-semibold">{fmt(row.fcThr2026)}</td>
+                                  <td className="py-2.5 px-3 text-center">
+                                    <span className={`inline-flex px-2 py-0.5 rounded-full text-[11px] font-semibold border ${badge(cls25)}`}>
+                                      {cls25 || '--'}
+                                    </span>
+                                  </td>
+                                  <td className="py-2.5 px-3 text-center">
+                                    <span className={`inline-flex px-2 py-0.5 rounded-full text-[11px] font-semibold border ${badge(cls26)}`}>
+                                      {cls26 || '--'}
+                                    </span>
+                                  </td>
+                                </tr>
+                              )
+                            })}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div className="card p-12 text-center">
+                  <TrendingUp className="w-9 h-9 text-coastal-300 mx-auto mb-3" />
+                  <h3 className="text-lg font-semibold text-coastal-700 mb-2">No Forecast Data Available</h3>
+                  <p className="text-coastal-500">
+                    Run the full analysis notebook to generate forecast ranges for each environmental variable.
+                  </p>
+                </div>
+              )}
             </div>
           </section>
         ) : (

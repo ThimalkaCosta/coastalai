@@ -2,12 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
-  Upload,
   BarChart3,
-  GitBranch,
-  Layers,
-  Zap,
-  ChevronDown,
   Target,
   LayoutDashboard,
   LogOut,
@@ -16,6 +11,8 @@ import {
   X,
   Sparkles,
   TrendingUp,
+  Waves,
+  Database,
 } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 
@@ -28,19 +25,11 @@ const ROLE_BADGE = {
 function getSidebarNavigation(role) {
   const base = [
     { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
-    { name: 'Upload Data', href: '/upload', icon: Upload },
     { name: 'Analysis', href: '/analysis', icon: BarChart3 },
     { name: 'Threshold', href: '/threshold', icon: Target },
     { name: 'Forecast', href: '/forecast-thresholds', icon: TrendingUp },
-    {
-      name: 'Models',
-      icon: Layers,
-      children: [
-        { name: 'Random Forest', href: '/models/random-forest', icon: GitBranch },
-        { name: 'HMM', href: '/models/hmm', icon: Layers },
-        { name: 'XGBoost', href: '/models/xgboost', icon: Zap },
-      ],
-    },
+    { name: 'Shoreline Changes', href: '/shoreline-changes', icon: Waves },
+    { name: 'Historical Env Data', href: '/historical-env-data', icon: Database },
   ]
   if (role === 'Manager' || role === 'Head Office') {
     base.push({ name: 'Users', href: '/admin/users', icon: Users })

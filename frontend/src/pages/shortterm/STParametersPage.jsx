@@ -3,46 +3,64 @@ import { useState } from 'react'
 import { ChevronLeft, Calendar, Info, Target, Zap, RefreshCw } from 'lucide-react'
 
 export default function STParametersPage({ onBack, onGenerateForecast, loading }) {
-  // ✅ NEW: Default to TODAY (was +30 days in integrated version)
-  const todayIso = new Date().toISOString().split('T')[0]
-  const [forecastDate, setForecastDate] = useState(todayIso)
-  const [error, setError] = useState('')
+  const localIso = (dateObj) => {
+    const year = dateObj.getFullYear()
+    const month = String(dateObj.getMonth() + 1).padStart(2, '0')
+    const day = String(dateObj.getDate()).padStart(2, '0')
+    return `${year}-${month}-${day}`
+  }
 
-  // ✅ NEW: min date is today (was tomorrow in integrated version)
-  const minDate = todayIso
-  const maxDate = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+  const tomorrow = new Date(today)
+  tomorrow.setDate(today.getDate() + 1)
+  const maxDateObj = new Date(today)
+  maxDateObj.setDate(today.getDate() + 365)
+
+  const minDate = localIso(tomorrow)
+  const maxDate = localIso(maxDateObj)
+
+  const [forecastDate, setForecastDate] = useState(minDate)
+  const [error, setError] = useState('')
 
   const validate = () => {
     setError('')
     if (!forecastDate) { setError('Please select a forecast date'); return false }
     const selected = new Date(forecastDate)
-    const today = new Date(); today.setHours(0, 0, 0, 0)
-    // ✅ NEW: allow today (>= not just >)
-    if (selected < today) { setError('Forecast date must be today or in the future'); return false }
+    if (selected <= today) { setError('Forecast date must be at least 1 day from today'); return false }
     const daysAhead = Math.floor((selected - today) / 86400000)
-    if (daysAhead > 365) { setError('Forecast date must be within 1 year from today'); return false }
+    if (daysAhead > 365) { setError('Forecast date must be within 365 days from today'); return false }
     return true
   }
 
-  const handleQuickForecast = () => { if (!validate()) return; onGenerateForecast({ forecastDate, mode: 'quick' }) }
-  const handleFullRerun = () => { if (!validate()) return; onGenerateForecast({ forecastDate, mode: 'full' }) }
+  const handleQuickForecast = () => {
+    if (!validate()) {
+      return
+    }
+    onGenerateForecast({ forecastDate, mode: 'quick' })
+  }
 
-  const today = new Date(); today.setHours(0, 0, 0, 0)
+  const handleFullRerun = () => {
+    if (!validate()) {
+      return
+    }
+    onGenerateForecast({ forecastDate, mode: 'full' })
+  }
+
   const daysAhead = forecastDate
     ? Math.max(0, Math.floor((new Date(forecastDate) - today) / 86400000))
     : 0
 
   // ✅ NEW: Added "Today" preset (0 days)
   const presets = [
-    { label: 'Today',    days: 0   },
+    { label: 'Tomorrow', days: 1   },
     { label: '30 Days',  days: 30  },
     { label: '3 Months', days: 90  },
     { label: '6 Months', days: 180 },
     { label: '1 Year',   days: 365 },
   ]
 
-  // ✅ NEW: confidence includes today = 97
-  const confidence = daysAhead === 0 ? 97 : daysAhead < 30 ? 92 : daysAhead < 90 ? 75 : daysAhead < 180 ? 58 : 40
+  const confidence = daysAhead < 30 ? 92 : daysAhead < 90 ? 75 : daysAhead < 180 ? 58 : 40
   const riskLevel  = daysAhead < 45 ? 'HIGH' : daysAhead < 120 ? 'MEDIUM' : 'LOW'
 
   // ✅ NEW: Ocean-tone ring colours (cyan for high, amber for medium, red for low)
@@ -96,8 +114,7 @@ export default function STParametersPage({ onBack, onGenerateForecast, loading }
               </div>
               <div className="pp-days-badge">
                 <span className="pp-days-num">{daysAhead}</span>
-                {/* ✅ NEW: shows "days (today)" when 0 */}
-                <span>{daysAhead === 0 ? 'days (today)' : `day${daysAhead !== 1 ? 's' : ''} from today`}</span>
+                <span>{`day${daysAhead !== 1 ? 's' : ''} from today`}</span>
               </div>
             </div>
 
