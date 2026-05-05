@@ -1,0 +1,8 @@
+Land Change Analysis: 2024-02-15 -> 2029
+Model: Ensemble
+==================================================
+Total Land Loss:  2,938.78 m2 (0.2939 ha)
+Total Land Gain:  9,027.54 m2 (0.9028 ha)
+Net Change:       6,088.75 m2 GAIN (0.6089 ha)
+Erosion Segments: 46/162
+Accretion Segments: 116/162

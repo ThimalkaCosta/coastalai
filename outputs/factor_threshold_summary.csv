@@ -1,0 +1,4 @@
+Category,Factor,Threshold,Rule,Erosion_Exceed_Rate,NonErosion_Exceed_Rate,Mean_Erosion,Mean_NonErosion,CV,Stable
+WIND,wind_p90,6.0145,If wind_p90 > 6.0145 → erosion begins,0.0,0.667,5.5391,6.0153,0.0257,True
+CURRENT,cum_current_annual,2.5869,If cum_current_annual > 2.5869 → erosion begins,0.0,1.0,2.1771,2.8555,0.0286,True
+CURRENT,ucurr_mean_annual,0.2156,If ucurr_mean_annual > 0.2156 → erosion begins,0.0,1.0,0.1831,0.238,0.0289,True

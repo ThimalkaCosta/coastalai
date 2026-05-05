@@ -1,0 +1,8 @@
+Land Change Analysis: 2025-07-30 -> 2031
+Model: LinearRegression
+==================================================
+Total Land Loss:  6,926.77 m2 (0.6927 ha)
+Total Land Gain:  3,256.69 m2 (0.3257 ha)
+Net Change:       3,670.08 m2 LOSS (0.3670 ha)
+Erosion Segments: 36/49
+Accretion Segments: 13/49

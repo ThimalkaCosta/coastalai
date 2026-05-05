@@ -1,0 +1,1809 @@
+{
+  "threeClassRecognition": {
+    "balancedAccuracy": 0.4778,
+    "macroF1": 0.4778,
+    "rocAucOvr": 0.6003,
+    "confusionMatrix": [
+      [
+        5,
+        0,
+        1
+      ],
+      [
+        0,
+        0,
+        1
+      ],
+      [
+        1,
+        1,
+        3
+      ]
+    ],
+    "classNames": [
+      "erosion",
+      "stable",
+      "accretion"
+    ],
+    "loocvResults": [
+      {
+        "monsoon_year": 2013,
+        "actual_class": "erosion",
+        "predicted_class": "erosion",
+        "correct": true,
+        "top_prob": 0.8535417144128719
+      },
+      {
+        "monsoon_year": 2014,
+        "actual_class": "erosion",
+        "predicted_class": "accretion",
+        "correct": false,
+        "top_prob": 0.6334541137342309
+      },
+      {
+        "monsoon_year": 2015,
+        "actual_class": "accretion",
+        "predicted_class": "erosion",
+        "correct": false,
+        "top_prob": 0.5202927696307396
+      },
+      {
+        "monsoon_year": 2016,
+        "actual_class": "erosion",
+        "predicted_class": "erosion",
+        "correct": true,
+        "top_prob": 0.9557754785383304
+      },
+      {
+        "monsoon_year": 2017,
+        "actual_class": "accretion",
+        "predicted_class": "accretion",
+        "correct": true,
+        "top_prob": 0.8359383599184644
+      },
+      {
+        "monsoon_year": 2018,
+        "actual_class": "accretion",
+        "predicted_class": "accretion",
+        "correct": true,
+        "top_prob": 0.7338782802513099
+      },
+      {
+        "monsoon_year": 2019,
+        "actual_class": "erosion",
+        "predicted_class": "erosion",
+        "correct": true,
+        "top_prob": 0.6675345319719194
+      },
+      {
+        "monsoon_year": 2020,
+        "actual_class": "erosion",
+        "predicted_class": "erosion",
+        "correct": true,
+        "top_prob": 0.9454265468136233
+      },
+      {
+        "monsoon_year": 2021,
+        "actual_class": "accretion",
+        "predicted_class": "accretion",
+        "correct": true,
+        "top_prob": 0.7087417757370035
+      },
+      {
+        "monsoon_year": 2022,
+        "actual_class": "accretion",
+        "predicted_class": "stable",
+        "correct": false,
+        "top_prob": 0.6484287352062502
+      },
+      {
+        "monsoon_year": 2023,
+        "actual_class": "stable",
+        "predicted_class": "accretion",
+        "correct": false,
+        "top_prob": 0.8212284937019158
+      },
+      {
+        "monsoon_year": 2024,
+        "actual_class": "erosion",
+        "predicted_class": "erosion",
+        "correct": true,
+        "top_prob": 0.9460489743978883
+      }
+    ],
+    "selectedFeatures": [
+      "VHM0_mean__anom_pos_months",
+      "VTPK_mean__late_minus_early",
+      "VMDR_mean__anom_peak_pos",
+      "eastward_wind_mean__run_neg",
+      "northward_wind_mean__anom_pos_months",
+      "uo_mean__anom_peak_neg",
+      "vo_mean__p50",
+      "zos_mean__run_pos",
+      "VHM0_mean__anom_mean",
+      "eastward_wind_mean__anom_neg_months",
+      "northward_wind_mean__p90",
+      "VMDR_mean__run_neg",
+      "VTPK_mean__anom_neg_months",
+      "uo_mean__p50"
+    ],
+    "shapTopFeatures": [
+      {
+        "feature": "VHM0_mean__anom_pos_months",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "VTPK_mean__late_minus_early",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "VMDR_mean__anom_peak_pos",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "eastward_wind_mean__run_neg",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "northward_wind_mean__anom_pos_months",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "uo_mean__anom_peak_neg",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "vo_mean__p50",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "zos_mean__run_pos",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "VHM0_mean__anom_mean",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "eastward_wind_mean__anom_neg_months",
+        "mean_abs_shap": 0.0
+      }
+    ],
+    "permImportance": [
+      {
+        "feature": "VHM0_mean__anom_pos_months",
+        "mean": 0.0,
+        "std": 0.0
+      },
+      {
+        "feature": "VTPK_mean__late_minus_early",
+        "mean": 0.0,
+        "std": 0.0
+      },
+      {
+        "feature": "VMDR_mean__anom_peak_pos",
+        "mean": 0.0,
+        "std": 0.0
+      },
+      {
+        "feature": "eastward_wind_mean__run_neg",
+        "mean": 0.0,
+        "std": 0.0
+      },
+      {
+        "feature": "northward_wind_mean__anom_pos_months",
+        "mean": 0.0,
+        "std": 0.0
+      },
+      {
+        "feature": "uo_mean__anom_peak_neg",
+        "mean": 0.0,
+        "std": 0.0
+      },
+      {
+        "feature": "vo_mean__p50",
+        "mean": 0.0,
+        "std": 0.0
+      },
+      {
+        "feature": "zos_mean__run_pos",
+        "mean": 0.0,
+        "std": 0.0
+      },
+      {
+        "feature": "VHM0_mean__anom_mean",
+        "mean": 0.0,
+        "std": 0.0
+      },
+      {
+        "feature": "eastward_wind_mean__anom_neg_months",
+        "mean": 0.0,
+        "std": 0.0
+      },
+      {
+        "feature": "northward_wind_mean__p90",
+        "mean": 0.0,
+        "std": 0.0
+      },
+      {
+        "feature": "VMDR_mean__run_neg",
+        "mean": 0.0,
+        "std": 0.0
+      },
+      {
+        "feature": "VTPK_mean__anom_neg_months",
+        "mean": 0.0,
+        "std": 0.0
+      },
+      {
+        "feature": "uo_mean__p50",
+        "mean": 0.0,
+        "std": 0.0
+      }
+    ],
+    "featureScreening": [
+      {
+        "feature": "VHM0_mean__anom_pos_months",
+        "driver": "VHM0_mean",
+        "compositeScore": 3.9146876394320174,
+        "spearmanRho": 0.8493140312822154,
+        "kruskalP": 0.01573197095576358,
+        "mutualInfo": 0.412842712842713
+      },
+      {
+        "feature": "VHM0_mean__anom_mean",
+        "driver": "VHM0_mean",
+        "compositeScore": 3.614473498482985,
+        "spearmanRho": 0.8209060356345694,
+        "kruskalP": 0.023638659450783164,
+        "mutualInfo": 0.3462842712842715
+      },
+      {
+        "feature": "eastward_wind_mean__run_neg",
+        "driver": "eastward_wind_mean",
+        "compositeScore": 3.604136279452515,
+        "spearmanRho": -0.8158101608140186,
+        "kruskalP": 0.024694457071608753,
+        "mutualInfo": 0.3651154401154404
+      },
+      {
+        "feature": "VHM0_mean__p50",
+        "driver": "VHM0_mean",
+        "compositeScore": 3.4988537038824266,
+        "spearmanRho": 0.8247965855664867,
+        "kruskalP": 0.022659422997701517,
+        "mutualInfo": 0.20450937950937997
+      },
+      {
+        "feature": "VHM0_mean__run_pos",
+        "driver": "VHM0_mean",
+        "compositeScore": 3.3210754875848147,
+        "spearmanRho": 0.7910886407893513,
+        "kruskalP": 0.03198932770024192,
+        "mutualInfo": 0.2439033189033193
+      },
+      {
+        "feature": "eastward_wind_mean__anom_neg_months",
+        "driver": "eastward_wind_mean",
+        "compositeScore": 3.2177286602853057,
+        "spearmanRho": -0.731971260642743,
+        "kruskalP": 0.04443170075523586,
+        "mutualInfo": 0.40147907647907677
+      },
+      {
+        "feature": "northward_wind_mean__anom_pos_months",
+        "driver": "northward_wind_mean",
+        "compositeScore": 3.1276203355956858,
+        "spearmanRho": -0.682892976598717,
+        "kruskalP": 0.03507096568120189,
+        "mutualInfo": 0.30678210678210727
+      },
+      {
+        "feature": "northward_wind_mean__p90",
+        "driver": "northward_wind_mean",
+        "compositeScore": 2.8446214988472462,
+        "spearmanRho": -0.676955688153626,
+        "kruskalP": 0.05335597929436022,
+        "mutualInfo": 0.21789321789321847
+      },
+      {
+        "feature": "VHM0_mean__iqr",
+        "driver": "VHM0_mean",
+        "compositeScore": 2.7032756588510023,
+        "spearmanRho": 0.5796919398556911,
+        "kruskalP": 0.05101472177585774,
+        "mutualInfo": 0.2515873015873018
+      },
+      {
+        "feature": "VMDR_mean__anom_peak_pos",
+        "driver": "VMDR_mean",
+        "compositeScore": 2.5490113819043723,
+        "spearmanRho": 0.6030352394471955,
+        "kruskalP": 0.0652527440350103,
+        "mutualInfo": 0.15753968253968265
+      },
+      {
+        "feature": "eastward_wind_mean__p50",
+        "driver": "eastward_wind_mean",
+        "compositeScore": 2.5405108969899524,
+        "spearmanRho": 0.6497218386302042,
+        "kruskalP": 0.08093551405977094,
+        "mutualInfo": 0.14920634920634956
+      },
+      {
+        "feature": "northward_wind_mean__anom_abs_sum",
+        "driver": "northward_wind_mean",
+        "compositeScore": 2.414861546340602,
+        "spearmanRho": -0.6497218386302042,
+        "kruskalP": 0.08093551405977094,
+        "mutualInfo": 0.023556998556998998
+      },
+      {
+        "feature": "northward_wind_mean__run_pos",
+        "driver": "northward_wind_mean",
+        "compositeScore": 2.3023420278382067,
+        "spearmanRho": -0.5645852148030126,
+        "kruskalP": 0.0671163610666859,
+        "mutualInfo": 0.0
+      },
+      {
+        "feature": "VMDR_mean__run_neg",
+        "driver": "VMDR_mean",
+        "compositeScore": 2.2757728100901953,
+        "spearmanRho": -0.5170917938492896,
+        "kruskalP": 0.11927694873533964,
+        "mutualInfo": 0.3181457431457435
+      },
+      {
+        "feature": "vo_mean__p50",
+        "driver": "vo_mean",
+        "compositeScore": 2.1049940530664983,
+        "spearmanRho": -0.5807080527123766,
+        "kruskalP": 0.14536055864838038,
+        "mutualInfo": 0.10602453102453158
+      },
+      {
+        "feature": "northward_wind_mean__p50",
+        "driver": "northward_wind_mean",
+        "compositeScore": 2.093750994348312,
+        "spearmanRho": -0.478537641625839,
+        "kruskalP": 0.08967722343178507,
+        "mutualInfo": 0.08935786435786497
+      },
+      {
+        "feature": "VHM0_mean__anom_peak_pos",
+        "driver": "VHM0_mean",
+        "compositeScore": 2.086934759613378,
+        "spearmanRho": 0.5719108399918563,
+        "kruskalP": 0.15603228973157704,
+        "mutualInfo": 0.13632756132756185
+      },
+      {
+        "feature": "VMDR_mean__run_pos",
+        "driver": "VMDR_mean",
+        "compositeScore": 1.979812461339634,
+        "spearmanRho": 0.3851434023462411,
+        "kruskalP": 0.4400161039723801,
+        "mutualInfo": 0.8529942279942284
+      },
+      {
+        "feature": "VMDR_mean__p50",
+        "driver": "VMDR_mean",
+        "compositeScore": 1.8983258628706587,
+        "spearmanRho": 0.4279604925109129,
+        "kruskalP": 0.11397286653194541,
+        "mutualInfo": 0.09920634920634974
+      },
+      {
+        "feature": "VMDR_mean__p10",
+        "driver": "VMDR_mean",
+        "compositeScore": 1.8973227213259851,
+        "spearmanRho": 0.5252242408088477,
+        "kruskalP": 0.14227407158651317,
+        "mutualInfo": 0.0
+      }
+    ],
+    "forecastAnchor": "2024-12"
+  },
+  "threeClassThresholds": [
+    {
+      "feature": "VHM0_mean__anom_pos_months",
+      "driver": "VHM0_mean",
+      "unit": "m",
+      "direction": "direct",
+      "method": "ordered_logit",
+      "spearmanRho": 0.8493140312822154,
+      "screeningScore": 3.9146876394320174,
+      "kruskalP": 0.01573197095576358,
+      "boundaries": {
+        "erosion_onset": {
+          "estimate": 6.0,
+          "low95": 1.731452773573169,
+          "high95": 6.0
+        }
+      },
+      "classBands": {
+        "erosion": {
+          "count": 6,
+          "q25": 0.0,
+          "median": 0.0,
+          "q75": 0.75
+        },
+        "stable": {
+          "count": 1,
+          "q25": 3.0,
+          "median": 3.0,
+          "q75": 3.0
+        },
+        "accretion": {
+          "count": 5,
+          "q25": 3.0,
+          "median": 3.0,
+          "q75": 4.0
+        }
+      },
+      "jsd": {
+        "erosion_onset": null
+      }
+    },
+    {
+      "feature": "VHM0_mean__anom_mean",
+      "driver": "VHM0_mean",
+      "unit": "m",
+      "direction": "direct",
+      "method": "ordered_logit",
+      "spearmanRho": 0.8209060356345694,
+      "screeningScore": 3.614473498482985,
+      "kruskalP": 0.023638659450783164,
+      "boundaries": {
+        "erosion_onset": {
+          "estimate": 0.8931325152110859,
+          "low95": 0.5201726001414019,
+          "high95": 0.8931325152110859
+        }
+      },
+      "classBands": {
+        "erosion": {
+          "count": 6,
+          "q25": -0.6224671040633736,
+          "median": -0.2876221242836158,
+          "q75": -0.06050855334475712
+        },
+        "stable": {
+          "count": 1,
+          "q25": 0.12497894134194458,
+          "median": 0.12497894134194458,
+          "q75": 0.12497894134194458
+        },
+        "accretion": {
+          "count": 5,
+          "q25": 0.3972915323344557,
+          "median": 0.4039473925429394,
+          "q75": 0.49760636193863544
+        }
+      },
+      "jsd": {
+        "erosion_onset": null
+      }
+    },
+    {
+      "feature": "eastward_wind_mean__anom_neg_months",
+      "driver": "eastward_wind_mean",
+      "unit": "m/s",
+      "direction": "inverse",
+      "method": "ordered_logit",
+      "spearmanRho": -0.731971260642743,
+      "screeningScore": 3.2177286602853057,
+      "kruskalP": 0.04443170075523586,
+      "boundaries": {
+        "erosion_onset": {
+          "estimate": -0.8,
+          "low95": -0.8,
+          "high95": -0.8
+        }
+      },
+      "classBands": {
+        "erosion": {
+          "count": 6,
+          "q25": 2.0,
+          "median": 2.0,
+          "q75": 2.75
+        },
+        "stable": {
+          "count": 1,
+          "q25": 2.0,
+          "median": 2.0,
+          "q75": 2.0
+        },
+        "accretion": {
+          "count": 5,
+          "q25": 0.0,
+          "median": 0.0,
+          "q75": 0.0
+        }
+      },
+      "jsd": {
+        "erosion_onset": null
+      }
+    },
+    {
+      "feature": "northward_wind_mean__anom_pos_months",
+      "driver": "northward_wind_mean",
+      "unit": "m/s",
+      "direction": "inverse",
+      "method": "ordered_logit",
+      "spearmanRho": -0.682892976598717,
+      "screeningScore": 3.1276203355956858,
+      "kruskalP": 0.03507096568120189,
+      "boundaries": {
+        "erosion_onset": {
+          "estimate": -1.4000000000000001,
+          "low95": -1.4000000000000001,
+          "high95": -1.4000000000000001
+        }
+      },
+      "classBands": {
+        "erosion": {
+          "count": 6,
+          "q25": 1.25,
+          "median": 2.5,
+          "q75": 4.5
+        },
+        "stable": {
+          "count": 1,
+          "q25": 0.0,
+          "median": 0.0,
+          "q75": 0.0
+        },
+        "accretion": {
+          "count": 5,
+          "q25": 0.0,
+          "median": 1.0,
+          "q75": 1.0
+        }
+      },
+      "jsd": {
+        "erosion_onset": null
+      }
+    },
+    {
+      "feature": "northward_wind_mean__p90",
+      "driver": "northward_wind_mean",
+      "unit": "m/s",
+      "direction": "inverse",
+      "method": "ordered_logit",
+      "spearmanRho": -0.676955688153626,
+      "screeningScore": 2.8446214988472462,
+      "kruskalP": 0.05335597929436022,
+      "boundaries": {
+        "erosion_onset": {
+          "estimate": 1.073400058746338,
+          "low95": 1.073400058746338,
+          "high95": 1.073400058746338
+        }
+      },
+      "classBands": {
+        "erosion": {
+          "count": 6,
+          "q25": 2.05924990773201,
+          "median": 2.1459999799728395,
+          "q75": 2.406749984622002
+        },
+        "stable": {
+          "count": 1,
+          "q25": 1.6179999828338625,
+          "median": 1.6179999828338625,
+          "q75": 1.6179999828338625
+        },
+        "accretion": {
+          "count": 5,
+          "q25": 1.4840000033378602,
+          "median": 1.6339999675750734,
+          "q75": 1.9019999623298645
+        }
+      },
+      "jsd": {
+        "erosion_onset": null
+      }
+    },
+    {
+      "feature": "VMDR_mean__anom_peak_pos",
+      "driver": "VMDR_mean",
+      "unit": "\u00b0",
+      "direction": "direct",
+      "method": "ordered_logit",
+      "spearmanRho": 0.6030352394471955,
+      "screeningScore": 2.5490113819043723,
+      "kruskalP": 0.0652527440350103,
+      "boundaries": {
+        "erosion_onset": {
+          "estimate": 3.3423959678069948,
+          "low95": 2.8932475744235315,
+          "high95": 3.3423959678069948
+        }
+      },
+      "classBands": {
+        "erosion": {
+          "count": 6,
+          "q25": 0.6500237924481946,
+          "median": 0.861550286065216,
+          "q75": 1.3471898229066395
+        },
+        "stable": {
+          "count": 1,
+          "q25": 2.4754199664900542,
+          "median": 2.4754199664900542,
+          "q75": 2.4754199664900542
+        },
+        "accretion": {
+          "count": 5,
+          "q25": 1.491362048424318,
+          "median": 1.62847731144185,
+          "q75": 2.0781187099265948
+        }
+      },
+      "jsd": {
+        "erosion_onset": null
+      }
+    },
+    {
+      "feature": "vo_mean__p50",
+      "driver": "vo_mean",
+      "unit": "m/s",
+      "direction": "inverse",
+      "method": "ordered_logit",
+      "spearmanRho": -0.5807080527123766,
+      "screeningScore": 2.1049940530664983,
+      "kruskalP": 0.14536055864838038,
+      "boundaries": {
+        "erosion_onset": {
+          "estimate": -0.08941923715174198,
+          "low95": -0.08941923715174198,
+          "high95": -0.08941923715174198
+        }
+      },
+      "classBands": {
+        "erosion": {
+          "count": 6,
+          "q25": -0.026932584587484598,
+          "median": -0.01739555038511753,
+          "q75": 0.004730368964374065
+        },
+        "stable": {
+          "count": 1,
+          "q25": -0.02533036284148693,
+          "median": -0.02533036284148693,
+          "q75": -0.02533036284148693
+        },
+        "accretion": {
+          "count": 5,
+          "q25": -0.05310220643877983,
+          "median": -0.03418073058128357,
+          "q75": -0.031434064731001854
+        }
+      },
+      "jsd": {
+        "erosion_onset": null
+      }
+    },
+    {
+      "feature": "VTPK_mean__late_minus_early",
+      "driver": "VTPK_mean",
+      "unit": "s",
+      "direction": "inverse",
+      "method": "ordered_logit",
+      "spearmanRho": -0.572871554697751,
+      "screeningScore": 1.8800955969750084,
+      "kruskalP": 0.18435185519581448,
+      "boundaries": {
+        "erosion_onset": {
+          "estimate": -0.3692708651224759,
+          "low95": -0.3692708651224759,
+          "high95": -0.3692708651224759
+        }
+      },
+      "classBands": {
+        "erosion": {
+          "count": 5,
+          "q25": 0.9374893506368007,
+          "median": 1.7491811116536464,
+          "q75": 1.7815368970235195
+        },
+        "stable": {
+          "count": 1,
+          "q25": 1.1290593147277832,
+          "median": 1.1290593147277832,
+          "q75": 1.1290593147277832
+        },
+        "accretion": {
+          "count": 5,
+          "q25": 0.37094704310099225,
+          "median": 0.7400277455647775,
+          "q75": 0.9222823778788243
+        }
+      },
+      "jsd": {
+        "erosion_onset": null
+      }
+    },
+    {
+      "feature": "uo_mean__anom_peak_neg",
+      "driver": "uo_mean",
+      "unit": "m/s",
+      "direction": "direct",
+      "method": "ordered_logit",
+      "spearmanRho": 0.4279604925109129,
+      "screeningScore": 1.8324167719615678,
+      "kruskalP": 0.11397286653194541,
+      "boundaries": {
+        "erosion_onset": {
+          "estimate": 0.0578248697638204,
+          "low95": -0.783569739272192,
+          "high95": 0.0578248697638204
+        }
+      },
+      "classBands": {
+        "erosion": {
+          "count": 6,
+          "q25": -1.9290228204851951,
+          "median": -1.7359048963919101,
+          "q75": -1.383687279044819
+        },
+        "stable": {
+          "count": 1,
+          "q25": -0.328549319021656,
+          "median": -0.328549319021656,
+          "q75": -0.328549319021656
+        },
+        "accretion": {
+          "count": 5,
+          "q25": -1.475297884065878,
+          "median": -1.4242084961938688,
+          "q75": -1.104972518154283
+        }
+      },
+      "jsd": {
+        "erosion_onset": null
+      }
+    },
+    {
+      "feature": "VTPK_mean__anom_neg_months",
+      "driver": "VTPK_mean",
+      "unit": "s",
+      "direction": "direct",
+      "method": "ordered_logit",
+      "spearmanRho": 0.44997784348000597,
+      "screeningScore": 1.8163223465132163,
+      "kruskalP": 0.12123648612536889,
+      "boundaries": {
+        "erosion_onset": {
+          "estimate": 4.8,
+          "low95": -0.8,
+          "high95": 4.8
+        }
+      },
+      "classBands": {
+        "erosion": {
+          "count": 6,
+          "q25": 1.0,
+          "median": 1.5,
+          "q75": 2.0
+        },
+        "stable": {
+          "count": 1,
+          "q25": 4.0,
+          "median": 4.0,
+          "q75": 4.0
+        },
+        "accretion": {
+          "count": 5,
+          "q25": 2.0,
+          "median": 3.0,
+          "q75": 3.0
+        }
+      },
+      "jsd": {
+        "erosion_onset": null
+      }
+    },
+    {
+      "feature": "uo_mean__p50",
+      "driver": "uo_mean",
+      "unit": "m/s",
+      "direction": "direct",
+      "method": "ordered_logit",
+      "spearmanRho": 0.497990391285426,
+      "screeningScore": 1.7437180621885435,
+      "kruskalP": 0.2076721028422564,
+      "boundaries": {
+        "erosion_onset": {
+          "estimate": 0.04699850454926491,
+          "low95": 0.028053399058717107,
+          "high95": 0.04699850454926491
+        }
+      },
+      "classBands": {
+        "erosion": {
+          "count": 6,
+          "q25": 0.009842219296842813,
+          "median": 0.013275551609694958,
+          "q75": 0.019226660951972008
+        },
+        "stable": {
+          "count": 1,
+          "q25": 0.02624591812491417,
+          "median": 0.02624591812491417,
+          "q75": 0.02624591812491417
+        },
+        "accretion": {
+          "count": 5,
+          "q25": 0.01739555038511753,
+          "median": 0.03357036039233208,
+          "q75": 0.036927396431565285
+        }
+      },
+      "jsd": {
+        "erosion_onset": null
+      }
+    }
+  ],
+  "threeClassForecasts": {
+    "forecastAnchor": "2024-12",
+    "horizons": [
+      "H6",
+      "H12",
+      "H18",
+      "H24"
+    ],
+    "method": "ensemble(TheilSen + GP_Matern + Huber)",
+    "features": {}
+  },
+  "driverThresholds": [
+    {
+      "driver": "VHM0_mean",
+      "unit": "m",
+      "direction": "lower->erosion",
+      "erosionOnsetThreshold": 1.0485,
+      "erosionClassMedian": 0.9717,
+      "stableClassMedian": 1.0977,
+      "nErosionYears": 6,
+      "nStableYears": 1
+    },
+    {
+      "driver": "VTPK_mean",
+      "unit": "s",
+      "direction": "higher->erosion",
+      "erosionOnsetThreshold": 13.0583,
+      "erosionClassMedian": 13.3783,
+      "stableClassMedian": 12.6009,
+      "nErosionYears": 6,
+      "nStableYears": 1
+    },
+    {
+      "driver": "VMDR_mean",
+      "unit": "degree",
+      "direction": "lower->erosion",
+      "erosionOnsetThreshold": 216.6552,
+      "erosionClassMedian": 211.7946,
+      "stableClassMedian": 224.6871,
+      "nErosionYears": 6,
+      "nStableYears": 1
+    },
+    {
+      "driver": "eastward_wind_mean",
+      "unit": "m/s",
+      "direction": "lower->erosion",
+      "erosionOnsetThreshold": 1.77,
+      "erosionClassMedian": 1.23,
+      "stableClassMedian": 2.53,
+      "nErosionYears": 6,
+      "nStableYears": 1
+    },
+    {
+      "driver": "northward_wind_mean",
+      "unit": "m/s",
+      "direction": "higher->erosion",
+      "erosionOnsetThreshold": 0.9312,
+      "erosionClassMedian": 1.1825,
+      "stableClassMedian": 0.265,
+      "nErosionYears": 6,
+      "nStableYears": 1
+    },
+    {
+      "driver": "uo_mean",
+      "unit": "m/s",
+      "direction": "lower->erosion",
+      "erosionOnsetThreshold": 0.0216,
+      "erosionClassMedian": 0.0133,
+      "stableClassMedian": 0.0262,
+      "nErosionYears": 6,
+      "nStableYears": 1
+    },
+    {
+      "driver": "vo_mean",
+      "unit": "m/s",
+      "direction": "higher->erosion",
+      "erosionOnsetThreshold": -0.0251,
+      "erosionClassMedian": -0.0174,
+      "stableClassMedian": -0.0253,
+      "nErosionYears": 6,
+      "nStableYears": 1
+    },
+    {
+      "driver": "zos_mean",
+      "unit": "m",
+      "direction": "lower->erosion",
+      "erosionOnsetThreshold": 0.499,
+      "erosionClassMedian": 0.4857,
+      "stableClassMedian": 0.5055,
+      "nErosionYears": 6,
+      "nStableYears": 1
+    }
+  ],
+  "yearwiseEffectRanges": [
+    {
+      "driver": "VHM0_mean",
+      "monsoonYear": 2013,
+      "changeClass": "erosion",
+      "medianValue": 0.6759,
+      "erosionOnsetThreshold": 1.0485,
+      "detectedClass": "erosion",
+      "dominantRange": ""
+    },
+    {
+      "driver": "VHM0_mean",
+      "monsoonYear": 2014,
+      "changeClass": "erosion",
+      "medianValue": 1.0943,
+      "erosionOnsetThreshold": 1.0485,
+      "detectedClass": "stable",
+      "dominantRange": ""
+    },
+    {
+      "driver": "VHM0_mean",
+      "monsoonYear": 2015,
+      "changeClass": "accretion",
+      "medianValue": 0.9847,
+      "erosionOnsetThreshold": 1.0485,
+      "detectedClass": "erosion",
+      "dominantRange": ""
+    },
+    {
+      "driver": "VHM0_mean",
+      "monsoonYear": 2016,
+      "changeClass": "erosion",
+      "medianValue": 0.9756,
+      "erosionOnsetThreshold": 1.0485,
+      "detectedClass": "erosion",
+      "dominantRange": ""
+    },
+    {
+      "driver": "VHM0_mean",
+      "monsoonYear": 2017,
+      "changeClass": "accretion",
+      "medianValue": 1.167,
+      "erosionOnsetThreshold": 1.0485,
+      "detectedClass": "stable",
+      "dominantRange": ""
+    },
+    {
+      "driver": "VHM0_mean",
+      "monsoonYear": 2018,
+      "changeClass": "accretion",
+      "medianValue": 1.1183,
+      "erosionOnsetThreshold": 1.0485,
+      "detectedClass": "stable",
+      "dominantRange": ""
+    },
+    {
+      "driver": "VHM0_mean",
+      "monsoonYear": 2019,
+      "changeClass": "erosion",
+      "medianValue": 0.9684,
+      "erosionOnsetThreshold": 1.0485,
+      "detectedClass": "erosion",
+      "dominantRange": ""
+    },
+    {
+      "driver": "VHM0_mean",
+      "monsoonYear": 2020,
+      "changeClass": "erosion",
+      "medianValue": 0.975,
+      "erosionOnsetThreshold": 1.0485,
+      "detectedClass": "erosion",
+      "dominantRange": ""
+    },
+    {
+      "driver": "VHM0_mean",
+      "monsoonYear": 2021,
+      "changeClass": "accretion",
+      "medianValue": 1.1323,
+      "erosionOnsetThreshold": 1.0485,
+      "detectedClass": "stable",
+      "dominantRange": ""
+    },
+    {
+      "driver": "VHM0_mean",
+      "monsoonYear": 2022,
+      "changeClass": "accretion",
+      "medianValue": 1.2104,
+      "erosionOnsetThreshold": 1.0485,
+      "detectedClass": "stable",
+      "dominantRange": ""
+    },
+    {
+      "driver": "VHM0_mean",
+      "monsoonYear": 2023,
+      "changeClass": "stable",
+      "medianValue": 1.0977,
+      "erosionOnsetThreshold": 1.0485,
+      "detectedClass": "stable",
+      "dominantRange": ""
+    },
+    {
+      "driver": "VHM0_mean",
+      "monsoonYear": 2024,
+      "changeClass": "erosion",
+      "medianValue": 0.8547,
+      "erosionOnsetThreshold": 1.0485,
+      "detectedClass": "erosion",
+      "dominantRange": ""
+    },
+    {
+      "driver": "VTPK_mean",
+      "monsoonYear": 2013,
+      "changeClass": "erosion",
+      "medianValue": 12.8902,
+      "erosionOnsetThreshold": 13.0583,
+      "detectedClass": "stable",
+      "dominantRange": ""
+    },
+    {
+      "driver": "VTPK_mean",
+      "monsoonYear": 2014,
+      "changeClass": "erosion",
+      "medianValue": 12.3471,
+      "erosionOnsetThreshold": 13.0583,
+      "detectedClass": "stable",
+      "dominantRange": ""
+    },
+    {
+      "driver": "VTPK_mean",
+      "monsoonYear": 2015,
+      "changeClass": "accretion",
+      "medianValue": 13.2023,
+      "erosionOnsetThreshold": 13.0583,
+      "detectedClass": "erosion",
+      "dominantRange": ""
+    },
+    {
+      "driver": "VTPK_mean",
+      "monsoonYear": 2016,
+      "changeClass": "erosion",
+      "medianValue": 13.9002,
+      "erosionOnsetThreshold": 13.0583,
+      "detectedClass": "erosion",
+      "dominantRange": ""
+    },
+    {
+      "driver": "VTPK_mean",
+      "monsoonYear": 2017,
+      "changeClass": "accretion",
+      "medianValue": 12.626,
+      "erosionOnsetThreshold": 13.0583,
+      "detectedClass": "stable",
+      "dominantRange": ""
+    },
+    {
+      "driver": "VTPK_mean",
+      "monsoonYear": 2018,
+      "changeClass": "accretion",
+      "medianValue": 12.8995,
+      "erosionOnsetThreshold": 13.0583,
+      "detectedClass": "stable",
+      "dominantRange": ""
+    },
+    {
+      "driver": "VTPK_mean",
+      "monsoonYear": 2019,
+      "changeClass": "erosion",
+      "medianValue": 13.4878,
+      "erosionOnsetThreshold": 13.0583,
+      "detectedClass": "erosion",
+      "dominantRange": ""
+    },
+    {
+      "driver": "VTPK_mean",
+      "monsoonYear": 2020,
+      "changeClass": "erosion",
+      "medianValue": 14.0178,
+      "erosionOnsetThreshold": 13.0583,
+      "detectedClass": "erosion",
+      "dominantRange": ""
+    },
+    {
+      "driver": "VTPK_mean",
+      "monsoonYear": 2021,
+      "changeClass": "accretion",
+      "medianValue": 12.8508,
+      "erosionOnsetThreshold": 13.0583,
+      "detectedClass": "stable",
+      "dominantRange": ""
+    },
+    {
+      "driver": "VTPK_mean",
+      "monsoonYear": 2022,
+      "changeClass": "accretion",
+      "medianValue": 11.7809,
+      "erosionOnsetThreshold": 13.0583,
+      "detectedClass": "stable",
+      "dominantRange": ""
+    },
+    {
+      "driver": "VTPK_mean",
+      "monsoonYear": 2023,
+      "changeClass": "stable",
+      "medianValue": 12.6009,
+      "erosionOnsetThreshold": 13.0583,
+      "detectedClass": "stable",
+      "dominantRange": ""
+    },
+    {
+      "driver": "VTPK_mean",
+      "monsoonYear": 2024,
+      "changeClass": "erosion",
+      "medianValue": 13.2688,
+      "erosionOnsetThreshold": 13.0583,
+      "detectedClass": "erosion",
+      "dominantRange": ""
+    },
+    {
+      "driver": "VMDR_mean",
+      "monsoonYear": 2013,
+      "changeClass": "erosion",
+      "medianValue": 205.6625,
+      "erosionOnsetThreshold": 216.6552,
+      "detectedClass": "erosion",
+      "dominantRange": ""
+    },
+    {
+      "driver": "VMDR_mean",
+      "monsoonYear": 2014,
+      "changeClass": "erosion",
+      "medianValue": 223.0598,
+      "erosionOnsetThreshold": 216.6552,
+      "detectedClass": "stable",
+      "dominantRange": ""
+    },
+    {
+      "driver": "VMDR_mean",
+      "monsoonYear": 2015,
+      "changeClass": "accretion",
+      "medianValue": 212.1111,
+      "erosionOnsetThreshold": 216.6552,
+      "detectedClass": "erosion",
+      "dominantRange": ""
+    },
+    {
+      "driver": "VMDR_mean",
+      "monsoonYear": 2016,
+      "changeClass": "erosion",
+      "medianValue": 210.4073,
+      "erosionOnsetThreshold": 216.6552,
+      "detectedClass": "erosion",
+      "dominantRange": ""
+    },
+    {
+      "driver": "VMDR_mean",
+      "monsoonYear": 2017,
+      "changeClass": "accretion",
+      "medianValue": 216.865,
+      "erosionOnsetThreshold": 216.6552,
+      "detectedClass": "stable",
+      "dominantRange": ""
+    },
+    {
+      "driver": "VMDR_mean",
+      "monsoonYear": 2018,
+      "changeClass": "accretion",
+      "medianValue": 221.078,
+      "erosionOnsetThreshold": 216.6552,
+      "detectedClass": "stable",
+      "dominantRange": ""
+    },
+    {
+      "driver": "VMDR_mean",
+      "monsoonYear": 2019,
+      "changeClass": "erosion",
+      "medianValue": 215.0281,
+      "erosionOnsetThreshold": 216.6552,
+      "detectedClass": "erosion",
+      "dominantRange": ""
+    },
+    {
+      "driver": "VMDR_mean",
+      "monsoonYear": 2020,
+      "changeClass": "erosion",
+      "medianValue": 213.1819,
+      "erosionOnsetThreshold": 216.6552,
+      "detectedClass": "erosion",
+      "dominantRange": ""
+    },
+    {
+      "driver": "VMDR_mean",
+      "monsoonYear": 2021,
+      "changeClass": "accretion",
+      "medianValue": 221.9537,
+      "erosionOnsetThreshold": 216.6552,
+      "detectedClass": "stable",
+      "dominantRange": ""
+    },
+    {
+      "driver": "VMDR_mean",
+      "monsoonYear": 2022,
+      "changeClass": "accretion",
+      "medianValue": 222.2692,
+      "erosionOnsetThreshold": 216.6552,
+      "detectedClass": "stable",
+      "dominantRange": ""
+    },
+    {
+      "driver": "VMDR_mean",
+      "monsoonYear": 2023,
+      "changeClass": "stable",
+      "medianValue": 224.6871,
+      "erosionOnsetThreshold": 216.6552,
+      "detectedClass": "stable",
+      "dominantRange": ""
+    },
+    {
+      "driver": "VMDR_mean",
+      "monsoonYear": 2024,
+      "changeClass": "erosion",
+      "medianValue": 209.1207,
+      "erosionOnsetThreshold": 216.6552,
+      "detectedClass": "erosion",
+      "dominantRange": ""
+    },
+    {
+      "driver": "eastward_wind_mean",
+      "monsoonYear": 2013,
+      "changeClass": "erosion",
+      "medianValue": 1.4,
+      "erosionOnsetThreshold": 1.77,
+      "detectedClass": "erosion",
+      "dominantRange": ""
+    },
+    {
+      "driver": "eastward_wind_mean",
+      "monsoonYear": 2014,
+      "changeClass": "erosion",
+      "medianValue": 2.655,
+      "erosionOnsetThreshold": 1.77,
+      "detectedClass": "stable",
+      "dominantRange": ""
+    },
+    {
+      "driver": "eastward_wind_mean",
+      "monsoonYear": 2015,
+      "changeClass": "accretion",
+      "medianValue": 1.51,
+      "erosionOnsetThreshold": 1.77,
+      "detectedClass": "erosion",
+      "dominantRange": ""
+    },
+    {
+      "driver": "eastward_wind_mean",
+      "monsoonYear": 2016,
+      "changeClass": "erosion",
+      "medianValue": 1.055,
+      "erosionOnsetThreshold": 1.77,
+      "detectedClass": "erosion",
+      "dominantRange": ""
+    },
+    {
+      "driver": "eastward_wind_mean",
+      "monsoonYear": 2017,
+      "changeClass": "accretion",
+      "medianValue": 2.09,
+      "erosionOnsetThreshold": 1.77,
+      "detectedClass": "stable",
+      "dominantRange": ""
+    },
+    {
+      "driver": "eastward_wind_mean",
+      "monsoonYear": 2018,
+      "changeClass": "accretion",
+      "medianValue": 3.03,
+      "erosionOnsetThreshold": 1.77,
+      "detectedClass": "stable",
+      "dominantRange": ""
+    },
+    {
+      "driver": "eastward_wind_mean",
+      "monsoonYear": 2019,
+      "changeClass": "erosion",
+      "medianValue": 1.115,
+      "erosionOnsetThreshold": 1.77,
+      "detectedClass": "erosion",
+      "dominantRange": ""
+    },
+    {
+      "driver": "eastward_wind_mean",
+      "monsoonYear": 2020,
+      "changeClass": "erosion",
+      "medianValue": 1.345,
+      "erosionOnsetThreshold": 1.77,
+      "detectedClass": "erosion",
+      "dominantRange": ""
+    },
+    {
+      "driver": "eastward_wind_mean",
+      "monsoonYear": 2021,
+      "changeClass": "accretion",
+      "medianValue": 2.07,
+      "erosionOnsetThreshold": 1.77,
+      "detectedClass": "stable",
+      "dominantRange": ""
+    },
+    {
+      "driver": "eastward_wind_mean",
+      "monsoonYear": 2022,
+      "changeClass": "accretion",
+      "medianValue": 3.01,
+      "erosionOnsetThreshold": 1.77,
+      "detectedClass": "stable",
+      "dominantRange": ""
+    },
+    {
+      "driver": "eastward_wind_mean",
+      "monsoonYear": 2023,
+      "changeClass": "stable",
+      "medianValue": 2.53,
+      "erosionOnsetThreshold": 1.77,
+      "detectedClass": "stable",
+      "dominantRange": ""
+    },
+    {
+      "driver": "eastward_wind_mean",
+      "monsoonYear": 2024,
+      "changeClass": "erosion",
+      "medianValue": 1.07,
+      "erosionOnsetThreshold": 1.77,
+      "detectedClass": "erosion",
+      "dominantRange": ""
+    },
+    {
+      "driver": "northward_wind_mean",
+      "monsoonYear": 2013,
+      "changeClass": "erosion",
+      "medianValue": 1.225,
+      "erosionOnsetThreshold": 0.9312,
+      "detectedClass": "erosion",
+      "dominantRange": ""
+    },
+    {
+      "driver": "northward_wind_mean",
+      "monsoonYear": 2014,
+      "changeClass": "erosion",
+      "medianValue": 0.775,
+      "erosionOnsetThreshold": 0.9312,
+      "detectedClass": "stable",
+      "dominantRange": ""
+    },
+    {
+      "driver": "northward_wind_mean",
+      "monsoonYear": 2015,
+      "changeClass": "accretion",
+      "medianValue": 0.45,
+      "erosionOnsetThreshold": 0.9312,
+      "detectedClass": "stable",
+      "dominantRange": ""
+    },
+    {
+      "driver": "northward_wind_mean",
+      "monsoonYear": 2016,
+      "changeClass": "erosion",
+      "medianValue": 1.14,
+      "erosionOnsetThreshold": 0.9312,
+      "detectedClass": "erosion",
+      "dominantRange": ""
+    },
+    {
+      "driver": "northward_wind_mean",
+      "monsoonYear": 2017,
+      "changeClass": "accretion",
+      "medianValue": 0.645,
+      "erosionOnsetThreshold": 0.9312,
+      "detectedClass": "stable",
+      "dominantRange": ""
+    },
+    {
+      "driver": "northward_wind_mean",
+      "monsoonYear": 2018,
+      "changeClass": "accretion",
+      "medianValue": 0.84,
+      "erosionOnsetThreshold": 0.9312,
+      "detectedClass": "stable",
+      "dominantRange": ""
+    },
+    {
+      "driver": "northward_wind_mean",
+      "monsoonYear": 2019,
+      "changeClass": "erosion",
+      "medianValue": 0.55,
+      "erosionOnsetThreshold": 0.9312,
+      "detectedClass": "stable",
+      "dominantRange": ""
+    },
+    {
+      "driver": "northward_wind_mean",
+      "monsoonYear": 2020,
+      "changeClass": "erosion",
+      "medianValue": 1.52,
+      "erosionOnsetThreshold": 0.9312,
+      "detectedClass": "erosion",
+      "dominantRange": ""
+    },
+    {
+      "driver": "northward_wind_mean",
+      "monsoonYear": 2021,
+      "changeClass": "accretion",
+      "medianValue": 1.0,
+      "erosionOnsetThreshold": 0.9312,
+      "detectedClass": "erosion",
+      "dominantRange": ""
+    },
+    {
+      "driver": "northward_wind_mean",
+      "monsoonYear": 2022,
+      "changeClass": "accretion",
+      "medianValue": 0.715,
+      "erosionOnsetThreshold": 0.9312,
+      "detectedClass": "stable",
+      "dominantRange": ""
+    },
+    {
+      "driver": "northward_wind_mean",
+      "monsoonYear": 2023,
+      "changeClass": "stable",
+      "medianValue": 0.265,
+      "erosionOnsetThreshold": 0.9312,
+      "detectedClass": "stable",
+      "dominantRange": ""
+    },
+    {
+      "driver": "northward_wind_mean",
+      "monsoonYear": 2024,
+      "changeClass": "erosion",
+      "medianValue": 1.415,
+      "erosionOnsetThreshold": 0.9312,
+      "detectedClass": "erosion",
+      "dominantRange": ""
+    },
+    {
+      "driver": "uo_mean",
+      "monsoonYear": 2013,
+      "changeClass": "erosion",
+      "medianValue": 0.0031,
+      "erosionOnsetThreshold": 0.0216,
+      "detectedClass": "erosion",
+      "dominantRange": ""
+    },
+    {
+      "driver": "uo_mean",
+      "monsoonYear": 2014,
+      "changeClass": "erosion",
+      "medianValue": 0.0204,
+      "erosionOnsetThreshold": 0.0216,
+      "detectedClass": "erosion",
+      "dominantRange": ""
+    },
+    {
+      "driver": "uo_mean",
+      "monsoonYear": 2015,
+      "changeClass": "accretion",
+      "medianValue": 0.0092,
+      "erosionOnsetThreshold": 0.0216,
+      "detectedClass": "erosion",
+      "dominantRange": ""
+    },
+    {
+      "driver": "uo_mean",
+      "monsoonYear": 2016,
+      "changeClass": "erosion",
+      "medianValue": 0.0156,
+      "erosionOnsetThreshold": 0.0216,
+      "detectedClass": "erosion",
+      "dominantRange": ""
+    },
+    {
+      "driver": "uo_mean",
+      "monsoonYear": 2017,
+      "changeClass": "accretion",
+      "medianValue": 0.0336,
+      "erosionOnsetThreshold": 0.0216,
+      "detectedClass": "stable",
+      "dominantRange": ""
+    },
+    {
+      "driver": "uo_mean",
+      "monsoonYear": 2018,
+      "changeClass": "accretion",
+      "medianValue": 0.0174,
+      "erosionOnsetThreshold": 0.0216,
+      "detectedClass": "erosion",
+      "dominantRange": ""
+    },
+    {
+      "driver": "uo_mean",
+      "monsoonYear": 2019,
+      "changeClass": "erosion",
+      "medianValue": 0.0235,
+      "erosionOnsetThreshold": 0.0216,
+      "detectedClass": "stable",
+      "dominantRange": ""
+    },
+    {
+      "driver": "uo_mean",
+      "monsoonYear": 2020,
+      "changeClass": "erosion",
+      "medianValue": 0.0095,
+      "erosionOnsetThreshold": 0.0216,
+      "detectedClass": "erosion",
+      "dominantRange": ""
+    },
+    {
+      "driver": "uo_mean",
+      "monsoonYear": 2021,
+      "changeClass": "accretion",
+      "medianValue": 0.0369,
+      "erosionOnsetThreshold": 0.0216,
+      "detectedClass": "stable",
+      "dominantRange": ""
+    },
+    {
+      "driver": "uo_mean",
+      "monsoonYear": 2022,
+      "changeClass": "accretion",
+      "medianValue": 0.0397,
+      "erosionOnsetThreshold": 0.0216,
+      "detectedClass": "stable",
+      "dominantRange": ""
+    },
+    {
+      "driver": "uo_mean",
+      "monsoonYear": 2023,
+      "changeClass": "stable",
+      "medianValue": 0.0262,
+      "erosionOnsetThreshold": 0.0216,
+      "detectedClass": "stable",
+      "dominantRange": ""
+    },
+    {
+      "driver": "uo_mean",
+      "monsoonYear": 2024,
+      "changeClass": "erosion",
+      "medianValue": 0.011,
+      "erosionOnsetThreshold": 0.0216,
+      "detectedClass": "erosion",
+      "dominantRange": ""
+    },
+    {
+      "driver": "vo_mean",
+      "monsoonYear": 2013,
+      "changeClass": "erosion",
+      "medianValue": -0.029,
+      "erosionOnsetThreshold": -0.0251,
+      "detectedClass": "stable",
+      "dominantRange": ""
+    },
+    {
+      "driver": "vo_mean",
+      "monsoonYear": 2014,
+      "changeClass": "erosion",
+      "medianValue": -0.0647,
+      "erosionOnsetThreshold": -0.0251,
+      "detectedClass": "stable",
+      "dominantRange": ""
+    },
+    {
+      "driver": "vo_mean",
+      "monsoonYear": 2015,
+      "changeClass": "accretion",
+      "medianValue": -0.0531,
+      "erosionOnsetThreshold": -0.0251,
+      "detectedClass": "stable",
+      "dominantRange": ""
+    },
+    {
+      "driver": "vo_mean",
+      "monsoonYear": 2016,
+      "changeClass": "erosion",
+      "medianValue": -0.014,
+      "erosionOnsetThreshold": -0.0251,
+      "detectedClass": "erosion",
+      "dominantRange": ""
+    },
+    {
+      "driver": "vo_mean",
+      "monsoonYear": 2017,
+      "changeClass": "accretion",
+      "medianValue": -0.0702,
+      "erosionOnsetThreshold": -0.0251,
+      "detectedClass": "stable",
+      "dominantRange": ""
+    },
+    {
+      "driver": "vo_mean",
+      "monsoonYear": 2018,
+      "changeClass": "accretion",
+      "medianValue": -0.0342,
+      "erosionOnsetThreshold": -0.0251,
+      "detectedClass": "stable",
+      "dominantRange": ""
+    },
+    {
+      "driver": "vo_mean",
+      "monsoonYear": 2019,
+      "changeClass": "erosion",
+      "medianValue": -0.0208,
+      "erosionOnsetThreshold": -0.0251,
+      "detectedClass": "erosion",
+      "dominantRange": ""
+    },
+    {
+      "driver": "vo_mean",
+      "monsoonYear": 2020,
+      "changeClass": "erosion",
+      "medianValue": 0.011,
+      "erosionOnsetThreshold": -0.0251,
+      "detectedClass": "erosion",
+      "dominantRange": ""
+    },
+    {
+      "driver": "vo_mean",
+      "monsoonYear": 2021,
+      "changeClass": "accretion",
+      "medianValue": -0.0314,
+      "erosionOnsetThreshold": -0.0251,
+      "detectedClass": "stable",
+      "dominantRange": ""
+    },
+    {
+      "driver": "vo_mean",
+      "monsoonYear": 2022,
+      "changeClass": "accretion",
+      "medianValue": -0.0253,
+      "erosionOnsetThreshold": -0.0251,
+      "detectedClass": "stable",
+      "dominantRange": ""
+    },
+    {
+      "driver": "vo_mean",
+      "monsoonYear": 2023,
+      "changeClass": "stable",
+      "medianValue": -0.0253,
+      "erosionOnsetThreshold": -0.0251,
+      "detectedClass": "stable",
+      "dominantRange": ""
+    },
+    {
+      "driver": "vo_mean",
+      "monsoonYear": 2024,
+      "changeClass": "erosion",
+      "medianValue": 0.0259,
+      "erosionOnsetThreshold": -0.0251,
+      "detectedClass": "erosion",
+      "dominantRange": ""
+    },
+    {
+      "driver": "zos_mean",
+      "monsoonYear": 2013,
+      "changeClass": "erosion",
+      "medianValue": 0.4706,
+      "erosionOnsetThreshold": 0.499,
+      "detectedClass": "erosion",
+      "dominantRange": ""
+    },
+    {
+      "driver": "zos_mean",
+      "monsoonYear": 2014,
+      "changeClass": "erosion",
+      "medianValue": 0.4625,
+      "erosionOnsetThreshold": 0.499,
+      "detectedClass": "erosion",
+      "dominantRange": ""
+    },
+    {
+      "driver": "zos_mean",
+      "monsoonYear": 2015,
+      "changeClass": "accretion",
+      "medianValue": 0.4636,
+      "erosionOnsetThreshold": 0.499,
+      "detectedClass": "erosion",
+      "dominantRange": ""
+    },
+    {
+      "driver": "zos_mean",
+      "monsoonYear": 2016,
+      "changeClass": "erosion",
+      "medianValue": 0.4944,
+      "erosionOnsetThreshold": 0.499,
+      "detectedClass": "erosion",
+      "dominantRange": ""
+    },
+    {
+      "driver": "zos_mean",
+      "monsoonYear": 2017,
+      "changeClass": "accretion",
+      "medianValue": 0.5211,
+      "erosionOnsetThreshold": 0.499,
+      "detectedClass": "stable",
+      "dominantRange": ""
+    },
+    {
+      "driver": "zos_mean",
+      "monsoonYear": 2018,
+      "changeClass": "accretion",
+      "medianValue": 0.4808,
+      "erosionOnsetThreshold": 0.499,
+      "detectedClass": "erosion",
+      "dominantRange": ""
+    },
+    {
+      "driver": "zos_mean",
+      "monsoonYear": 2019,
+      "changeClass": "erosion",
+      "medianValue": 0.4811,
+      "erosionOnsetThreshold": 0.499,
+      "detectedClass": "erosion",
+      "dominantRange": ""
+    },
+    {
+      "driver": "zos_mean",
+      "monsoonYear": 2020,
+      "changeClass": "erosion",
+      "medianValue": 0.4903,
+      "erosionOnsetThreshold": 0.499,
+      "detectedClass": "erosion",
+      "dominantRange": ""
+    },
+    {
+      "driver": "zos_mean",
+      "monsoonYear": 2021,
+      "changeClass": "accretion",
+      "medianValue": 0.519,
+      "erosionOnsetThreshold": 0.499,
+      "detectedClass": "stable",
+      "dominantRange": ""
+    },
+    {
+      "driver": "zos_mean",
+      "monsoonYear": 2022,
+      "changeClass": "accretion",
+      "medianValue": 0.5281,
+      "erosionOnsetThreshold": 0.499,
+      "detectedClass": "stable",
+      "dominantRange": ""
+    },
+    {
+      "driver": "zos_mean",
+      "monsoonYear": 2023,
+      "changeClass": "stable",
+      "medianValue": 0.5055,
+      "erosionOnsetThreshold": 0.499,
+      "detectedClass": "stable",
+      "dominantRange": ""
+    },
+    {
+      "driver": "zos_mean",
+      "monsoonYear": 2024,
+      "changeClass": "erosion",
+      "medianValue": 0.5078,
+      "erosionOnsetThreshold": 0.499,
+      "detectedClass": "stable",
+      "dominantRange": ""
+    }
+  ]
+}

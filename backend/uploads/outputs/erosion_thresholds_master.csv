@@ -1,0 +1,4 @@
+Variable,Threshold_consensus,Threshold_low,Threshold_high,CI_95_lower,CI_95_upper,AUC,Perm_p,Agreement,Percentile,MW_p
+cum_current_annual,2.5869,2.5342,inf,,,0.0,1.0,0.75,75.0,0.0091
+ucurr_mean_annual,0.2156,0.2118,inf,,,0.0,1.0,0.75,75.0,0.0091
+wind_p90,6.0145,5.7852,inf,5.87,,0.0741,0.991,0.75,83.3,0.0416

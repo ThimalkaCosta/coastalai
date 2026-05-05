@@ -1,0 +1,16 @@
+feature,method,threshold,ci_lower,ci_upper
+cum_current_annual,ROC/Youden,inf,,
+cum_current_annual,Bayesian Logistic,2.5342,2.3788,2.7267
+cum_current_annual,Change-Point,2.586899995803833,2.586899995803833,2.586899995803833
+cum_current_annual,Mutual Info,2.586899995803833,2.4153,2.5869
+cum_current_annual,CONSENSUS,2.586899995803833,,
+ucurr_mean_annual,ROC/Youden,inf,,
+ucurr_mean_annual,Bayesian Logistic,0.2118,0.1994,0.2276
+ucurr_mean_annual,Change-Point,0.21559999883174896,0.21559999883174896,0.21559999883174896
+ucurr_mean_annual,Mutual Info,0.21559999883174896,0.2013,0.2156
+ucurr_mean_annual,CONSENSUS,0.21559999883174896,,
+wind_p90,ROC/Youden,inf,5.87,
+wind_p90,Bayesian Logistic,5.7852,5.6263,5.9534
+wind_p90,Change-Point,6.014500141143799,5.572999954223633,6.014500141143799
+wind_p90,Mutual Info,6.014500141143799,5.573,6.0145
+wind_p90,CONSENSUS,6.014500141143799,,

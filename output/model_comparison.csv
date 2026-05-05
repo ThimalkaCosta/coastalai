@@ -1,0 +1,6 @@
+Model,Accuracy_5m_%,Accuracy_10m_%,R2,RMSE_m,MAE_m
+LinearRegression,44.63,69.63,0.6648,9.31,7.17
+WeightedLR,47.85,73.62,0.7286,8.37,6.58
+Polynomial_2,50.92,82.82,0.6994,8.81,6.42
+Ridge,44.63,69.63,0.6648,9.31,7.17
+Ensemble,49.54,78.83,0.7935,7.3,5.89

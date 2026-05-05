@@ -1,0 +1,10 @@
+year,cum_current_annual_val,cum_current_annual_exceed,ucurr_mean_annual_val,ucurr_mean_annual_exceed,wind_p90_val,wind_p90_exceed,total_exceedances,confidence
+2010,1.925,False,0.16,False,5.619,False,0,NONE
+2011,2.564,False,0.214,False,5.527,False,0,NONE
+2012,2.439,False,0.203,False,5.619,False,0,NONE
+2018,2.529,False,0.211,False,5.87,False,0,NONE
+2019,1.598,False,0.133,False,5.095,False,0,NONE
+2020,2.209,False,0.184,False,5.263,False,0,NONE
+2021,2.082,False,0.174,False,5.512,False,0,NONE
+2022,2.301,False,0.192,False,5.937,False,0,NONE
+2023,1.947,False,0.177,False,5.41,False,0,NONE

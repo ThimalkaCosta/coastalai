@@ -1,0 +1,127 @@
+=== Cell 22 ===
+# =============================================================================
+# Section 3.5 — Export Results as Structured JSON for the Frontend
+# =============================================================================
+# All analysis results are written to a single JSON file.
+# No CSV outputs — the frontend reads this file directly through the backend.
+#
+# JSON keys written:
+#   threeClassRecognition  — LOOCV skill, confusion matrix, SHAP, selected features
+#   threeClassThresholds   — per driver: 4 ordered boundaries + BCa CIs + JSD
+#   threeClassForecasts    — per driver/boundary: ensemble H6/H12/H18/H24 forecast
+#
+# These keys are merged into the main analysis_results.json by notebook_executor.py
+# and served to the frontend via the /api/results endpoint.
+# =============================================================================
+
+import json as _json
+import math as _math
+
+OUTPUT_DIR = Path('./outputs')
+FIGURE_DIR = Path('./figures')
+OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+FIGURE_DIR.mkdir(parents=True, exist_ok=True)
+
+
+def _safe_val(v):
+    """Make a single Python/numpy value JSON-safe."""
+    if v is None:
+        return None
+    if isinstance(v, float) and (_math.isnan(v) or _math.isinf(v)):
+        return None
+    if hasattr(v, 'item'):          # numpy scalar
+        return _safe_val(v.item())
+    if isinstance(v, (bool, int, float, str)):
+        return v
+    return None
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# 1. Three-Class Pattern Recognition block
+# ══════════════════════════════════════════════════════════════════════════════
+loocv_records = []
+for _, r in pattern_skill_df.iterrows():
+    loocv_records.append({
+        'monsoon_year':    int(r['monsoon_year']),
+        'actual_class':    str(r['actual_class']),
+        'predicted_class': str(r['predicted_class']),
+        'correct':         bool(r['correct']),
+        'top_prob':        _safe_val(r['top_probability']),
+    })
+
+shap_records = [
+    {'feature': str(r['feature']), 'mean_abs_shap': _safe_val(r['mean_abs_shap'])}
+    for _, r in shap_df.iterrows()
+]
+
+threeclass_recognition = {
+    'balancedAccuracy': _safe_val(round(pattern_balanced_accuracy, 4)),
+    'macroF1':          _safe_val(round(pattern_macro_f1, 4)),
+    'rocAucOvr':        _safe_val(round(pattern_roc_auc_ovr, 4)) if np.isfinite(pattern_roc_auc_ovr) else None,
+    'confusionMatrix':  pattern_confusion.tolist(),
+    'classNames':       [CODE_TO_CLASS[c] for c in confusion_labels],
+    'loocvResults':     loocv_records,
+    'selectedFeatures': [str(f) for f in significant_features],
+    'shapTopFeatures':  shap_records[:10],   # top 10 SHAP
+    'permImportance':   [
+        {'feature': str(r['feature']), 'mean': _safe_val(r['perm_imp_mean']), 'std': _safe_val(r['perm_imp_std'])}
+        for _, r in perm_df.iterrows()
+    ],
+    'featureScreening': [
+        {
+            'feature': str(r['feature']), 'driver': str(r['driver']),
+            'compositeScore': _safe_val(r['composite_score']),
+            'spearmanRho':    _safe_val(r['spearman_rho']),
+            'kruskalP':       _safe_val(r['kruskal_p']),
+            'mutualInfo':     _safe_val(r['mutual_info']),
+        }
+        for _, r in screening_df.head(20).iterrows()
+    ],
+    'forecastAnchor': forecast_anchor.strftime('%Y-%m'),
+}
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# 2. Three-Class Threshold Ranges
+# ══════════════════════════════════════════════════════════════════════════════
+threeclass_thresholds = []
+
+for _, row in threshold_ranges_df.iterrows():
+    feat  = str(row['feature'])
+    fit   = threshold_results_by_feature.get(feat, {})
+    bi    = fit.get('boundary_intervals', {}) if fit else {}
+    jsd_r = fit.get('jsd', {}) if fit else {}
+
+    boundaries = {}
+    for bname in ['erosion_onset', 'accretion_onset']:
+        b = bi.get(bname, {})
+        boundaries[bname] = {
+            'estimate': _safe_val(b.get('estimate')),
+            'low95':    _safe_val(b.get('low_95')),
+            'high95':   _safe_val(b.get('high_95')),
+        }
+
+    class_bands = {}
+    for cl in THREE_CLASS_ORDER:
+        class_bands[cl] = {
+            'count':  int(row.get(f'{cl}_count', 0) or 0),
+            'q25':    _safe_val(row.get(f'{cl}_q25')),
+            'median': _safe_val(row.get(f'{cl}_median')),
+            'q75':    _safe_val(row.get(f'{cl}_q75')),
+        }
+
+    jsd_out = {}
+    for (l, r_code), bname in BOUNDARY_NAMES.items():
+        jsd_v = jsd_r.get((l, r_code))
+        jsd_out[bname] = _safe_val(jsd_v)
+
+    # Determine driver short-name and infer unit from feature name
+    driver  = str(row['driver'])
+    unit    = 'm' if 'VHM0' in feat else ('s' if 'VTPK' in feat else ('m/s' if 'wind' in feat.lower() or 'uo' in feat or 'vo' in feat else '°' if 'VMDR' in feat else ''))
+
+    threeclass_thresholds.append({
+        'feature':        feat,
+        'driver':         driver,
+        'unit':           unit,
+       
+---
