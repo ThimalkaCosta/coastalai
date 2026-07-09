@@ -1,19 +1,19 @@
 /* ═══════════════════════════════════════════════════════════════
    SL Coastal Forecasting — Maritime Intelligence Design System
    Theme: Deep Sapphire × Warm Ivory — Oceanographic Luxury
-   Fonts: Playfair Display (display) + IBM Plex Mono (data) + Outfit (body)
+   Fonts: Plus Jakarta Sans (display) + IBM Plex Mono (data) + Inter (body)
    ═══════════════════════════════════════════════════════════════ */
 /* ── shortterm.css integrated── */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=IBM+Plex+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 
 /* ── Design Tokens (scoped via wrapper) ── */
 .st-forecast-wrapper {
   /* Ivory base */
-  --bg:         #f0ece2;
-  --bg2:        #e8e2d6;
-  --bg3:        #ddd6c8;
-  --surface:    #faf8f4;
-  --surface2:   #f0ead9;
+  --bg:         #ffffff;
+  --bg2:        #f8fafc;
+  --bg3:        #f1f5f9;
+  --surface:    #ffffff;
+  --surface2:   #f8fafc;
 
   /* Deep ocean blues — richer than before */
   --navy:       #071830;
@@ -53,9 +53,9 @@
   --border3:    rgba(26, 74, 158, 0.5);
 
   /* Fonts */
-  --font-display: 'Playfair Display', Georgia, serif;
+  --font-display: 'Plus Jakarta Sans', system-ui, sans-serif;
   --font-mono:    'IBM Plex Mono', 'Courier New', monospace;
-  --font-body:    'Outfit', sans-serif;
+  --font-body:    'Inter', system-ui, sans-serif;
 
   /* Effects */
   --shadow-sm:  0 1px 4px rgba(7,24,48,0.08), 0 2px 8px rgba(7,24,48,0.05);
@@ -123,14 +123,14 @@
   inset: 0;
   background:
     linear-gradient(to bottom,
-      rgba(240,236,226,0.65) 0%,
-      rgba(240,236,226,0.08) 22%,
-      rgba(240,236,226,0.55) 68%,
-      rgba(240,236,226,1) 100%),
+      rgba(255,255,255,0.65) 0%,
+      rgba(255,255,255,0.08) 22%,
+      rgba(255,255,255,0.55) 68%,
+      rgba(255,255,255,1) 100%),
     linear-gradient(to right,
-      rgba(240,236,226,0.9) 0%,
-      rgba(240,236,226,0.32) 42%,
-      rgba(240,236,226,0) 68%);
+      rgba(255,255,255,0.9) 0%,
+      rgba(255,255,255,0.32) 42%,
+      rgba(255,255,255,0) 68%);
   z-index: 1;
 }
 
@@ -151,7 +151,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 18px 52px;
-  background: rgba(240, 236, 226, 0.88);
+  background: rgba(255, 255, 255, 0.88);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border-bottom: 1px solid var(--border);
@@ -1788,7 +1788,7 @@
 .rp-lightbox {
   position: fixed;
   inset: 0;
-  background: rgba(240,236,226,0.97);
+  background: rgba(255,255,255,0.97);
   z-index: 1000;
   display: flex;
   align-items: center;
@@ -1940,7 +1940,7 @@
 .rp-kml-legend {
   position: absolute;
   bottom: 14px; left: 14px;
-  background: rgba(240,236,226,0.95);
+  background: rgba(255,255,255,0.95);
   border: 1px solid var(--border2);
   border-radius: 9px;
   padding: 12px 16px;
@@ -1964,7 +1964,7 @@
 .rp-kml-map-hint {
   position: absolute;
   top: 14px; right: 14px;
-  background: rgba(240,236,226,0.92);
+  background: rgba(255,255,255,0.92);
   border: 1px solid var(--border);
   border-radius: 7px;
   padding: 7px 12px;
@@ -2143,7 +2143,7 @@
 .rp-wow-legend {
   position: absolute;
   bottom: 18px; left: 18px;
-  background: rgba(240,236,226,0.96);
+  background: rgba(255,255,255,0.96);
   border: 1px solid var(--border2);
   border-radius: 11px;
   padding: 12px 16px;
@@ -2160,7 +2160,7 @@
 
 .rp-wow-legend > div { display: flex; align-items: center; gap: 9px; }
 .rp-wow-pin-tiny { display: inline-block; width: 11px; height: 11px; border-radius: 50% 50% 50% 0; background: var(--coral); border: 1.5px solid white; transform: rotate(-45deg); flex-shrink: 0; }
-.rp-wow-compass { position: absolute; top: 18px; right: 18px; font-family: var(--font-mono); font-size: 13px; color: rgba(7,24,48,0.6); background: rgba(240,236,226,0.92); border: 1px solid var(--border); border-radius: 7px; padding: 5px 10px; z-index: 20; font-weight: 600; }
+.rp-wow-compass { position: absolute; top: 18px; right: 18px; font-family: var(--font-mono); font-size: 13px; color: rgba(7,24,48,0.6); background: rgba(255,255,255,0.92); border: 1px solid var(--border); border-radius: 7px; padding: 5px 10px; z-index: 20; font-weight: 600; }
 .rp-wow-watermark { position: absolute; bottom: 18px; right: 18px; font-family: var(--font-mono); font-size: 10px; color: rgba(7,24,48,0.35); z-index: 20; }
 .rp-wow-map-hint { padding: 11px 20px; font-family: var(--font-mono); font-size: 11px; color: var(--text3); border-top: 1px solid var(--border); background: rgba(29,101,212,0.02); }
 
